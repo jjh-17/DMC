@@ -13,7 +13,3 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-
-kakao:
-  restapi:
-    key: c31a66c1e54ef85cbd5f5ff1b2175901
