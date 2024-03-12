@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainPage from "../pages/MainPage";
-import LoginPage from "../pages/LoginPage";
-import MyPage from "../pages/MyPage";
-import CafeTestPage from "../pages/CafeTestPage";
+import LoginPage from "../pages/user/LoginPage";
+import MyPage from "../pages/mypage/MyPage";
+import CafeTestPage from "../pages/user/CafeTestPage";
 import ErrorPage from "../pages/ErrorPage";
-import CafeListPage from "../pages/CafeListPage";
+import CafeListPage from "../pages/cafe/CafeListPage";
 
 const routes = createBrowserRouter([
   {
