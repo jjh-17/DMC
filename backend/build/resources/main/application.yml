@@ -1,6 +1,19 @@
+server:
+  port: 8082
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/dagak
+    url: jdbc:mysql://localhost:3306/temp
     username: root
-    password: ssafy
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+kakao:
+  restapi:
+    key: c31a66c1e54ef85cbd5f5ff1b2175901
