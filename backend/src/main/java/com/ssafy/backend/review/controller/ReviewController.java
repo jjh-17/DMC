@@ -17,17 +17,32 @@ import static com.ssafy.backend.global.response.BaseResponseStatus.NEED_LOGIN;
 public class ReviewController {
 
     @Autowired
-    private ReviewService reviewServiceImpl;
+    private ReviewService reviewService;
 
     @Autowired
     private ReviewFacade reviewFacade;
-
 
     /*
      * 리뷰 작성하기
      */
     @PostMapping("/cafe/{cafeid}")
     public void addReview(@PathVariable("cafeid") Long cafeSeq, @RequestBody Map<String, Object> body) {
+        // Long membersSeq = (Long) request.getAttribute("seq");
+        Long memberSeq = 1L;
+        AddReviewDto addReviewDto = new AddReviewDto(memberSeq, cafeSeq, (String) body.get("content"), (List<String>) body.get("tag"), (Integer) body.get("rating"));
+        List<String> imageUrls = (List<String>) body.get("imageUrls");
+        if (imageUrls != null) {
+            reviewFacade.addReview(addReviewDto, imageUrls);
+        } else {
+            reviewService.addReview(addReviewDto);
+        }
+    }
+
+    /*
+     * 리뷰 수정하기
+     */
+    @PatchMapping("/cafe/{cafeid}")
+    public void updateReview(@PathVariable("cafeid") Long cafeSeq, @RequestBody Map<String, Object> body) {
         // Long membersSeq = (Long) request.getAttribute("seq");
         Long memberSeq = 1L;
         AddReviewDto addReviewDto = new AddReviewDto(memberSeq, cafeSeq, (String) body.get("content"), (List<String>) body.get("tag"), (Integer) body.get("rating"));

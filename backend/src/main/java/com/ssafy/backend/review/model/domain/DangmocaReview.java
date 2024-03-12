@@ -1,6 +1,7 @@
 package com.ssafy.backend.review.model.domain;
 
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,6 +30,7 @@ public class DangmocaReview {
     private String content;
 
     @Column
+    @Nullable
     private String tag;
 
     @Column

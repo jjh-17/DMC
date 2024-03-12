@@ -54,7 +54,7 @@ public class AddReviewDto {
     }
 
     public void setRating(Integer rating) {
-        if (rating == null || (rating >= 1 || rating <= 5)){
+        if (rating == null || (rating < 1 || rating > 5)){
             throw new BaseException(NOT_VALID_RATING);
         }
         this.rating = rating;

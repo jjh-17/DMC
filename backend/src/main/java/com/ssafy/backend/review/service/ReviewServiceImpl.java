@@ -22,12 +22,16 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public Long addReview(AddReviewDto addReviewDto) {
+        String tags = null;
+        if (addReviewDto.getTag() != null){
+            tags = addReviewDto.getTag().toString();
+        }
         return dangmocaReviewRepository.save(
                 DangmocaReview.builder()
                         .memberSeq(addReviewDto.getMemberSeq())
                         .cafeSeq(addReviewDto.getCafeSeq())
                         .content(addReviewDto.getContent())
-                        .tag(addReviewDto.getTag().toString())
+                        .tag(tags)
                         .createdDate(addReviewDto.getCreatedDate())
                         .rating(addReviewDto.getRating())
                         .isDeleted(addReviewDto.isDeleted())
