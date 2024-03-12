@@ -34,27 +34,38 @@ public class DangmocaReview {
     private String tag;
 
     @Column
-    private String createdDate;
-
-    @Column
     private Integer rating;
 
     @Column
     private boolean isDeleted;
 
+    @Column
+    private String createdDate;
+
+    @Column
+    @Nullable
+    private String updatedDate;
+
     public DangmocaReview() {
 
     }
 
-    public DangmocaReview(Long reviewSeq, Long memberSeq, Long cafeSeq, String content, String tag, String createdDate, Integer rating, boolean isDeleted) {
+    public void updateReview(String content, String tag, Integer rating, String updateDate) {
+        this.content = content;
+        this.tag = tag;
+        this.rating = rating;
+        this.updatedDate = updateDate;
+    }
+
+    public DangmocaReview(Long reviewSeq, Long memberSeq, Long cafeSeq, String content, String tag, Integer rating, boolean isDeleted, String createdDate, String updatedDate) {
         this.reviewSeq = reviewSeq;
         this.memberSeq = memberSeq;
         this.cafeSeq = cafeSeq;
         this.content = content;
         this.tag = tag;
-        this.createdDate = createdDate;
         this.rating = rating;
         this.isDeleted = isDeleted;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
     }
-
 }

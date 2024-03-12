@@ -26,6 +26,8 @@ public enum BaseResponseStatus {
      */
     NOT_VALID_CONTENT(false, 400, "내용을 입력해주세요."),
     NOT_VALID_RATING(false, 400, "평점을 남겨주세요."),
+    NOT_EXIST_REVIEW(false, 400, "존재하지 않는 리뷰입니다."),
+    NO_SAME_USER(false, 400, "수정할 수 없는 리뷰입니다."),
 
     /**
      * 5000 : 잡지 못 한 서버 오류
