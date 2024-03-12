@@ -23,6 +23,9 @@ public class CafeMenu {
     @Column(name = "image_url", length = 255)
     private String imageUrl;
 
+    @Column(name = "dessert_tag", length = 255)
+    private String dessertTag;
+
     public Long getMenuSeq() {
         return menuSeq;
     }
@@ -41,5 +44,13 @@ public class CafeMenu {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public String getDessertTag() {
+        return dessertTag;
+    }
+
+    public void setDessertTag(String dessertTag) {
+        this.dessertTag = dessertTag;
     }
 }
