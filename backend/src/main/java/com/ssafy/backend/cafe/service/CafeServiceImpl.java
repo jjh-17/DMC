@@ -9,7 +9,6 @@ import com.ssafy.backend.cafe.model.repository.CafeInfoRepository;
 import com.ssafy.backend.cafe.model.repository.CafeMenuRepository;
 import com.ssafy.backend.cafe.model.repository.TagCountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,9 +29,6 @@ public class CafeServiceImpl implements CafeService {
     @Autowired
     TagCountRepository tagCountRepository;
 
-    @Value("${kakao.restapi.key}")
-    private String KAKAO_API_KEY;
-
     @Override
     public Page<ListCafeMapping> cafeList(ListCafeDto listCafeDto, Pageable pageable) {
         return cafeInfoRepository.findAllIn500mOrderByDistance(listCafeDto.getLatitude(), listCafeDto.getLongitude(), pageable);
@@ -46,11 +42,9 @@ public class CafeServiceImpl implements CafeService {
             return null;
         }
 
-        List<String> dessertTag = dessertTagMappingList.stream()
+        return dessertTagMappingList.stream()
                 .map(DessertTagMapping::getDessertTag)
                 .toList();
-
-        return dessertTag;
     }
 
     @Override
@@ -68,15 +62,13 @@ public class CafeServiceImpl implements CafeService {
         tagCount.put("tag3", Integer.parseInt(dmcTagCount.getTag3()));
         tagCount.put("tag4", Integer.parseInt(dmcTagCount.getTag4()));
 
-        // Map의 값을 내림차순으로 정렬하고 상위 3개의 키를 추출하여 List로 만듦
-        List<String> top3Keys = tagCount.entrySet()
+        // Map의 값을 내림차순으로 정렬하고 상위 3개의 키를 추출한 List
+        return tagCount.entrySet()
                 .stream()
                 .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
                 .limit(3)
                 .map(Map.Entry::getKey)
                 .toList();
-
-        return top3Keys;
     }
 
 }
