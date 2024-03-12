@@ -1,6 +1,7 @@
 package com.ssafy.backend.review.model.domain;
 
 
+import com.ssafy.backend.review.model.vo.ViewReviewVo;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -71,5 +72,17 @@ public class DangmocaReview {
         this.isDeleted = isDeleted;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
+    }
+
+    public ViewReviewVo toVo() {
+        ViewReviewVo viewReviewVo = new ViewReviewVo();
+        viewReviewVo.setReviewSeq(this.reviewSeq);
+        viewReviewVo.setMemberSeq(this.memberSeq);
+        viewReviewVo.setContent(this.content);
+        viewReviewVo.setTag(this.tag);
+        viewReviewVo.setRating(this.rating);
+        viewReviewVo.setDeleted(this.isDeleted);
+        viewReviewVo.setUpdatedDate(this.updatedDate);
+        return viewReviewVo;
     }
 }

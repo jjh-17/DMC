@@ -3,6 +3,7 @@ package com.ssafy.backend.review.controller;
 import com.ssafy.backend.global.response.BaseResponse;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;
+import com.ssafy.backend.review.model.vo.ViewReviewVo;
 import com.ssafy.backend.review.service.ReviewFacade;
 import com.ssafy.backend.review.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,15 @@ public class ReviewController {
 
     @Autowired
     private ReviewFacade reviewFacade;
+
+    /*
+     * 카페의 전체 리뷰 조회하기
+     */
+    @GetMapping("/cafe/{cafeid}")
+    public BaseResponse<?> viewReview(@PathVariable("cafeid") Long cafeSeq) {
+        List<ViewReviewVo> reviews = reviewFacade.viewReview(cafeSeq);
+        return new BaseResponse<>(reviews);
+    }
 
     /*
      * 리뷰 작성하기

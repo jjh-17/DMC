@@ -7,9 +7,12 @@ import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;
 import com.ssafy.backend.review.model.repository.DangmocaReviewRepository;
 import com.ssafy.backend.review.model.repository.ReviewImageRepository;
+import com.ssafy.backend.review.model.vo.ViewReviewVo;
+import io.lettuce.core.ScriptOutputType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_EXIST_REVIEW;
@@ -23,6 +26,26 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     ReviewImageRepository reviewImageRepository;
+
+    @Override
+    public List<ViewReviewVo> viewReview(Long cafeSeq) {
+        List<DangmocaReview> dangmocaReviews = dangmocaReviewRepository.findAllByCafeSeq(cafeSeq);
+        List<ViewReviewVo> reviews = new ArrayList<>();
+        for (DangmocaReview dangmocaReview : dangmocaReviews) {
+            reviews.add(dangmocaReview.toVo());
+        }
+        return reviews;
+    }
+
+    @Override
+    public List<String> getImageUrl(Long reviewSeq) {
+        List<ReviewImage> reviewImages =  reviewImageRepository.findAllByReviewSeq(reviewSeq);
+        List<String> imageUrls = new ArrayList<>();
+        for (ReviewImage reviewImage : reviewImages) {
+            imageUrls.add(reviewImage.getImageUrl());
+        }
+        return imageUrls;
+    }
 
     @Override
     public Long addReview(AddReviewDto addReviewDto) {
