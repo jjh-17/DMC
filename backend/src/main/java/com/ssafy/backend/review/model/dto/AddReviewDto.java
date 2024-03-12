@@ -1,9 +1,12 @@
 package com.ssafy.backend.review.model.dto;
 
+import com.ssafy.backend.global.exception.BaseException;
 import lombok.Getter;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import static com.ssafy.backend.global.response.BaseResponseStatus.*;
 
 @Getter
 public class AddReviewDto {
@@ -26,14 +29,23 @@ public class AddReviewDto {
     }
 
     public void setMemberSeq(Long memberSeq) {
+        if (memberSeq == null && memberSeq < 0){
+            throw new BaseException(NEED_LOGIN);
+        }
         this.memberSeq = memberSeq;
     }
 
     public void setCafeSeq(Long cafeSeq) {
+        if (cafeSeq == null && cafeSeq < 0) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
         this.cafeSeq = cafeSeq;
     }
 
     public void setContent(String content) {
+        if (content == null || "".equals(content)) {
+            throw new BaseException(NOT_VALID_CONTENT);
+        }
         this.content = content;
     }
 
@@ -42,11 +54,14 @@ public class AddReviewDto {
     }
 
     public void setRating(Integer rating) {
+        if (rating == null || (rating >= 1 || rating <= 5)){
+            throw new BaseException(NOT_VALID_RATING);
+        }
         this.rating = rating;
     }
 
-    public void setIsDeleted(boolean deleted) {
-        isDeleted = deleted;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     public void setCreatedDate() {
