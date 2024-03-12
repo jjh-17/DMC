@@ -73,6 +73,13 @@ public class ReviewServiceImpl implements ReviewService {
         }
     }
 
+    @Override
+    public void deleteReview(Long reviewSeq) {
+        DangmocaReview dangmocaReview = dangmocaReviewRepository.findById(reviewSeq).orElseThrow(() -> new BaseException(NOT_EXIST_REVIEW));
+        dangmocaReview.deleteReview();
+        dangmocaReviewRepository.save(dangmocaReview);
+    }
+
     private String tagsToString(List<String> tags) {
         if (tags == null) {
             return null;

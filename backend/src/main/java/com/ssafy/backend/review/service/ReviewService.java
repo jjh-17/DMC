@@ -13,4 +13,6 @@ public interface ReviewService {
     void updateReview(UpdateReviewDto updateReviewDto);
 
     void updateReviewImage(Long reviewSeq, List<String> imageUrls);
+
+    void deleteReview(Long reviewSeq);
 }

@@ -57,6 +57,10 @@ public class DangmocaReview {
         this.updatedDate = updateDate;
     }
 
+    public void deleteReview() {
+        this.isDeleted = true;
+    }
+
     public DangmocaReview(Long reviewSeq, Long memberSeq, Long cafeSeq, String content, String tag, Integer rating, boolean isDeleted, String createdDate, String updatedDate) {
         this.reviewSeq = reviewSeq;
         this.memberSeq = memberSeq;
