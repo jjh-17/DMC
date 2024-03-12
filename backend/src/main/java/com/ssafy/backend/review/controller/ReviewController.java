@@ -35,6 +35,15 @@ public class ReviewController {
     }
 
     /*
+     * 사용자의 전체 리뷰 조회하기
+     */
+    @GetMapping("/member/{memeberid}")
+    public BaseResponse<?> viewMemberReview(@PathVariable("memeberid") Long memberSeq) {
+        List<ViewReviewVo> reviews = reviewFacade.viewMemberReview(memberSeq);
+        return new BaseResponse<>(reviews);
+    }
+
+    /*
      * 리뷰 작성하기
      */
     @PostMapping("/cafe/{cafeid}")

@@ -25,6 +25,16 @@ public class ReviewFacade {
         return reviews;
     }
 
+    public List<ViewReviewVo> viewMemberReview(Long memberSeq) {
+        List<ViewReviewVo> reviews = reviewService.viewMemberReview(memberSeq);
+        for (ViewReviewVo viewReviewVo : reviews) {
+            viewReviewVo.setImageUrl(reviewService.getImageUrl(viewReviewVo.getReviewSeq()));
+            // viewReviewVo.setNickname(memberService.getNickname(viewReviewVo.getMemberSeq());
+            viewReviewVo.setNickname("임시 닉네임");
+        }
+        return reviews;
+    }
+
     @Transactional
     public void addReview(AddReviewDto addeReviewDto, List<String> imageUrls) {
         Long reviewSeq = reviewService.addReview(addeReviewDto);

@@ -13,6 +13,7 @@ import java.util.List;
 public class ViewReviewVo {
     private Long reviewSeq;
     private Long memberSeq;
+    private Long cafeSeq;
     private String nickname;
     private String content;
     private String tag;
@@ -20,5 +21,6 @@ public class ViewReviewVo {
     private boolean isDeleted;
     private boolean isLiked;
     private String updatedDate;
+    private String createdDate;
     private List<String> imageUrl;
 }

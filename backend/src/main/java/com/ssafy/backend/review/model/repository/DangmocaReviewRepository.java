@@ -6,5 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface DangmocaReviewRepository extends JpaRepository<DangmocaReview, Long> {
-    List<DangmocaReview> findAllByCafeSeq(Long cafeSeq);
+    List<DangmocaReview> findAllByCafeSeqOrderByCreatedDateDesc(Long cafeSeq);
+
+    List<DangmocaReview> findAllByMemberSeqOrderByCreatedDateDesc(Long memberSeq);
 }

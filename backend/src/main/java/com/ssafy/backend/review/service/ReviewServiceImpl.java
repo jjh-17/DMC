@@ -29,7 +29,17 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<ViewReviewVo> viewReview(Long cafeSeq) {
-        List<DangmocaReview> dangmocaReviews = dangmocaReviewRepository.findAllByCafeSeq(cafeSeq);
+        List<DangmocaReview> dangmocaReviews = dangmocaReviewRepository.findAllByCafeSeqOrderByCreatedDateDesc(cafeSeq);
+        List<ViewReviewVo> reviews = new ArrayList<>();
+        for (DangmocaReview dangmocaReview : dangmocaReviews) {
+            reviews.add(dangmocaReview.toVo());
+        }
+        return reviews;
+    }
+
+    @Override
+    public List<ViewReviewVo> viewMemberReview(Long memberSeq) {
+        List<DangmocaReview> dangmocaReviews = dangmocaReviewRepository.findAllByMemberSeqOrderByCreatedDateDesc(memberSeq);
         List<ViewReviewVo> reviews = new ArrayList<>();
         for (DangmocaReview dangmocaReview : dangmocaReviews) {
             reviews.add(dangmocaReview.toVo());

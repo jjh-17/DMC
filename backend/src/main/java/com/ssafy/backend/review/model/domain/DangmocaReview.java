@@ -78,10 +78,12 @@ public class DangmocaReview {
         ViewReviewVo viewReviewVo = new ViewReviewVo();
         viewReviewVo.setReviewSeq(this.reviewSeq);
         viewReviewVo.setMemberSeq(this.memberSeq);
+        viewReviewVo.setCafeSeq(this.cafeSeq);
         viewReviewVo.setContent(this.content);
         viewReviewVo.setTag(this.tag);
         viewReviewVo.setRating(this.rating);
         viewReviewVo.setDeleted(this.isDeleted);
+        viewReviewVo.setCreatedDate(this.createdDate);
         viewReviewVo.setUpdatedDate(this.updatedDate);
         return viewReviewVo;
     }

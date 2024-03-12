@@ -9,6 +9,8 @@ import java.util.List;
 public interface ReviewService {
     List<ViewReviewVo> viewReview(Long cafeSeq);
 
+    List<ViewReviewVo> viewMemberReview(Long memberSeq);
+
     List<String> getImageUrl(Long reviewSeq);
 
     Long addReview(AddReviewDto addReviewDto);
