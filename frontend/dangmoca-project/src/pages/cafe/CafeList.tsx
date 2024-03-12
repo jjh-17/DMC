@@ -30,8 +30,8 @@ export default function CafeListPage() {
       "tag": ["#테이크아웃", "#분위기", "#가성비"],
       "isOpen": true, // 영업 중 여부
       "dessetTag": ["#브라우니"],
-      "imageUrl" : "src/assets/test/3.jpg"
-    }, 
+      "imageUrl": "src/assets/test/3.jpg"
+    },
     {
       "cafeSeq": 4,
       "name": "씨빵카페",
@@ -39,9 +39,9 @@ export default function CafeListPage() {
       "address": "서울 종로구 새문안로 85",
       "tag": ["#테이크아웃", "#분위기", "#가성비"],
       "isOpen": true, // 영업 중 여부
-      "dessetTag": ["#마카롱", "#매커롱", "#맥커롱"], 
+      "dessetTag": ["#마카롱", "#매커롱", "#맥커롱"],
       "imageUrl": "src/assets/test/4.jpg"
-    }, 
+    },
     {
       "cafeSeq": 5,
       "name": "식빨빵페",
@@ -55,25 +55,26 @@ export default function CafeListPage() {
   ]
 
   return (
-
-    <div className="w-fit mx-auto">
-      <li>
-        <div className="flex flex-col">
+    <>
+      <div className="w-fit mx-auto">
+        <div className="flex flex-row">
           {cafedummydata.map((cafe) => (
             <div key={cafe.cafeSeq}>
-              <SimpleCafeCard cafe={cafe} />
+              <SimpleCafeCard img={cafe.imageUrl} name={cafe.name} address={cafe.address} />
             </div>
           ))}
         </div>
+      </div>
+      <div className="w-fit mx-auto">
         <div className="flex flex-col">
           {cafedummydata.map((cafe) => (
             <div key={cafe.cafeSeq}>
-              <DetailCafeCard cafe={cafe}/>
+              <DetailCafeCard cafe={cafe} />
             </div>
           ))}
         </div>
-      </li>
 
-    </div>
+      </div>
+    </>
   )
 }
