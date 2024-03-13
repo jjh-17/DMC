@@ -58,10 +58,10 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<DangmocaReview> getByReviewSeq(List<LikeReview> likeReviews) {
-        List<DangmocaReview> reviewList = new ArrayList<>();
+    public List<ViewReviewVo> getByReviewSeq(List<LikeReview> likeReviews) {
+        List<ViewReviewVo> reviewList = new ArrayList<>();
         for (LikeReview likereview: likeReviews) {
-            reviewList.add(dangmocaReviewRepository.findByReviewSeq(likereview.getReviewSeq()));
+            reviewList.add(dangmocaReviewRepository.findByReviewSeq(likereview.getReviewSeq()).toVo());
         }
         return reviewList;
     }

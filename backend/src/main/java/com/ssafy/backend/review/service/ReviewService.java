@@ -16,7 +16,7 @@ public interface ReviewService {
 
     List<LikeReview> getLikeReview(Long membersSeq);
 
-    List<DangmocaReview> getByReviewSeq(List<LikeReview> reviewSeqs);
+    List<ViewReviewVo> getByReviewSeq(List<LikeReview> reviewSeqs);
 
     void likeReview(LikeReivewDto likeReivewDto);
 

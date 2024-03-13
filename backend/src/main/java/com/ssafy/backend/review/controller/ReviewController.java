@@ -1,6 +1,7 @@
 package com.ssafy.backend.review.controller;
 
 import com.ssafy.backend.global.response.BaseResponse;
+import com.ssafy.backend.review.model.domain.DangmocaReview;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.LikeReivewDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;

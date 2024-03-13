@@ -37,9 +37,14 @@ public class ReviewFacade {
         return reviews;
     }
 
-    public List<DangmocaReview> viewLikeReview(Long membersSeq) {
+    public List<ViewReviewVo> viewLikeReview(Long membersSeq) {
         List<LikeReview> likeReviews = reviewService.getLikeReview(membersSeq);
-        List<DangmocaReview> reviewList = reviewService.getByReviewSeq(likeReviews);
+        List<ViewReviewVo> reviewList = reviewService.getByReviewSeq(likeReviews);
+        for (ViewReviewVo viewReviewVo : reviewList) {
+            viewReviewVo.setImageUrl(reviewService.getImageUrl(viewReviewVo.getReviewSeq()));
+            // viewReviewVo.setNickname(memberService.getNickname(viewReviewVo.getMemberSeq());
+            viewReviewVo.setNickname("임시 닉네임");
+        }
         return reviewList;
     }
 
