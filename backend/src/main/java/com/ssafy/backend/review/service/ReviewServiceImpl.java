@@ -2,13 +2,15 @@ package com.ssafy.backend.review.service;
 
 import com.ssafy.backend.global.exception.BaseException;
 import com.ssafy.backend.review.model.domain.DangmocaReview;
+import com.ssafy.backend.review.model.domain.LikeReview;
 import com.ssafy.backend.review.model.domain.ReviewImage;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
+import com.ssafy.backend.review.model.dto.LikeReivewDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;
 import com.ssafy.backend.review.model.repository.DangmocaReviewRepository;
+import com.ssafy.backend.review.model.repository.LikeReviewRepository;
 import com.ssafy.backend.review.model.repository.ReviewImageRepository;
 import com.ssafy.backend.review.model.vo.ViewReviewVo;
-import io.lettuce.core.ScriptOutputType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     ReviewImageRepository reviewImageRepository;
+
+    @Autowired
+    LikeReviewRepository likeRepository;
 
     @Override
     public List<ViewReviewVo> viewReview(Long cafeSeq) {
@@ -45,6 +50,16 @@ public class ReviewServiceImpl implements ReviewService {
             reviews.add(dangmocaReview.toVo());
         }
         return reviews;
+    }
+
+    @Override
+    public void likeReview(LikeReivewDto likeReivewDto) {
+        likeRepository.save(
+                LikeReview.builder()
+                        .memberSeq(likeReivewDto.getMemberSeq())
+                        .reviewSeq(likeReivewDto.getReviewSeq())
+                        .build()
+        );
     }
 
     @Override

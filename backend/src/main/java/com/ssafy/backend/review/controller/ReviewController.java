@@ -2,6 +2,7 @@ package com.ssafy.backend.review.controller;
 
 import com.ssafy.backend.global.response.BaseResponse;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
+import com.ssafy.backend.review.model.dto.LikeReivewDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;
 import com.ssafy.backend.review.model.vo.ViewReviewVo;
 import com.ssafy.backend.review.service.ReviewFacade;
@@ -41,6 +42,17 @@ public class ReviewController {
     public BaseResponse<?> viewMemberReview(@PathVariable("memeberid") Long memberSeq) {
         List<ViewReviewVo> reviews = reviewFacade.viewMemberReview(memberSeq);
         return new BaseResponse<>(reviews);
+    }
+
+    /*
+     * 리뷰 좋아요하기
+     */
+    @PostMapping("/cafe/{cafeid}/like")
+    public BaseResponse<?> likeReview(@PathVariable("cafeid") Long cafeSeq, @RequestParam(value="reviewid") Long reviewSeq) {
+        // Long membersSeq = (Long) request.getAttribute("seq");
+        LikeReivewDto likeReivewDto = new LikeReivewDto(cafeSeq, reviewSeq);
+        reviewService.likeReview(likeReivewDto);
+        return new BaseResponse<>(SUCCESS);
     }
 
     /*

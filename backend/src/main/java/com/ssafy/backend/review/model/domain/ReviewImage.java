@@ -22,9 +22,7 @@ public class ReviewImage {
     @Column
     private String imageUrl;
 
-    public ReviewImage() {
-
-    }
+    public ReviewImage() {}
 
     public ReviewImage(Long imageSeq, Long reviewSeq, String imageUrl) {
         this.imageSeq = imageSeq;

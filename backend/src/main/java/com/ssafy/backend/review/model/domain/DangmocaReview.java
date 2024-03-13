@@ -47,9 +47,7 @@ public class DangmocaReview {
     @Nullable
     private String updatedDate;
 
-    public DangmocaReview() {
-
-    }
+    public DangmocaReview() {}
 
     public void updateReview(String content, String tag, Integer rating, String updateDate) {
         this.content = content;
