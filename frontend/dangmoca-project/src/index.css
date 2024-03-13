@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,7 +9,12 @@
     font-weight: normal;
     font-style: normal;
 }
+
 @layer components {
+    * {
+        font-family: 'Noto Sans KR';
+    }
+
     #test{
         font-family: 'GangwonEdu_OTFBoldA';
     }
