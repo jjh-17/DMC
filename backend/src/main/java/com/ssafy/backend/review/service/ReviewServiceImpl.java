@@ -34,7 +34,7 @@ public class ReviewServiceImpl implements ReviewService {
     LikeReviewRepository likeReviewRepository;
 
     @Override
-    public List<ViewReviewVo> viewReview(Long cafeSeq) {
+    public List<ViewReviewVo> viewCafeReview(Long cafeSeq) {
         List<DangmocaReview> dangmocaReviews = dangmocaReviewRepository.findAllByCafeSeqOrderByCreatedDateDesc(cafeSeq);
         List<ViewReviewVo> reviews = new ArrayList<>();
         for (DangmocaReview dangmocaReview : dangmocaReviews) {
@@ -81,6 +81,11 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public void dislikeReview(LikeReivewDto likeReivewDto) {
         likeReviewRepository.deleteByReviewSeqAndMemberSeq(likeReivewDto.getReviewSeq(), likeReivewDto.getMemberSeq());
+    }
+
+    @Override
+    public boolean isLikedReview(Long reviewSeq, Long memberSeq) {
+        return likeReviewRepository.findByReviewSeqAndMemberSeq(reviewSeq, memberSeq) != null;
     }
 
     @Override

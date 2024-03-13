@@ -1,6 +1,5 @@
 package com.ssafy.backend.review.service;
 
-import com.ssafy.backend.review.model.domain.DangmocaReview;
 import com.ssafy.backend.review.model.domain.LikeReview;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.LikeReivewDto;
@@ -10,7 +9,7 @@ import com.ssafy.backend.review.model.vo.ViewReviewVo;
 import java.util.List;
 
 public interface ReviewService {
-    List<ViewReviewVo> viewReview(Long cafeSeq);
+    List<ViewReviewVo> viewCafeReview(Long cafeSeq);
 
     List<ViewReviewVo> viewMemberReview(Long memberSeq);
 
@@ -21,6 +20,8 @@ public interface ReviewService {
     void likeReview(LikeReivewDto likeReivewDto);
 
     void dislikeReview(LikeReivewDto likeReivewDto);
+
+    boolean isLikedReview(Long reviewSeq, Long memberSeq);
 
     List<String> getImageUrl(Long reviewSeq);
 

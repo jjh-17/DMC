@@ -1,7 +1,6 @@
 package com.ssafy.backend.review.controller;
 
 import com.ssafy.backend.global.response.BaseResponse;
-import com.ssafy.backend.review.model.domain.DangmocaReview;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.LikeReivewDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;
@@ -31,8 +30,10 @@ public class ReviewController {
      * 카페의 전체 리뷰 조회하기
      */
     @GetMapping("/cafe/{cafeid}")
-    public BaseResponse<?> viewReview(@PathVariable("cafeid") Long cafeSeq) {
-        List<ViewReviewVo> reviews = reviewFacade.viewReview(cafeSeq);
+    public BaseResponse<?> viewCafeReview(@PathVariable("cafeid") Long cafeSeq) {
+        // Long membersSeq = (Long) request.getAttribute("seq");
+        Long memberSeq = 1L;
+        List<ViewReviewVo> reviews = reviewFacade.viewCafeReview(cafeSeq, memberSeq);
         return new BaseResponse<>(reviews);
     }
 

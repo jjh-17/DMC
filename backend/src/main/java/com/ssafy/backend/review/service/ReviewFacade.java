@@ -1,6 +1,5 @@
 package com.ssafy.backend.review.service;
 
-import com.ssafy.backend.review.model.domain.DangmocaReview;
 import com.ssafy.backend.review.model.domain.LikeReview;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;
@@ -17,12 +16,13 @@ public class ReviewFacade {
     @Autowired
     ReviewService reviewService;
 
-    public List<ViewReviewVo> viewReview(Long cafeSeq) {
-        List<ViewReviewVo> reviews = reviewService.viewReview(cafeSeq);
+    public List<ViewReviewVo> viewCafeReview(Long cafeSeq, Long memberSeq) {
+        List<ViewReviewVo> reviews = reviewService.viewCafeReview(cafeSeq);
         for (ViewReviewVo viewReviewVo : reviews) {
             viewReviewVo.setImageUrl(reviewService.getImageUrl(viewReviewVo.getReviewSeq()));
             // viewReviewVo.setNickname(memberService.getNickname(viewReviewVo.getMemberSeq());
             viewReviewVo.setNickname("임시 닉네임");
+            viewReviewVo.setLiked(reviewService.isLikedReview(viewReviewVo.getReviewSeq(), memberSeq));
         }
         return reviews;
     }
