@@ -5,6 +5,7 @@ import MyPage from "../pages/mypage/MyPage";
 import CafeTest from "../pages/user/CafeTest";
 import ErrorPage from "../pages/ErrorPage";
 import CafeList from "../pages/cafe/CafeList";
+import MyReview from "../pages/mypage/MyReview";
 
 const routes = createBrowserRouter([
   {
@@ -13,9 +14,10 @@ const routes = createBrowserRouter([
     children: [
       { path: "/", element: <Main /> }, // 메인화면 (첫 화면)
       { path: "login", element: <Login /> },
-      { path: "members", element: <MyPage /> },
+      { path: "mypage", element: <MyPage /> },
+      { path: "my-reviews", element: <MyReview /> },
       { path: "cafetest", element: <CafeTest /> },
-      { path: "cafes", element: <CafeList />, children:[] },
+      { path: "cafes", element: <CafeList />, children: [] },
     ],
   },
   { path: "/*", element: <ErrorPage /> },
