@@ -7,7 +7,7 @@ export default function MyReview() {
       memberSeq: 0,
       cafeSeq: 0,
       name: "카페 남부",
-      image: ["s"],
+      image: ["src/assets/pictures/naver_map.png","src/assets/pictures/naver_map.png","src/assets/pictures/naver_map.png","src/assets/pictures/naver_map.png","src/assets/pictures/naver_map.png"],
       content: "맛잇엇요",
       tag: ["조용한"],
       rating: 4,
@@ -18,7 +18,7 @@ export default function MyReview() {
       memberSeq: 0,
       cafeSeq: 0,
       name: "카페 남부",
-      image: ["s"],
+      image: ["src/assets/pictures/naver_map.png","src/assets/pictures/naver_map.png","src/assets/pictures/naver_map.png","src/assets/pictures/naver_map.png"],
       content: "맛잇엇요",
       tag: ["조용한"],
       rating: 4,
@@ -29,7 +29,7 @@ export default function MyReview() {
       memberSeq: 0,
       cafeSeq: 0,
       name: "카페 남부",
-      image: ["s"],
+      image: ["src/assets/pictures/naver_map.png","src/assets/pictures/naver_map.png","src/assets/pictures/naver_map.png"],
       content: "맛잇엇요",
       tag: ["조용한"],
       rating: 4,
@@ -46,4 +46,4 @@ export default function MyReview() {
       </div>
     </>
   );
-}
+};
