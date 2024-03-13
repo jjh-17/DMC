@@ -20,6 +20,8 @@ public interface ReviewService {
 
     void likeReview(LikeReivewDto likeReivewDto);
 
+    void dislikeReview(LikeReivewDto likeReivewDto);
+
     List<String> getImageUrl(Long reviewSeq);
 
     Long addReview(AddReviewDto addReviewDto);

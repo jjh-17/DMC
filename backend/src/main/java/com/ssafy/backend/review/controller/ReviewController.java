@@ -52,7 +52,8 @@ public class ReviewController {
     public BaseResponse<?> viewLikeReview() {
         // Long membersSeq = (Long) request.getAttribute("seq");
         Long membersSeq = 1L;
-        return new BaseResponse<>(reviewFacade.viewLikeReview(membersSeq));
+        List<ViewReviewVo> reviews = reviewFacade.viewLikeReview(membersSeq);
+        return new BaseResponse<>(reviews);
     }
 
     /*
@@ -64,6 +65,18 @@ public class ReviewController {
         Long membersSeq = 1L;
         LikeReivewDto likeReivewDto = new LikeReivewDto(membersSeq, reviewSeq);
         reviewService.likeReview(likeReivewDto);
+        return new BaseResponse<>(SUCCESS);
+    }
+
+    /*
+     * 리뷰 좋아요 취소
+     */
+    @DeleteMapping("/cafe/like")
+    public BaseResponse<?> dislikeReview(@RequestParam(value="reviewid") Long reviewSeq) {
+        // Long membersSeq = (Long) request.getAttribute("seq");
+        Long membersSeq = 1L;
+        LikeReivewDto likeReivewDto = new LikeReivewDto(membersSeq, reviewSeq);
+        reviewService.dislikeReview(likeReivewDto);
         return new BaseResponse<>(SUCCESS);
     }
 

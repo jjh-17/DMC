@@ -13,6 +13,7 @@ import com.ssafy.backend.review.model.repository.ReviewImageRepository;
 import com.ssafy.backend.review.model.vo.ViewReviewVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<ViewReviewVo> getByReviewSeq(List<LikeReview> likeReviews) {
         List<ViewReviewVo> reviewList = new ArrayList<>();
-        for (LikeReview likereview: likeReviews) {
+        for (LikeReview likereview : likeReviews) {
             reviewList.add(dangmocaReviewRepository.findByReviewSeq(likereview.getReviewSeq()).toVo());
         }
         return reviewList;
@@ -77,8 +78,14 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional
+    public void dislikeReview(LikeReivewDto likeReivewDto) {
+        likeReviewRepository.deleteByReviewSeqAndMemberSeq(likeReivewDto.getReviewSeq(), likeReivewDto.getMemberSeq());
+    }
+
+    @Override
     public List<String> getImageUrl(Long reviewSeq) {
-        List<ReviewImage> reviewImages =  reviewImageRepository.findAllByReviewSeq(reviewSeq);
+        List<ReviewImage> reviewImages = reviewImageRepository.findAllByReviewSeq(reviewSeq);
         List<String> imageUrls = new ArrayList<>();
         for (ReviewImage reviewImage : reviewImages) {
             imageUrls.add(reviewImage.getImageUrl());
