@@ -1,5 +1,7 @@
 package com.ssafy.backend.review.service;
 
+import com.ssafy.backend.review.model.domain.DangmocaReview;
+import com.ssafy.backend.review.model.domain.LikeReview;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;
 import com.ssafy.backend.review.model.vo.ViewReviewVo;
@@ -33,6 +35,12 @@ public class ReviewFacade {
             viewReviewVo.setNickname("임시 닉네임");
         }
         return reviews;
+    }
+
+    public List<DangmocaReview> viewLikeReview(Long membersSeq) {
+        List<LikeReview> likeReviews = reviewService.getLikeReview(membersSeq);
+        List<DangmocaReview> reviewList = reviewService.getByReviewSeq(likeReviews);
+        return reviewList;
     }
 
     @Transactional

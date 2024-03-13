@@ -9,4 +9,6 @@ public interface DangmocaReviewRepository extends JpaRepository<DangmocaReview, 
     List<DangmocaReview> findAllByCafeSeqOrderByCreatedDateDesc(Long cafeSeq);
 
     List<DangmocaReview> findAllByMemberSeqOrderByCreatedDateDesc(Long memberSeq);
+
+    DangmocaReview findByReviewSeq(Long reviewSeq);
 }

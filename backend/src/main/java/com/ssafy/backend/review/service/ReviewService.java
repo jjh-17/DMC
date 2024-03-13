@@ -1,5 +1,7 @@
 package com.ssafy.backend.review.service;
 
+import com.ssafy.backend.review.model.domain.DangmocaReview;
+import com.ssafy.backend.review.model.domain.LikeReview;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.LikeReivewDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;
@@ -11,6 +13,10 @@ public interface ReviewService {
     List<ViewReviewVo> viewReview(Long cafeSeq);
 
     List<ViewReviewVo> viewMemberReview(Long memberSeq);
+
+    List<LikeReview> getLikeReview(Long membersSeq);
+
+    List<DangmocaReview> getByReviewSeq(List<LikeReview> reviewSeqs);
 
     void likeReview(LikeReivewDto likeReivewDto);
 

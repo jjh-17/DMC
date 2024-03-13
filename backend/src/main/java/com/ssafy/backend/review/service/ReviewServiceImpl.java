@@ -30,7 +30,7 @@ public class ReviewServiceImpl implements ReviewService {
     ReviewImageRepository reviewImageRepository;
 
     @Autowired
-    LikeReviewRepository likeRepository;
+    LikeReviewRepository likeReviewRepository;
 
     @Override
     public List<ViewReviewVo> viewReview(Long cafeSeq) {
@@ -53,8 +53,22 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public List<LikeReview> getLikeReview(Long membersSeq) {
+        return likeReviewRepository.findAllByMemberSeq(membersSeq);
+    }
+
+    @Override
+    public List<DangmocaReview> getByReviewSeq(List<LikeReview> likeReviews) {
+        List<DangmocaReview> reviewList = new ArrayList<>();
+        for (LikeReview likereview: likeReviews) {
+            reviewList.add(dangmocaReviewRepository.findByReviewSeq(likereview.getReviewSeq()));
+        }
+        return reviewList;
+    }
+
+    @Override
     public void likeReview(LikeReivewDto likeReivewDto) {
-        likeRepository.save(
+        likeReviewRepository.save(
                 LikeReview.builder()
                         .memberSeq(likeReivewDto.getMemberSeq())
                         .reviewSeq(likeReivewDto.getReviewSeq())

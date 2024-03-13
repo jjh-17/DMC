@@ -45,12 +45,23 @@ public class ReviewController {
     }
 
     /*
+     * 좋아요한 리뷰 조회하기
+     */
+    @GetMapping("/member/like")
+    public BaseResponse<?> viewLikeReview() {
+        // Long membersSeq = (Long) request.getAttribute("seq");
+        Long membersSeq = 1L;
+        return new BaseResponse<>(reviewFacade.viewLikeReview(membersSeq));
+    }
+
+    /*
      * 리뷰 좋아요하기
      */
-    @PostMapping("/cafe/{cafeid}/like")
-    public BaseResponse<?> likeReview(@PathVariable("cafeid") Long cafeSeq, @RequestParam(value="reviewid") Long reviewSeq) {
+    @PostMapping("/cafe/like")
+    public BaseResponse<?> likeReview(@RequestParam(value="reviewid") Long reviewSeq) {
         // Long membersSeq = (Long) request.getAttribute("seq");
-        LikeReivewDto likeReivewDto = new LikeReivewDto(cafeSeq, reviewSeq);
+        Long membersSeq = 1L;
+        LikeReivewDto likeReivewDto = new LikeReivewDto(membersSeq, reviewSeq);
         reviewService.likeReview(likeReivewDto);
         return new BaseResponse<>(SUCCESS);
     }
