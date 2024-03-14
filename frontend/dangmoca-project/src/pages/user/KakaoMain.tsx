@@ -1,7 +1,7 @@
-import Button from "../components/common/Button"
+import Button from "../../components/common/Button"
 import { useNavigate } from "react-router-dom";
 
-export default function MainPage() {
+export default function KakaoMain() {
 
   const navigate = useNavigate();
 

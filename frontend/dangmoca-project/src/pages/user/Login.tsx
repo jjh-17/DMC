@@ -1,7 +1,8 @@
 export default function Login() {
   // 테스트 URL 입력
+
   const naverURL = "";
-  const kakaoLoginURL = "";
+  const kakaoLoginURL = import.meta.env.VITE_KAKAO_LOGIN_URL;
 
   return (
     <>

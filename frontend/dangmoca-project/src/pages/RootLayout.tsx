@@ -8,7 +8,7 @@ export default function RootLayout() {
   return (
     <>
       <TheHeader textHeader="당모카" showHeader={showHeader.current} />
-      <div className="mt-20 mb-20"> {/* header, footer 길이만큼 margin */}
+      <div className="mt-12 mb-20"> {/* header, footer 길이만큼 margin */}
       <Outlet />
       </div>
       <TheFooter />

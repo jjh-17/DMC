@@ -47,8 +47,8 @@ export default function MyInfo() {
       </select>
 
       <Button
-        text = "수정하기"
-        handleClick={handleUpdateClick}
+        label = "수정하기"
+        onClick={handleUpdateClick}
       />
     </div>
   );

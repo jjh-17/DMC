@@ -1,9 +1,12 @@
 import DetailCafeCard from "../../components/cafe/DetailCafeCard";
 import SimpleCafeCard from "../../components/cafe/SimpleCafeCard";
 import { useDragScroll } from "../../utils/useDragScroll";
+import { useNavigate } from "react-router-dom";
 
-export default function CafeListPage() {
-  const cafedummydata = [
+const CafeListPage = () => {
+  const navigate = useNavigate();
+
+  const cafeDummyData = [
     {
       cafeSeq: 1,
       name: "식빵카페",
@@ -62,7 +65,7 @@ export default function CafeListPage() {
     <>
       <div className="mx-auto">
         <div ref={ref} className="flex flex-row overflow-x-scroll no-scroll">
-          {cafedummydata.map((cafe) => (
+          {cafeDummyData.map((cafe) => (
             <div key={cafe.cafeSeq}>
               <SimpleCafeCard {...cafe} />
             </div>
@@ -71,9 +74,9 @@ export default function CafeListPage() {
       </div>
       <div className="w-fit mx-auto">
         <div className="flex flex-col">
-          {cafedummydata.map((cafe) => (
-            <div key={cafe.cafeSeq}>
-              <DetailCafeCard {...cafe} />
+          {cafeDummyData.map((cafe) => (
+            <div className="cursor-pointer" key={cafe.cafeSeq} onClick = {() => navigate('/cafeDetailTest')}>
+              <DetailCafeCard {...cafe}/>
             </div>
           ))}
         </div>
@@ -81,3 +84,5 @@ export default function CafeListPage() {
     </>
   );
 }
+
+export default CafeListPage;

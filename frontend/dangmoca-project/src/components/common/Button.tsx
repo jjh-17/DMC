@@ -1,15 +1,16 @@
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>{
-  text: string;
-  handleClick: () => void;
+interface ButtonProps {
+  label: string; // 버튼에 표시될 텍스트
+  onClick: () => void; // 클릭 시 실행될 함수
+  className?: string; // 추가적인 스타일링을 위한 클래스 이름
 }
 
-function Button (ButtonProps: ButtonProps): React.ReactElement {
+const Button = (buttonProps: ButtonProps) => {
   return (
     <button
-      className="bg-white rounded-md shadow-md font-bold border-2 border-primary text-primary hover:bg-primary hover:text-white hover:border-white m-2 p-2 w-fit transition duration-400"
-      onClick={ButtonProps.handleClick}
+      className={`bg-white rounded-md shadow-md font-bold border-2 border-primary text-primary hover:bg-primary hover:text-white hover:border-white m-2 p-2 w-fit transition duration-400 ${buttonProps.className}`}
+      onClick={buttonProps.onClick}
     >
-      {ButtonProps.text}
+      {buttonProps.label}
     </button>
   );
 };
