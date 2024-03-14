@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "types": ["vite-plugin-svgr/client"],
+
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
@@ -21,6 +23,6 @@
     "noFallthroughCasesInSwitch": true,
 
   },
-  "include": ["src", "App.tsx", "custom.d.ts"],
+  "include": ["src", "App.tsx", "custom.d.ts", "images.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
