@@ -2,6 +2,8 @@ package com.ssafy.backend.cafe.service;
 
 import com.ssafy.backend.cafe.model.dto.ListCafeDto;
 import com.ssafy.backend.cafe.model.mapping.ListCafeMapping;
+import com.ssafy.backend.cafe.model.vo.CafeDetailVo;
+import com.ssafy.backend.cafe.model.vo.CafeMenuVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,4 +15,8 @@ public interface CafeService {
     List<String> getDessertTag(Long cafeSeq);
 
     List<String> getCafeTag(Long cafeSeq);
+
+    CafeDetailVo cafeDetail(Long cafeSeq);
+
+    List<CafeMenuVo> cafeMenuDetail(Long cafeSeq);
 }

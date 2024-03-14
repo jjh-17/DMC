@@ -2,6 +2,7 @@ package com.ssafy.backend.cafe.service;
 
 import com.ssafy.backend.cafe.model.dto.ListCafeDto;
 import com.ssafy.backend.cafe.model.mapping.ListCafeMapping;
+import com.ssafy.backend.cafe.model.vo.CafeDetailVo;
 import com.ssafy.backend.cafe.model.vo.ListCafeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,5 +39,16 @@ public class CafeFacade {
         }
 
         return list;
+    }
+
+    @Transactional
+    public CafeDetailVo cafeDetail(Long cafeSeq) {
+        CafeDetailVo cafeDetailVo = cafeService.cafeDetail(cafeSeq);
+
+        cafeDetailVo.setTag(cafeService.getCafeTag(cafeSeq));
+
+        // Todo : 사용자 식별 후 북마크 여부 처리
+
+        return cafeDetailVo;
     }
 }

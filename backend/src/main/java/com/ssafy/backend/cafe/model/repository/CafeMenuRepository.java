@@ -10,4 +10,6 @@ public interface CafeMenuRepository extends JpaRepository<CafeMenu, Long> {
 
     List<DessertTagMapping> findAllDistinctDessertTagByCafeSeq(Long cafeSeq);
 
+    List<CafeMenu> findByCafeSeq(Long cafeSeq);
+
 }
