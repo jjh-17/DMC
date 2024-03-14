@@ -40,10 +40,14 @@ export default function MyPage() {
     createdDate: "2024-01-02",
   };
   return (
-    <>
+    <div className="w-[60lvw] mx-auto flex flex-col items-center">
       <Profile {...dummyUser} />
+      <hr className="w-full bg-primary size-[1px] m-2"/>
+      북마크한 카페
       <SimpleCafeCard {...dummyCafe} />
+      <hr className="w-full bg-primary size-[1px] m-2"/>
+      내가 쓴 리뷰
       <SimpleReviewCard {...dummyReview} />
-    </>
+    </div>
   );
 }

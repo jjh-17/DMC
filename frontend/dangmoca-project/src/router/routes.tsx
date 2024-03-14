@@ -10,6 +10,7 @@ import RootLayout from "../pages/RootLayout";
 import Bookmark from "../pages/mypage/Bookmark";
 import MyInfo from "../pages/mypage/MyInfo";
 import KakaoMain from "../pages/user/KakaoMain";
+import CafeDetail from "../pages/cafe/CafeDetail";
 
 const routes = createBrowserRouter([
   {
@@ -24,6 +25,7 @@ const routes = createBrowserRouter([
       { path: "my-reviews", element: <MyReview /> },
       { path: "bookmark", element: <Bookmark /> },
       { path: "cafetest", element: <CafeTest /> },
+      { path: "cafeDetailTest", element: <CafeDetail />},
       { path: "cafes", element: <CafeList />, children: [] },
     ],
   },
