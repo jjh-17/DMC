@@ -7,6 +7,7 @@ import com.ssafy.backend.cafe.model.vo.ListCafeVo;
 import com.ssafy.backend.cafe.service.CafeFacade;
 import com.ssafy.backend.cafe.service.CafeService;
 import com.ssafy.backend.global.response.BaseResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -39,18 +40,41 @@ public class CafeController {
 
     // 카페 상세 페이지 들어갔을 때 보이는 카페 정보 조회
     @GetMapping("/{cafeSeq}")
-    public BaseResponse<CafeDetailVo> cafeDetail(@PathVariable Long cafeSeq) {
-        CafeDetailVo cafeDetailVo = cafeFacade.cafeDetail(cafeSeq);
+    public BaseResponse<CafeDetailVo> cafeDetail(HttpServletRequest request, @PathVariable Long cafeSeq) {
+//        Long memberSeq = (Long) request.getAttribute("seq");
+        Long memberSeq = 1L;
+        CafeDetailVo cafeDetailVo = cafeFacade.cafeDetail(cafeSeq, memberSeq);
 
         return new BaseResponse<>(SUCCESS, cafeDetailVo);
     }
 
     // 카페 상세 페이지에 있는 메뉴 목록 조회
     @GetMapping("/{cafeSeq}/menus")
-    public BaseResponse<List<CafeMenuVo>> cafeMenuDetail(@PathVariable Long cafeSeq) {
+    public BaseResponse<List<CafeMenuVo>> cafeMenuDetail(HttpServletRequest request, @PathVariable Long cafeSeq) {
         List<CafeMenuVo> list = cafeService.cafeMenuDetail(cafeSeq);
 
         return new BaseResponse<>(SUCCESS, list);
     }
+
+    // 카페 북마크
+    @PostMapping("{cafeSeq}/bookmark")
+    public BaseResponse<?> cafeBookmark(HttpServletRequest request, @PathVariable Long cafeSeq) {
+//        Long memberSeq = (Long) request.getAttribute("seq");
+        Long memberSeq = 1L;
+        cafeFacade.cafeBookmark(cafeSeq, memberSeq);
+
+        return new BaseResponse<>(SUCCESS);
+    }
+
+    // 카페 북마크 취소
+    @DeleteMapping("{cafeSeq}/bookmark")
+    public BaseResponse<?> cafeBookmarkCancel(HttpServletRequest request, @PathVariable Long cafeSeq) {
+//        Long memberSeq = (Long) request.getAttribute("seq");
+        Long memberSeq = 1L;
+        cafeFacade.cafeBookmarkCancel(cafeSeq, memberSeq);
+
+        return new BaseResponse<>(SUCCESS);
+    }
+
 
 }
