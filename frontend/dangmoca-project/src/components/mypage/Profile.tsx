@@ -37,10 +37,10 @@ const Profile = (user: User) => {
         </div>
       </div>
 
-      <p className="mt-4">{user.nickName} 님의 #카페구름</p>
+      <p className="mt-4" id="test">{user.nickName} 님의 #카페구름</p>
 
       {/* 워드 클라우드 */}
-      <div className="mt-4 p-4 w-full h-52 border-primary border-2 rounded-2xl md:w-1/2">
+      <div className="mt-2 p-4 w-[40lvw] h-52 border-primary border-2 rounded-2xl shadow-lg">
         {user.tag.map((tag, index) => (
           <span key={index} className={`${randomFontSize()} mr-2`}>
             {tag}
