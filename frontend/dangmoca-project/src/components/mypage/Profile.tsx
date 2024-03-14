@@ -1,12 +1,17 @@
+import { useNavigate } from "react-router-dom";
+import Button from "../common/Button";
+
 interface User {
   memberSeq: number;
   profileImage: string;
-  nicName: string;
+  nickName: string;
   title: string;
   tag: string[];
 }
 
 const Profile = (user: User) => {
+  const navigate = useNavigate();
+
   // 태그 크기를 랜덤으로 설정하는 함수
   const randomFontSize = () => {
     const sizes = ["text-xs", "text-sm", "text-base", "text-lg", "text-xl"];
@@ -25,13 +30,14 @@ const Profile = (user: User) => {
         </div>
         <div className="flex flex-col justify-center">
           <div className="text-lg">{user.title}</div>
-          <button className="px-4 py-2 mt-2 bg-blue-500 text-white rounded">
-            회원 정보 수정
-          </button>
+          <Button
+            text="회원 정보 수정"
+            handleClick={() => navigate("/myinfo")}
+          />
         </div>
       </div>
 
-      <p className="mt-4">{user.nicName} 님의 #카페구름</p>
+      <p className="mt-4">{user.nickName} 님의 #카페구름</p>
 
       {/* 워드 클라우드 */}
       <div className="mt-4 p-4 w-full h-52 border-primary border-2 rounded-2xl md:w-1/2">

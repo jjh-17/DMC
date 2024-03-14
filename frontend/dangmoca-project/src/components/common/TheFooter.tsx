@@ -16,10 +16,10 @@ export default function TheFooter() {
         <HomeSvg className={svgStyle} />
       </button>
       <button className={footerButtonStyle}>
-        <SearchSvg className={svgStyle} onClick={() => navigate('/cafes')}/>
+        <SearchSvg className={svgStyle} onClick={() => navigate('/cafes')} />
       </button>
       <button className={footerButtonStyle}>
-        <BookMarkSvg className={svgStyle} />
+        <BookMarkSvg className={svgStyle} onClick={() => navigate('/bookmark')} />
       </button>
       <button className={footerButtonStyle} onClick={() => navigate('/mypage')}>
         <ProfileSvg className={svgStyle} />

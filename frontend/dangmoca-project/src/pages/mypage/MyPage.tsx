@@ -6,7 +6,7 @@ export default function MyPage() {
   const dummyUser = {
     memberSeq: 1,
     profileImage: "src/assets/icons/dummyUserImg.png",
-    nicName: "DMC",
+    nickName: "DMC",
     title: "커피에 미친 사람",
     tag: ["#조용한 카페", "#분위기 좋은 카페"]
   };
@@ -28,11 +28,11 @@ export default function MyPage() {
     cafeSeq: 0,
     name: "카페 남부",
     image: [
-      "src/assets/pictures/naver_map.png",
-      "src/assets/pictures/naver_map.png",
-      "src/assets/pictures/naver_map.png",
-      "src/assets/pictures/naver_map.png",
-      "src/assets/pictures/naver_map.png",
+      "src/assets/testpic/1.jpg",
+      "src/assets/testpic/2.jpg",
+      "src/assets/testpic/3.jpg",
+      "src/assets/testpic/4.jpg",
+      "src/assets/testpic/5.jpg",
     ],
     content: "맛잇엇요",
     tag: ["조용한"],
