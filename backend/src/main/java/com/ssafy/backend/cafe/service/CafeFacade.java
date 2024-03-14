@@ -20,10 +20,14 @@ public class CafeFacade {
     CafeService cafeService;
 
     @Transactional
-    public List<ListCafeVo> cafeList(ListCafeDto listCafeDto, Pageable pageable) {
+    public List<ListCafeVo> cafeList(ListCafeDto listCafeDto, Pageable pageable, String keyword) {
         List<ListCafeVo> list = new ArrayList<>();
-
-        Page<ListCafeMapping> cafeMappingList = cafeService.cafeList(listCafeDto, pageable);
+        Page<ListCafeMapping> cafeMappingList;
+        if (keyword.isEmpty()) {
+            cafeMappingList = cafeService.cafeList(listCafeDto, pageable);
+        } else {
+            cafeMappingList = cafeService.cafeSearch(listCafeDto, keyword, pageable);
+        }
 
         for (ListCafeMapping listCafeMapping : cafeMappingList) {
             List<String> tagList = cafeService.getCafeTag(listCafeMapping.getCafe_seq());

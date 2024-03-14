@@ -27,11 +27,12 @@ public class CafeController {
     CafeFacade cafeFacade;
 
     // 사용자의 현위치를 기반으로 사용자 반경 500m안의 카페 목록 가까운 순 제공
+    // 검색어 입력 시 검색한 결과 제공
     @GetMapping
-    public BaseResponse<List<ListCafeVo>> cafeList(@RequestBody ListCafeDto listCafeDto, @RequestParam(name = "page", defaultValue = "1") int page) {
+    public BaseResponse<List<ListCafeVo>> cafeList(@RequestBody ListCafeDto listCafeDto, @RequestParam(name = "keyword", defaultValue = "") String keyword, @RequestParam(name = "page", defaultValue = "1") int page) {
         Pageable pageable = PageRequest.of(page - 1, 10);
 
-        List<ListCafeVo> list = cafeFacade.cafeList(listCafeDto, pageable);
+        List<ListCafeVo> list = cafeFacade.cafeList(listCafeDto, pageable, keyword);
 
         return new BaseResponse<>(SUCCESS, list);
     }

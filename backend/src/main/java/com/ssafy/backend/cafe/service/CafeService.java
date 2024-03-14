@@ -19,4 +19,6 @@ public interface CafeService {
     CafeDetailVo cafeDetail(Long cafeSeq);
 
     List<CafeMenuVo> cafeMenuDetail(Long cafeSeq);
+
+    Page<ListCafeMapping> cafeSearch(ListCafeDto listCafeDto, String keyword, Pageable pageable);
 }
