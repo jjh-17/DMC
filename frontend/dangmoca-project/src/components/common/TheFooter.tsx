@@ -1,7 +1,7 @@
-import HomeSvg from "../../assets/icons/home.svg?react";
-import BookMarkSvg from "../../assets/icons/bookmark.svg?react";
-import ProfileSvg from "../../assets/icons/profile.svg?react";
-import SearchSvg from '../../assets/icons/search.svg?react';
+import HomeIcon from "../../assets/icons/home.svg?react";
+import BookMarkIcon from "../../assets/icons/bookmark.svg?react";
+import ProfileIcon from "../../assets/icons/profile.svg?react";
+import SearchIcon from '../../assets/icons/search.svg?react';
 import { useNavigate } from "react-router-dom";
 
 export default function TheFooter() {
@@ -13,16 +13,16 @@ export default function TheFooter() {
   return (
     <div className={footerStyle}>
       <button className={footerButtonStyle} onClick={() => navigate('/')}>
-        <HomeSvg className={svgStyle} />
+        <HomeIcon className={svgStyle} />
       </button>
       <button className={footerButtonStyle}>
-        <SearchSvg className={svgStyle} onClick={() => navigate('/cafes')} />
+        <SearchIcon className={svgStyle} onClick={() => navigate('/cafes')} />
       </button>
       <button className={footerButtonStyle}>
-        <BookMarkSvg className={svgStyle} onClick={() => navigate('/bookmark')} />
+        <BookMarkIcon className={svgStyle} onClick={() => navigate('/bookmark')} />
       </button>
       <button className={footerButtonStyle} onClick={() => navigate('/mypage')}>
-        <ProfileSvg className={svgStyle} />
+        <ProfileIcon className={svgStyle} />
       </button>
     </div>
   );
