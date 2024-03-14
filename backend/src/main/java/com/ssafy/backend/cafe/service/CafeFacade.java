@@ -60,4 +60,9 @@ public class CafeFacade {
         // Todo : memberSeq가 유효한 seq인지 판단 후 북마크 수행하기
         cafeService.cafeBookmark(cafeSeq, memberSeq);
     }
+
+    public void cafeBookmarkCancel(Long cafeSeq, Long memberSeq) {
+        // Todo : memberSeq가 유효한 seq 판단 후 북마크 취소
+        cafeService.cafeBookmarkCancel(cafeSeq, memberSeq);
+    }
 }

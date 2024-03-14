@@ -62,4 +62,14 @@ public class CafeController {
         return new BaseResponse<>(SUCCESS);
     }
 
+    // 카페 북마크 취소
+    @DeleteMapping("{cafeSeq}/bookmark")
+    public BaseResponse<?> cafeBookmarkCancel(@PathVariable Long cafeSeq) {
+        Long memberSeq = 1L;
+        cafeFacade.cafeBookmarkCancel(cafeSeq, memberSeq);
+
+        return new BaseResponse<>(SUCCESS);
+    }
+
+
 }

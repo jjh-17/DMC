@@ -21,7 +21,8 @@ public enum BaseResponseStatus {
      * 카페 관련 에러
      */
     NOT_VALID_CAFE(false, 400, "존재하지 않는 카페입니다."),
-    CONVERT_REGION_CODE_ERROR(false, 400, "지역코드를 불러오는데 실패하였습니다."),
+    EXIST_BOOKMARK(false, 400, "이미 북마크한 카페입니다."),
+    NOT_VALID_BOOKMARK_CANCEL(false, 400, "이미 취소한 북마크입니다."),
 
     /**
      * 리뷰 관련 에러
