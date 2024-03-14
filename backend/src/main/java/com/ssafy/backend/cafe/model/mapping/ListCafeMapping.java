@@ -9,7 +9,7 @@ public interface ListCafeMapping {
 
     String getImage_url();
 
-    String getOpeningHour();
+    String getOpening_hour();
 
     double getDistance();
 }
