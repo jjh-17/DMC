@@ -19,4 +19,14 @@
         font-family: 'GangwonEdu_OTFBoldA';
     }
 
+    .no-scroll {
+        cursor: grab;
+    }
+
+}
+
+@layer utilities {
+    .no-scroll::-webkit-scrollbar {
+        display: none;
+    }
 }

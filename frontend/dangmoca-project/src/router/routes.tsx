@@ -10,7 +10,6 @@ import RootLayout from "../pages/RootLayout";
 import Bookmark from "../pages/mypage/Bookmark";
 import MyInfo from "../pages/mypage/MyInfo";
 
-
 const routes = createBrowserRouter([
   {
     path: "/",

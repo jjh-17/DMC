@@ -1,9 +1,12 @@
 import Button from "../components/common/Button"
+import { useNavigate } from "react-router-dom";
 
 export default function MainPage() {
 
+  const navigate = useNavigate();
+
   const handleClick = () => {
-    alert('click');
+    navigate('/login')
   };
 
   return (<div className="mx-auto flex flex-col items-center my-20 w-fit max-w-screen-sm gap-2">
