@@ -17,7 +17,7 @@ export default function TheFooter() {
         <img src={PinSvg} alt="검색" />
       </button>
       <button className={footerButtonStyle}>
-        <img src={BookMarkSvg} alt="북마크" />
+        <img src={BookMarkSvg} alt="북마크" onClick={() => navigate('/bookmark')}/>
       </button>
       <button className={footerButtonStyle} onClick={() => navigate('/mypage')}>
         <img src={ProfileSvg} alt="프로필" />
