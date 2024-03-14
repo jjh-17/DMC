@@ -31,8 +31,8 @@ const Profile = (user: User) => {
         <div className="flex flex-col justify-center">
           <div className="text-lg">{user.title}</div>
           <Button
-            text="회원 정보 수정"
-            handleClick={() => navigate("/myinfo")}
+            label="회원 정보 수정"
+            onClick={() => navigate("/myinfo")}
           />
         </div>
       </div>

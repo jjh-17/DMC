@@ -18,7 +18,7 @@ export default function MainPage() {
     <h1 id='test' className="text-xl font-black">당모카 DangMoCa</h1>
 
 
-    <Button text="로그인테스트" handleClick={handleClick} />
+    <Button label="로그인테스트" onClick={handleClick} />
   </div>
   )
 }
