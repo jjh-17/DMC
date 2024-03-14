@@ -37,6 +37,8 @@ dependencies {
     implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     runtimeOnly 'mysql:mysql-connector-java:8.0.33'
+
+    implementation 'com.google.code.gson:gson:2.9.0'
 }
 
 tasks.named('test') {
