@@ -134,4 +134,15 @@ public class CafeServiceImpl implements CafeService {
         bookmarkRepository.delete(bookmarkOptional.get());
     }
 
+    @Override
+    public boolean bookmarkCheck(Long cafeSeq, Long memberSeq) {
+        return bookmarkRepository.existsByCafeSeqAndMemberSeq(cafeSeq, memberSeq);
+    }
+
+    @Override
+    public boolean cafeCheck(Long cafeSeq) {
+        System.out.println("****" + cafeInfoRepository.existsById(cafeSeq));
+        return cafeInfoRepository.existsById(cafeSeq);
+    }
+
 }

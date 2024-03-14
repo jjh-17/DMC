@@ -25,4 +25,8 @@ public interface CafeService {
     void cafeBookmark(Long cafeSeq, Long memberSeq);
 
     void cafeBookmarkCancel(Long cafeSeq, Long memberSeq);
+
+    boolean bookmarkCheck(Long cafeSeq, Long memberSeq);
+
+    boolean cafeCheck(Long cafeSeq);
 }

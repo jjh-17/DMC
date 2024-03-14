@@ -9,4 +9,6 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     Optional<Bookmark> findByCafeSeqAndMemberSeq(Long cafeSeq, Long memberSeq);
 
+    boolean existsByCafeSeqAndMemberSeq(Long cafeSeq, Long memberSeq);
+
 }

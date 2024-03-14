@@ -4,6 +4,7 @@ import com.ssafy.backend.cafe.model.dto.ListCafeDto;
 import com.ssafy.backend.cafe.model.mapping.ListCafeMapping;
 import com.ssafy.backend.cafe.model.vo.CafeDetailVo;
 import com.ssafy.backend.cafe.model.vo.ListCafeVo;
+import com.ssafy.backend.global.exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_VALID_CAFE;
 
 @Service
 public class CafeFacade {
@@ -46,23 +49,35 @@ public class CafeFacade {
     }
 
     @Transactional
-    public CafeDetailVo cafeDetail(Long cafeSeq) {
+    public CafeDetailVo cafeDetail(Long cafeSeq, Long memberSeq) {
         CafeDetailVo cafeDetailVo = cafeService.cafeDetail(cafeSeq);
 
         cafeDetailVo.setTag(cafeService.getCafeTag(cafeSeq));
 
-        // Todo : 사용자 식별 후 북마크 여부 처리
+        // Todo : memberSeq가 유효한지 확인하는 로직 필요
+        if (!cafeService.cafeCheck(cafeSeq)) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
+        cafeDetailVo.setBookmarked(cafeService.bookmarkCheck(cafeSeq, memberSeq));
 
         return cafeDetailVo;
     }
 
+    @Transactional
     public void cafeBookmark(Long cafeSeq, Long memberSeq) {
-        // Todo : memberSeq가 유효한 seq인지 판단 후 북마크 수행하기
+        // Todo : memberSeq가 유효한지 확인하는 로직 필요
+        if (!cafeService.cafeCheck(cafeSeq)) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
         cafeService.cafeBookmark(cafeSeq, memberSeq);
     }
 
+    @Transactional
     public void cafeBookmarkCancel(Long cafeSeq, Long memberSeq) {
-        // Todo : memberSeq가 유효한 seq 판단 후 북마크 취소
+        // Todo : memberSeq가 유효한지 확인하는 로직 필요
+        if (!cafeService.cafeCheck(cafeSeq)) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
         cafeService.cafeBookmarkCancel(cafeSeq, memberSeq);
     }
 }
