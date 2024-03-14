@@ -1,12 +1,12 @@
 import SimpleCafeCard from "../../components/cafe/SimpleCafeCard";
-import SimpleReviewCard from "../../components/cafe/SimpleReviewCard";
+import SimpleReviewCard from "../../components/review/SimpleReviewCard";
 import Profile from "../../components/mypage/Profile";
 
 export default function MyPage() {
   const dummyUser = {
     memberSeq: 1,
     profileImage: "src/assets/icons/dummyUserImg.png",
-    nicName: "DMC",
+    nickName: "DMC",
     title: "커피에 미친 사람",
     tag: ["#조용한 카페", "#분위기 좋은 카페"]
   };
