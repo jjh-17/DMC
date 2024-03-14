@@ -5,3 +5,6 @@ spring:
     username: root
     password: ssafy
 
+kakao:
+  rest-api-key: 891949d64302e510fe79f05131e7d972
+  redirect.url: http://localhost:5173/kakaoLogin

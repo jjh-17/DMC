@@ -1,7 +1,5 @@
-package com.ssafy.backend.member.kakao.service;
+package com.ssafy.backend.member.service;
 
-import com.ssafy.backend.global.exception.BaseException;
-import com.ssafy.backend.global.response.BaseResponseStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +10,6 @@ import java.net.URL;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import static com.ssafy.backend.global.response.BaseResponseStatus.OOPS;
-
 @Service
 public class KakaoOAuthServiceImpl implements KakaoOAuthService{
     @Value("${kakao.rest-api-key}")
@@ -22,6 +18,7 @@ public class KakaoOAuthServiceImpl implements KakaoOAuthService{
     @Value("${kakao.redirect.url}")
     private String redirectURL;
 
+    @Override
     public String getToken(String code){
         String access_Token="";
         String refresh_Token ="";
@@ -67,13 +64,14 @@ public class KakaoOAuthServiceImpl implements KakaoOAuthService{
 
             br.close();
             bw.close();
-        }catch (IOException e) {
-            throw new BaseException(OOPS);
+        } catch (IOException e) {
+//            throw new BaseException(OOPS);
         }
 
         return access_Token;
     }
 
+    @Override
     public String getUser(String token) {
 
         String reqURL = "https://kapi.kakao.com/v2/user/me";
@@ -103,16 +101,16 @@ public class KakaoOAuthServiceImpl implements KakaoOAuthService{
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
 
-            int id = element.getAsJsonObject().get("id").getAsInt();
-            boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
-            String email = "";
-            if(hasEmail){
-                email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
-            }
+            String id = element.getAsJsonObject().get("id").getAsString();
+//            boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
+//            String email = "";
+//            if(hasEmail){
+//                email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
+//            }
 
             br.close();
 
-            return email;
+            return id;
 
         } catch (IOException e) {
 
