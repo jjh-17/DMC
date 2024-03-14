@@ -40,6 +40,12 @@ public class CafeServiceImpl implements CafeService {
     }
 
     @Override
+    public Page<ListCafeMapping> cafeSearch(ListCafeDto listCafeDto, String keyword, Pageable pageable) {
+        keyword = "%" + keyword.replace(" ", "%") + "%";
+        return cafeInfoRepository.findAllIn500mLikeKeywordOrderByDistance(listCafeDto.getLatitude(), listCafeDto.getLongitude(), keyword, pageable);
+    }
+
+    @Override
     public List<String> getDessertTag(Long cafeSeq) {
         List<DessertTagMapping> dessertTagMappingList = cafeMenuRepository.findAllDistinctDessertTagByCafeSeq(cafeSeq);
 
@@ -99,5 +105,6 @@ public class CafeServiceImpl implements CafeService {
 
         return list;
     }
+
 
 }

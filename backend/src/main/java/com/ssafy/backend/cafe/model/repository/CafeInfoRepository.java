@@ -2,7 +2,6 @@ package com.ssafy.backend.cafe.model.repository;
 
 import com.ssafy.backend.cafe.model.domain.CafeInfo;
 import com.ssafy.backend.cafe.model.mapping.ListCafeMapping;
-import com.ssafy.backend.cafe.model.vo.CafeDetailVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,11 +15,19 @@ public interface CafeInfoRepository extends JpaRepository<CafeInfo, Long> {
                     "ST_DISTANCE_SPHERE(ST_GEOMFROMTEXT(CONCAT('POINT(', :latitude, ' ', :longitude, ')'), 4326), ST_GEOMFROMTEXT(CONCAT('POINT(', c.latitude, ' ', c.longitude, ')'), 4326)) as distance " +
                     "FROM cafe_info c " +
                     "WHERE ST_DISTANCE_SPHERE(ST_GEOMFROMTEXT(CONCAT('POINT(', :latitude, ' ', :longitude, ')'), 4326), ST_GEOMFROMTEXT(CONCAT('POINT(', c.latitude, ' ', c.longitude, ')'), 4326)) <= 500 " +
-                    "AND c.is_deleted = false " +
-                    "ORDER BY distance";
+                    "AND c.is_deleted = false ";
 
-    @Query(nativeQuery = true, value = listDefaultQuery)
+    String searchByNameQuery = "AND c.name LIKE :keyword ";
+
+    String searchByAddrQuery = "AND c.address LIKE :keyword ";
+
+    String orderQuery = "ORDER BY distance";
+
+    @Query(nativeQuery = true, value = listDefaultQuery + orderQuery)
     Page<ListCafeMapping> findAllIn500mOrderByDistance(@Param("latitude") double latitude, @Param("longitude") double longitude, Pageable pageable);
+
+    @Query(nativeQuery = true, value = listDefaultQuery + searchByNameQuery + " UNION " + listDefaultQuery + searchByAddrQuery + orderQuery)
+    Page<ListCafeMapping> findAllIn500mLikeKeywordOrderByDistance(@Param("latitude") double latitude, @Param("longitude") double longitude, @Param("keyword") String keyword, Pageable pageable);
 
     CafeInfo findByCafeSeq(Long cafeSeq);
 
