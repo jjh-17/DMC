@@ -19,7 +19,7 @@ export default function MyPage() {
     tag: ["#테이크아웃", "#분위기", "#가성비"],
     isOpen: true, // 영업 중 여부
     dessertTag: ["#마카롱", "#매커롱", "#맥커롱"],
-    imageUrl: "src/assets/test/1.jpg",
+    imageUrl: "src/assets/testpic/1.jpg",
   };
 
   const dummyReview = {
@@ -28,11 +28,11 @@ export default function MyPage() {
     cafeSeq: 0,
     name: "카페 남부",
     image: [
-      "src/assets/pictures/naver_map.png",
-      "src/assets/pictures/naver_map.png",
-      "src/assets/pictures/naver_map.png",
-      "src/assets/pictures/naver_map.png",
-      "src/assets/pictures/naver_map.png",
+      "src/assets/testpic/1.jpg",
+      "src/assets/testpic/2.jpg",
+      "src/assets/testpic/3.jpg",
+      "src/assets/testpic/4.jpg",
+      "src/assets/testpic/5.jpg",
     ],
     content: "맛잇엇요",
     tag: ["조용한"],
