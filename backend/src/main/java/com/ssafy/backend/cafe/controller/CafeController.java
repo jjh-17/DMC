@@ -53,4 +53,13 @@ public class CafeController {
         return new BaseResponse<>(SUCCESS, list);
     }
 
+    // 카페 북마크
+    @PostMapping("{cafeSeq}/bookmark")
+    public BaseResponse<?> cafeBookmark(@PathVariable Long cafeSeq) {
+        Long memberSeq = 1L;
+        cafeFacade.cafeBookmark(cafeSeq, memberSeq);
+
+        return new BaseResponse<>(SUCCESS);
+    }
+
 }

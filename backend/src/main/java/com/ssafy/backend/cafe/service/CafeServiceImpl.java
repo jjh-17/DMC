@@ -1,12 +1,14 @@
 package com.ssafy.backend.cafe.service;
 
 
+import com.ssafy.backend.cafe.model.domain.Bookmark;
 import com.ssafy.backend.cafe.model.domain.CafeInfo;
 import com.ssafy.backend.cafe.model.domain.CafeMenu;
 import com.ssafy.backend.cafe.model.domain.TagCount;
 import com.ssafy.backend.cafe.model.dto.ListCafeDto;
 import com.ssafy.backend.cafe.model.mapping.DessertTagMapping;
 import com.ssafy.backend.cafe.model.mapping.ListCafeMapping;
+import com.ssafy.backend.cafe.model.repository.BookmarkRepository;
 import com.ssafy.backend.cafe.model.repository.CafeInfoRepository;
 import com.ssafy.backend.cafe.model.repository.CafeMenuRepository;
 import com.ssafy.backend.cafe.model.repository.TagCountRepository;
@@ -33,6 +35,9 @@ public class CafeServiceImpl implements CafeService {
 
     @Autowired
     TagCountRepository tagCountRepository;
+
+    @Autowired
+    BookmarkRepository bookmarkRepository;
 
     @Override
     public Page<ListCafeMapping> cafeList(ListCafeDto listCafeDto, Pageable pageable) {
@@ -106,5 +111,9 @@ public class CafeServiceImpl implements CafeService {
         return list;
     }
 
+    @Override
+    public void cafeBookmark(Long cafeSeq, Long memberSeq) {
+        bookmarkRepository.save(Bookmark.builder().cafeSeq(cafeSeq).memberSeq(memberSeq).build());
+    }
 
 }
