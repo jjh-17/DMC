@@ -8,7 +8,6 @@ import CafeList from "../pages/cafe/CafeList";
 import MyReview from "../pages/mypage/MyReview";
 import RootLayout from "../pages/RootLayout";
 
-
 const routes = createBrowserRouter([
   {
     path: "/",

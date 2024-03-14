@@ -1,5 +1,5 @@
 import SimpleCafeCard from "../../components/cafe/SimpleCafeCard";
-import SimpleReviewCard from "../../components/cafe/SimpleReviewCard";
+import SimpleReviewCard from "../../components/review/SimpleReviewCard";
 import Profile from "../../components/mypage/Profile";
 
 export default function MyPage() {
@@ -19,7 +19,7 @@ export default function MyPage() {
     tag: ["#테이크아웃", "#분위기", "#가성비"],
     isOpen: true, // 영업 중 여부
     dessertTag: ["#마카롱", "#매커롱", "#맥커롱"],
-    imageUrl: "src/assets/test/1.jpg",
+    imageUrl: "src/assets/testpic/1.jpg",
   };
 
   const dummyReview = {

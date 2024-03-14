@@ -1,4 +1,4 @@
-import SimpleReviewCard from "../../components/cafe/SimpleReviewCard";
+import SimpleReviewCard from "../../components/review/SimpleReviewCard";
 
 export default function MyReview() {
   const dummyReviews = [

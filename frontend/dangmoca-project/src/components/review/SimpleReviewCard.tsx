@@ -12,7 +12,7 @@ interface Review {
 
 const SimpleReviewCard = (review : Review) => {
   return (
-    <div className="flex flex-col h-full w-full border-b-2">
+    <div className="w-40 flex flex-col border-b-2">
       {/* 이미지 리스트 */}
       {review.image.length > 0 && (
         <div className="flex overflow-x-auto p-4">

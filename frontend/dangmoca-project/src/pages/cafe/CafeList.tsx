@@ -1,5 +1,6 @@
 import DetailCafeCard from "../../components/cafe/DetailCafeCard";
 import SimpleCafeCard from "../../components/cafe/SimpleCafeCard";
+import { useDragScroll } from "../../utils/useDragScroll";
 
 export default function CafeListPage() {
   const cafedummydata = [
@@ -55,10 +56,12 @@ export default function CafeListPage() {
     },
   ];
 
+  const [ref] = useDragScroll();
+
   return (
     <>
-      <div className="w-fit mx-auto">
-        <div className="flex flex-row">
+      <div className="mx-auto">
+        <div ref={ref} className="flex flex-row overflow-x-scroll no-scroll">
           {cafedummydata.map((cafe) => (
             <div key={cafe.cafeSeq}>
               <SimpleCafeCard {...cafe} />
