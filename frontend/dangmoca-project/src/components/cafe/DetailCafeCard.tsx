@@ -11,7 +11,7 @@ interface Cafe {
   imageUrl: string;
 }
 
-const DetailCafeCard: React.FC<{ cafe: Cafe }> = (cafe) => {
+const DetailCafeCard= (cafe : Cafe) => {
   return (
     <div className="p-1 flex flex-col m-4 shadow-lg rounded-sm items-center">
       <img

@@ -9,7 +9,7 @@ interface Cafe {
   imageUrl: string;
 }
 
-const SimpleCafeCard: React.FC<{ cafe: Cafe }> = (cafe) => {
+const SimpleCafeCard = (cafe : Cafe) => {
   return (
     <div className="w-40 p-1 flex flex-col m-4 items-center">
       <img src={cafe.imageUrl} className="w-40 h-56 object-cover rounded-sm m-1" alt="Cafe" />
