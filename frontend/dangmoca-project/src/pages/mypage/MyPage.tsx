@@ -1,5 +1,5 @@
 import SimpleCafeCard from "../../components/cafe/SimpleCafeCard";
-import SimpleReviewCard from "../../components/cafe/SimpleReviewCard";
+import SimpleReviewCard from "../../components/review/SimpleReviewCard";
 import Profile from "../../components/mypage/Profile";
 
 export default function MyPage() {
