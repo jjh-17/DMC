@@ -2,6 +2,7 @@ package com.ssafy.backend.cafe.model.repository;
 
 import com.ssafy.backend.cafe.model.domain.CafeInfo;
 import com.ssafy.backend.cafe.model.mapping.ListCafeMapping;
+import com.ssafy.backend.cafe.model.vo.CafeDetailVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,5 +21,7 @@ public interface CafeInfoRepository extends JpaRepository<CafeInfo, Long> {
 
     @Query(nativeQuery = true, value = listDefaultQuery)
     Page<ListCafeMapping> findAllIn500mOrderByDistance(@Param("latitude") double latitude, @Param("longitude") double longitude, Pageable pageable);
+
+    CafeInfo findByCafeSeq(Long cafeSeq);
 
 }

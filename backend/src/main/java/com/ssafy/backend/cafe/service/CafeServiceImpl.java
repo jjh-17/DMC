@@ -1,6 +1,8 @@
 package com.ssafy.backend.cafe.service;
 
 
+import com.ssafy.backend.cafe.model.domain.CafeInfo;
+import com.ssafy.backend.cafe.model.domain.CafeMenu;
 import com.ssafy.backend.cafe.model.domain.TagCount;
 import com.ssafy.backend.cafe.model.dto.ListCafeDto;
 import com.ssafy.backend.cafe.model.mapping.DessertTagMapping;
@@ -8,11 +10,14 @@ import com.ssafy.backend.cafe.model.mapping.ListCafeMapping;
 import com.ssafy.backend.cafe.model.repository.CafeInfoRepository;
 import com.ssafy.backend.cafe.model.repository.CafeMenuRepository;
 import com.ssafy.backend.cafe.model.repository.TagCountRepository;
+import com.ssafy.backend.cafe.model.vo.CafeDetailVo;
+import com.ssafy.backend.cafe.model.vo.CafeMenuVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +74,30 @@ public class CafeServiceImpl implements CafeService {
                 .limit(3)
                 .map(Map.Entry::getKey)
                 .toList();
+    }
+
+    @Override
+    public CafeDetailVo cafeDetail(Long cafeSeq) {
+        CafeInfo cafeInfo = cafeInfoRepository.findByCafeSeq(cafeSeq);
+
+        CafeDetailVo cafeDetailVo = new CafeDetailVo(cafeInfo.getCafeSeq(), cafeInfo.getName(), cafeInfo.getAddress(), cafeInfo.getImageUrl(), cafeInfo.getOpeningHour(), cafeInfo.getHomepageUrl(), cafeInfo.getUpdatedDate(), cafeInfo.getRating());
+
+        return cafeDetailVo;
+    }
+
+    @Override
+    public List<CafeMenuVo> cafeMenuDetail(Long cafeSeq) {
+        List<CafeMenu> menuList = cafeMenuRepository.findByCafeSeq(cafeSeq);
+
+        List<CafeMenuVo> list = new ArrayList<>();
+
+        for (CafeMenu cafeMenu : menuList) {
+            CafeMenuVo cafeMenuVo = new CafeMenuVo(cafeMenu.getName(), cafeMenu.getPrice(), cafeMenu.getImageUrl());
+
+            list.add(cafeMenuVo);
+        }
+
+        return list;
     }
 
 }
