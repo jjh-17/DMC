@@ -7,6 +7,7 @@ import ErrorPage from "../pages/ErrorPage";
 import CafeList from "../pages/cafe/CafeList";
 import MyReview from "../pages/mypage/MyReview";
 import RootLayout from "../pages/RootLayout";
+import Bookmark from "../pages/mypage/Bookmark";
 
 
 const routes = createBrowserRouter([
@@ -18,6 +19,7 @@ const routes = createBrowserRouter([
       { path: "login", element: <Login /> },
       { path: "mypage", element: <MyPage /> },
       { path: "my-reviews", element: <MyReview /> },
+      { path: "bookmark", element: <Bookmark /> },
       { path: "cafetest", element: <CafeTest /> },
       { path: "cafes", element: <CafeList />, children: [] },
     ],
