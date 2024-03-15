@@ -12,6 +12,7 @@ import MyInfo from "../pages/mypage/MyInfo";
 import KakaoMain from "../pages/user/KakaoMain";
 import CafeDetail from "../pages/cafe/CafeDetail";
 import ReviewWrite from "../pages/review/ReviewWrite";
+import ReviewRating from "../components/review/ReviewRating";
 
 const routes = createBrowserRouter([
   {
@@ -29,6 +30,9 @@ const routes = createBrowserRouter([
       { path: "cafetest", element: <CafeTest /> },
       { path: "cafeDetailTest", element: <CafeDetail />},
       { path: "cafes", element: <CafeList />, children: [] },
+
+
+      { path: "temp", element: <ReviewRating />},
     ],
   },
   { path: "/*", element: <ErrorPage /> },
