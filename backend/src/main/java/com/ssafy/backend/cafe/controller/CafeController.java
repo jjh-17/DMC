@@ -1,6 +1,6 @@
 package com.ssafy.backend.cafe.controller;
 
-import com.ssafy.backend.cafe.model.dto.CafeListDto;
+import com.ssafy.backend.cafe.model.dto.CurrentLocationDto;
 import com.ssafy.backend.cafe.model.vo.CafeBookmarkListVo;
 import com.ssafy.backend.cafe.model.vo.CafeDetailVo;
 import com.ssafy.backend.cafe.model.vo.CafeListVo;
@@ -31,10 +31,10 @@ public class CafeController {
     // 사용자의 현위치를 기반으로 사용자 반경 500m안의 카페 목록 가까운 순 제공
     // 검색어 입력 시 검색한 결과 제공
     @GetMapping
-    public BaseResponse<List<CafeListVo>> cafeList(@RequestBody CafeListDto cafeListDto, @RequestParam(name = "keyword", defaultValue = "") String keyword, @RequestParam(name = "page", defaultValue = "1") int page) {
+    public BaseResponse<List<CafeListVo>> cafeList(@RequestBody CurrentLocationDto currentLocationDto, @RequestParam(name = "keyword", defaultValue = "") String keyword, @RequestParam(name = "page", defaultValue = "1") int page) {
         Pageable pageable = PageRequest.of(page - 1, 10);
 
-        List<CafeListVo> list = cafeFacade.cafeList(cafeListDto, pageable, keyword);
+        List<CafeListVo> list = cafeFacade.cafeList(currentLocationDto, pageable, keyword);
 
         return new BaseResponse<>(SUCCESS, list);
     }
@@ -89,5 +89,15 @@ public class CafeController {
         return new BaseResponse<>(SUCCESS, list);
     }
 
+    // 사용자 선호 태그를 포함하고 있는 카페를 거리순 5개 반환
+    @GetMapping("mytag")
+    public BaseResponse<?> cafeTagRecommend(HttpServletRequest request, @RequestBody CurrentLocationDto currentLocationDto) {
+//        Long memberSeq = (Long) request.getAttribute("seq");
+        Long memberSeq = 1L;
+
+        List<CafeListVo> list = cafeFacade.cafeTagRecommendList(memberSeq, currentLocationDto);
+
+        return new BaseResponse<>(SUCCESS, list);
+    }
 
 }
