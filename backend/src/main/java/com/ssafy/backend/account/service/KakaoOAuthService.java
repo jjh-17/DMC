@@ -1,4 +1,4 @@
-package com.ssafy.backend.member.service;
+package com.ssafy.backend.account.service;
 
 public interface KakaoOAuthService {
     String getToken(String code);

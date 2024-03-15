@@ -1,5 +1,6 @@
-package com.ssafy.backend.member.service;
+package com.ssafy.backend.account.service;
 
+import com.ssafy.backend.global.exception.BaseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,8 @@ import java.net.URL;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+
+import static com.ssafy.backend.global.response.BaseResponseStatus.OOPS;
 
 @Service
 public class KakaoOAuthServiceImpl implements KakaoOAuthService{
@@ -65,7 +68,7 @@ public class KakaoOAuthServiceImpl implements KakaoOAuthService{
             br.close();
             bw.close();
         } catch (IOException e) {
-//            throw new BaseException(OOPS);
+            throw new BaseException(OOPS);
         }
 
         return access_Token;
@@ -113,8 +116,7 @@ public class KakaoOAuthServiceImpl implements KakaoOAuthService{
             return id;
 
         } catch (IOException e) {
-
-            return null;
+            throw new BaseException(OOPS);
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.ssafy.backend.global.response;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 public class BaseResponse<T> {
     private final Boolean isSuccess;
     private final String message;

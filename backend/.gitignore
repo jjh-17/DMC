@@ -259,4 +259,6 @@ dist/
 npm-debug.log
 yarn-error.log
 
+/src/main/resources/application.yml
+
 # End of https://www.toptal.com/developers/gitignore/api/java,intellij,eclipse,vuejs,vue,visualstudiocode,git
