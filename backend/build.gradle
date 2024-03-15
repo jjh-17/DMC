@@ -36,8 +36,19 @@ dependencies {
 
     implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
     runtimeOnly 'mysql:mysql-connector-java:8.0.33'
 
+    implementation 'com.google.code.gson:gson:2.9.0'
+
+    // Jwt
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+    implementation group: 'com.sun.xml.bind', name: 'jaxb-core', version: '2.3.0.1'
+    implementation group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.1'
+
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 }
 
 tasks.named('test') {

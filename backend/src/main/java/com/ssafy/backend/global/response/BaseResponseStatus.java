@@ -16,13 +16,13 @@ public enum BaseResponseStatus {
     NOT_EXIST_USER(false, 400, "존재하지 않는 사용자입니다."),
     NEED_LOGIN(false, 400, "로그인이 필요한 서비스입니다."),
 
-
     /**
      * 카페 관련 에러
      */
     NOT_VALID_CAFE(false, 400, "존재하지 않는 카페입니다."),
     EXIST_BOOKMARK(false, 400, "이미 북마크한 카페입니다."),
     NOT_VALID_BOOKMARK_CANCEL(false, 400, "이미 취소한 북마크입니다."),
+
 
     /**
      * 리뷰 관련 에러
