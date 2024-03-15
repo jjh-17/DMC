@@ -1,9 +1,12 @@
 package com.ssafy.backend.cafe.service;
 
-import com.ssafy.backend.cafe.model.dto.ListCafeDto;
-import com.ssafy.backend.cafe.model.mapping.ListCafeMapping;
+import com.ssafy.backend.cafe.model.dto.CafeListDto;
+import com.ssafy.backend.cafe.model.mapping.CafeBookmarkListMapping;
+import com.ssafy.backend.cafe.model.mapping.CafeListMapping;
+import com.ssafy.backend.cafe.model.mapping.CafeSeqMapping;
+import com.ssafy.backend.cafe.model.vo.CafeBookmarkListVo;
 import com.ssafy.backend.cafe.model.vo.CafeDetailVo;
-import com.ssafy.backend.cafe.model.vo.ListCafeVo;
+import com.ssafy.backend.cafe.model.vo.CafeListVo;
 import com.ssafy.backend.global.exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,25 +31,25 @@ public class CafeFacade {
 
 
     @Transactional
-    public List<ListCafeVo> cafeList(ListCafeDto listCafeDto, Pageable pageable, String keyword) {
-        List<ListCafeVo> list = new ArrayList<>();
-        Page<ListCafeMapping> cafeMappingList;
+    public List<CafeListVo> cafeList(CafeListDto cafeListDto, Pageable pageable, String keyword) {
+        List<CafeListVo> list = new ArrayList<>();
+        Page<CafeListMapping> cafeMappingList;
         if (keyword.isEmpty()) {
-            cafeMappingList = cafeService.cafeList(listCafeDto, pageable);
+            cafeMappingList = cafeService.cafeList(cafeListDto, pageable);
         } else {
-            cafeMappingList = cafeService.cafeSearch(listCafeDto, keyword, pageable);
+            cafeMappingList = cafeService.cafeSearch(cafeListDto, keyword, pageable);
         }
 
-        for (ListCafeMapping listCafeMapping : cafeMappingList) {
-            List<String> tagList = cafeService.getCafeTag(listCafeMapping.getCafe_seq());
+        for (CafeListMapping cafeListMapping : cafeMappingList) {
+            List<String> tagList = cafeService.getCafeTag(cafeListMapping.getCafe_seq());
 
-            List<String> dessertTag = cafeService.getDessertTag(listCafeMapping.getCafe_seq());
+            List<String> dessertTag = cafeService.getDessertTag(cafeListMapping.getCafe_seq());
 
-            String openingHour = listCafeMapping.getOpening_hour();
+            String openingHour = cafeListMapping.getOpening_hour();
             Boolean isOpen = isBusinessOpen(openingHour);
 
-            ListCafeVo listCafeVo = new ListCafeVo(listCafeMapping.getCafe_seq(), listCafeMapping.getName(), listCafeMapping.getAddress(), listCafeMapping.getImage_url(), listCafeMapping.getDistance(), tagList, dessertTag, isOpen);
-            list.add(listCafeVo);
+            CafeListVo cafeListVo = new CafeListVo(cafeListMapping.getCafe_seq(), cafeListMapping.getName(), cafeListMapping.getAddress(), cafeListMapping.getImage_url(), cafeListMapping.getDistance(), tagList, dessertTag, isOpen);
+            list.add(cafeListVo);
         }
 
         return list;
@@ -216,5 +219,28 @@ public class CafeFacade {
         cafeService.cafeBookmarkCancel(cafeSeq, memberSeq);
     }
 
+    @Transactional
+    public List<CafeBookmarkListVo> cafeBookmarkList(Long memberSeq, Pageable pageable) {
+        // Todo : memberSeq가 유효한지 확인하는 로직 필요
 
+        List<CafeBookmarkListVo> list = new ArrayList<>();
+
+        Page<CafeSeqMapping> cafeSeqList = cafeService.bookmarkCafeSeqList(memberSeq, pageable);
+
+        for (CafeSeqMapping cafeSeqMapping : cafeSeqList) {
+            CafeBookmarkListMapping cafeBookmarkListMapping = cafeService.cafeBookmarkList(cafeSeqMapping.getCafeSeq());
+
+            List<String> tagList = cafeService.getCafeTag(cafeBookmarkListMapping.getCafeSeq());
+
+            List<String> dessertTag = cafeService.getDessertTag(cafeBookmarkListMapping.getCafeSeq());
+
+            String openingHour = cafeBookmarkListMapping.getOpeningHour();
+            Boolean isOpen = isBusinessOpen(openingHour);
+
+            CafeBookmarkListVo cafeBookmarkListVo = new CafeBookmarkListVo(cafeBookmarkListMapping.getCafeSeq(), cafeBookmarkListMapping.getName(), cafeBookmarkListMapping.getAddress(), cafeBookmarkListMapping.getImageUrl(), tagList, dessertTag, isOpen);
+            list.add(cafeBookmarkListVo);
+        }
+
+        return list;
+    }
 }

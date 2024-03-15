@@ -1,9 +1,10 @@
 package com.ssafy.backend.cafe.controller;
 
-import com.ssafy.backend.cafe.model.dto.ListCafeDto;
+import com.ssafy.backend.cafe.model.dto.CafeListDto;
+import com.ssafy.backend.cafe.model.vo.CafeBookmarkListVo;
 import com.ssafy.backend.cafe.model.vo.CafeDetailVo;
+import com.ssafy.backend.cafe.model.vo.CafeListVo;
 import com.ssafy.backend.cafe.model.vo.CafeMenuVo;
-import com.ssafy.backend.cafe.model.vo.ListCafeVo;
 import com.ssafy.backend.cafe.service.CafeFacade;
 import com.ssafy.backend.cafe.service.CafeService;
 import com.ssafy.backend.global.response.BaseResponse;
@@ -30,10 +31,10 @@ public class CafeController {
     // 사용자의 현위치를 기반으로 사용자 반경 500m안의 카페 목록 가까운 순 제공
     // 검색어 입력 시 검색한 결과 제공
     @GetMapping
-    public BaseResponse<List<ListCafeVo>> cafeList(@RequestBody ListCafeDto listCafeDto, @RequestParam(name = "keyword", defaultValue = "") String keyword, @RequestParam(name = "page", defaultValue = "1") int page) {
+    public BaseResponse<List<CafeListVo>> cafeList(@RequestBody CafeListDto cafeListDto, @RequestParam(name = "keyword", defaultValue = "") String keyword, @RequestParam(name = "page", defaultValue = "1") int page) {
         Pageable pageable = PageRequest.of(page - 1, 10);
 
-        List<ListCafeVo> list = cafeFacade.cafeList(listCafeDto, pageable, keyword);
+        List<CafeListVo> list = cafeFacade.cafeList(cafeListDto, pageable, keyword);
 
         return new BaseResponse<>(SUCCESS, list);
     }
@@ -74,6 +75,18 @@ public class CafeController {
         cafeFacade.cafeBookmarkCancel(cafeSeq, memberSeq);
 
         return new BaseResponse<>(SUCCESS);
+    }
+
+    // 카페 북마크 목록 조회
+    @GetMapping("bookmark")
+    public BaseResponse<?> cafeBookmarkList(HttpServletRequest request, @RequestParam(name = "page", defaultValue = "1") int page) {
+//        Long memberSeq = (Long) request.getAttribute("seq");
+        Long memberSeq = 1L;
+        Pageable pageable = PageRequest.of(page - 1, 10);
+
+        List<CafeBookmarkListVo> list = cafeFacade.cafeBookmarkList(memberSeq, pageable);
+
+        return new BaseResponse<>(SUCCESS, list);
     }
 
 

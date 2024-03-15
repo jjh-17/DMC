@@ -2,22 +2,27 @@ package com.ssafy.backend.cafe.model.vo;
 
 import java.util.List;
 
-public class ListCafeVo {
+public class CafeBookmarkListVo {
     private Long cafeSeq;
     private String name, address, imageUrl;
-    private double distance;
     private List<String> tag, dessertTag;
     private Boolean isOpen;
 
-    public ListCafeVo(Long cafeSeq, String name, String address, String imageUrl, double distance, List<String> tag, List<String> dessertTag, Boolean isOpen) {
-        this.cafeSeq = cafeSeq;
-        this.name = name;
-        this.address = address;
-        this.imageUrl = imageUrl;
-        this.distance = distance;
-        this.tag = tag;
-        this.dessertTag = dessertTag;
-        this.isOpen = isOpen;
+    public CafeBookmarkListVo(Long cafeSeq, String name, String address, String imageUrl) {
+        setCafeSeq(cafeSeq);
+        setName(name);
+        setAddress(address);
+        setImageUrl(imageUrl);
+    }
+
+    public CafeBookmarkListVo(Long cafeSeq, String name, String address, String imageUrl, List<String> tagList, List<String> dessertTag, Boolean isOpen) {
+        setCafeSeq(cafeSeq);
+        setName(name);
+        setAddress(address);
+        setImageUrl(imageUrl);
+        setTag(tagList);
+        setDessertTag(dessertTag);
+        setOpen(isOpen);
     }
 
     public Long getCafeSeq() {
@@ -25,9 +30,7 @@ public class ListCafeVo {
     }
 
     public void setCafeSeq(Long cafeSeq) {
-        if (cafeSeq > 0) {
-            this.cafeSeq = cafeSeq;
-        }
+        this.cafeSeq = cafeSeq;
     }
 
     public String getName() {
@@ -54,14 +57,6 @@ public class ListCafeVo {
         this.imageUrl = imageUrl;
     }
 
-    public double getDistance() {
-        return distance;
-    }
-
-    public void setDistance(double distance) {
-        this.distance = distance;
-    }
-
     public List<String> getTag() {
         return tag;
     }
@@ -78,7 +73,7 @@ public class ListCafeVo {
         this.dessertTag = dessertTag;
     }
 
-    public Boolean isOpen() {
+    public Boolean getOpen() {
         return isOpen;
     }
 
