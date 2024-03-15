@@ -5,7 +5,8 @@ import PinIcon from '../../assets/icons/locationpin.svg?react'
 import ClockIcon from '../../assets/icons/clock1.svg?react'
 import HomePageIcon from '../../assets/icons/homepage.svg?react'
 import Button from '../../components/common/Button';
-import CafeMenuCard from '../../components/cafe/CafeMenuCard';
+import CafeMenuList from '../../components/cafe/CafeMenuList'
+// import CafeMenuCard from '../../components/cafe/CafeMenuCard';
 
 interface CafeDetail {
   cafeSeq: number;
@@ -47,15 +48,16 @@ export default function CafeDetailPage() {
     console.log('bookmark')
   }
 
-  const onClick= () => {
+  const onClick = () => {
     // cafe id 전달
+    // review detail 이동
   }
 
   return (
     <div className="mt-0">
       <img src={testDetail.imageUrl} className="opacity-80 h-[80lvh] w-screen object-cover -z-10" />
-      <h1 className="absolute top-[76lvh] ml-4 text-xl text-white">{testDetail.name}</h1>
-      <p className="absolute top-[80lvh] ml-4 text-sm text-white font-light">{simpleAddress}</p>
+      <h1 className="absolute top-[75lvh] ml-4 text-3xl text-white">{testDetail.name}</h1>
+      <p className="absolute top-[80lvh] ml-4 text-white font-light">{simpleAddress}</p>
       <p className="absolute top-[84lvh] right-0 ml-2 text-[4lvw] text-white font-light">#TAG</p>
       <div className='m-2 border-b-[1px] border-primary p-2'>
         <span className={textClass}>
@@ -75,11 +77,10 @@ export default function CafeDetailPage() {
           {testDetail.openingHour}
         </div>
       </div>
-      <div className='m-2 border-b-[1px] border-primary p-2'>
-        메뉴
+        <CafeMenuList />
+      <div className='text-center'>
+        <Button label="리뷰 상세보기" onClick={onClick} />
       </div>
-      <Button label="리뷰 상세보기" onClick={onClick} addClass=' ml-[40lvw]'/>
-
     </div>
   )
 }

@@ -6,23 +6,27 @@ import { useNavigate } from "react-router-dom";
 
 export default function TheFooter() {
   const navigate = useNavigate();
-  const footerStyle = "fixed bg-white inset-x-0 bottom-0 border-t-primary border-t-2 text-center flex flex-row justify-around";
-  const footerButtonStyle = "<m-1></m-1> p-1";
-  const svgStyle = "w-8 h-8 p-1 m-1 hover:mb-3 hover:-mt-3 hover:fill-primary hover:mt-0 duration-300 hover:border-b-2 hover:border-primary";
+  const footerStyle = "fixed w-full bg-white inset-x-0 bottom-0 border-t-primary border-t-2 text-center flex flex-row justify-around";
+  const footerButtonStyle = "inline-block m-2 p-1 flex flex-col items-center hover:mb-2 hover:-mt-0 hover:text-primary duration-300 hover:border-b-2 hover:border-primary";
+  const labelStyle = "text-sm font-light"
 
   return (
     <div className={footerStyle}>
       <button className={footerButtonStyle} onClick={() => navigate('/')}>
-        <HomeIcon className={svgStyle} />
+        <HomeIcon id='svgIcon2' />
+        <label className={labelStyle}>HOME</label>
       </button>
-      <button className={footerButtonStyle}>
-        <SearchIcon className={svgStyle} onClick={() => navigate('/cafes')} />
+      <button className={footerButtonStyle} onClick={() => navigate('/cafes')}>
+        <SearchIcon id='svgIcon2' />
+        <label className={labelStyle}>SEARCH</label>
       </button>
-      <button className={footerButtonStyle}>
-        <BookMarkIcon className={svgStyle} onClick={() => navigate('/bookmark')} />
+      <button className={footerButtonStyle} onClick={() => navigate('/bookmark')}>
+        <BookMarkIcon id='svgIcon2' />
+        <label className={labelStyle}>BOOKMARK</label>
       </button>
       <button className={footerButtonStyle} onClick={() => navigate('/mypage')}>
-        <ProfileIcon className={svgStyle} />
+        <ProfileIcon id='svgIcon2' />
+        <label className={labelStyle}>PROFILE</label>
       </button>
     </div>
   );
