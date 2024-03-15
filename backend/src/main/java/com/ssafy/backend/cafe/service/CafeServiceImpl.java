@@ -147,8 +147,8 @@ public class CafeServiceImpl implements CafeService {
     }
 
     @Override
-    public boolean cafeCheck(Long cafeSeq) {
-        return cafeInfoRepository.existsById(cafeSeq);
+    public boolean isCafeNotExist(Long cafeSeq) {
+        return !cafeInfoRepository.existsById(cafeSeq);
     }
 
     @Override
@@ -158,7 +158,12 @@ public class CafeServiceImpl implements CafeService {
 
     @Override
     public CafeBookmarkListMapping cafeBookmarkList(Long cafeSeq) {
-        return cafeInfoRepository.findByCafeSeq(cafeSeq);
+        CafeBookmarkListMapping cafeBookmarkListMapping = cafeInfoRepository.findByCafeSeq(cafeSeq);
+
+        if (cafeBookmarkListMapping == null) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
+        return cafeBookmarkListMapping;
     }
 
 }

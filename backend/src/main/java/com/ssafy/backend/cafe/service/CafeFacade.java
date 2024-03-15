@@ -193,7 +193,7 @@ public class CafeFacade {
         cafeDetailVo.setTag(cafeService.getCafeTag(cafeSeq));
 
         // Todo : memberSeq가 유효한지 확인하는 로직 필요
-        if (!cafeService.cafeCheck(cafeSeq)) {
+        if (cafeService.isCafeNotExist(cafeSeq)) {
             throw new BaseException(NOT_VALID_CAFE);
         }
         cafeDetailVo.setBookmarked(cafeService.bookmarkCheck(cafeSeq, memberSeq));
@@ -204,7 +204,7 @@ public class CafeFacade {
     @Transactional
     public void cafeBookmark(Long cafeSeq, Long memberSeq) {
         // Todo : memberSeq가 유효한지 확인하는 로직 필요
-        if (!cafeService.cafeCheck(cafeSeq)) {
+        if (cafeService.isCafeNotExist(cafeSeq)) {
             throw new BaseException(NOT_VALID_CAFE);
         }
         cafeService.cafeBookmark(cafeSeq, memberSeq);
@@ -213,7 +213,7 @@ public class CafeFacade {
     @Transactional
     public void cafeBookmarkCancel(Long cafeSeq, Long memberSeq) {
         // Todo : memberSeq가 유효한지 확인하는 로직 필요
-        if (!cafeService.cafeCheck(cafeSeq)) {
+        if (cafeService.isCafeNotExist(cafeSeq)) {
             throw new BaseException(NOT_VALID_CAFE);
         }
         cafeService.cafeBookmarkCancel(cafeSeq, memberSeq);

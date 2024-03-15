@@ -30,7 +30,7 @@ public interface CafeService {
 
     boolean bookmarkCheck(Long cafeSeq, Long memberSeq);
 
-    boolean cafeCheck(Long cafeSeq);
+    boolean isCafeNotExist(Long cafeSeq);
 
     Page<CafeSeqMapping> bookmarkCafeSeqList(Long memberSeq, Pageable pageable);
 
