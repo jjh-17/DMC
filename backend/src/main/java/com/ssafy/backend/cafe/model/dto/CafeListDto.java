@@ -1,6 +1,6 @@
 package com.ssafy.backend.cafe.model.dto;
 
-public class ListCafeDto {
+public class CafeListDto {
     private double latitude, longitude;
 
     public double getLatitude() {

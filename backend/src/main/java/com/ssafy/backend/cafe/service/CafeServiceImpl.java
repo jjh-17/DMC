@@ -5,9 +5,11 @@ import com.ssafy.backend.cafe.model.domain.Bookmark;
 import com.ssafy.backend.cafe.model.domain.CafeInfo;
 import com.ssafy.backend.cafe.model.domain.CafeMenu;
 import com.ssafy.backend.cafe.model.domain.TagCount;
-import com.ssafy.backend.cafe.model.dto.ListCafeDto;
+import com.ssafy.backend.cafe.model.dto.CafeListDto;
+import com.ssafy.backend.cafe.model.mapping.CafeBookmarkListMapping;
+import com.ssafy.backend.cafe.model.mapping.CafeListMapping;
+import com.ssafy.backend.cafe.model.mapping.CafeSeqMapping;
 import com.ssafy.backend.cafe.model.mapping.DessertTagMapping;
-import com.ssafy.backend.cafe.model.mapping.ListCafeMapping;
 import com.ssafy.backend.cafe.model.repository.BookmarkRepository;
 import com.ssafy.backend.cafe.model.repository.CafeInfoRepository;
 import com.ssafy.backend.cafe.model.repository.CafeMenuRepository;
@@ -22,8 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-import static com.ssafy.backend.global.response.BaseResponseStatus.EXIST_BOOKMARK;
-import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_VALID_BOOKMARK_CANCEL;
+import static com.ssafy.backend.global.response.BaseResponseStatus.*;
 
 @Service
 public class CafeServiceImpl implements CafeService {
@@ -41,14 +42,14 @@ public class CafeServiceImpl implements CafeService {
     BookmarkRepository bookmarkRepository;
 
     @Override
-    public Page<ListCafeMapping> cafeList(ListCafeDto listCafeDto, Pageable pageable) {
-        return cafeInfoRepository.findAllIn500mOrderByDistance(listCafeDto.getLatitude(), listCafeDto.getLongitude(), pageable);
+    public Page<CafeListMapping> cafeList(CafeListDto cafeListDto, Pageable pageable) {
+        return cafeInfoRepository.findAllIn500mOrderByDistance(cafeListDto.getLatitude(), cafeListDto.getLongitude(), pageable);
     }
 
     @Override
-    public Page<ListCafeMapping> cafeSearch(ListCafeDto listCafeDto, String keyword, Pageable pageable) {
+    public Page<CafeListMapping> cafeSearch(CafeListDto cafeListDto, String keyword, Pageable pageable) {
         keyword = "%" + keyword.replace(" ", "%") + "%";
-        return cafeInfoRepository.findAllIn500mLikeKeywordOrderByDistance(listCafeDto.getLatitude(), listCafeDto.getLongitude(), keyword, pageable);
+        return cafeInfoRepository.findAllIn500mLikeKeywordOrderByDistance(cafeListDto.getLatitude(), cafeListDto.getLongitude(), keyword, pageable);
     }
 
     @Override
@@ -90,7 +91,13 @@ public class CafeServiceImpl implements CafeService {
 
     @Override
     public CafeDetailVo cafeDetail(Long cafeSeq) {
-        CafeInfo cafeInfo = cafeInfoRepository.findByCafeSeq(cafeSeq);
+        Optional<CafeInfo> cafeInfoOptional = cafeInfoRepository.findById(cafeSeq);
+
+        if (cafeInfoOptional.isEmpty()) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
+
+        CafeInfo cafeInfo = cafeInfoOptional.get();
 
         CafeDetailVo cafeDetailVo = new CafeDetailVo(cafeInfo.getCafeSeq(), cafeInfo.getName(), cafeInfo.getAddress(), cafeInfo.getImageUrl(), cafeInfo.getOpeningHour(), cafeInfo.getHomepageUrl(), cafeInfo.getUpdatedDate(), cafeInfo.getRating());
 
@@ -140,9 +147,23 @@ public class CafeServiceImpl implements CafeService {
     }
 
     @Override
-    public boolean cafeCheck(Long cafeSeq) {
-        System.out.println("****" + cafeInfoRepository.existsById(cafeSeq));
-        return cafeInfoRepository.existsById(cafeSeq);
+    public boolean isCafeNotExist(Long cafeSeq) {
+        return !cafeInfoRepository.existsById(cafeSeq);
+    }
+
+    @Override
+    public Page<CafeSeqMapping> bookmarkCafeSeqList(Long memberSeq, Pageable pageable) {
+        return bookmarkRepository.findAllByMemberSeq(memberSeq, pageable);
+    }
+
+    @Override
+    public CafeBookmarkListMapping cafeBookmarkList(Long cafeSeq) {
+        CafeBookmarkListMapping cafeBookmarkListMapping = cafeInfoRepository.findByCafeSeq(cafeSeq);
+
+        if (cafeBookmarkListMapping == null) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
+        return cafeBookmarkListMapping;
     }
 
 }

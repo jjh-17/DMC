@@ -1,7 +1,8 @@
 package com.ssafy.backend.cafe.model.repository;
 
 import com.ssafy.backend.cafe.model.domain.CafeInfo;
-import com.ssafy.backend.cafe.model.mapping.ListCafeMapping;
+import com.ssafy.backend.cafe.model.mapping.CafeBookmarkListMapping;
+import com.ssafy.backend.cafe.model.mapping.CafeListMapping;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,11 +25,10 @@ public interface CafeInfoRepository extends JpaRepository<CafeInfo, Long> {
     String orderQuery = "ORDER BY distance";
 
     @Query(nativeQuery = true, value = listDefaultQuery + orderQuery)
-    Page<ListCafeMapping> findAllIn500mOrderByDistance(@Param("latitude") double latitude, @Param("longitude") double longitude, Pageable pageable);
+    Page<CafeListMapping> findAllIn500mOrderByDistance(@Param("latitude") double latitude, @Param("longitude") double longitude, Pageable pageable);
 
     @Query(nativeQuery = true, value = listDefaultQuery + searchByNameQuery + " UNION " + listDefaultQuery + searchByAddrQuery + orderQuery)
-    Page<ListCafeMapping> findAllIn500mLikeKeywordOrderByDistance(@Param("latitude") double latitude, @Param("longitude") double longitude, @Param("keyword") String keyword, Pageable pageable);
+    Page<CafeListMapping> findAllIn500mLikeKeywordOrderByDistance(@Param("latitude") double latitude, @Param("longitude") double longitude, @Param("keyword") String keyword, Pageable pageable);
 
-    CafeInfo findByCafeSeq(Long cafeSeq);
-
+    CafeBookmarkListMapping findByCafeSeq(Long cafeSeq);
 }
