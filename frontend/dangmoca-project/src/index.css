@@ -23,6 +23,18 @@
         cursor: grab;
     }
 
+    #svgIcon {
+        @apply w-4 h-4 inline-block;
+    }
+
+    #svgIcon2 {
+        @apply w-8 h-8 p-1
+    }
+
+    #svgIcon2-hover{
+        @apply w-8 h-8 p-1 fill-primary;
+    }
+
 }
 
 @layer utilities {
