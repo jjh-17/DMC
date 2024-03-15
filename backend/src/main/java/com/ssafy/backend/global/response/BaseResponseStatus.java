@@ -20,6 +20,9 @@ public enum BaseResponseStatus {
      * 카페 관련 에러
      */
     NOT_VALID_CAFE(false, 400, "존재하지 않는 카페입니다."),
+    EXIST_BOOKMARK(false, 400, "이미 북마크한 카페입니다."),
+    NOT_VALID_BOOKMARK_CANCEL(false, 400, "이미 취소한 북마크입니다."),
+
 
     /**
      * 리뷰 관련 에러
@@ -28,7 +31,7 @@ public enum BaseResponseStatus {
     NOT_VALID_RATING(false, 400, "평점을 남겨주세요."),
     NOT_EXIST_REVIEW(false, 400, "존재하지 않는 리뷰입니다."),
     NO_SAME_USER(false, 400, "수정할 수 없는 리뷰입니다."),
-    
+
     /**
      * JWT 에러
      */
