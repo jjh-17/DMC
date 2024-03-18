@@ -1,6 +1,6 @@
 package com.ssafy.backend.cafe.service;
 
-import com.ssafy.backend.cafe.model.dto.CafeListDto;
+import com.ssafy.backend.cafe.model.dto.CurrentLocationDto;
 import com.ssafy.backend.cafe.model.mapping.CafeBookmarkListMapping;
 import com.ssafy.backend.cafe.model.mapping.CafeListMapping;
 import com.ssafy.backend.cafe.model.mapping.CafeSeqMapping;
@@ -29,15 +29,14 @@ public class CafeFacade {
     @Autowired
     CafeService cafeService;
 
-
     @Transactional
-    public List<CafeListVo> cafeList(CafeListDto cafeListDto, Pageable pageable, String keyword) {
+    public List<CafeListVo> cafeList(CurrentLocationDto currentLocationDto, Pageable pageable, String keyword) {
         List<CafeListVo> list = new ArrayList<>();
         Page<CafeListMapping> cafeMappingList;
         if (keyword.isEmpty()) {
-            cafeMappingList = cafeService.cafeList(cafeListDto, pageable);
+            cafeMappingList = cafeService.cafeList(currentLocationDto, pageable);
         } else {
-            cafeMappingList = cafeService.cafeSearch(cafeListDto, keyword, pageable);
+            cafeMappingList = cafeService.cafeSearch(currentLocationDto, keyword, pageable);
         }
 
         for (CafeListMapping cafeListMapping : cafeMappingList) {
@@ -242,5 +241,19 @@ public class CafeFacade {
         }
 
         return list;
+    }
+
+    public List<CafeListVo> cafeTagRecommendList(Long memberSeq, CurrentLocationDto currentLocationDto) {
+        // Todo : memberSeq가 유효한지 확인하는 로직 필요
+
+        // 사용자의 선호 태그 갖고오기
+
+        // 일단 주변에 있는 카페 다 갖고오기
+
+        // 카페 돌면서 해당 카페가 사용자의 선호 태그를 포함하는지 보고 포함하면 리스트에 추가
+
+        // 리스트 5개 되면 끝내고 리턴
+
+        return null;
     }
 }
