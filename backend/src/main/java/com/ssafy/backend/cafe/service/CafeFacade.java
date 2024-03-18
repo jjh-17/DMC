@@ -32,7 +32,9 @@ public class CafeFacade {
     @Transactional
     public List<CafeListVo> cafeList(CurrentLocationDto currentLocationDto, Pageable pageable, String keyword) {
         List<CafeListVo> list = new ArrayList<>();
+
         Page<CafeListMapping> cafeMappingList;
+
         if (keyword.isEmpty()) {
             cafeMappingList = cafeService.cafeList(currentLocationDto, pageable);
         } else {
@@ -117,6 +119,33 @@ public class CafeFacade {
 
         for (CafeListMapping cafeListMapping : cafeMappingList) {
             list.add(convertMappingToVo(cafeListMapping));
+        }
+
+        return list;
+    }
+
+    public List<CafeListVo> cafeInfoRecommendList(Long memberSeq, CurrentLocationDto currentLocationDto) {
+        // Todo : memberSeq가 유효한지 확인하는 로직 필요
+
+        // Todo : 나와 선호 태그가 일치하는 사용자 list 가져오기
+        // memberService(memberSeq);
+        List<Long> memberSeqList = new ArrayList<>();
+
+        // Todo : memberSeqList를 for문 돌면서 해당 사용자가 리뷰 5점을 준 카페 seq 전부 가져오기
+        // reviewService(memberSeq);
+        List<Long> cafeSeqList = new ArrayList<>();
+        cafeSeqList.add(1L);
+        cafeSeqList.add(2L);
+        cafeSeqList.add(9L);
+        Collections.shuffle(cafeSeqList);
+
+        List<CafeListVo> list = new ArrayList<>();
+        for (Long cafeSeq : cafeSeqList) {
+            CafeListMapping cafeListMapping = cafeService.cafeInfoRecommendList(cafeSeq, currentLocationDto);
+            list.add(convertMappingToVo(cafeListMapping));
+            if (list.size() == 5) {
+                break;
+            }
         }
 
         return list;

@@ -37,4 +37,6 @@ public interface CafeService {
     CafeBookmarkListMapping cafeBookmarkList(Long cafeSeq);
 
     List<CafeListMapping> cafeTagRecommendList(List<String> preferTag, CurrentLocationDto currentLocationDto);
+
+    CafeListMapping cafeInfoRecommendList(Long cafeSeq, CurrentLocationDto currentLocationDto);
 }

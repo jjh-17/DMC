@@ -188,6 +188,11 @@ public class CafeServiceImpl implements CafeService {
         return recommendedCafes;
     }
 
+    @Override
+    public CafeListMapping cafeInfoRecommendList(Long cafeSeq, CurrentLocationDto currentLocationDto) {
+        return cafeInfoRepository.findByCafeSeqAndDistance(cafeSeq, currentLocationDto.getLatitude(), currentLocationDto.getLongitude());
+    }
+
     private int getIntersectionCount(String s1, List<String> tagList) {
         String[] tokens = (s1 != null) ? s1.split(", ") : new String[0];
         int count = 0;
