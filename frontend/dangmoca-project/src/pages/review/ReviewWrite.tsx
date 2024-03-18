@@ -16,7 +16,7 @@ export default function ReviewWrite() {
     tag: ["#테이크아웃", "#분위기", "#가성비"],
     isOpen: true, // 영업 중 여부
     dessertTag: ["#마카롱", "#매커롱", "#맥커롱"],
-    imageUrl: "src/assets/testpic/1.jpg",
+    imageUrl: "src/assets/testPic/1.jpg",
   };
 
   const reviewContentRef = useRef<HTMLTextAreaElement>(null);

@@ -9,8 +9,8 @@ const TheHeader = ({ textHeader }: { textHeader: string }) => {
         const handleScroll = () => {
             const limitHeight = 100;
             const newHeaderClass = window.scrollY > limitHeight ?
-                'fixed top-0 w-full bg-white pointer-events-none opacity-0 duration-500' :
-                'fixed top-0 w-full bg-white opacity-100 duration-500';
+                'fixed top-0 w-full bg-transparent pointer-events-none opacity-0 duration-500' :
+                'fixed top-0 w-full bg-transparent opacity-100 duration-500';
 
             setHeaderClass(newHeaderClass);
         };
