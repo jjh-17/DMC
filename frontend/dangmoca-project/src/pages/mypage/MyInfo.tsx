@@ -69,7 +69,7 @@ export default function MyInfo() {
       <Button
         label="수정하기"
         onClick={handleUpdateClick}
-        className="mx-auto"
+        addClass="mx-auto"
       />
     </div>
   );

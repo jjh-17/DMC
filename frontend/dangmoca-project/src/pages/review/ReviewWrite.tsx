@@ -73,7 +73,7 @@ export default function ReviewWrite() {
       <div>
         <ReviewRating/>
       </div>
-      <Button label="업로드" onClick={handleClick} className="mx-auto"></Button>
+      <Button label="업로드" onClick={handleClick} addClass="mx-auto"></Button>
     </div>
   );
 };
