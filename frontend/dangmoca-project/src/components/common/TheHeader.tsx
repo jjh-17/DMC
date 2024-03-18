@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import PrevArrow from '../../assets/icons/prevarrow.svg?react';
 import { useNavigate } from "react-router-dom";
 
-interface HeaderProps {
-    textHeader: string;
-    showHeader: boolean;
-}
-
-const TheHeader: React.FC<HeaderProps> = ({ textHeader, showHeader }) => {
+const TheHeader = ({ textHeader }: { textHeader: string }) => {
     const [headerClass, setHeaderClass] = useState('fixed top-0 w-full bg-white');
 
     useEffect(() => {
@@ -19,8 +14,6 @@ const TheHeader: React.FC<HeaderProps> = ({ textHeader, showHeader }) => {
 
             setHeaderClass(newHeaderClass);
         };
-
-        if (!showHeader) setHeaderClass('pointer-events-none opacity-0');
 
         window.addEventListener('scroll', handleScroll);
 

@@ -1,4 +1,5 @@
 import LocationPin from  '../../assets/icons/pin.svg?react';
+import { useNavigate } from "react-router-dom";
 
 interface Cafe {
   cafeSeq: number;
@@ -12,8 +13,10 @@ interface Cafe {
 }
 
 const DetailCafeCard= (cafe : Cafe) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="p-1 flex flex-col m-4 shadow-lg rounded-sm items-center">
+    <div className="p-1 flex flex-col m-4 shadow-lg rounded-sm items-center" onClick={() => navigate(`/cafeDetail/${cafe.cafeSeq}`)}>
       <img
         src={cafe.imageUrl}
         className="w-72 h-72 object-cover rounded-sm m-1"
