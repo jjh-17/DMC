@@ -6,7 +6,6 @@ import ClockIcon from '../../assets/icons/clock1.svg?react'
 import HomePageIcon from '../../assets/icons/homepage.svg?react'
 import Button from '../../components/common/Button';
 import CafeMenuList from '../../components/cafe/CafeMenuList'
-// import CafeMenuCard from '../../components/cafe/CafeMenuCard';
 
 interface CafeDetail {
   cafeSeq: number;
@@ -28,7 +27,7 @@ const testDetail: CafeDetail = {
   distance: '100m',
   address: '서울 강남구 역삼동',
   tag: ['가성비', '테이크아웃', ''],
-  imageUrl: 'src/assets/testpic/bana.jpg',
+  imageUrl: '/src/assets/testPic/bana.jpg',
   homepageUrl: 'https://www.banapresso.com/',
   rating: 3.7,
   isBookmarked: false,
@@ -37,12 +36,12 @@ const testDetail: CafeDetail = {
 };
 
 // export default function CafeDetailPage(cafeDetail: CafeDetail) {
-export default function CafeDetailPage() {
+const CafeDetailPage = () => {
   const cafeAddress: string[] = testDetail.address.split(' ');
   const simpleAddress = cafeAddress[0] + ', ' + cafeAddress[1];
 
   const svgClass = 'w-6 h-6 inline-block mr-1';
-  const textClass = 'font-light text-lg my-2'
+  const textClass = 'font-light text-lg my-2 mx-4'
 
   const bookmarkCafe = () => {
     console.log('bookmark')
@@ -58,7 +57,9 @@ export default function CafeDetailPage() {
       <img src={testDetail.imageUrl} className="opacity-80 h-[80lvh] w-screen object-cover -z-10" />
       <h1 className="absolute top-[75lvh] ml-4 text-3xl text-white">{testDetail.name}</h1>
       <p className="absolute top-[80lvh] ml-4 text-white font-light">{simpleAddress}</p>
-      <p className="absolute top-[84lvh] right-0 ml-2 text-[4lvw] text-white font-light">#TAG</p>
+      {testDetail.tag.map((text, idx) => {
+        <span className="absolute top-[84lvh] right-0 ml-2 text-[4lvw] text-primary font-light">{text}</span>
+      })}
       <div className='m-2 border-b-[1px] border-primary p-2'>
         <span className={textClass}>
           <CoffeeBeanIcon className={svgClass + ' fill-primary'} />
@@ -84,3 +85,5 @@ export default function CafeDetailPage() {
     </div>
   )
 }
+
+export default CafeDetailPage;

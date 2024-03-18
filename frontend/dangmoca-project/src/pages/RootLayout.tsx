@@ -1,15 +1,15 @@
 import { Outlet } from "react-router-dom";
-import { useRef} from "react";
+import { useState } from "react";
 import TheHeader from "../components/common/TheHeader";
 import TheFooter from "../components/common/TheFooter";
 
 export default function RootLayout() {
-  const showHeader = useRef(true);
+  const [showHeader, setShowHeader] = useState(true);
   return (
     <>
-      <TheHeader textHeader="당모카" showHeader={showHeader.current} />
+      {showHeader && <TheHeader textHeader={"당모카"}/>}      
       <div className="mt-12 mb-32"> {/* header, footer 길이만큼 margin */}
-      <Outlet />
+        <Outlet />
       </div>
       <TheFooter />
     </>
