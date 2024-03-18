@@ -1,6 +1,29 @@
+server:
+  port: 8082
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/dagak
+    url: jdbc:mysql://localhost:3306/temp
     username: root
-    password: ssafy
+    password: 1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: ohyes
+
+kakao:
+  rest-api-key: 891949d64302e510fe79f05131e7d972
+  redirect.url: http://localhost:5173/kakaoLogin
+
+security:
+  salt: 2ecb6640-2866-4245-b42f-43eb42c97664
+  access-token-expire: 1000000
+  refresh-token-expire: 10000000
