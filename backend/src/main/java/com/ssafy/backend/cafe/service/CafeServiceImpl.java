@@ -166,4 +166,10 @@ public class CafeServiceImpl implements CafeService {
         return cafeBookmarkListMapping;
     }
 
+    @Override
+    public List<CafeListMapping> cafeTagRecommendList(List<String> preferTag, CurrentLocationDto currentLocationDto) {
+        System.out.println(String.join(", ", preferTag));
+        return cafeInfoRepository.findAllIn500mLikeTopTagOrderByDistance(currentLocationDto.getLatitude(), currentLocationDto.getLongitude(), String.join(", ", preferTag));
+    }
+
 }

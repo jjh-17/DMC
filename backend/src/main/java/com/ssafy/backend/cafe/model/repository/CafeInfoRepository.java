@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface CafeInfoRepository extends JpaRepository<CafeInfo, Long> {
 
     String listDefaultQuery =
@@ -31,4 +33,7 @@ public interface CafeInfoRepository extends JpaRepository<CafeInfo, Long> {
     Page<CafeListMapping> findAllIn500mLikeKeywordOrderByDistance(@Param("latitude") double latitude, @Param("longitude") double longitude, @Param("keyword") String keyword, Pageable pageable);
 
     CafeBookmarkListMapping findByCafeSeq(Long cafeSeq);
+
+    @Query(nativeQuery = true, value = listDefaultQuery + " AND c.top_tag LIKE CONCAT('%', :tag, '%') " + orderQuery)
+    List<CafeListMapping> findAllIn500mLikeTopTagOrderByDistance(@Param("latitude") double latitude, @Param("longitude") double longitude, @Param("tag") String tag);
 }

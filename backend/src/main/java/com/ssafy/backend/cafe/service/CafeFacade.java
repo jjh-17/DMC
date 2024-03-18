@@ -247,13 +247,26 @@ public class CafeFacade {
         // Todo : memberSeq가 유효한지 확인하는 로직 필요
 
         // 사용자의 선호 태그 갖고오기
+        List<String> preferTag = new ArrayList<>();
+        preferTag.add("tag1");
+        preferTag.add("tag2");
 
-        // 일단 주변에 있는 카페 다 갖고오기
+        List<CafeListMapping> cafeMappingList = cafeService.cafeTagRecommendList(preferTag, currentLocationDto);
 
-        // 카페 돌면서 해당 카페가 사용자의 선호 태그를 포함하는지 보고 포함하면 리스트에 추가
+        List<CafeListVo> list = new ArrayList<>();
 
-        // 리스트 5개 되면 끝내고 리턴
+        for (CafeListMapping cafeListMapping : cafeMappingList) {
+            List<String> tagList = cafeService.getCafeTag(cafeListMapping.getCafe_seq());
 
-        return null;
+            List<String> dessertTag = cafeService.getDessertTag(cafeListMapping.getCafe_seq());
+
+            String openingHour = cafeListMapping.getOpening_hour();
+            Boolean isOpen = isBusinessOpen(openingHour);
+
+            CafeListVo cafeListVo = new CafeListVo(cafeListMapping.getCafe_seq(), cafeListMapping.getName(), cafeListMapping.getAddress(), cafeListMapping.getImage_url(), cafeListMapping.getDistance(), tagList, dessertTag, isOpen);
+            list.add(cafeListVo);
+        }
+
+        return list;
     }
 }
