@@ -1,6 +1,6 @@
 package com.ssafy.backend.cafe.service;
 
-import com.ssafy.backend.cafe.model.dto.CafeListDto;
+import com.ssafy.backend.cafe.model.dto.CurrentLocationDto;
 import com.ssafy.backend.cafe.model.mapping.CafeBookmarkListMapping;
 import com.ssafy.backend.cafe.model.mapping.CafeListMapping;
 import com.ssafy.backend.cafe.model.mapping.CafeSeqMapping;
@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface CafeService {
-    Page<CafeListMapping> cafeList(CafeListDto cafeListDto, Pageable pageable);
+    Page<CafeListMapping> cafeList(CurrentLocationDto currentLocationDto, Pageable pageable);
 
     List<String> getDessertTag(Long cafeSeq);
 
@@ -22,7 +22,7 @@ public interface CafeService {
 
     List<CafeMenuVo> cafeMenuDetail(Long cafeSeq);
 
-    Page<CafeListMapping> cafeSearch(CafeListDto cafeListDto, String keyword, Pageable pageable);
+    Page<CafeListMapping> cafeSearch(CurrentLocationDto currentLocationDto, String keyword, Pageable pageable);
 
     void cafeBookmark(Long cafeSeq, Long memberSeq);
 

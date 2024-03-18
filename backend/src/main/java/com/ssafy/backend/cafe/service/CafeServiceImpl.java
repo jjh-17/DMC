@@ -5,7 +5,7 @@ import com.ssafy.backend.cafe.model.domain.Bookmark;
 import com.ssafy.backend.cafe.model.domain.CafeInfo;
 import com.ssafy.backend.cafe.model.domain.CafeMenu;
 import com.ssafy.backend.cafe.model.domain.TagCount;
-import com.ssafy.backend.cafe.model.dto.CafeListDto;
+import com.ssafy.backend.cafe.model.dto.CurrentLocationDto;
 import com.ssafy.backend.cafe.model.mapping.CafeBookmarkListMapping;
 import com.ssafy.backend.cafe.model.mapping.CafeListMapping;
 import com.ssafy.backend.cafe.model.mapping.CafeSeqMapping;
@@ -42,14 +42,14 @@ public class CafeServiceImpl implements CafeService {
     BookmarkRepository bookmarkRepository;
 
     @Override
-    public Page<CafeListMapping> cafeList(CafeListDto cafeListDto, Pageable pageable) {
-        return cafeInfoRepository.findAllIn500mOrderByDistance(cafeListDto.getLatitude(), cafeListDto.getLongitude(), pageable);
+    public Page<CafeListMapping> cafeList(CurrentLocationDto currentLocationDto, Pageable pageable) {
+        return cafeInfoRepository.findAllIn500mOrderByDistance(currentLocationDto.getLatitude(), currentLocationDto.getLongitude(), pageable);
     }
 
     @Override
-    public Page<CafeListMapping> cafeSearch(CafeListDto cafeListDto, String keyword, Pageable pageable) {
+    public Page<CafeListMapping> cafeSearch(CurrentLocationDto currentLocationDto, String keyword, Pageable pageable) {
         keyword = "%" + keyword.replace(" ", "%") + "%";
-        return cafeInfoRepository.findAllIn500mLikeKeywordOrderByDistance(cafeListDto.getLatitude(), cafeListDto.getLongitude(), keyword, pageable);
+        return cafeInfoRepository.findAllIn500mLikeKeywordOrderByDistance(currentLocationDto.getLatitude(), currentLocationDto.getLongitude(), keyword, pageable);
     }
 
     @Override
