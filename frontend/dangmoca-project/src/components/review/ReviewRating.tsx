@@ -8,7 +8,7 @@ interface BeanIconProps {
   type: 'empty' | 'full';
 }
 
-const BeanIcon: React.FC<BeanIconProps> = ({ onClick, onMouseEnter, type }) => {
+const BeanIcon = ({ onClick, onMouseEnter, type } : BeanIconProps) => {
   const Icon = type === 'full' ? FullBean : EmptyBean;
   return (
     <button onClick={onClick} onMouseEnter={onMouseEnter} className="w-8 h-8">
