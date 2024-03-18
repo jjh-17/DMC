@@ -1,8 +1,8 @@
 export default function Login() {
-
   // 테스트 URL 입력
-  const naverURL = '';
-  const kakaoURL = import.meta.env.VITE_KAKAO_LOGIN_URL;
+
+  const naverURL = "";
+  const kakaoLoginURL = import.meta.env.VITE_KAKAO_LOGIN_URL;
 
   return (
     <>
@@ -10,9 +10,9 @@ export default function Login() {
       <a href={naverURL}>
         <img src="src/assets/icons/naver.png" />
       </a>
-      <a href={kakaoURL}>
-      <img src="src/assets/icons/kakao.png" />
+      <a href={kakaoLoginURL}>
+        <img src="src/assets/icons/kakao.png" />
       </a>
     </>
-  )
+  );
 }
