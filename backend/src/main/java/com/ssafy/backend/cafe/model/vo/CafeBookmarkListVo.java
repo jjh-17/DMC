@@ -1,5 +1,6 @@
 package com.ssafy.backend.cafe.model.vo;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class CafeBookmarkListVo {
@@ -21,6 +22,20 @@ public class CafeBookmarkListVo {
         setAddress(address);
         setImageUrl(imageUrl);
         setTag(tagList);
+        setDessertTag(dessertTag);
+        setOpen(isOpen);
+    }
+
+    public CafeBookmarkListVo(Long cafeSeq, String name, String address, String imageUrl, String tagList, List<String> dessertTag, Boolean isOpen) {
+        setCafeSeq(cafeSeq);
+        setName(name);
+        setAddress(address);
+        setImageUrl(imageUrl);
+
+        if (tagList != null) {
+            setTag(Arrays.asList(tagList.split(", ")));
+        }
+
         setDessertTag(dessertTag);
         setOpen(isOpen);
     }

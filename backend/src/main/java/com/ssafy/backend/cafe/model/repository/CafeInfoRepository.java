@@ -14,7 +14,7 @@ import java.util.List;
 public interface CafeInfoRepository extends JpaRepository<CafeInfo, Long> {
 
     String listDefaultQuery =
-            "SELECT c.cafe_seq, c.name, c.address, c.image_url, c.opening_hour, " +
+            "SELECT c.cafe_seq, c.name, c.address, c.image_url, c.opening_hour, c.top_tag, " +
                     "ST_DISTANCE_SPHERE(ST_GEOMFROMTEXT(CONCAT('POINT(', :latitude, ' ', :longitude, ')'), 4326), ST_GEOMFROMTEXT(CONCAT('POINT(', c.latitude, ' ', c.longitude, ')'), 4326)) as distance " +
                     "FROM cafe_info c " +
                     "WHERE ST_DISTANCE_SPHERE(ST_GEOMFROMTEXT(CONCAT('POINT(', :latitude, ' ', :longitude, ')'), 4326), ST_GEOMFROMTEXT(CONCAT('POINT(', c.latitude, ' ', c.longitude, ')'), 4326)) <= 500 " +
@@ -34,6 +34,7 @@ public interface CafeInfoRepository extends JpaRepository<CafeInfo, Long> {
 
     CafeBookmarkListMapping findByCafeSeq(Long cafeSeq);
 
-    @Query(nativeQuery = true, value = listDefaultQuery + " AND c.top_tag LIKE CONCAT('%', :tag, '%') " + orderQuery)
-    List<CafeListMapping> findAllIn500mLikeTopTagOrderByDistance(@Param("latitude") double latitude, @Param("longitude") double longitude, @Param("tag") String tag);
+    @Query(nativeQuery = true, value = listDefaultQuery + orderQuery)
+    List<CafeListMapping> findAllIn500mOrderByDistance(@Param("latitude") double latitude, @Param("longitude") double longitude);
+
 }

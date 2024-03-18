@@ -40,21 +40,100 @@ public class CafeFacade {
         }
 
         for (CafeListMapping cafeListMapping : cafeMappingList) {
-            List<String> tagList = cafeService.getCafeTag(cafeListMapping.getCafe_seq());
-
-            List<String> dessertTag = cafeService.getDessertTag(cafeListMapping.getCafe_seq());
-
-            String openingHour = cafeListMapping.getOpening_hour();
-            Boolean isOpen = isBusinessOpen(openingHour);
-
-            CafeListVo cafeListVo = new CafeListVo(cafeListMapping.getCafe_seq(), cafeListMapping.getName(), cafeListMapping.getAddress(), cafeListMapping.getImage_url(), cafeListMapping.getDistance(), tagList, dessertTag, isOpen);
-            list.add(cafeListVo);
+            list.add(convertMappingToVo(cafeListMapping));
         }
 
         return list;
     }
 
-    ///////////////////////영업중 판단 method///////////////////////////////////
+    @Transactional
+    public CafeDetailVo cafeDetail(Long cafeSeq, Long memberSeq) {
+        CafeDetailVo cafeDetailVo = cafeService.cafeDetail(cafeSeq);
+
+        cafeDetailVo.setTag(cafeService.getCafeTag(cafeSeq));
+
+        // Todo : memberSeq가 유효한지 확인하는 로직 필요
+        if (cafeService.isCafeNotExist(cafeSeq)) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
+        cafeDetailVo.setBookmarked(cafeService.bookmarkCheck(cafeSeq, memberSeq));
+
+        return cafeDetailVo;
+    }
+
+    @Transactional
+    public void cafeBookmark(Long cafeSeq, Long memberSeq) {
+        // Todo : memberSeq가 유효한지 확인하는 로직 필요
+        if (cafeService.isCafeNotExist(cafeSeq)) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
+        cafeService.cafeBookmark(cafeSeq, memberSeq);
+    }
+
+    @Transactional
+    public void cafeBookmarkCancel(Long cafeSeq, Long memberSeq) {
+        // Todo : memberSeq가 유효한지 확인하는 로직 필요
+        if (cafeService.isCafeNotExist(cafeSeq)) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
+        cafeService.cafeBookmarkCancel(cafeSeq, memberSeq);
+    }
+
+    @Transactional
+    public List<CafeBookmarkListVo> cafeBookmarkList(Long memberSeq, Pageable pageable) {
+        // Todo : memberSeq가 유효한지 확인하는 로직 필요
+
+        List<CafeBookmarkListVo> list = new ArrayList<>();
+
+        Page<CafeSeqMapping> cafeSeqList = cafeService.bookmarkCafeSeqList(memberSeq, pageable);
+
+        for (CafeSeqMapping cafeSeqMapping : cafeSeqList) {
+            CafeBookmarkListMapping cafeBookmarkListMapping = cafeService.cafeBookmarkList(cafeSeqMapping.getCafeSeq());
+
+            List<String> dessertTag = cafeService.getDessertTag(cafeBookmarkListMapping.getCafeSeq());
+
+            String openingHour = cafeBookmarkListMapping.getOpeningHour();
+            Boolean isOpen = isBusinessOpen(openingHour);
+
+            CafeBookmarkListVo cafeBookmarkListVo = new CafeBookmarkListVo(cafeBookmarkListMapping.getCafeSeq(), cafeBookmarkListMapping.getName(), cafeBookmarkListMapping.getAddress(), cafeBookmarkListMapping.getImageUrl(), cafeBookmarkListMapping.getTopTag(), dessertTag, isOpen);
+            list.add(cafeBookmarkListVo);
+        }
+
+        return list;
+    }
+
+    @Transactional
+    public List<CafeListVo> cafeTagRecommendList(Long memberSeq, CurrentLocationDto currentLocationDto) {
+        // Todo : memberSeq가 유효한지 확인하는 로직 필요
+
+        // Todo : 해당 사용자의 선호 태그 가져오기
+        List<String> preferTag = new ArrayList<>();
+        preferTag.add("tag1");
+        preferTag.add("tag2");
+
+        List<CafeListMapping> cafeMappingList = cafeService.cafeTagRecommendList(preferTag, currentLocationDto);
+
+        List<CafeListVo> list = new ArrayList<>();
+
+        for (CafeListMapping cafeListMapping : cafeMappingList) {
+            list.add(convertMappingToVo(cafeListMapping));
+        }
+
+        return list;
+    }
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private CafeListVo convertMappingToVo(CafeListMapping cafeListMapping) {
+        List<String> dessertTag = cafeService.getDessertTag(cafeListMapping.getCafe_seq());
+
+        String openingHour = cafeListMapping.getOpening_hour();
+        Boolean isOpen = isBusinessOpen(openingHour);
+
+        return new CafeListVo(cafeListMapping.getCafe_seq(), cafeListMapping.getName(), cafeListMapping.getAddress(), cafeListMapping.getImage_url(), cafeListMapping.getDistance(), cafeListMapping.getTop_tag(), dessertTag, isOpen);
+    }
+
+    ///////////////////////////////////영업중 판단 method///////////////////////////////////
     private Boolean isBusinessOpen(String openingHour) {
         if (openingHour == null) {
             return null;
@@ -184,89 +263,4 @@ public class CafeFacade {
         return daySet.contains(today);
     }
     //////////////////////////////////////////////////////////////////////////
-
-    @Transactional
-    public CafeDetailVo cafeDetail(Long cafeSeq, Long memberSeq) {
-        CafeDetailVo cafeDetailVo = cafeService.cafeDetail(cafeSeq);
-
-        cafeDetailVo.setTag(cafeService.getCafeTag(cafeSeq));
-
-        // Todo : memberSeq가 유효한지 확인하는 로직 필요
-        if (cafeService.isCafeNotExist(cafeSeq)) {
-            throw new BaseException(NOT_VALID_CAFE);
-        }
-        cafeDetailVo.setBookmarked(cafeService.bookmarkCheck(cafeSeq, memberSeq));
-
-        return cafeDetailVo;
-    }
-
-    @Transactional
-    public void cafeBookmark(Long cafeSeq, Long memberSeq) {
-        // Todo : memberSeq가 유효한지 확인하는 로직 필요
-        if (cafeService.isCafeNotExist(cafeSeq)) {
-            throw new BaseException(NOT_VALID_CAFE);
-        }
-        cafeService.cafeBookmark(cafeSeq, memberSeq);
-    }
-
-    @Transactional
-    public void cafeBookmarkCancel(Long cafeSeq, Long memberSeq) {
-        // Todo : memberSeq가 유효한지 확인하는 로직 필요
-        if (cafeService.isCafeNotExist(cafeSeq)) {
-            throw new BaseException(NOT_VALID_CAFE);
-        }
-        cafeService.cafeBookmarkCancel(cafeSeq, memberSeq);
-    }
-
-    @Transactional
-    public List<CafeBookmarkListVo> cafeBookmarkList(Long memberSeq, Pageable pageable) {
-        // Todo : memberSeq가 유효한지 확인하는 로직 필요
-
-        List<CafeBookmarkListVo> list = new ArrayList<>();
-
-        Page<CafeSeqMapping> cafeSeqList = cafeService.bookmarkCafeSeqList(memberSeq, pageable);
-
-        for (CafeSeqMapping cafeSeqMapping : cafeSeqList) {
-            CafeBookmarkListMapping cafeBookmarkListMapping = cafeService.cafeBookmarkList(cafeSeqMapping.getCafeSeq());
-
-            List<String> tagList = cafeService.getCafeTag(cafeBookmarkListMapping.getCafeSeq());
-
-            List<String> dessertTag = cafeService.getDessertTag(cafeBookmarkListMapping.getCafeSeq());
-
-            String openingHour = cafeBookmarkListMapping.getOpeningHour();
-            Boolean isOpen = isBusinessOpen(openingHour);
-
-            CafeBookmarkListVo cafeBookmarkListVo = new CafeBookmarkListVo(cafeBookmarkListMapping.getCafeSeq(), cafeBookmarkListMapping.getName(), cafeBookmarkListMapping.getAddress(), cafeBookmarkListMapping.getImageUrl(), tagList, dessertTag, isOpen);
-            list.add(cafeBookmarkListVo);
-        }
-
-        return list;
-    }
-
-    public List<CafeListVo> cafeTagRecommendList(Long memberSeq, CurrentLocationDto currentLocationDto) {
-        // Todo : memberSeq가 유효한지 확인하는 로직 필요
-
-        // 사용자의 선호 태그 갖고오기
-        List<String> preferTag = new ArrayList<>();
-        preferTag.add("tag1");
-        preferTag.add("tag2");
-
-        List<CafeListMapping> cafeMappingList = cafeService.cafeTagRecommendList(preferTag, currentLocationDto);
-
-        List<CafeListVo> list = new ArrayList<>();
-
-        for (CafeListMapping cafeListMapping : cafeMappingList) {
-            List<String> tagList = cafeService.getCafeTag(cafeListMapping.getCafe_seq());
-
-            List<String> dessertTag = cafeService.getDessertTag(cafeListMapping.getCafe_seq());
-
-            String openingHour = cafeListMapping.getOpening_hour();
-            Boolean isOpen = isBusinessOpen(openingHour);
-
-            CafeListVo cafeListVo = new CafeListVo(cafeListMapping.getCafe_seq(), cafeListMapping.getName(), cafeListMapping.getAddress(), cafeListMapping.getImage_url(), cafeListMapping.getDistance(), tagList, dessertTag, isOpen);
-            list.add(cafeListVo);
-        }
-
-        return list;
-    }
 }
