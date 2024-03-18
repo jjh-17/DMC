@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import TheHeader from "../components/common/TheHeader";
 import TheFooter from "../components/common/TheFooter";
 
@@ -8,7 +8,11 @@ export default function RootLayout() {
   const location = useLocation();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (location.pathname === '/login') {
+      setShowHeader(false);
+    } else{
+      setShowHeader(true);
+    }
   }, [location]);
 
   return (
