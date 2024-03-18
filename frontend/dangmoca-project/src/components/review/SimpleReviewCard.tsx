@@ -38,7 +38,7 @@ const SimpleReviewCard = (review : Review) => {
           <button className="mr-2">수정</button>
           <button>삭제</button>
         </div>
-      </div>    
+      </div> 
     </div>
   );
 };

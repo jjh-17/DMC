@@ -11,6 +11,7 @@ import Bookmark from "../pages/mypage/Bookmark";
 import MyInfo from "../pages/mypage/MyInfo";
 import KakaoMain from "../pages/user/KakaoMain";
 import CafeDetail from "../pages/cafe/CafeDetail";
+import ReviewWrite from "../pages/review/ReviewWrite";
 
 const routes = createBrowserRouter([
   {
@@ -23,9 +24,10 @@ const routes = createBrowserRouter([
       { path: "mypage", element: <MyPage /> },
       { path: "myinfo", element: <MyInfo /> },
       { path: "my-reviews", element: <MyReview /> },
+      { path: "review-write", element: <ReviewWrite /> },
       { path: "bookmark", element: <Bookmark /> },
       { path: "cafetest", element: <CafeTest /> },
-      { path: "cafeDetailTest", element: <CafeDetail />},
+      { path: "cafeDetailTest", element: <CafeDetail /> },
       { path: "cafes", element: <CafeList />, children: [] },
     ],
   },
