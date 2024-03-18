@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function TheFooter() {
   const navigate = useNavigate();
-  const footerStyle = "fixed w-full bg-white inset-x-0 bottom-0 border-t-primary border-t-2 text-center flex flex-row justify-around";
+  const footerStyle = "fixed w-full bg-white inset-x-0 bottom-0 text-center flex flex-row justify-around";
   const footerButtonStyle = "inline-block m-2 p-1 flex flex-col items-center hover:mb-2 hover:-mt-0 hover:text-primary duration-300 hover:border-b-2 hover:border-primary";
   const labelStyle = "text-sm font-light"
 
@@ -16,7 +16,7 @@ export default function TheFooter() {
         <HomeIcon id='svgIcon2' />
         <label className={labelStyle}>HOME</label>
       </button>
-      <button className={footerButtonStyle} onClick={() => navigate('/cafes')}>
+      <button className={footerButtonStyle} onClick={() => navigate('/search')}>
         <SearchIcon id='svgIcon2' />
         <label className={labelStyle}>SEARCH</label>
       </button>

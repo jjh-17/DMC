@@ -1,5 +1,7 @@
 import Button from "../components/common/Button"
 import { useNavigate } from "react-router-dom";
+import MainLogo1 from '../assets/icons/logo1.svg?react';
+import MainLogo2 from '../assets/icons/logo2.svg?react';
 
 export default function MainPage() {
 
@@ -10,7 +12,10 @@ export default function MainPage() {
   };
 
   return (<div className="mx-auto flex flex-col items-center my-20 w-fit max-w-screen-sm gap-2">
-    <p id='test'>강원에듀체 테스트</p>
+    <h1>LOGO</h1>
+    <MainLogo1 />
+    <MainLogo2 />
+    <hr />
     <h1 id='test' className="text-5xl font-extrabold text-primary">당모카 DangMoCa</h1>
     <h1 id='test' className="text-4xl font-bold text-primary2">당모카 DangMoCa</h1>
     <h1 id='test' className="text-3xl font-normal text-primary3">당모카 DangMoCa</h1>
