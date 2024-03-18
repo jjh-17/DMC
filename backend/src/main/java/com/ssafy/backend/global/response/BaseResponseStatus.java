@@ -35,7 +35,7 @@ public enum BaseResponseStatus {
     /**
      * JWT 에러
      */
-    JWT_ERROR(false, 401, "엥"),
+    JWT_ERROR(false, 401, "인증 오류입니다."),
 
     /**
      * 5000 : 잡지 못 한 서버 오류
