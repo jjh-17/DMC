@@ -1,10 +1,20 @@
-import { Outlet } from "react-router-dom";
-import { useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import TheHeader from "../components/common/TheHeader";
 import TheFooter from "../components/common/TheFooter";
 
 export default function RootLayout() {
   const [showHeader, setShowHeader] = useState(true);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === '/login') {
+      setShowHeader(false);
+    } else{
+      setShowHeader(true);
+    }
+  }, [location]);
+
   return (
     <>
       {showHeader && <TheHeader textHeader={"당모카"}/>}      
