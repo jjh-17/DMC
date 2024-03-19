@@ -12,8 +12,7 @@ export default function MainPage() {
   };
 
   return (<div
-    className="mx-auto flex flex-col items-center w-full min-h-screen"
-  >
+    className="mx-auto flex flex-col items-center w-full min-h-screen pt-10">
     <h1>LOGO</h1>
     <MainLogo1 />
     <MainLogo2 />

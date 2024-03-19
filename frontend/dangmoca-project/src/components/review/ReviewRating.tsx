@@ -11,7 +11,7 @@ interface BeanIconProps {
 const BeanIcon = ({ onClick, onMouseEnter, type } : BeanIconProps) => {
   const Icon = type === 'full' ? FullBean : EmptyBean;
   return (
-    <button onClick={onClick} onMouseEnter={onMouseEnter} className="w-8 h-8">
+    <button onClick={onClick} onMouseEnter={onMouseEnter} className="w-[15lvw] h-[15lvw]">
       <Icon className="w-full h-full" />
     </button>
   );
@@ -45,7 +45,7 @@ export default function ReviewRating() {
   };
 
   return (
-    <div className="flex flex-row space-x-1" onMouseLeave={() => setHoverRating(rating)}>
+    <div className="flex flex-row items-center w-[50lvw] mx-auto" onMouseLeave={() => setHoverRating(rating)}>
       {renderBeans()}
     </div>
   );
