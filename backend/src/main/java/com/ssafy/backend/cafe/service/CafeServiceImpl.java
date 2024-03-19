@@ -1,10 +1,8 @@
 package com.ssafy.backend.cafe.service;
 
 
-import com.ssafy.backend.cafe.model.domain.Bookmark;
-import com.ssafy.backend.cafe.model.domain.CafeInfo;
-import com.ssafy.backend.cafe.model.domain.CafeMenu;
-import com.ssafy.backend.cafe.model.domain.TagCount;
+import com.ssafy.backend.cafe.model.domain.*;
+import com.ssafy.backend.cafe.model.dto.AddTagCountDto;
 import com.ssafy.backend.cafe.model.dto.CurrentLocationDto;
 import com.ssafy.backend.cafe.model.mapping.CafeBookmarkListMapping;
 import com.ssafy.backend.cafe.model.mapping.CafeListMapping;
@@ -17,11 +15,13 @@ import com.ssafy.backend.cafe.model.repository.TagCountRepository;
 import com.ssafy.backend.cafe.model.vo.CafeDetailVo;
 import com.ssafy.backend.cafe.model.vo.CafeMenuVo;
 import com.ssafy.backend.global.exception.BaseException;
+import com.ssafy.backend.global.util.TagUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.HTML;
 import java.util.*;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.*;
@@ -67,23 +67,21 @@ public class CafeServiceImpl implements CafeService {
 
     @Override
     public List<String> getCafeTag(Long cafeSeq) {
-        TagCount dmcTagCount = tagCountRepository.findByCafeSeqAndOwn(cafeSeq, true);
+        TagCount dmcTagCount = tagCountRepository.findById(new TagCountId(cafeSeq, true)).orElse(null);
+        TagCount platformTagCount = tagCountRepository.findById(new TagCountId(cafeSeq, false)).orElse(null);
+        Map<String, Long> tag = new HashMap<>();
 
-        if (dmcTagCount == null) {
-            return null;
+        if (dmcTagCount != null) {
+            TagUtil.tagPutUtil(tag, dmcTagCount);
+        }
+        if (platformTagCount != null) {
+            TagUtil.tagPutUtil(tag, platformTagCount);
         }
 
-        Map<String, Integer> tagCount = new HashMap<>();
-
-        tagCount.put("tag1", Integer.parseInt(dmcTagCount.getTag1()));
-        tagCount.put("tag2", Integer.parseInt(dmcTagCount.getTag2()));
-        tagCount.put("tag3", Integer.parseInt(dmcTagCount.getTag3()));
-        tagCount.put("tag4", Integer.parseInt(dmcTagCount.getTag4()));
-
         // Map의 값을 내림차순으로 정렬하고 상위 3개의 키를 추출한 List
-        return tagCount.entrySet()
+        return tag.entrySet()
                 .stream()
-                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
                 .limit(3)
                 .map(Map.Entry::getKey)
                 .toList();
@@ -235,4 +233,17 @@ public class CafeServiceImpl implements CafeService {
         return count;
     }
 
+    public void addTagCount(AddTagCountDto addTagCountDto) {
+        TagCountId id = new TagCountId(addTagCountDto.getCafeSeq(), addTagCountDto.isOwn());
+        TagCount tagCount = tagCountRepository.findById(id).orElse(null);
+        if (tagCount == null) {
+            tagCount = new TagCount(id, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+            tagCountRepository.save(tagCount);
+            tagCount = tagCountRepository.findById(id).orElseThrow(() -> (new BaseException(OOPS)));
+        }
+        for (String tagName : addTagCountDto.getTagList()) {
+            TagUtil.tagCountUtil(tagCount, tagName);
+        }
+        tagCountRepository.save(tagCount);
+    }
 }
