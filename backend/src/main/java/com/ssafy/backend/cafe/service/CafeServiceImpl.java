@@ -97,7 +97,7 @@ public class CafeServiceImpl implements CafeService {
 
         CafeInfo cafeInfo = cafeInfoOptional.get();
 
-        CafeDetailVo cafeDetailVo = new CafeDetailVo(cafeInfo.getCafeSeq(), cafeInfo.getName(), cafeInfo.getAddress(), cafeInfo.getImageUrl(), cafeInfo.getOpeningHour(), cafeInfo.getHomepageUrl(), cafeInfo.getUpdatedDate(), cafeInfo.getRating());
+        CafeDetailVo cafeDetailVo = new CafeDetailVo(cafeInfo.getCafeSeq(), cafeInfo.getName(), cafeInfo.getAddress(), cafeInfo.getImageUrl(), cafeInfo.getOpeningHour(), cafeInfo.getTopTag(), cafeInfo.getHomepageUrl(), cafeInfo.getUpdatedDate(), cafeInfo.getRating());
 
         return cafeDetailVo;
     }
@@ -161,10 +161,78 @@ public class CafeServiceImpl implements CafeService {
         if (cafeBookmarkListMapping == null) {
             throw new BaseException(NOT_VALID_CAFE);
         }
+
         return cafeBookmarkListMapping;
     }
 
     @Override
+    public List<CafeListMapping> cafeTagRecommendList(List<String> preferTag, CurrentLocationDto currentLocationDto) {
+        List<CafeListMapping> cafeListMappings = cafeInfoRepository.findAllIn500mOrderByDistance(currentLocationDto.getLatitude(), currentLocationDto.getLongitude());
+
+        PriorityQueue<CafeListMapping> cafeTagQueue = new PriorityQueue<>(Comparator
+                .comparingInt((CafeListMapping o) -> -getIntersectionCount(o.getTop_tag(), preferTag))
+                .thenComparingDouble(CafeListMapping::getDistance));
+
+        for (CafeListMapping cafeListMapping : cafeListMappings) {
+            cafeTagQueue.offer(cafeListMapping);
+        }
+
+        List<CafeListMapping> recommendedCafes = new ArrayList<>();
+
+        for (int i = 0; i < 5 && !cafeTagQueue.isEmpty(); i++) {
+            recommendedCafes.add(cafeTagQueue.poll());
+        }
+
+        return recommendedCafes;
+    }
+
+    @Override
+    public CafeListMapping cafeInfoRecommendList(Long cafeSeq, CurrentLocationDto currentLocationDto) {
+        return cafeInfoRepository.findByCafeSeqAndDistance(cafeSeq, currentLocationDto.getLatitude(), currentLocationDto.getLongitude());
+    }
+
+    @Override
+    public List<CafeListMapping> cafeRatingRecommendList(Long stdCafeSeq, CurrentLocationDto currentLocationDto) {
+        Optional<CafeInfo> cafeInfoOptional = cafeInfoRepository.findById(stdCafeSeq);
+
+        if (cafeInfoOptional.isEmpty()) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
+
+        String tag = cafeInfoOptional.get().getTopTag();
+
+        if (tag == null || tag.isEmpty()) {
+            throw new BaseException(NOT_VALID_TAG);
+        }
+
+        return cafeTagRecommendList(new ArrayList<>(Arrays.asList(tag.substring(1, tag.length() - 1).split(", ")))
+                , currentLocationDto);
+    }
+
+    @Override
+    public String getCafeName(Long stdCafeSeq) {
+        Optional<CafeInfo> cafeInfoOptional = cafeInfoRepository.findById(stdCafeSeq);
+
+        if (cafeInfoOptional.isEmpty()) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
+
+        return cafeInfoOptional.get().getName();
+    }
+
+    private int getIntersectionCount(String s1, List<String> tagList) {
+        String[] tokens = (s1 != null && s1.startsWith("[") && s1.endsWith("]"))
+                ? s1.substring(1, s1.length() - 1).split(", ")
+                : new String[0];
+        int count = 0;
+        for (String token : tokens) {
+            if (tagList.contains(token)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     public void addTagCount(AddTagCountDto addTagCountDto) {
         TagCountId id = new TagCountId(addTagCountDto.getCafeSeq(), addTagCountDto.isOwn());
         TagCount tagCount = tagCountRepository.findById(id).orElse(null);
