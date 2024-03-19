@@ -22,6 +22,8 @@ public enum BaseResponseStatus {
     NOT_VALID_CAFE(false, 400, "존재하지 않는 카페입니다."),
     EXIST_BOOKMARK(false, 400, "이미 북마크한 카페입니다."),
     NOT_VALID_BOOKMARK_CANCEL(false, 400, "이미 취소한 북마크입니다."),
+    NO_FIVE_STAR_REVIEW(false, 400, "5점을 준 리뷰가 없습니다."),
+    NOT_VALID_TAG(false, 400, "카페의 태그가 존재하지 않습니다."),
 
 
     /**
