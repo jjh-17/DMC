@@ -30,7 +30,7 @@ public interface CafeInfoRepository extends JpaRepository<CafeInfo, Long> {
     @Query(nativeQuery = true, value = listDefaultQuery + whereQuery + orderQuery)
     Page<CafeListMapping> findAllIn500mOrderByDistance(@Param("latitude") double latitude, @Param("longitude") double longitude, Pageable pageable);
 
-    @Query(nativeQuery = true, value = listDefaultQuery + whereQuery + searchByNameQuery + " UNION " + listDefaultQuery + searchByAddrQuery + orderQuery)
+    @Query(nativeQuery = true, value = listDefaultQuery + whereQuery + searchByNameQuery + " UNION " + listDefaultQuery + whereQuery + searchByAddrQuery + orderQuery)
     Page<CafeListMapping> findAllIn500mLikeKeywordOrderByDistance(@Param("latitude") double latitude, @Param("longitude") double longitude, @Param("keyword") String keyword, Pageable pageable);
 
     CafeBookmarkListMapping findByCafeSeq(Long cafeSeq);

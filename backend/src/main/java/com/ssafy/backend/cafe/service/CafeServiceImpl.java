@@ -103,6 +103,10 @@ public class CafeServiceImpl implements CafeService {
 
     @Override
     public List<CafeMenuVo> cafeMenuDetail(Long cafeSeq) {
+        if (isCafeNotExist(cafeSeq)) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
+
         List<CafeMenu> menuList = cafeMenuRepository.findByCafeSeq(cafeSeq);
 
         List<CafeMenuVo> list = new ArrayList<>();
