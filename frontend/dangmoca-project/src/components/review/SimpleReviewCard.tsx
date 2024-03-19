@@ -14,11 +14,9 @@ interface Review {
 
 const SimpleReviewCard = (review: Review) => {
   return (
-    <div className="min-w-screen max-w-[600px] flex flex-col gap-4 border-b-[1px] border-slate-500 mx-auto p-6">
-      <div className="flex justify-between items-center p-2">
-        <h2 className="text-3xl">{review.name}</h2>
-        <p className="mr-0 font-light text-slate-600">{review.createdDate}</p>
-      </div>
+    <div className="min-w-screen max-w-[600px] flex flex-col gap-2 mx-auto p-6 shadow-md">
+      <h2 className="text-2xl whitespace-nowrap">{review.name}</h2>
+      <p className="mr-0 font-light text-sm text-slate-600 whitespace-nowrap">{review.createdDate}</p>
       {/* 이미지 리스트 */}
       {review.image.length > 0 && (
         <div className="flex overflow-x-auto my-2 no-scroll px-3 py-4 w-full">
@@ -28,7 +26,7 @@ const SimpleReviewCard = (review: Review) => {
           ))}
         </div>
       )}
-      <div className='p-4'>
+      <div className='p-2'>
         <p className='whitespace-pre-wrap mb-2'>
           {review.content}
         </p>
