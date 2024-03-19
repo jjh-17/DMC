@@ -93,9 +93,7 @@ public class ReviewController {
         AddReviewDto addReviewDto = new AddReviewDto(memberSeq, cafeSeq, (String) body.get("content"), (List<String>) body.get("tag"), (Integer) body.get("rating"));
         List<String> imageUrls = (List<String>) body.get("imageUrls");
         List<String> tagList = addReviewDto.getTag();
-
         reviewFacade.addReview(addReviewDto, imageUrls, tagList);
-
         return new BaseResponse<>(SUCCESS);
     }
 
@@ -108,7 +106,8 @@ public class ReviewController {
         Long memberSeq = 1L;
         UpdateReviewDto updateReviewDto = new UpdateReviewDto(reviewSeq, memberSeq, (String) body.get("content"), (List<String>) body.get("tag"), (Integer) body.get("rating"));
         List<String> imageUrls = (List<String>) body.get("imageUrls");
-        reviewFacade.updateReview(updateReviewDto, imageUrls);
+        List<String> newTagList = updateReviewDto.getTag();
+        reviewFacade.updateReview(updateReviewDto, imageUrls, newTagList);
         return new BaseResponse<>(SUCCESS);
     }
 

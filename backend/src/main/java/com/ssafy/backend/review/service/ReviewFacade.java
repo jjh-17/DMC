@@ -5,6 +5,7 @@ import com.ssafy.backend.cafe.service.CafeService;
 import com.ssafy.backend.review.model.domain.LikeReview;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;
+import com.ssafy.backend.review.model.vo.UpdateReviewVo;
 import com.ssafy.backend.review.model.vo.ViewReviewVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,18 +57,14 @@ public class ReviewFacade {
     @Transactional
     public void addReview(AddReviewDto addeReviewDto, List<String> imageUrls, List<String> tagList) {
         Long reviewSeq = reviewService.addReview(addeReviewDto);
-        if (imageUrls != null) {
-            reviewService.addReviewImage(reviewSeq, imageUrls);
-        }
-        if (tagList != null) {
-            cafeService.addTagCount(new AddTagCountDto(addeReviewDto.getCafeSeq(), true, tagList));
-        }
-
+        if (imageUrls != null) reviewService.addReviewImage(reviewSeq, imageUrls);
+        cafeService.addTagCount(new AddTagCountDto(addeReviewDto.getCafeSeq(), true, tagList));
     }
 
     @Transactional
-    public void updateReview(UpdateReviewDto updateReviewDto, List<String> imageUrls) {
-        reviewService.updateReview(updateReviewDto);
+    public void updateReview(UpdateReviewDto updateReviewDto, List<String> imageUrls, List<String> newTagList) {
+        UpdateReviewVo updateReviewVo = reviewService.updateReview(updateReviewDto);
         reviewService.updateReviewImage(updateReviewDto.getReviewSeq(), imageUrls);
+        cafeService.updateReviewTag(updateReviewVo, newTagList);
     }
 }
