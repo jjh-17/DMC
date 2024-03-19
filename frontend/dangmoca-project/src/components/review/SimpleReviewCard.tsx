@@ -1,4 +1,5 @@
 import ThumbUp from '../../assets/icons/thumbup.svg?react'
+import { useDragScroll } from '../../utils/useDragScroll';
 
 interface Review {
   reviewSeq: number;
@@ -13,6 +14,8 @@ interface Review {
 }
 
 const SimpleReviewCard = (review: Review) => {
+  const [ref] = useDragScroll();
+  
   return (
     <div className="min-w-screen max-w-[600px] flex flex-col gap-4 border-b-[1px] border-slate-500 mx-auto p-6">
       <div className="flex justify-between items-center p-2">
@@ -21,7 +24,7 @@ const SimpleReviewCard = (review: Review) => {
       </div>
       {/* 이미지 리스트 */}
       {review.image.length > 0 && (
-        <div className="flex overflow-x-auto my-2 no-scroll px-3 py-4 w-full">
+        <div ref={ref} className="flex overflow-x-auto my-2 no-scroll px-3 py-4 w-full">
           {review.image.map((img, index) => (
             <img key={index} src={img} alt={`Review ${review.reviewSeq} Image ${index}`}
               className="w-32 h-32 mr-2 object-cover" />
