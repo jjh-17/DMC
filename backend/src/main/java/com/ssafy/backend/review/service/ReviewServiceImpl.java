@@ -1,6 +1,7 @@
 package com.ssafy.backend.review.service;
 
 import com.ssafy.backend.global.exception.BaseException;
+import com.ssafy.backend.global.util.TagUtil;
 import com.ssafy.backend.review.model.domain.DangmocaReview;
 import com.ssafy.backend.review.model.domain.LikeReview;
 import com.ssafy.backend.review.model.domain.ReviewImage;
@@ -11,6 +12,7 @@ import com.ssafy.backend.review.model.mapping.CafeSeqMapping;
 import com.ssafy.backend.review.model.repository.DangmocaReviewRepository;
 import com.ssafy.backend.review.model.repository.LikeReviewRepository;
 import com.ssafy.backend.review.model.repository.ReviewImageRepository;
+import com.ssafy.backend.review.model.vo.UpdateReviewVo;
 import com.ssafy.backend.review.model.vo.ViewReviewVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -106,7 +108,7 @@ public class ReviewServiceImpl implements ReviewService {
                         .memberSeq(addReviewDto.getMemberSeq())
                         .cafeSeq(addReviewDto.getCafeSeq())
                         .content(addReviewDto.getContent())
-                        .tag(tagsToString(addReviewDto.getTag()))
+                        .tag(TagUtil.tagsToString(addReviewDto.getTag()))
                         .createdDate(addReviewDto.getCreatedDate())
                         .rating(addReviewDto.getRating())
                         .isDeleted(addReviewDto.isDeleted())
@@ -128,13 +130,15 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void updateReview(UpdateReviewDto updateReviewDto) {
+    public UpdateReviewVo updateReview(UpdateReviewDto updateReviewDto) {
         DangmocaReview dangmocaReview = dangmocaReviewRepository.findById(updateReviewDto.getReviewSeq()).orElseThrow(() -> new BaseException(NOT_EXIST_REVIEW));
         if (dangmocaReview.getMemberSeq() != updateReviewDto.getMemberSeq()) {
             throw new BaseException(NO_SAME_USER);
         }
-        dangmocaReview.updateReview(updateReviewDto.getContent(), tagsToString(updateReviewDto.getTag()), updateReviewDto.getRating(), updateReviewDto.getUpdatedDate());
+        UpdateReviewVo updateReviewVo = new UpdateReviewVo(dangmocaReview.getCafeSeq(), dangmocaReview.getTag());
+        dangmocaReview.updateReview(updateReviewDto.getContent(), TagUtil.tagsToString(updateReviewDto.getTag()), updateReviewDto.getRating(), updateReviewDto.getUpdatedDate());
         dangmocaReviewRepository.save(dangmocaReview);
+        return updateReviewVo;
     }
 
     @Override
@@ -149,10 +153,11 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void deleteReview(Long reviewSeq) {
+    public DangmocaReview deleteReview(Long reviewSeq) {
         DangmocaReview dangmocaReview = dangmocaReviewRepository.findById(reviewSeq).orElseThrow(() -> new BaseException(NOT_EXIST_REVIEW));
         dangmocaReview.deleteReview();
         dangmocaReviewRepository.save(dangmocaReview);
+        return dangmocaReview;
     }
 
     @Override
@@ -181,11 +186,4 @@ public class ReviewServiceImpl implements ReviewService {
         return cafeSeqMappings.get(randomIndex).getCafeSeq();
     }
 
-    private String tagsToString(List<String> tags) {
-        if (tags == null) {
-            return null;
-        } else {
-            return tags.toString();
-        }
-    }
 }

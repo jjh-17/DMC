@@ -1,9 +1,11 @@
 package com.ssafy.backend.review.service;
 
+import com.ssafy.backend.review.model.domain.DangmocaReview;
 import com.ssafy.backend.review.model.domain.LikeReview;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.LikeReivewDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;
+import com.ssafy.backend.review.model.vo.UpdateReviewVo;
 import com.ssafy.backend.review.model.vo.ViewReviewVo;
 
 import java.util.List;
@@ -29,11 +31,11 @@ public interface ReviewService {
 
     void addReviewImage(Long reviewSeq, List<String> images);
 
-    void updateReview(UpdateReviewDto updateReviewDto);
+    UpdateReviewVo updateReview(UpdateReviewDto updateReviewDto);
 
     void updateReviewImage(Long reviewSeq, List<String> imageUrls);
 
-    void deleteReview(Long reviewSeq);
+    DangmocaReview deleteReview(Long reviewSeq);
 
     List<Long> getFiveStarCafeList(List<Long> memberSeqList);
 

@@ -16,6 +16,7 @@ import com.ssafy.backend.cafe.model.vo.CafeDetailVo;
 import com.ssafy.backend.cafe.model.vo.CafeMenuVo;
 import com.ssafy.backend.global.exception.BaseException;
 import com.ssafy.backend.global.util.TagUtil;
+import com.ssafy.backend.review.model.vo.UpdateReviewVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -244,9 +245,41 @@ public class CafeServiceImpl implements CafeService {
             tagCountRepository.save(tagCount);
             tagCount = tagCountRepository.findById(id).orElseThrow(() -> (new BaseException(OOPS)));
         }
-        for (String tagName : addTagCountDto.getTagList()) {
-            TagUtil.tagCountUtil(tagCount, tagName);
+        if (addTagCountDto.getTagList() != null) {
+            for (String tagName : addTagCountDto.getTagList()) {
+                TagUtil.tagCountUpUtil(tagCount, tagName);
+            }
         }
         tagCountRepository.save(tagCount);
     }
+
+    @Override
+    public void updateReviewTag(UpdateReviewVo updateReviewVo, List<String> newTagList) {
+        TagCountId id = new TagCountId(updateReviewVo.getCafeSeq(), true);
+        TagCount tagCount = tagCountRepository.findById(id).orElseThrow(()->new BaseException(OOPS));
+        List<String> originTagList = TagUtil.tagsToList(updateReviewVo.getOriginTag());
+        if (originTagList != null) {
+            for (String tagName: originTagList) {
+                TagUtil.tagCountDownUtil(tagCount, tagName);
+            }
+        }
+        if (newTagList != null) {
+            for (String tagName: newTagList) {
+                TagUtil.tagCountUpUtil(tagCount, tagName);
+            }
+        }
+        tagCountRepository.save(tagCount);
+    }
+
+    @Override
+    public void deleteTagCount(Long cafeSeq, String tags) {
+        TagCountId id = new TagCountId(cafeSeq, true);
+        TagCount tagCount = tagCountRepository.findById(id).orElseThrow(()->new BaseException(OOPS));
+        List<String> tagList = TagUtil.tagsToList(tags);
+        for (String tagName : tagList) {
+            TagUtil.tagCountDownUtil(tagCount, tagName);
+        }
+        tagCountRepository.save(tagCount);
+    }
+
 }
