@@ -11,5 +11,7 @@ public interface CafeListMapping {
 
     String getOpening_hour();
 
+    String getTop_tag();
+
     double getDistance();
 }

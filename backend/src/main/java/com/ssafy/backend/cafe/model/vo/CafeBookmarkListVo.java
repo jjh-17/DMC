@@ -4,8 +4,8 @@ import java.util.List;
 
 public class CafeBookmarkListVo {
     private Long cafeSeq;
-    private String name, address, imageUrl;
-    private List<String> tag, dessertTag;
+    private String name, tag, address, imageUrl;
+    private List<String> dessertTag;
     private Boolean isOpen;
 
     public CafeBookmarkListVo(Long cafeSeq, String name, String address, String imageUrl) {
@@ -15,12 +15,12 @@ public class CafeBookmarkListVo {
         setImageUrl(imageUrl);
     }
 
-    public CafeBookmarkListVo(Long cafeSeq, String name, String address, String imageUrl, List<String> tagList, List<String> dessertTag, Boolean isOpen) {
+    public CafeBookmarkListVo(Long cafeSeq, String name, String address, String imageUrl, String tag, List<String> dessertTag, Boolean isOpen) {
         setCafeSeq(cafeSeq);
         setName(name);
         setAddress(address);
         setImageUrl(imageUrl);
-        setTag(tagList);
+        setTag(tag);
         setDessertTag(dessertTag);
         setOpen(isOpen);
     }
@@ -57,11 +57,11 @@ public class CafeBookmarkListVo {
         this.imageUrl = imageUrl;
     }
 
-    public List<String> getTag() {
+    public String getTag() {
         return tag;
     }
 
-    public void setTag(List<String> tag) {
+    public void setTag(String tag) {
         this.tag = tag;
     }
 

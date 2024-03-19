@@ -100,4 +100,15 @@ public class CafeController {
         return new BaseResponse<>(SUCCESS, list);
     }
 
+    // 나와 선호 태그가 같은 사용자가 5점을 준 카페 5개 반환
+    @GetMapping("myinfo")
+    public BaseResponse<?> cafeInfoRecommend(HttpServletRequest request, @RequestBody CurrentLocationDto currentLocationDto) {
+//        Long memberSeq = (Long) request.getAttribute("seq");
+        Long memberSeq = 1L;
+
+        List<CafeListVo> list = cafeFacade.cafeInfoRecommendList(memberSeq, currentLocationDto);
+
+        return new BaseResponse<>(SUCCESS, list);
+    }
+
 }

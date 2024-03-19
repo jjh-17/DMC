@@ -35,4 +35,8 @@ public interface CafeService {
     Page<CafeSeqMapping> bookmarkCafeSeqList(Long memberSeq, Pageable pageable);
 
     CafeBookmarkListMapping cafeBookmarkList(Long cafeSeq);
+
+    List<CafeListMapping> cafeTagRecommendList(List<String> preferTag, CurrentLocationDto currentLocationDto);
+
+    CafeListMapping cafeInfoRecommendList(Long cafeSeq, CurrentLocationDto currentLocationDto);
 }

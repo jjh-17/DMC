@@ -163,7 +163,47 @@ public class CafeServiceImpl implements CafeService {
         if (cafeBookmarkListMapping == null) {
             throw new BaseException(NOT_VALID_CAFE);
         }
+
         return cafeBookmarkListMapping;
+    }
+
+    @Override
+    public List<CafeListMapping> cafeTagRecommendList(List<String> preferTag, CurrentLocationDto currentLocationDto) {
+        List<CafeListMapping> cafeListMappings = cafeInfoRepository.findAllIn500mOrderByDistance(currentLocationDto.getLatitude(), currentLocationDto.getLongitude());
+
+        PriorityQueue<CafeListMapping> cafeTagQueue = new PriorityQueue<>(Comparator
+                .comparingInt((CafeListMapping o) -> -getIntersectionCount(o.getTop_tag(), preferTag))
+                .thenComparingDouble(CafeListMapping::getDistance));
+
+        for (CafeListMapping cafeListMapping : cafeListMappings) {
+            cafeTagQueue.offer(cafeListMapping);
+        }
+
+        List<CafeListMapping> recommendedCafes = new ArrayList<>();
+
+        for (int i = 0; i < 5 && !cafeTagQueue.isEmpty(); i++) {
+            recommendedCafes.add(cafeTagQueue.poll());
+        }
+
+        return recommendedCafes;
+    }
+
+    @Override
+    public CafeListMapping cafeInfoRecommendList(Long cafeSeq, CurrentLocationDto currentLocationDto) {
+        return cafeInfoRepository.findByCafeSeqAndDistance(cafeSeq, currentLocationDto.getLatitude(), currentLocationDto.getLongitude());
+    }
+
+    private int getIntersectionCount(String s1, List<String> tagList) {
+        String[] tokens = (s1 != null && s1.startsWith("[") && s1.endsWith("]"))
+                ? s1.substring(1, s1.length() - 1).split(", ")
+                : new String[0];
+        int count = 0;
+        for (String token : tokens) {
+            if (tagList.contains(token)) {
+                count++;
+            }
+        }
+        return count;
     }
 
 }
