@@ -11,7 +11,9 @@ export default function MainPage() {
     navigate('/login')
   };
 
-  return (<div className="mx-auto flex flex-col items-center my-20 w-fit max-w-screen-sm gap-2">
+  return (<div
+    className="mx-auto flex flex-col items-center w-full min-h-screen"
+  >
     <h1>LOGO</h1>
     <MainLogo1 />
     <MainLogo2 />
