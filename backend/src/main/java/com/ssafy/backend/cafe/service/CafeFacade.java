@@ -61,8 +61,6 @@ public class CafeFacade {
     public CafeDetailVo cafeDetail(Long cafeSeq, Long memberSeq) {
         CafeDetailVo cafeDetailVo = cafeService.cafeDetail(cafeSeq);
 
-        cafeDetailVo.setTag(cafeService.getCafeTag(cafeSeq));
-
         if (memberService.isMemberNotExist(memberSeq)) {
             throw new BaseException(NOT_EXIST_USER);
         }
@@ -129,8 +127,10 @@ public class CafeFacade {
 
     @Transactional
     public List<CafeListVo> cafeTagRecommendList(Long memberSeq, CurrentLocationDto currentLocationDto) {
+        // 나의 선호 태그 갖고오고
         List<String> preferTag = memberService.getPreferTag(memberSeq);
 
+        // 해당 선호 태그를 포함한 카페 교집합 많은 순, 거리 순으로 가져옴
         List<CafeListMapping> cafeMappingList = cafeService.cafeTagRecommendList(preferTag, currentLocationDto);
 
         List<CafeListVo> list = new ArrayList<>();
@@ -144,10 +144,13 @@ public class CafeFacade {
 
     @Transactional
     public List<CafeListVo> cafeInfoRecommendList(Long memberSeq, CurrentLocationDto currentLocationDto) {
+        // 나와 비슷한 사용자들 가져옴
         List<Long> memberSeqList = memberService.getSimilarMemberList(memberSeq);
 
+        // 해당 사용자들이 5점을 준 카페들 가져옴
         List<Long> cafeSeqList = reviewService.getFiveStarCafeList(memberSeqList);
 
+        // 그 중 랜덤으로 5개 return
         Collections.shuffle(cafeSeqList);
         List<CafeListVo> list = new ArrayList<>();
         for (Long cafeSeq : cafeSeqList) {
@@ -173,6 +176,10 @@ public class CafeFacade {
         // 내가 5점을 준 카페 seq 중 랜덤 하나 갖고오기
         Long stdCafeSeq = reviewService.getFiveStarCafe(memberSeq);
 
+        // 랜덤으로 갖고온 카페의 이름
+        String name = cafeService.getCafeName(stdCafeSeq);
+        resultMap.put("name", name);
+
         // 해당 카페와 상위 3개 태그가 일치하는 순으로 가져오기
         List<CafeListMapping> cafeMappingList = cafeService.cafeRatingRecommendList(stdCafeSeq, currentLocationDto);
 
@@ -183,9 +190,6 @@ public class CafeFacade {
         }
 
         resultMap.put("list", list);
-
-        String name = cafeService.getCafeName(stdCafeSeq);
-        resultMap.put("name", name);
 
         return resultMap;
     }

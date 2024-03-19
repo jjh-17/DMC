@@ -60,7 +60,7 @@ public class CafeController {
         return new BaseResponse<>(SUCCESS, list);
     }
 
-    // 카페 북마크
+    // 카페 북마크 하기
     @PostMapping("{cafeSeq}/bookmark")
     public BaseResponse<?> cafeBookmark(HttpServletRequest request, @PathVariable Long cafeSeq) {
 //        Long memberSeq = (Long) request.getAttribute("seq");
