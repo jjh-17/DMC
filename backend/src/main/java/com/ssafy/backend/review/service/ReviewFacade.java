@@ -2,6 +2,7 @@ package com.ssafy.backend.review.service;
 
 import com.ssafy.backend.cafe.model.dto.AddTagCountDto;
 import com.ssafy.backend.cafe.service.CafeService;
+import com.ssafy.backend.review.model.domain.DangmocaReview;
 import com.ssafy.backend.review.model.domain.LikeReview;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;
@@ -66,5 +67,11 @@ public class ReviewFacade {
         UpdateReviewVo updateReviewVo = reviewService.updateReview(updateReviewDto);
         reviewService.updateReviewImage(updateReviewDto.getReviewSeq(), imageUrls);
         cafeService.updateReviewTag(updateReviewVo, newTagList);
+    }
+
+    @Transactional
+    public void deleteReview(Long reviewSeq) {
+        DangmocaReview deletedReview = reviewService.deleteReview(reviewSeq);
+        if (deletedReview.getTag() != null) cafeService.deleteTagCount(deletedReview.getCafeSeq(), deletedReview.getTag());
     }
 }

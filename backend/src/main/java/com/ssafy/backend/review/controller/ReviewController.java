@@ -117,7 +117,7 @@ public class ReviewController {
     @DeleteMapping("/cafe/{reviewid}")
     public BaseResponse<?> deleteReview(@PathVariable("reviewid") Long reviewSeq) {
         // Long membersSeq = (Long) request.getAttribute("seq");
-        reviewService.deleteReview(reviewSeq);
+        reviewFacade.deleteReview(reviewSeq);
         return new BaseResponse<>(SUCCESS);
     }
 

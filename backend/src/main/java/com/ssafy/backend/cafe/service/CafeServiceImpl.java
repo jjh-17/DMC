@@ -256,8 +256,8 @@ public class CafeServiceImpl implements CafeService {
     @Override
     public void updateReviewTag(UpdateReviewVo updateReviewVo, List<String> newTagList) {
         TagCountId id = new TagCountId(updateReviewVo.getCafeSeq(), true);
-        List<String> originTagList = TagUtil.tagsToList(updateReviewVo.getOriginTag());
         TagCount tagCount = tagCountRepository.findById(id).orElseThrow(()->new BaseException(OOPS));
+        List<String> originTagList = TagUtil.tagsToList(updateReviewVo.getOriginTag());
         if (originTagList != null) {
             for (String tagName: originTagList) {
                 TagUtil.tagCountDownUtil(tagCount, tagName);
@@ -267,6 +267,17 @@ public class CafeServiceImpl implements CafeService {
             for (String tagName: newTagList) {
                 TagUtil.tagCountUpUtil(tagCount, tagName);
             }
+        }
+        tagCountRepository.save(tagCount);
+    }
+
+    @Override
+    public void deleteTagCount(Long cafeSeq, String tags) {
+        TagCountId id = new TagCountId(cafeSeq, true);
+        TagCount tagCount = tagCountRepository.findById(id).orElseThrow(()->new BaseException(OOPS));
+        List<String> tagList = TagUtil.tagsToList(tags);
+        for (String tagName : tagList) {
+            TagUtil.tagCountDownUtil(tagCount, tagName);
         }
         tagCountRepository.save(tagCount);
     }

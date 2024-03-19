@@ -47,5 +47,8 @@ public interface CafeService {
     String getCafeName(Long stdCafeSeq);
 
     void addTagCount(AddTagCountDto addTagCountDto);
+
     void updateReviewTag(UpdateReviewVo updateReviewVo, List<String> tagList);
+
+    void deleteTagCount(Long cafeSeq, String tags);
 }
