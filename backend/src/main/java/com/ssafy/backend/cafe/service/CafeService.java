@@ -7,6 +7,7 @@ import com.ssafy.backend.cafe.model.mapping.CafeListMapping;
 import com.ssafy.backend.cafe.model.mapping.CafeSeqMapping;
 import com.ssafy.backend.cafe.model.vo.CafeDetailVo;
 import com.ssafy.backend.cafe.model.vo.CafeMenuVo;
+import com.ssafy.backend.review.model.vo.UpdateReviewVo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -46,4 +47,5 @@ public interface CafeService {
     String getCafeName(Long stdCafeSeq);
 
     void addTagCount(AddTagCountDto addTagCountDto);
+    void updateReviewTag(UpdateReviewVo updateReviewVo, List<String> tagList);
 }
