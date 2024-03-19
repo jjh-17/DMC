@@ -235,8 +235,7 @@ public class CafeServiceImpl implements CafeService {
         }
         return count;
     }
-
-
+    
     public void addTagCount(AddTagCountDto addTagCountDto) {
         TagCountId id = new TagCountId(addTagCountDto.getCafeSeq(), addTagCountDto.isOwn());
         TagCount tagCount = tagCountRepository.findById(id).orElse(null);
