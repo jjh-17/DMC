@@ -51,11 +51,11 @@ export default function CafeSearch() {
     };
 
     return (
-        <div className="mx-10 font-light">
+        <div className="mx-10 font-light pt-10">
             <form onSubmit={submitKeyword}>
                 <SearchIcon id="svgIcon" />
                 <input
-                    className="shadow-sm m-4 w-[60lvw] h-10 p-2 focus:border-[1px] focus:border-slate-200"
+                    className="shadow-sm m-4 w-[60lvw] lg:w-[50lvw] h-10 p-2 focus:border-[1px] focus:border-slate-200"
                     placeholder="검색어를 입력하세요"
                     value={keyword}
                     onChange={handleInputChange}

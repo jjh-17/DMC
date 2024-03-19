@@ -16,9 +16,9 @@ export default function RootLayout() {
   }, [location]);
 
   return (
-    <div className="w-full h-full min-h-screen bg-primary">
+    <div className="w-full h-full min-h-screen bg-primary ">
     {showHeader && <TheHeader textHeader={"당모카"}/>}      
-      <div className="mt-12 mx-auto mb-20 bg-white lg:max-w-[70lvw] min-h-screen"> {/* header, footer 길이만큼 margin */}
+      <div className="mx-auto mb-[68px] bg-white lg:max-w-[70lvw] min-h-screen"> {/* header, footer 길이만큼 margin */}
         <Outlet />
       </div>
       <TheFooter />

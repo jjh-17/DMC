@@ -54,7 +54,7 @@ export default function Bookmark() {
     },
   ];
   return (
-    <div className="w-fit mx-auto">
+    <div className="w-fit mx-auto pt-10">
       <div className="flex flex-col">
         {cafedummydata.map((cafe) => (
           <div key={cafe.cafeSeq}>

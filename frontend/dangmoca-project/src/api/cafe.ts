@@ -1,16 +1,16 @@
 import { defaultAxios } from "./AuthCommon";
 // import { authAxios } from "./AuthCommon";
 
-interface Cafe {
-    cafeSeq: number;
-    name: string;
-    distance: string;
-    address: string;
-    tag: string[];
-    isOpen: boolean;
-    dessertTag: string[];
-    imageUrl: string;
-}
+// interface Cafe {
+//     cafeSeq: number;
+//     name: string;
+//     distance: string;
+//     address: string;
+//     tag: string[];
+//     isOpen: boolean;
+//     dessertTag: string[];
+//     imageUrl: string;
+// }
 
 let latitude = 0;
 let longitude = 0;
@@ -45,6 +45,16 @@ export const getCafeRecommendList = async () => {
 export const getCafeDetail = async (id: number) => {
     try {
         const response = await defaultAxios.get(`/cafes/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+export const getCafeMenu = async (id: number) => {
+    try {
+        const response = await defaultAxios.get(`/cafes/${id}/menus`);
         return response.data;
     } catch (error) {
         console.error(error);
