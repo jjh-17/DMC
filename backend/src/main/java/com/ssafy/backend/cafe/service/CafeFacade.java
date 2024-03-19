@@ -81,9 +81,11 @@ public class CafeFacade {
         if (memberService.isMemberNotExist(memberSeq)) {
             throw new BaseException(NOT_EXIST_USER);
         }
+
         if (cafeService.isCafeNotExist(cafeSeq)) {
             throw new BaseException(NOT_VALID_CAFE);
         }
+
         cafeService.cafeBookmark(cafeSeq, memberSeq);
     }
 
@@ -92,9 +94,11 @@ public class CafeFacade {
         if (memberService.isMemberNotExist(memberSeq)) {
             throw new BaseException(NOT_EXIST_USER);
         }
+
         if (cafeService.isCafeNotExist(cafeSeq)) {
             throw new BaseException(NOT_VALID_CAFE);
         }
+
         cafeService.cafeBookmarkCancel(cafeSeq, memberSeq);
     }
 
@@ -103,6 +107,7 @@ public class CafeFacade {
         if (memberService.isMemberNotExist(memberSeq)) {
             throw new BaseException(NOT_EXIST_USER);
         }
+
         List<CafeBookmarkListVo> list = new ArrayList<>();
 
         Page<CafeSeqMapping> cafeSeqList = cafeService.bookmarkCafeSeqList(memberSeq, pageable);
@@ -154,6 +159,35 @@ public class CafeFacade {
         }
 
         return list;
+    }
+
+
+    @Transactional
+    public Map<String, Object> cafeRatingRecommendList(Long memberSeq, CurrentLocationDto currentLocationDto) {
+        if (memberService.isMemberNotExist(memberSeq)) {
+            throw new BaseException(NOT_EXIST_USER);
+        }
+
+        Map<String, Object> resultMap = new HashMap<>();
+
+        // 내가 5점을 준 카페 seq 중 랜덤 하나 갖고오기
+        Long stdCafeSeq = reviewService.getFiveStarCafe(memberSeq);
+
+        // 해당 카페와 상위 3개 태그가 일치하는 순으로 가져오기
+        List<CafeListMapping> cafeMappingList = cafeService.cafeRatingRecommendList(stdCafeSeq, currentLocationDto);
+
+        List<CafeListVo> list = new ArrayList<>();
+
+        for (CafeListMapping cafeListMapping : cafeMappingList) {
+            list.add(convertMappingToVo(cafeListMapping));
+        }
+
+        resultMap.put("list", list);
+
+        String name = cafeService.getCafeName(stdCafeSeq);
+        resultMap.put("name", name);
+
+        return resultMap;
     }
 
 

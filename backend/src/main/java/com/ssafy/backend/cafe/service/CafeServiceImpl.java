@@ -193,6 +193,35 @@ public class CafeServiceImpl implements CafeService {
         return cafeInfoRepository.findByCafeSeqAndDistance(cafeSeq, currentLocationDto.getLatitude(), currentLocationDto.getLongitude());
     }
 
+    @Override
+    public List<CafeListMapping> cafeRatingRecommendList(Long stdCafeSeq, CurrentLocationDto currentLocationDto) {
+        Optional<CafeInfo> cafeInfoOptional = cafeInfoRepository.findById(stdCafeSeq);
+
+        if (cafeInfoOptional.isEmpty()) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
+
+        String tag = cafeInfoOptional.get().getTopTag();
+
+        if (tag == null || tag.isEmpty()) {
+            throw new BaseException(NOT_VALID_TAG);
+        }
+
+        return cafeTagRecommendList(new ArrayList<>(Arrays.asList(tag.substring(1, tag.length() - 1).split(", ")))
+                , currentLocationDto);
+    }
+
+    @Override
+    public String getCafeName(Long stdCafeSeq) {
+        Optional<CafeInfo> cafeInfoOptional = cafeInfoRepository.findById(stdCafeSeq);
+
+        if (cafeInfoOptional.isEmpty()) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
+
+        return cafeInfoOptional.get().getName();
+    }
+
     private int getIntersectionCount(String s1, List<String> tagList) {
         String[] tokens = (s1 != null && s1.startsWith("[") && s1.endsWith("]"))
                 ? s1.substring(1, s1.length() - 1).split(", ")

@@ -18,9 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_EXIST_REVIEW;
-import static com.ssafy.backend.global.response.BaseResponseStatus.NO_SAME_USER;
+import static com.ssafy.backend.global.response.BaseResponseStatus.*;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
@@ -165,6 +165,20 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         return list;
+    }
+
+    @Override
+    public Long getFiveStarCafe(Long memberSeq) {
+        List<CafeSeqMapping> cafeSeqMappings = dangmocaReviewRepository.findDistinctByMemberSeqInAndRating(new ArrayList<>(List.of(memberSeq)), 5);
+
+        if (cafeSeqMappings == null || cafeSeqMappings.isEmpty()) {
+            throw new BaseException(NO_FIVE_STAR_REVIEW);
+        }
+
+        Random random = new Random();
+        int randomIndex = random.nextInt(cafeSeqMappings.size());
+
+        return cafeSeqMappings.get(randomIndex).getCafeSeq();
     }
 
     private String tagsToString(List<String> tags) {
