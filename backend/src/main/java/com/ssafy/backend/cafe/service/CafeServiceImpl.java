@@ -21,7 +21,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.HTML;
 import java.util.*;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.*;
@@ -104,6 +103,10 @@ public class CafeServiceImpl implements CafeService {
 
     @Override
     public List<CafeMenuVo> cafeMenuDetail(Long cafeSeq) {
+        if (isCafeNotExist(cafeSeq)) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
+
         List<CafeMenu> menuList = cafeMenuRepository.findByCafeSeq(cafeSeq);
 
         List<CafeMenuVo> list = new ArrayList<>();
@@ -232,7 +235,7 @@ public class CafeServiceImpl implements CafeService {
         }
         return count;
     }
-
+    
     public void addTagCount(AddTagCountDto addTagCountDto) {
         TagCountId id = new TagCountId(addTagCountDto.getCafeSeq(), addTagCountDto.isOwn());
         TagCount tagCount = tagCountRepository.findById(id).orElse(null);
