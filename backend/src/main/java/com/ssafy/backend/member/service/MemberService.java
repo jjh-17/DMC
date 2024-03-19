@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface MemberService {
 
-    Long kakaoLogin(String memberCode);
+    Long OAuthLogin(String memberCode, char loginType);
 
     List<Long> getSimilarMemberList(Long memberSeq);
 
