@@ -13,6 +13,7 @@ import KakaoMain from "../pages/user/KakaoMain";
 import CafeDetail from "../pages/cafe/CafeDetail";
 import CafeSearch from "../pages/cafe/CafeSearch";
 import ReviewWrite from "../pages/review/ReviewWrite";
+import CafeReview from "../pages/review/CafeReview";
 
 const routes = createBrowserRouter([
   {
@@ -28,10 +29,21 @@ const routes = createBrowserRouter([
       { path: "bookmark", element: <Bookmark /> },
       { path: "cafeTest", element: <CafeTest /> },
       { path: "search", element: <CafeSearch /> },
-      { path: "cafeDetail/*", element: <CafeDetail /> },
+      {
+        path: "cafeDetail/*",
+        element: <CafeDetail />,
+        children: [
+          {
+            path: "reviews",
+            element: <CafeReview />,
+          },
+        ],
+      },
       { path: "cafes/*", element: <CafeList />, children: [] },
       { path: "my-reviews", element: <MyReview /> },
       { path: "review-write", element: <ReviewWrite /> },
+
+      { path: "temp", element: <CafeReview /> },
     ],
   },
   { path: "/*", element: <ErrorPage /> },
