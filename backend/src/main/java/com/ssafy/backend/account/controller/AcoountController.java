@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import static com.ssafy.backend.global.response.BaseResponseStatus.SUCCESS;
 
 @RestController
-@RequestMapping("account")
+@RequestMapping("/api/account")
 public class AcoountController {
 
     @Autowired
