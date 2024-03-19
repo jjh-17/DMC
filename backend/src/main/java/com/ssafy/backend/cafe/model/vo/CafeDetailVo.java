@@ -1,20 +1,18 @@
 package com.ssafy.backend.cafe.model.vo;
 
-import java.util.List;
-
 public class CafeDetailVo {
     private Long cafeSeq;
-    private String name, address, imageUrl, openingHour, homepageUrl, updatedDate;
-    private List<String> tag;
+    private String name, address, imageUrl, tag, openingHour, homepageUrl, updatedDate;
     private float rating;
     private boolean isBookmarked;
 
-    public CafeDetailVo(Long cafeSeq, String name, String address, String imageUrl, String openingHour, String homepageUrl, String updatedDate, float rating) {
+    public CafeDetailVo(Long cafeSeq, String name, String address, String imageUrl, String openingHour, String tag, String homepageUrl, String updatedDate, float rating) {
         setCafeSeq(cafeSeq);
         setName(name);
         setAddress(address);
         setImageUrl(imageUrl);
         setOpeningHour(openingHour);
+        setTag(tag);
         setHomepageUrl(homepageUrl);
         setUpdatedDate(updatedDate);
         setRating(rating);
@@ -76,11 +74,11 @@ public class CafeDetailVo {
         this.updatedDate = updatedDate;
     }
 
-    public List<String> getTag() {
+    public String getTag() {
         return tag;
     }
 
-    public void setTag(List<String> tag) {
+    public void setTag(String tag) {
         this.tag = tag;
     }
 
