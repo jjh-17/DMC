@@ -30,9 +30,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Value("${security.salt}")
     private String salt;
+
     @Override
-    public TokenVo kakaoLogin(String memberCode) {
-        Long memberSeq = memberService.kakaoLogin(memberCode);
+    public TokenVo OAuthLogin(String memberCode, char loginType) {
+        Long memberSeq = memberService.OAuthLogin(memberCode, loginType);
 
         String accessToken = jwtProvider.createAccessToken(memberSeq, accessTokenExpire);
         String refreshToken = jwtProvider.createRefreshToken(memberSeq, refreshTokenExpire);

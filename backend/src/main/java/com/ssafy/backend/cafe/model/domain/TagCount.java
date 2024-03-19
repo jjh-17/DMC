@@ -1,54 +1,62 @@
 package com.ssafy.backend.cafe.model.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 
 @Entity
-@Table(name = "tag_count")
+@Builder
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class TagCount {
-    @Id
-    @Column(name = "cafe_seq")
-    private Long cafeSeq;
 
-    @Column(name = "own", nullable = false)
-    private boolean own;
+    @EmbeddedId
+    private TagCountId id;
 
-    @Column(name = "tag1", length = 255, nullable = false)
-    private String tag1;
+    @Column(name = "cagong", columnDefinition = "bigint default 0")
+    private Long cagong;
 
-    @Column(name = "tag2", length = 255, nullable = false)
-    private String tag2;
+    @Column(name = "cute", columnDefinition = "bigint default 0")
+    private Long cute;
 
-    @Column(name = "tag3", length = 255, nullable = false)
-    private String tag3;
+    @Column(name = "date", columnDefinition = "bigint default 0")
+    private Long date;
 
-    @Column(name = "tag4", length = 255, nullable = false)
-    private String tag4;
+    @Column(name = "large", columnDefinition = "bigint default 0")
+    private Long large;
 
-    public Long getCafeSeq() {
-        return cafeSeq;
-    }
+    @Column(name = "petit", columnDefinition = "bigint default 0")
+    private Long petit;
 
-    public boolean isOwn() {
-        return own;
-    }
+    @Column(name = "calm", columnDefinition = "bigint default 0")
+    private Long calm;
 
-    public String getTag1() {
-        return tag1;
-    }
+    @Column(name = "sns_pick", columnDefinition = "bigint default 0")
+    private Long snsPick;
 
-    public String getTag2() {
-        return tag2;
-    }
+    @Column(name = "cozy", columnDefinition = "bigint default 0")
+    private Long cozy;
 
-    public String getTag3() {
-        return tag3;
-    }
+    @Column(name = "coffee", columnDefinition = "bigint default 0")
+    private Long coffee;
 
-    public String getTag4() {
-        return tag4;
-    }
+    @Column(name = "dessert", columnDefinition = "bigint default 0")
+    private Long dessert;
+
+    @Column(name = "view", columnDefinition = "bigint default 0")
+    private Long view;
+
+    @Column(name = "mood", columnDefinition = "bigint default 0")
+    private Long mood;
+
+    @Column(name = "outdoor", columnDefinition = "bigint default 0")
+    private Long outdoor;
+
+    @Column(name = "reasonable", columnDefinition = "bigint default 0")
+    private Long reasonable;
+
 }

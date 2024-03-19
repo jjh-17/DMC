@@ -1,10 +1,8 @@
 package com.ssafy.backend.cafe.service;
 
 
-import com.ssafy.backend.cafe.model.domain.Bookmark;
-import com.ssafy.backend.cafe.model.domain.CafeInfo;
-import com.ssafy.backend.cafe.model.domain.CafeMenu;
-import com.ssafy.backend.cafe.model.domain.TagCount;
+import com.ssafy.backend.cafe.model.domain.*;
+import com.ssafy.backend.cafe.model.dto.AddTagCountDto;
 import com.ssafy.backend.cafe.model.dto.CurrentLocationDto;
 import com.ssafy.backend.cafe.model.mapping.CafeBookmarkListMapping;
 import com.ssafy.backend.cafe.model.mapping.CafeListMapping;
@@ -17,6 +15,7 @@ import com.ssafy.backend.cafe.model.repository.TagCountRepository;
 import com.ssafy.backend.cafe.model.vo.CafeDetailVo;
 import com.ssafy.backend.cafe.model.vo.CafeMenuVo;
 import com.ssafy.backend.global.exception.BaseException;
+import com.ssafy.backend.global.util.TagUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -67,23 +66,21 @@ public class CafeServiceImpl implements CafeService {
 
     @Override
     public List<String> getCafeTag(Long cafeSeq) {
-        TagCount dmcTagCount = tagCountRepository.findByCafeSeqAndOwn(cafeSeq, true);
+        TagCount dmcTagCount = tagCountRepository.findById(new TagCountId(cafeSeq, true)).orElse(null);
+        TagCount platformTagCount = tagCountRepository.findById(new TagCountId(cafeSeq, false)).orElse(null);
+        Map<String, Long> tag = new HashMap<>();
 
-        if (dmcTagCount == null) {
-            return null;
+        if (dmcTagCount != null) {
+            TagUtil.tagPutUtil(tag, dmcTagCount);
+        }
+        if (platformTagCount != null) {
+            TagUtil.tagPutUtil(tag, platformTagCount);
         }
 
-        Map<String, Integer> tagCount = new HashMap<>();
-
-        tagCount.put("tag1", Integer.parseInt(dmcTagCount.getTag1()));
-        tagCount.put("tag2", Integer.parseInt(dmcTagCount.getTag2()));
-        tagCount.put("tag3", Integer.parseInt(dmcTagCount.getTag3()));
-        tagCount.put("tag4", Integer.parseInt(dmcTagCount.getTag4()));
-
         // Map의 값을 내림차순으로 정렬하고 상위 3개의 키를 추출한 List
-        return tagCount.entrySet()
+        return tag.entrySet()
                 .stream()
-                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
                 .limit(3)
                 .map(Map.Entry::getKey)
                 .toList();
@@ -99,13 +96,17 @@ public class CafeServiceImpl implements CafeService {
 
         CafeInfo cafeInfo = cafeInfoOptional.get();
 
-        CafeDetailVo cafeDetailVo = new CafeDetailVo(cafeInfo.getCafeSeq(), cafeInfo.getName(), cafeInfo.getAddress(), cafeInfo.getImageUrl(), cafeInfo.getOpeningHour(), cafeInfo.getHomepageUrl(), cafeInfo.getUpdatedDate(), cafeInfo.getRating());
+        CafeDetailVo cafeDetailVo = new CafeDetailVo(cafeInfo.getCafeSeq(), cafeInfo.getName(), cafeInfo.getAddress(), cafeInfo.getImageUrl(), cafeInfo.getOpeningHour(), cafeInfo.getTopTag(), cafeInfo.getHomepageUrl(), cafeInfo.getUpdatedDate(), cafeInfo.getRating());
 
         return cafeDetailVo;
     }
 
     @Override
     public List<CafeMenuVo> cafeMenuDetail(Long cafeSeq) {
+        if (isCafeNotExist(cafeSeq)) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
+
         List<CafeMenu> menuList = cafeMenuRepository.findByCafeSeq(cafeSeq);
 
         List<CafeMenuVo> list = new ArrayList<>();
@@ -163,7 +164,89 @@ public class CafeServiceImpl implements CafeService {
         if (cafeBookmarkListMapping == null) {
             throw new BaseException(NOT_VALID_CAFE);
         }
+
         return cafeBookmarkListMapping;
     }
 
+    @Override
+    public List<CafeListMapping> cafeTagRecommendList(List<String> preferTag, CurrentLocationDto currentLocationDto) {
+        List<CafeListMapping> cafeListMappings = cafeInfoRepository.findAllIn500mOrderByDistance(currentLocationDto.getLatitude(), currentLocationDto.getLongitude());
+
+        PriorityQueue<CafeListMapping> cafeTagQueue = new PriorityQueue<>(Comparator
+                .comparingInt((CafeListMapping o) -> -getIntersectionCount(o.getTop_tag(), preferTag))
+                .thenComparingDouble(CafeListMapping::getDistance));
+
+        for (CafeListMapping cafeListMapping : cafeListMappings) {
+            cafeTagQueue.offer(cafeListMapping);
+        }
+
+        List<CafeListMapping> recommendedCafes = new ArrayList<>();
+
+        for (int i = 0; i < 5 && !cafeTagQueue.isEmpty(); i++) {
+            recommendedCafes.add(cafeTagQueue.poll());
+        }
+
+        return recommendedCafes;
+    }
+
+    @Override
+    public CafeListMapping cafeInfoRecommendList(Long cafeSeq, CurrentLocationDto currentLocationDto) {
+        return cafeInfoRepository.findByCafeSeqAndDistance(cafeSeq, currentLocationDto.getLatitude(), currentLocationDto.getLongitude());
+    }
+
+    @Override
+    public List<CafeListMapping> cafeRatingRecommendList(Long stdCafeSeq, CurrentLocationDto currentLocationDto) {
+        Optional<CafeInfo> cafeInfoOptional = cafeInfoRepository.findById(stdCafeSeq);
+
+        if (cafeInfoOptional.isEmpty()) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
+
+        String tag = cafeInfoOptional.get().getTopTag();
+
+        if (tag == null || tag.isEmpty()) {
+            throw new BaseException(NOT_VALID_TAG);
+        }
+
+        return cafeTagRecommendList(new ArrayList<>(Arrays.asList(tag.substring(1, tag.length() - 1).split(", ")))
+                , currentLocationDto);
+    }
+
+    @Override
+    public String getCafeName(Long stdCafeSeq) {
+        Optional<CafeInfo> cafeInfoOptional = cafeInfoRepository.findById(stdCafeSeq);
+
+        if (cafeInfoOptional.isEmpty()) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
+
+        return cafeInfoOptional.get().getName();
+    }
+
+    private int getIntersectionCount(String s1, List<String> tagList) {
+        String[] tokens = (s1 != null && s1.startsWith("[") && s1.endsWith("]"))
+                ? s1.substring(1, s1.length() - 1).split(", ")
+                : new String[0];
+        int count = 0;
+        for (String token : tokens) {
+            if (tagList.contains(token)) {
+                count++;
+            }
+        }
+        return count;
+    }
+    
+    public void addTagCount(AddTagCountDto addTagCountDto) {
+        TagCountId id = new TagCountId(addTagCountDto.getCafeSeq(), addTagCountDto.isOwn());
+        TagCount tagCount = tagCountRepository.findById(id).orElse(null);
+        if (tagCount == null) {
+            tagCount = new TagCount(id, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L);
+            tagCountRepository.save(tagCount);
+            tagCount = tagCountRepository.findById(id).orElseThrow(() -> (new BaseException(OOPS)));
+        }
+        for (String tagName : addTagCountDto.getTagList()) {
+            TagUtil.tagCountUtil(tagCount, tagName);
+        }
+        tagCountRepository.save(tagCount);
+    }
 }
