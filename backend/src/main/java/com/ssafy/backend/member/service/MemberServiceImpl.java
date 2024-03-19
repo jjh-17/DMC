@@ -27,7 +27,7 @@ public class MemberServiceImpl implements MemberService {
                     Member.builder()
                             .memberCode(memberCode)
                             .type('K')
-                            .nickname(UUID.randomUUID().toString())
+                            .nickname("당모카"+UUID.randomUUID().toString().substring(0, 8))
                             .mileage(0)
                             .isDeleted(false)
                             .build()
