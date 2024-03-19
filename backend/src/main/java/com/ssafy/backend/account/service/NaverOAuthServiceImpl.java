@@ -1,5 +1,7 @@
 package com.ssafy.backend.account.service;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.ssafy.backend.global.exception.BaseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -8,27 +10,30 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-
 import static com.ssafy.backend.global.response.BaseResponseStatus.OOPS;
 
 @Service
-public class KakaoOAuthServiceImpl implements OAuthService {
-    @Value("${kakao.rest-api-key}")
-    private String REST_API_KEY;
+public class NaverOAuthServiceImpl implements OAuthService {
+    @Value("${naver.client-id}")
+    private String CLIENT_ID;
 
-    @Value("${kakao.redirect.url}")
+    @Value("${naver.client-secret}")
+    private String CLIENT_SECRET;
+
+    @Value("${naver.redirect.url}")
     private String redirectURL;
 
-    @Override
-    public String getToken(String code){
-        String access_Token="";
-        String refresh_Token ="";
-        String reqURL = "https://kauth.kakao.com/oauth/token";
+    @Value("${naver.state}")
+    private String state;
 
-        try{
-            URL url = new URL(reqURL);
+    @Override
+    public String getToken(String code) {
+        String accessToken = "";
+        String refreshToken = "";
+        String reqUrl = "https://nid.naver.com/oauth2.0/token?";
+
+        try {
+            URL url = new URL(reqUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
             //POST 요청을 위해 기본값이 false인 setDoOutput을 true로
@@ -39,11 +44,15 @@ public class KakaoOAuthServiceImpl implements OAuthService {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
-            sb.append("&client_id="); // TODO REST_API_KEY 입력
-            sb.append(REST_API_KEY);
-            sb.append("&redirect_uri="); // TODO 인가코드 받은 redirect_uri 입력
-            sb.append(redirectURL);
-            sb.append("&code=" + code);
+            sb.append("&client_id=");
+            sb.append(CLIENT_ID);
+            sb.append("&client_secret=");
+            sb.append(CLIENT_SECRET);
+            sb.append("&redirect_uri=");
+            sb.append("&code=");
+            sb.append(code);
+            sb.append("&state=");
+            sb.append(state);
             bw.write(sb.toString());
             bw.flush();
 
@@ -62,8 +71,8 @@ public class KakaoOAuthServiceImpl implements OAuthService {
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
 
-            access_Token = element.getAsJsonObject().get("access_token").getAsString();
-            refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
+            accessToken = element.getAsJsonObject().get("access_token").getAsString();
+            refreshToken = element.getAsJsonObject().get("refresh_token").getAsString();
 
             br.close();
             bw.close();
@@ -71,22 +80,21 @@ public class KakaoOAuthServiceImpl implements OAuthService {
             throw new BaseException(OOPS);
         }
 
-        return access_Token;
+        return accessToken;
     }
 
     @Override
-    public String getUser(String token) {
-
-        String reqURL = "https://kapi.kakao.com/v2/user/me";
+    public String getUser(String accessToken) {
+        String reqUrl = "https://openapi.naver.com/v1/nid/me";
 
         //access_token을 이용하여 사용자 정보 조회
         try {
-            URL url = new URL(reqURL);
+            URL url = new URL(reqUrl);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
-            conn.setRequestProperty("Authorization", "Bearer " + token); //전송할 header 작성, access_token전송
+            conn.setRequestProperty("Authorization", "Bearer " + accessToken); //전송할 header 작성, access_token전송
 
             //결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
@@ -104,17 +112,11 @@ public class KakaoOAuthServiceImpl implements OAuthService {
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
 
-            String id = element.getAsJsonObject().get("id").getAsString();
-//            boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
-//            String email = "";
-//            if(hasEmail){
-//                email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
-//            }
+            String id = element.getAsJsonObject().get("response").getAsJsonObject().get("id").getAsString();
 
             br.close();
 
             return id;
-
         } catch (IOException e) {
             throw new BaseException(OOPS);
         }

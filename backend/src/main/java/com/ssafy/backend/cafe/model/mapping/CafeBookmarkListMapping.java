@@ -10,5 +10,6 @@ public interface CafeBookmarkListMapping {
     String getImageUrl();
 
     String getOpeningHour();
+    String getTopTag();
 
 }

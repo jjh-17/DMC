@@ -1,11 +1,12 @@
 // cafeCard를 누를 시 cafeSeq와 현재 위치를 보낸 후 받아오는 response
-import CoffeeBeanIcon from '../../assets/icons/coffeebean.svg?react';
-import BookMarkIcon from '../../assets/icons/bookmark.svg?react'
-import PinIcon from '../../assets/icons/locationpin.svg?react'
-import ClockIcon from '../../assets/icons/clock1.svg?react'
-import HomePageIcon from '../../assets/icons/homepage.svg?react'
-import Button from '../../components/common/Button';
-import CafeMenuList from '../../components/cafe/CafeMenuList'
+import CoffeeBeanIcon from "../../assets/icons/coffeebean.svg?react";
+import BookMarkIcon from "../../assets/icons/bookmark.svg?react";
+import PinIcon from "../../assets/icons/locationpin.svg?react";
+import ClockIcon from "../../assets/icons/clock1.svg?react";
+import HomePageIcon from "../../assets/icons/homepage.svg?react";
+import Button from "../../components/common/Button";
+import CafeMenuList from "../../components/cafe/CafeMenuList";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 interface CafeDetail {
   cafeSeq: number;
@@ -17,8 +18,8 @@ interface CafeDetail {
   homepageUrl: string;
   rating: number;
   isBookmarked: boolean;
-  updatedDate: string,
-  openingHour: string,
+  updatedDate: string;
+  openingHour: string;
 }
 
 const testDetail: CafeDetail = {
@@ -31,25 +32,24 @@ const testDetail: CafeDetail = {
   homepageUrl: 'https://www.banapresso.com/',
   rating: 3.7,
   isBookmarked: false,
-  updatedDate: '2024-03-14',
-  openingHour: '월~금 07:00~20:00',
+  updatedDate: "2024-03-14",
+  openingHour: "월~금 07:00~20:00",
 };
 
 const CafeDetailPage = () => {
-  const cafeAddress: string[] = testDetail.address.split(' ');
-  const simpleAddress = cafeAddress[0] + ', ' + cafeAddress[1];
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isReviewPage = location.pathname.includes("/reviews");
 
-  const svgClass = 'w-6 h-6 inline-block mr-1';
-  const textClass = 'font-light text-base my-2 mx-2'
+  const cafeAddress: string[] = testDetail.address.split(" ");
+  const simpleAddress = cafeAddress[0] + ", " + cafeAddress[1];
+
+  const svgClass = "w-6 h-6 inline-block mr-1";
+  const textClass = "font-light text-lg my-2 mx-4";
 
   const bookmarkCafe = () => {
-    console.log('bookmark')
-  }
-
-  const onClick = () => {
-    // cafe id 전달
-    // review detail 이동
-  }
+    console.log("bookmark");
+  };
 
   return (
     <div className="mt-0">
@@ -82,7 +82,7 @@ const CafeDetailPage = () => {
         <Button label="리뷰 상세보기" onClick={onClick} />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default CafeDetailPage;
