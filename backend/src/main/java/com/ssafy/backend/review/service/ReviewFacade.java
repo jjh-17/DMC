@@ -27,7 +27,9 @@ public class ReviewFacade {
         List<ViewReviewVo> reviews = reviewService.viewCafeReview(cafeSeq);
         for (ViewReviewVo viewReviewVo : reviews) {
             viewReviewVo.setImageUrl(reviewService.getImageUrl(viewReviewVo.getReviewSeq()));
-            // viewReviewVo.setNickname(memberService.getNickname(viewReviewVo.getMemberSeq());
+            // viewReviewVo.setNickname(memberService);
+            // viewReviewVo.setNickname(memberService);
+            viewReviewVo.setProfileImageUrl("임시 프로필 사진");
             viewReviewVo.setNickname("임시 닉네임");
             viewReviewVo.setLiked(reviewService.isLikedReview(viewReviewVo.getReviewSeq(), memberSeq));
         }
@@ -38,7 +40,9 @@ public class ReviewFacade {
         List<ViewReviewVo> reviews = reviewService.viewMemberReview(memberSeq);
         for (ViewReviewVo viewReviewVo : reviews) {
             viewReviewVo.setImageUrl(reviewService.getImageUrl(viewReviewVo.getReviewSeq()));
-            // viewReviewVo.setNickname(memberService.getNickname(viewReviewVo.getMemberSeq());
+            // viewReviewVo.setNickname(memberService);
+            // viewReviewVo.setNickname(memberService);
+            viewReviewVo.setProfileImageUrl("임시 프로필 사진");
             viewReviewVo.setNickname("임시 닉네임");
         }
         return reviews;
