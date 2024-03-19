@@ -7,6 +7,7 @@ import com.ssafy.backend.review.model.domain.ReviewImage;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.LikeReivewDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;
+import com.ssafy.backend.review.model.mapping.CafeSeqMapping;
 import com.ssafy.backend.review.model.repository.DangmocaReviewRepository;
 import com.ssafy.backend.review.model.repository.LikeReviewRepository;
 import com.ssafy.backend.review.model.repository.ReviewImageRepository;
@@ -152,6 +153,18 @@ public class ReviewServiceImpl implements ReviewService {
         DangmocaReview dangmocaReview = dangmocaReviewRepository.findById(reviewSeq).orElseThrow(() -> new BaseException(NOT_EXIST_REVIEW));
         dangmocaReview.deleteReview();
         dangmocaReviewRepository.save(dangmocaReview);
+    }
+
+    @Override
+    public List<Long> getFiveStarCafeList(List<Long> memberSeqList) {
+        List<CafeSeqMapping> cafeSeqMappings = dangmocaReviewRepository.findDistinctByMemberSeqInAndRating(memberSeqList, 5);
+
+        List<Long> list = new ArrayList<>();
+        for (CafeSeqMapping cafeSeqMapping : cafeSeqMappings) {
+            list.add(cafeSeqMapping.getCafeSeq());
+        }
+
+        return list;
     }
 
     private String tagsToString(List<String> tags) {

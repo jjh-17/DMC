@@ -8,6 +8,8 @@ import com.ssafy.backend.cafe.model.vo.CafeBookmarkListVo;
 import com.ssafy.backend.cafe.model.vo.CafeDetailVo;
 import com.ssafy.backend.cafe.model.vo.CafeListVo;
 import com.ssafy.backend.global.exception.BaseException;
+import com.ssafy.backend.member.service.MemberService;
+import com.ssafy.backend.review.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +23,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_EXIST_USER;
 import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_VALID_CAFE;
 
 @Service
@@ -28,6 +31,12 @@ public class CafeFacade {
 
     @Autowired
     CafeService cafeService;
+
+    @Autowired
+    MemberService memberService;
+
+    @Autowired
+    ReviewService reviewService;
 
     @Transactional
     public List<CafeListVo> cafeList(CurrentLocationDto currentLocationDto, Pageable pageable, String keyword) {
@@ -54,10 +63,14 @@ public class CafeFacade {
 
         cafeDetailVo.setTag(cafeService.getCafeTag(cafeSeq));
 
-        // Todo : memberSeq가 유효한지 확인하는 로직 필요
+        if (memberService.isMemberNotExist(memberSeq)) {
+            throw new BaseException(NOT_EXIST_USER);
+        }
+
         if (cafeService.isCafeNotExist(cafeSeq)) {
             throw new BaseException(NOT_VALID_CAFE);
         }
+
         cafeDetailVo.setBookmarked(cafeService.bookmarkCheck(cafeSeq, memberSeq));
 
         return cafeDetailVo;
@@ -65,7 +78,9 @@ public class CafeFacade {
 
     @Transactional
     public void cafeBookmark(Long cafeSeq, Long memberSeq) {
-        // Todo : memberSeq가 유효한지 확인하는 로직 필요
+        if (memberService.isMemberNotExist(memberSeq)) {
+            throw new BaseException(NOT_EXIST_USER);
+        }
         if (cafeService.isCafeNotExist(cafeSeq)) {
             throw new BaseException(NOT_VALID_CAFE);
         }
@@ -74,7 +89,9 @@ public class CafeFacade {
 
     @Transactional
     public void cafeBookmarkCancel(Long cafeSeq, Long memberSeq) {
-        // Todo : memberSeq가 유효한지 확인하는 로직 필요
+        if (memberService.isMemberNotExist(memberSeq)) {
+            throw new BaseException(NOT_EXIST_USER);
+        }
         if (cafeService.isCafeNotExist(cafeSeq)) {
             throw new BaseException(NOT_VALID_CAFE);
         }
@@ -83,8 +100,9 @@ public class CafeFacade {
 
     @Transactional
     public List<CafeBookmarkListVo> cafeBookmarkList(Long memberSeq, Pageable pageable) {
-        // Todo : memberSeq가 유효한지 확인하는 로직 필요
-
+        if (memberService.isMemberNotExist(memberSeq)) {
+            throw new BaseException(NOT_EXIST_USER);
+        }
         List<CafeBookmarkListVo> list = new ArrayList<>();
 
         Page<CafeSeqMapping> cafeSeqList = cafeService.bookmarkCafeSeqList(memberSeq, pageable);
@@ -106,12 +124,7 @@ public class CafeFacade {
 
     @Transactional
     public List<CafeListVo> cafeTagRecommendList(Long memberSeq, CurrentLocationDto currentLocationDto) {
-        // Todo : memberSeq가 유효한지 확인하는 로직 필요
-
-        // Todo : 해당 사용자의 선호 태그 가져오기
-        List<String> preferTag = new ArrayList<>();
-        preferTag.add("tag1");
-        preferTag.add("tag2");
+        List<String> preferTag = memberService.getPreferTag(memberSeq);
 
         List<CafeListMapping> cafeMappingList = cafeService.cafeTagRecommendList(preferTag, currentLocationDto);
 
@@ -124,21 +137,13 @@ public class CafeFacade {
         return list;
     }
 
+    @Transactional
     public List<CafeListVo> cafeInfoRecommendList(Long memberSeq, CurrentLocationDto currentLocationDto) {
-        // Todo : memberSeq가 유효한지 확인하는 로직 필요
+        List<Long> memberSeqList = memberService.getSimilarMemberList(memberSeq);
 
-        // Todo : 나와 선호 태그가 일치하는 사용자 list 가져오기
-        // memberService(memberSeq);
-        List<Long> memberSeqList = new ArrayList<>();
+        List<Long> cafeSeqList = reviewService.getFiveStarCafeList(memberSeqList);
 
-        // Todo : memberSeqList를 for문 돌면서 해당 사용자가 리뷰 5점을 준 카페 seq 전부 가져오기
-        // reviewService(memberSeq);
-        List<Long> cafeSeqList = new ArrayList<>();
-        cafeSeqList.add(1L);
-        cafeSeqList.add(2L);
-        cafeSeqList.add(9L);
         Collections.shuffle(cafeSeqList);
-
         List<CafeListVo> list = new ArrayList<>();
         for (Long cafeSeq : cafeSeqList) {
             CafeListMapping cafeListMapping = cafeService.cafeInfoRecommendList(cafeSeq, currentLocationDto);
@@ -153,6 +158,8 @@ public class CafeFacade {
 
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
     private CafeListVo convertMappingToVo(CafeListMapping cafeListMapping) {
         List<String> dessertTag = cafeService.getDessertTag(cafeListMapping.getCafe_seq());
 
@@ -162,7 +169,7 @@ public class CafeFacade {
         return new CafeListVo(cafeListMapping.getCafe_seq(), cafeListMapping.getName(), cafeListMapping.getAddress(), cafeListMapping.getImage_url(), cafeListMapping.getDistance(), cafeListMapping.getTop_tag(), dessertTag, isOpen);
     }
 
-    ///////////////////////////////////영업중 판단 method///////////////////////////////////
+    // 영업중 판단 method
     private Boolean isBusinessOpen(String openingHour) {
         if (openingHour == null) {
             return null;

@@ -34,4 +34,6 @@ public interface ReviewService {
     void updateReviewImage(Long reviewSeq, List<String> imageUrls);
 
     void deleteReview(Long reviewSeq);
+
+    List<Long> getFiveStarCafeList(List<Long> memberSeqList);
 }
