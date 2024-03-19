@@ -14,7 +14,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.SUCCESS;
 
@@ -109,6 +112,17 @@ public class CafeController {
         List<CafeListVo> list = cafeFacade.cafeInfoRecommendList(memberSeq, currentLocationDto);
 
         return new BaseResponse<>(SUCCESS, list);
+    }
+
+    // 내가 5점을 준 카페와 비슷한 카페 5개 반환
+    @GetMapping("myrating")
+    public BaseResponse<?> cafeRatingRecommend(HttpServletRequest request, @RequestBody CurrentLocationDto currentLocationDto) {
+//        Long memberSeq = (Long) request.getAttribute("seq");
+        Long memberSeq = 1L;
+
+        Map<String, Object> resultMap = cafeFacade.cafeRatingRecommendList(memberSeq, currentLocationDto);;
+
+        return new BaseResponse<>(SUCCESS, resultMap);
     }
 
 }

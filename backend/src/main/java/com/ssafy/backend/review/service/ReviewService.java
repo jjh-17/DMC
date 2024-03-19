@@ -36,4 +36,6 @@ public interface ReviewService {
     void deleteReview(Long reviewSeq);
 
     List<Long> getFiveStarCafeList(List<Long> memberSeqList);
+
+    Long getFiveStarCafe(Long memberSeq);
 }
