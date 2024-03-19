@@ -1,5 +1,6 @@
 package com.ssafy.backend.cafe.service;
 
+import com.ssafy.backend.cafe.model.dto.AddTagCountDto;
 import com.ssafy.backend.cafe.model.dto.CurrentLocationDto;
 import com.ssafy.backend.cafe.model.mapping.CafeBookmarkListMapping;
 import com.ssafy.backend.cafe.model.mapping.CafeListMapping;
@@ -35,4 +36,6 @@ public interface CafeService {
     Page<CafeSeqMapping> bookmarkCafeSeqList(Long memberSeq, Pageable pageable);
 
     CafeBookmarkListMapping cafeBookmarkList(Long cafeSeq);
+
+    void addTagCount(AddTagCountDto addTagCountDto);
 }
