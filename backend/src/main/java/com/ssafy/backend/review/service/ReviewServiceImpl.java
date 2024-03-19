@@ -153,10 +153,11 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void deleteReview(Long reviewSeq) {
+    public DangmocaReview deleteReview(Long reviewSeq) {
         DangmocaReview dangmocaReview = dangmocaReviewRepository.findById(reviewSeq).orElseThrow(() -> new BaseException(NOT_EXIST_REVIEW));
         dangmocaReview.deleteReview();
         dangmocaReviewRepository.save(dangmocaReview);
+        return dangmocaReview;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.ssafy.backend.review.service;
 
+import com.ssafy.backend.review.model.domain.DangmocaReview;
 import com.ssafy.backend.review.model.domain.LikeReview;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.LikeReivewDto;
@@ -34,7 +35,7 @@ public interface ReviewService {
 
     void updateReviewImage(Long reviewSeq, List<String> imageUrls);
 
-    void deleteReview(Long reviewSeq);
+    DangmocaReview deleteReview(Long reviewSeq);
 
     List<Long> getFiveStarCafeList(List<Long> memberSeqList);
 
