@@ -19,7 +19,7 @@ import static com.ssafy.backend.global.response.BaseResponseStatus.SUCCESS;
 
 
 @RestController
-@RequestMapping("/reviews")
+@RequestMapping("/api/reviews")
 public class ReviewController {
 
     @Autowired

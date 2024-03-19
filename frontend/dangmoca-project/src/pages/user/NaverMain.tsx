@@ -3,7 +3,7 @@ import Button from "../../components/common/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export default function KakaoMain() {
+export default function NaverMain() {
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -12,11 +12,12 @@ export default function KakaoMain() {
   useEffect(() => {
     const code = queryParams.get("code");
     axios
-      .get("http://localhost:8081/account/kakao?code=" + code)
+      .get("http://localhost:8081/account/naver?code=" + code)
       .then((response) => {
         // TODO : 억세스 토큰을 쿠키에 저장하고, 리프레시 토큰 로칼스토레지에 담으세요.
         // 담은 다음에, 메인 페이지로 유저 정보 가지고 이동 바랍니다.
         const accessToken = response.headers.accesstoken;
+        console.log(accessToken);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);

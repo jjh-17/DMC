@@ -19,15 +19,15 @@ public class MemberServiceImpl implements MemberService {
     MemberRepository memberRepository;
 
     @Override
-    public Long kakaoLogin(String memberCode) {
+    public Long OAuthLogin(String memberCode, char loginType) {
         Long memberSeq;
         Member member = memberRepository.findByMemberCode(memberCode);
         if (member == null) {
             memberSeq = memberRepository.save(
                     Member.builder()
                             .memberCode(memberCode)
-                            .type('K')
-                            .nickname("당모카"+UUID.randomUUID().toString().substring(0, 8))
+                            .type(loginType)
+                            .nickname("당모카" + UUID.randomUUID().toString().substring(0, 8))
                             .mileage(0)
                             .isDeleted(false)
                             .build()
