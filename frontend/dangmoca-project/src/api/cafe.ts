@@ -1,63 +1,88 @@
+import { AxiosResponse } from "axios";
 import { defaultAxios } from "./AuthCommon";
-// import { authAxios } from "./AuthCommon";
-
-// interface Cafe {
-//     cafeSeq: number;
-//     name: string;
-//     distance: string;
-//     address: string;
-//     tag: string[];
-//     isOpen: boolean;
-//     dessertTag: string[];
-//     imageUrl: string;
-// }
 
 let latitude = 0;
 let longitude = 0;
-
+// TODO : getLocation 뺀뒤에 store로 관리
 const getLocation = () => navigator.geolocation.getCurrentPosition((position) => {
     latitude = position.coords.latitude;
     longitude = position.coords.longitude;
 });
 
-export const getCafeList = async () => {
-    getLocation(); 
-    try {
-        const response = await defaultAxios.get(`/cafes?longitude=${longitude}&latitude=${latitude}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error fetching cafe list:', error);
-        return [];
-    }
-};
+const END_POINT = '/cafes'
 
-export const getCafeRecommendList = async () => {
-    getLocation();
-    try {
-        const response = await defaultAxios.get(`/cafes?longitude=${longitude}&latitude=${latitude}`);
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        return [];
-    }
-};
+const cafeAPI = {
+    getCafeList():Promise<AxiosResponse> {
+        getLocation(); 
+        return defaultAxios({
+            method: 'GET',
+            url: END_POINT + `?longitude=${longitude}&latitude=${latitude}`
+        })
+    },
 
-export const getCafeDetail = async (id: number) => {
-    try {
-        const response = await defaultAxios.get(`/cafes/${id}`);
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
-};
+    getCafeRecommendList():Promise<AxiosResponse> {
+        getLocation();
+        return defaultAxios({
+            method: 'GET',
+            url: END_POINT + `?longitude=${longitude}&latitude=${latitude}`
+        })
+    },
 
-export const getCafeMenu = async (id: number) => {
-    try {
-        const response = await defaultAxios.get(`/cafes/${id}/menus`);
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
-};
+    getCafeDetail(id: number):Promise<AxiosResponse> {
+        return defaultAxios({
+            method: 'GET',
+            url: END_POINT + id
+        })
+    },
+
+    getCafeMenu(id: number):Promise<AxiosResponse> {
+        return defaultAxios({
+            method: 'GET',
+            url: END_POINT + id + '/menus'
+        })
+    },
+
+    doBookmark(cafeId: number):Promise<AxiosResponse> {
+        return defaultAxios({
+            method: 'POST',
+            url: END_POINT + cafeId + '/bookmarks'
+        })
+    },
+
+    deleteBookmark(cafeId: number):Promise<AxiosResponse> {
+        return defaultAxios({
+            method: 'DELETE',
+            url: END_POINT + cafeId + '/bookmarks'
+        })
+    },
+
+    getBookmark(page: number):Promise<AxiosResponse> {
+        return defaultAxios({
+            method: 'POST',
+            url: `bookmark?page=${page}`
+        })
+    },
+
+    getCafeByTag():Promise<AxiosResponse> {
+        return defaultAxios({
+            method: 'GET',
+            url: 'mytag'
+        })
+    },
+
+    getCafeByInfo():Promise<AxiosResponse> {
+        return defaultAxios({
+            method: 'GET',
+            url: 'myinfo'
+        })
+    },
+    
+    getCafeByRating():Promise<AxiosResponse> {
+        return defaultAxios({
+            method: 'GET',
+            url: 'myrating'
+        })
+    },
+}
+
+export default cafeAPI;
