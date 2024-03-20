@@ -47,6 +47,7 @@ pipeline {
 					dir('./backend/') {
 						sh '''
 							gradle wrapper
+							gradle init
 							chmod +x gradlew
 							./gradlew clean build
 						'''
