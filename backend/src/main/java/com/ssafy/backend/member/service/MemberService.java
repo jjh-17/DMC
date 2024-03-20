@@ -1,6 +1,7 @@
 package com.ssafy.backend.member.service;
 
 import com.ssafy.backend.member.model.domain.Member;
+import com.ssafy.backend.member.model.vo.GetMemberInformationVo;
 
 import java.util.List;
 

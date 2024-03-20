@@ -3,6 +3,8 @@ package com.ssafy.backend.member.controller;
 
 import com.ssafy.backend.global.exception.BaseException;
 import com.ssafy.backend.global.response.BaseResponse;
+import com.ssafy.backend.member.model.vo.GetMemberInformationVo;
+import com.ssafy.backend.member.service.MemberFacade;
 import com.ssafy.backend.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,9 @@ public class MemberController {
 
     @Autowired
     MemberService memberService;
+
+    @Autowired
+    MemberFacade memberFacade;
 
     /*
      * 닉네임 바꿀 때 중복 확인
@@ -41,5 +46,14 @@ public class MemberController {
         } else {
             throw new BaseException(EXIST_NICKNAME);
         }
+    }
+
+    /*
+     * 회원 정보 조회
+     */
+    @GetMapping("/{memberid}")
+    public BaseResponse<?> getMemberInformation(@PathVariable("memberid") Long memberSeq) {
+        GetMemberInformationVo getMemberInformationVo = memberService.getMemberInformation(memberSeq).toInformationVo();
+        return new BaseResponse<>(getMemberInformationVo);
     }
 }
