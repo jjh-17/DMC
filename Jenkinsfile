@@ -1,7 +1,10 @@
 pipeline {
 
 	agent any
-	tools {nodejs 'NodeJS 21.7.1', gradle 'Gradle 8.6'}
+	tools {
+		nodejs 'NodeJS 21.7.1'
+		gradle 'Gradle 8.6'
+	}
 
 	environment {
 		SSH_CONNECTION = 'ubuntu@j10a607.p.ssafy.io'
