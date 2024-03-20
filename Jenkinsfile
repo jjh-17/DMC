@@ -46,6 +46,7 @@ pipeline {
 
 					dir('/backend/') {
 						sh 'pwd'
+						sh 'ls -al'
 						sh './gradlew clean build'
 					}
 
