@@ -28,7 +28,7 @@ pipeline {
 			steps {
 				echo 'Git Clone Start'
 
-				git branch : 'develop', credntialsId: ${CREDNTIALS_ID}, url: ${GIT_URL}
+				git branch : 'develop', credntialsId: '${CREDNTIALS_ID}', url: '${GIT_URL}'
 
 				echo 'Git Clone End'
 			}
@@ -105,8 +105,6 @@ pipeline {
 
 		stage('BE : Deploy') {
 			steps {
-				echo 'BE : Deploy Start'
-
 				sshagent (credentials : [' ']) {
 					script {
 						sh 'ssh -o StrickHostKeyChecking = no ${SSH_CONNECTION} uptime'
@@ -143,8 +141,6 @@ pipeline {
 					}
 				}
 			}
-
-			echo 'BE : Deploy End'
 		}
 
 
@@ -221,7 +217,6 @@ pipeline {
 
 		stage('FE : Deploy') {
 			steps {
-				echo 'FE : Deploy Start'
 
 				sshagent (credentials : [' ']) {
 					script {
@@ -260,7 +255,6 @@ pipeline {
 				}
 			}
 
-				echo 'FE : Deploy End'
 		}
 	}
 
