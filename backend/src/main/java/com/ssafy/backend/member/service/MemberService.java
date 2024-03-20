@@ -22,5 +22,9 @@ public interface MemberService {
 
     void updateNickname(Long memberSeq, String nickname);
 
+    void updatePreferenceTag(Long memberSeq, List<String> resultTag);
+
     void deleteMember(Long memberSeq);
+
+
 }
