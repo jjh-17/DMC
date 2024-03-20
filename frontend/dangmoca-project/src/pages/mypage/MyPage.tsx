@@ -41,15 +41,17 @@ export default function MyPage() {
     createdDate: "2024-01-02",
   };
 
-  const divClass = "border-t-2 border-primary min-w-full p-5";
+  const divClass = "min-w-[80%] m-10";
+  const spanClass = "ml-[25lvw] text-3xl lg:text-4xl whitespace-nowrap";
+  const buttonClass = "ml-[10lvw] text-sm lg:text-base whitespace-nowrap"
 
   return (
     <div className="min-w-full mx-auto flex flex-col items-center gap-4">
       <Profile {...dummyUser} />
       <div className={divClass}>
         <div className="flex items-center">
-          <span className="ml-[25lvw] text-3xl lg:text-4xl whitespace-nowrap" id="test">북마크한 카페</span>
-          <a href="/??" className="ml-[10lvw] text-sm lg:text-base whitespace-nowrap" id="test">
+          <span className={spanClass} id="test">북마크한 카페</span>
+          <a href="/??" className={buttonClass} id="test">
             전체보기
             <RightArrow id="svgIcon" />
           </a>
@@ -58,8 +60,8 @@ export default function MyPage() {
       </div>
       <div className={divClass}>
         <div className="flex items-center">
-          <span className="ml-[25lvw] text-3xl lg:text-4xl whitespace-nowrap" id="test">작성한 리뷰</span>
-          <a href="/??" className="ml-[10lvw] text-sm lg:text-base whitespace-nowrap" id="test">
+          <span className={spanClass} id="test">작성한 리뷰</span>
+          <a href="/??" className={buttonClass} id="test">
             전체보기
             <RightArrow id="svgIcon" />
           </a>

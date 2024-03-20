@@ -16,9 +16,9 @@ export default function RootLayout() {
   }, [location]);
 
   return (
-    <div className="bg-primary">
+    <div className="bg-[#765439]">
       {showHeader && <TheHeader textHeader={"당모카"} />}
-      <div className="mb-20 bg-white md:w-[60lvw] h-full min-h-screen pt-20 mx-auto"> {/* header, footer 길이만큼 margin */}
+      <div className="mb-20 bg-white md:w-[60lvw] h-full min-h-screen pt-10 mx-auto"> {/* header, footer 길이만큼 margin */}
         <Outlet />
       </div>
       <TheFooter />

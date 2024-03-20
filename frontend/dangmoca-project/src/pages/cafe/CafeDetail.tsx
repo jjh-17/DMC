@@ -68,7 +68,7 @@ const CafeDetailPage = () => {
           {testDetail.tag.map((text, idx) => (
             <span
               key={idx}
-              className="relative ml-2 text-base text-white -top-[5lvh]  left-[50lvw] whitespace-nowrap underline"
+              className="relative ml-2 text-base text-white -top-[5lvh]  left-[35lvw] whitespace-nowrap underline"
             >
               #{text}{" "}
             </span>
