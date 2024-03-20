@@ -100,6 +100,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public void updatePreferenceTag(Long memberSeq, List<String> resultTag) {
+        Member member = memberRepository.findById(memberSeq).orElseThrow(()->new BaseException(NOT_EXIST_USER));
+        member.setPreferenceTag(TagUtil.tagsToString(resultTag));
+        memberRepository.save(member);
+    }
+
+    @Override
     public void deleteMember(Long memberSeq) {
         Member member = memberRepository.findById(memberSeq).orElseThrow(()->new BaseException(NOT_EXIST_USER));
         if (member.isDeleted()) {

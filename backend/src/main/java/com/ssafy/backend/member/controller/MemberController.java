@@ -9,6 +9,7 @@ import com.ssafy.backend.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.EXIST_NICKNAME;
@@ -55,5 +56,16 @@ public class MemberController {
     public BaseResponse<?> getMemberInformation(@PathVariable("memberid") Long memberSeq) {
         GetMemberInformationVo getMemberInformationVo = memberService.getMemberInformation(memberSeq).toInformationVo();
         return new BaseResponse<>(getMemberInformationVo);
+    }
+
+    /*
+     * 회원 선호 태그 반영
+     */
+    @PostMapping("/test")
+    public BaseResponse<?> updatePreferenceTag(@RequestBody Map<String, List<String>> body) {
+//      Long membersSeq = (Long) request.getAttribute("seq");
+        Long memberSeq = 2L;
+        memberService.updatePreferenceTag(memberSeq, body.get("resultTag"));
+        return new BaseResponse<>(SUCCESS);
     }
 }
