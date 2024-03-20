@@ -4,8 +4,6 @@ pipeline {
 	tools {nodejs 'NodeJS 21.7.1'}
 
 	environment {
-		CREDENTIALS_ID = 'young285j'
-		GIT_URL = 'https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git'
 		SSH_CONNECTION = 'ubuntu@j10a607.p.ssafy.io'
 		SSH_CONNECTION_SUB = 'ubuntu@j10a607a.p.ssafy.io'
 
@@ -29,7 +27,7 @@ pipeline {
 			steps {
 				echo 'Git Clone Start'
 
-				git branch : 'develop', credentialsId: 'young285j', url: 'https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git'
+				git branch : 'develop', credentialsId: 'GitLab', url: 'https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git'
 
 				echo 'Git Clone End'
 			}
