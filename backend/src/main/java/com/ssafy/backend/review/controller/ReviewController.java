@@ -66,8 +66,7 @@ public class ReviewController {
     public BaseResponse<?> likeReview(@RequestParam(value="reviewid") Long reviewSeq) {
         // Long membersSeq = (Long) request.getAttribute("seq");
         Long membersSeq = 1L;
-        LikeReivewDto likeReivewDto = new LikeReivewDto(membersSeq, reviewSeq);
-        reviewService.likeReview(likeReivewDto);
+        reviewService.likeReview(new LikeReivewDto(membersSeq, reviewSeq));
         return new BaseResponse<>(SUCCESS);
     }
 
@@ -78,8 +77,7 @@ public class ReviewController {
     public BaseResponse<?> dislikeReview(@RequestParam(value="reviewid") Long reviewSeq) {
         // Long membersSeq = (Long) request.getAttribute("seq");
         Long membersSeq = 1L;
-        LikeReivewDto likeReivewDto = new LikeReivewDto(membersSeq, reviewSeq);
-        reviewService.dislikeReview(likeReivewDto);
+        reviewService.dislikeReview(new LikeReivewDto(membersSeq, reviewSeq));
         return new BaseResponse<>(SUCCESS);
     }
 

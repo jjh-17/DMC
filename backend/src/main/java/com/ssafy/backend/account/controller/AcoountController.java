@@ -51,6 +51,7 @@ public class AcoountController {
      */
     @GetMapping("naver")
     public BaseResponse<?> naverLogin(@RequestParam String code, HttpServletResponse response) {
+        System.out.println("여기는 맞나요");
         String accessToken = naverOAuthService.getToken(code);
         String memberCode = naverOAuthService.getUser(accessToken);
 
