@@ -24,12 +24,12 @@ interface CafeDetail {
 
 const testDetail: CafeDetail = {
   cafeSeq: 1,
-  name: '바나프레소 테헤란로점',
-  distance: '100m',
-  address: '서울 강남구 역삼동',
-  tag: ['가성비', '테이크아웃', '분위기'],
-  imageUrl: '/src/assets/testPic/bana.jpg',
-  homepageUrl: 'https://www.banapresso.com/',
+  name: "바나프레소 테헤란로점",
+  distance: "100m",
+  address: "서울 강남구 역삼동",
+  tag: ["가성비", "테이크아웃", "분위기"],
+  imageUrl: "/src/assets/testPic/bana.jpg",
+  homepageUrl: "https://www.banapresso.com/",
   rating: 3.7,
   isBookmarked: false,
   updatedDate: "2024-03-14",
@@ -53,34 +53,58 @@ const CafeDetailPage = () => {
 
   return (
     <div className="mt-0">
-      <img src={testDetail.imageUrl} className="opacity-80 h-[80lvh] w-screen object-cover -z-10" />
-      <h1 className="absolute top-[75lvh] ml-4 text-3xl text-white">{testDetail.name}</h1>
-      <p className="absolute top-[80lvh] ml-4 text-white font-light">{simpleAddress}</p>
-      {testDetail.tag.map((text, idx) => (
-        <span key={idx} className="relative ml-2 text-base text-white -top-[5lvh]  left-[50lvw] whitespace-nowrap underline">#{text} </span>
-      ))}
-      <div className='border-b-[1px] border-primary pb-2 mx-2 lg:mx-10'>
-        <span className={textClass}>
-          <CoffeeBeanIcon className={svgClass + ' fill-primary'} />
-          {testDetail.rating}
-          <BookMarkIcon className={svgClass + ' cursor-pointer mx-2 hover:fill-primary'} onClick={bookmarkCafe} />
-          <a href={testDetail.homepageUrl} className='cursor-pointer' target="_blank">
-            <HomePageIcon className={svgClass} />
-          </a>
-        </span>
-        <div className={textClass}>
-          <PinIcon className={svgClass} />
-          {testDetail.address}
-        </div>
-        <div className={textClass + " mb-4"}>
-          <ClockIcon className={svgClass} />
-          {testDetail.openingHour}
-        </div>
-      </div>
-      <CafeMenuList />
-      <div className='text-center'>
-        <Button label="리뷰 상세보기" onClick={onClick} />
-      </div>
+      <img
+        src={testDetail.imageUrl}
+        className="opacity-80 h-[80lvh] w-screen object-cover -z-10"
+      />
+      <h1 className="absolute top-[75lvh] ml-4 text-3xl text-white">
+        {testDetail.name}
+      </h1>
+      <p className="absolute top-[80lvh] ml-4 text-white font-light">
+        {simpleAddress}
+      </p>
+      {!isReviewPage && (
+        <>
+          {testDetail.tag.map((text, idx) => (
+            <span
+              key={idx}
+              className="relative ml-2 text-base text-white -top-[5lvh]  left-[50lvw] whitespace-nowrap underline"
+            >
+              #{text}{" "}
+            </span>
+          ))}
+          <div className="border-b-[1px] border-primary pb-2 mx-2 lg:mx-10">
+            <span className={textClass}>
+              <CoffeeBeanIcon className={svgClass + " fill-primary"} />
+              {testDetail.rating}
+              <BookMarkIcon
+                className={svgClass + " cursor-pointer mx-2 hover:fill-primary"}
+                onClick={bookmarkCafe}
+              />
+              <a
+                href={testDetail.homepageUrl}
+                className="cursor-pointer"
+                target="_blank"
+              >
+                <HomePageIcon className={svgClass} />
+              </a>
+            </span>
+            <div className={textClass}>
+              <PinIcon className={svgClass} />
+              {testDetail.address}
+            </div>
+            <div className={textClass + " mb-4"}>
+              <ClockIcon className={svgClass} />
+              {testDetail.openingHour}
+            </div>
+          </div>
+          <CafeMenuList />
+          <div className="text-center">
+            <Button label="리뷰 상세보기" onClick={() => navigate("reviews")} />
+          </div>
+        </>
+      )}
+      <Outlet />
     </div>
   );
 };
