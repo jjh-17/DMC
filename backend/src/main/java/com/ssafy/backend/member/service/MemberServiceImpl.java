@@ -5,6 +5,7 @@ import com.ssafy.backend.global.util.TagUtil;
 import com.ssafy.backend.member.model.domain.Member;
 import com.ssafy.backend.member.model.mapping.MemberSeqMapping;
 import com.ssafy.backend.member.model.repository.MemberRepository;
+import com.ssafy.backend.member.model.vo.GetMemberInformationVo;
 import com.ssafy.backend.review.model.domain.DangmocaReview;
 import com.ssafy.backend.review.model.vo.UpdateReviewVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,7 +88,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member getMemberInformation(Long memberSeq) {
-        return memberRepository.findById(memberSeq).orElseThrow(()->new BaseException(NOT_EXIST_USER));
+        Member member = memberRepository.findById(memberSeq).orElseThrow(()->new BaseException(NOT_EXIST_USER));
+        return member;
     }
 
     @Override

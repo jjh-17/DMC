@@ -4,6 +4,7 @@ import com.ssafy.backend.global.exception.BaseException;
 import com.ssafy.backend.member.model.domain.Member;
 import com.ssafy.backend.member.model.mapping.MemberSeqMapping;
 import com.ssafy.backend.member.model.repository.MemberRepository;
+import com.ssafy.backend.member.model.vo.GetMemberInformationVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
