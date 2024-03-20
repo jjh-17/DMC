@@ -1,14 +1,18 @@
 package com.ssafy.backend.global.util;
 
 import com.ssafy.backend.cafe.model.domain.TagCount;
+import com.ssafy.backend.member.service.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Component
-public class TagUtil {
+public class GlobalUtil {
+
     public static void tagCountUpUtil(TagCount tagCount, String tagName) {
         switch (tagName) {
             case "cagong":
