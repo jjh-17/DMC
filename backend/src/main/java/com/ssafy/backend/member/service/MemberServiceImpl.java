@@ -19,23 +19,25 @@ public class MemberServiceImpl implements MemberService {
     MemberRepository memberRepository;
 
     @Override
-    public Long OAuthLogin(String memberCode, char loginType) {
+    public Long OAuthRegist(String memberCode, char loginType, String nickname) {
         Long memberSeq;
-        Member member = memberRepository.findByMemberCode(memberCode);
-        if (member == null) {
-            memberSeq = memberRepository.save(
-                    Member.builder()
-                            .memberCode(memberCode)
-                            .type(loginType)
-                            .nickname("당모카" + UUID.randomUUID().toString().substring(0, 8))
-                            .mileage(0)
-                            .isDeleted(false)
-                            .build()
-            ).getMemberSeq();
-        } else {
-            memberSeq = member.getMemberSeq();
-        }
+        memberSeq = memberRepository.save(
+                Member.builder()
+                        .memberCode(memberCode)
+                        .type(loginType)
+                        .nickname(nickname)
+                        .mileage(0)
+                        .isDeleted(false)
+                        .build()
+        ).getMemberSeq();
         return memberSeq;
+    }
+
+    @Override
+    public Long isExistMember(String memberCode) {
+        Member member = memberRepository.findByMemberCode(memberCode);
+        if (member!=null) return member.getMemberSeq();
+        else return null;
     }
 
     @Override
@@ -72,5 +74,11 @@ public class MemberServiceImpl implements MemberService {
         String preferTag = memberOptional.get().getPreferenceTag();
 
         return Arrays.stream(Objects.requireNonNull(preferTag).replaceAll("[\\[\\],]", "").split("\\s+")).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isExistNickname(String nickname) {
+        Member member = memberRepository.findByNickname(nickname);
+        return member != null;
     }
 }
