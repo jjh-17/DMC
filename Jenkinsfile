@@ -44,7 +44,8 @@ pipeline {
 			steps {
 				echo 'BE : Build Start'
 
-					dir('./backend/') {
+					dir('/backend/') {
+						sh 'pwd'
 						sh './gradlew clean build'
 					}
 
