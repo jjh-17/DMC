@@ -1,5 +1,7 @@
 package com.ssafy.backend.member.service;
 
+import com.ssafy.backend.member.model.domain.Member;
+
 import java.util.List;
 
 public interface MemberService {
@@ -15,5 +17,5 @@ public interface MemberService {
 
     boolean isExistNickname(String nickname);
 
-
+    Member getMemberInformation(Long memberSeq);
 }
