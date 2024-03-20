@@ -8,6 +8,10 @@ interface BeanIconProps {
   type: 'empty' | 'full';
 }
 
+interface ReviewRatingProps {
+  onRatingChange: (value: number) => void;
+}
+
 const BeanIcon = ({ onClick, onMouseEnter, type } : BeanIconProps) => {
   const Icon = type === 'full' ? FullBean : EmptyBean;
   return (
@@ -17,7 +21,7 @@ const BeanIcon = ({ onClick, onMouseEnter, type } : BeanIconProps) => {
   );
 };
 
-export default function ReviewRating() {
+export default function ReviewRating({ onRatingChange } : ReviewRatingProps) {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
 
@@ -27,6 +31,7 @@ export default function ReviewRating() {
 
   const handleClick = (value: number) => {
     setRating(value);
+    onRatingChange(value);
   };
 
   const renderBeans = () => {

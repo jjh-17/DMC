@@ -13,7 +13,7 @@ interface ReviewData {
 
 export const reviewAPI = {
   // 리뷰 기본 CRUD
-  writeReview(cafeId: string, reviewData: ReviewData): Promise<AxiosResponse> {
+  writeReview(cafeId: number, reviewData: ReviewData): Promise<AxiosResponse> {
     return defaultAxios({
       method: "post",
       url: `${END_POINT}/cafe/${cafeId}`,
@@ -21,21 +21,21 @@ export const reviewAPI = {
     });
   },
 
-  getCafeReview(cafeId: string) {
+  getCafeReview(cafeId: number) {
     return defaultAxios({
       method: "get",
       url: `${END_POINT}/cafe/${cafeId}`,
     });
   },
 
-  modifyReview(reviewId: string) {
+  modifyReview(reviewId: number) {
     return defaultAxios({
       method: "patch",
       url: `${END_POINT}/cafe/${reviewId}`,
     });
   },
 
-  deleteReview(reviewId: string) {
+  deleteReview(reviewId: number) {
     return defaultAxios({
       method: "delete",
       url: `${END_POINT}/cafe/${reviewId}`,
@@ -43,7 +43,7 @@ export const reviewAPI = {
   },
 
   // 사용자 리뷰 조회
-  getMyReview(memberId: string) {
+  getMyReview(memberId: number) {
     return defaultAxios({
       method: "get",
       url: `${END_POINT}/member/${memberId}`,
@@ -51,7 +51,7 @@ export const reviewAPI = {
   },
 
   // 좋아요 기능
-  likeReview(reviewId: string) {
+  likeReview(reviewId: number) {
     return defaultAxios({
       method: "post",
       url: `${END_POINT}/cafe/like`,
@@ -61,7 +61,7 @@ export const reviewAPI = {
     });
   },
 
-  unlikeReview(reviewId: string) {
+  unlikeReview(reviewId: number) {
     return defaultAxios({
       method: "delete",
       url: `${END_POINT}/cafe/like`,
