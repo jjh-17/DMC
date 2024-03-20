@@ -45,8 +45,10 @@ pipeline {
 				echo 'BE : Build Start'
 
 					dir('./backend/') {
-						sh 'pwd'
-						sh './gradlew clean build'
+						sh '''
+							chmod +x gradlew
+							./gradlew clean build
+						'''
 					}
 
 			echo 'BE : Build End'
