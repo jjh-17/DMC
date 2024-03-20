@@ -17,4 +17,5 @@ public class GetMemberInformationVo {
     private String profileImageUrl;
     private String title;
     private List<String> preferenceTag;
+    private boolean isDeleted;
 }
