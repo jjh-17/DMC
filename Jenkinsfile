@@ -4,7 +4,7 @@ node {
 
 	environment {
 		CREDNTIALS_ID = 'young285j'
-		URL = 'https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git'
+		GIT_URL = 'https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git'
 		SSH_CONNECTION = 'ubuntu@j10a607.p.ssafy.io'
 		SSH_CONNECTION_SUB = 'ubuntu@j10a607a.p.ssafy.io'
 
@@ -26,7 +26,7 @@ node {
 
 		stage('Git Clone') {
 			echo 'Git Clone Start'
-			git branch : 'develop', credntialsId: ${CREDNTIALS_ID}, url: ${URL}
+			git branch : 'develop', credntialsId: ${CREDNTIALS_ID}, url: ${GIT_URL}
 			echo 'Git Clone End'
 		}
 
