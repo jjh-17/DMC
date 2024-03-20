@@ -21,7 +21,7 @@ const Profile = (user: User) => {
   };
 
   return (
-    <div className="flex flex-col  p-4 w-full">
+    <div className="flex flex-col  p-4">
       <div className="flex flex-row justify-center gap-4 lg:gap-20 min-w-full my-10">
         <img
           src={user.profileImage}
@@ -43,7 +43,7 @@ const Profile = (user: User) => {
       <p className="mt-4 text-xl" id="test">{user.nickName} 님의 #카페구름</p>
 
       {/* 워드 클라우드 */}
-      <div className="mx-auto p-6 w-full h-52 border-primary border-2 rounded-2xl shadow-lg whitespace-nowrap">
+      <div className="mx-auto p-6 w-[80lvw] h-[40lvw] lg:w-[40lvw] lg:h-[20lvw] border-primary border-2 rounded-2xl shadow-lg whitespace-nowrap">
         {user.tag.map((tag, index) => (
           <span key={index} className={`${randomFontSize()} mr-2`}>
             {tag}
