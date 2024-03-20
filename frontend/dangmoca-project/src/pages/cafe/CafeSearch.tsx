@@ -55,7 +55,7 @@ export default function CafeSearch() {
             <form onSubmit={submitKeyword}>
                 <SearchIcon id="svgIcon" />
                 <input
-                    className="shadow-sm m-4 lg:w-[50lvw] md:w-[80lvw] h-10 p-2 focus:border-[1px] focus:border-slate-200"
+                    className="align-middle shadow-sm m-4 lg:w-[50lvw] md:w-[80lvw] h-10 p-2 focus:border-[1px] focus:border-slate-200"
                     placeholder="검색어를 입력하세요"
                     value={keyword}
                     onChange={handleInputChange}
