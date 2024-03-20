@@ -1,5 +1,7 @@
 package com.ssafy.backend.review.service;
 
+import com.ssafy.backend.cafe.model.dto.AddTagCountDto;
+import com.ssafy.backend.cafe.service.CafeService;
 import com.ssafy.backend.review.model.domain.LikeReview;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;
@@ -15,6 +17,9 @@ public class ReviewFacade {
 
     @Autowired
     ReviewService reviewService;
+
+    @Autowired
+    private CafeService cafeService;
 
     public List<ViewReviewVo> viewCafeReview(Long cafeSeq, Long memberSeq) {
         List<ViewReviewVo> reviews = reviewService.viewCafeReview(cafeSeq);
@@ -49,9 +54,15 @@ public class ReviewFacade {
     }
 
     @Transactional
-    public void addReview(AddReviewDto addeReviewDto, List<String> imageUrls) {
+    public void addReview(AddReviewDto addeReviewDto, List<String> imageUrls, List<String> tagList) {
         Long reviewSeq = reviewService.addReview(addeReviewDto);
-        reviewService.addReviewImage(reviewSeq, imageUrls);
+        if (imageUrls != null) {
+            reviewService.addReviewImage(reviewSeq, imageUrls);
+        }
+        if (tagList != null) {
+            cafeService.addTagCount(new AddTagCountDto(addeReviewDto.getCafeSeq(), true, tagList));
+        }
+
     }
 
     @Transactional

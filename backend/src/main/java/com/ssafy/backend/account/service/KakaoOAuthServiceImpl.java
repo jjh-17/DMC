@@ -14,7 +14,7 @@ import com.google.gson.JsonParser;
 import static com.ssafy.backend.global.response.BaseResponseStatus.OOPS;
 
 @Service
-public class KakaoOAuthServiceImpl implements KakaoOAuthService{
+public class KakaoOAuthServiceImpl implements OAuthService {
     @Value("${kakao.rest-api-key}")
     private String REST_API_KEY;
 

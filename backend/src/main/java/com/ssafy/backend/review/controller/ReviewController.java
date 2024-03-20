@@ -1,5 +1,7 @@
 package com.ssafy.backend.review.controller;
 
+import com.ssafy.backend.cafe.model.dto.AddTagCountDto;
+import com.ssafy.backend.cafe.service.CafeService;
 import com.ssafy.backend.global.response.BaseResponse;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.LikeReivewDto;
@@ -90,11 +92,10 @@ public class ReviewController {
         Long memberSeq = 1L;
         AddReviewDto addReviewDto = new AddReviewDto(memberSeq, cafeSeq, (String) body.get("content"), (List<String>) body.get("tag"), (Integer) body.get("rating"));
         List<String> imageUrls = (List<String>) body.get("imageUrls");
-        if (imageUrls != null) {
-            reviewFacade.addReview(addReviewDto, imageUrls);
-        } else {
-            reviewService.addReview(addReviewDto);
-        }
+        List<String> tagList = addReviewDto.getTag();
+
+        reviewFacade.addReview(addReviewDto, imageUrls, tagList);
+
         return new BaseResponse<>(SUCCESS);
     }
 

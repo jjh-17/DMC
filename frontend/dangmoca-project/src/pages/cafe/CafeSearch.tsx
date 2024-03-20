@@ -51,7 +51,7 @@ export default function CafeSearch() {
     };
 
     return (
-        <div className="mx-10 font-light">
+        <div className="mx-10 font-light pt-10">
             <form onSubmit={submitKeyword}>
                 <SearchIcon id="svgIcon" />
                 <input

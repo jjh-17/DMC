@@ -52,6 +52,9 @@ public class CafeInfo {
     @Column(name = "updated_date", nullable = false, length = 255)
     private String updatedDate;
 
+    @Column(name = "top_tag", length = 255)
+    private String topTag;
+
     @Column(name = "is_deleted", nullable = false)
     @ColumnDefault("false")
     private boolean isDeleted = false;
@@ -113,6 +116,10 @@ public class CafeInfo {
 
     public String getRegionCode() {
         return regionCode;
+    }
+
+    public String getTopTag() {
+        return topTag;
     }
 
     public String getUpdatedDate() {
