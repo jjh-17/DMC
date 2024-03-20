@@ -42,6 +42,7 @@ public class Member {
     String title;
 
     @Column
+    @Setter
     boolean isDeleted;
 
     public Member() {}

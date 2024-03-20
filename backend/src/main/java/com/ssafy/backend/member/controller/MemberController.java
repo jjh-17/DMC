@@ -33,10 +33,11 @@ public class MemberController {
      * 닉네임 변경
      */
     @PatchMapping("/{memberid}")
-    public void updateNickname(@PathVariable("memberid") Long memberSeq, @RequestBody Map<String, Object> body){
+    public BaseResponse<?> updateNickname(@PathVariable("memberid") Long memberSeq, @RequestBody Map<String, Object> body){
         boolean able = (boolean) body.get("able");
         if (able) {
             memberService.updateNickname(memberSeq, (String) body.get("nickname"));
+            return new BaseResponse<>(SUCCESS);
         } else {
             throw new BaseException(EXIST_NICKNAME);
         }

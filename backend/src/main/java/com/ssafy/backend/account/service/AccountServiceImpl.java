@@ -47,4 +47,9 @@ public class AccountServiceImpl implements AccountService {
 
         return new TokenVo(accessToken, refreshToken);
     }
+
+    @Override
+    public void deleteMember(Long memberSeq) {
+        memberService.deleteMember(memberSeq);
+    }
 }

@@ -4,13 +4,11 @@ import com.ssafy.backend.account.model.domain.vo.TokenVo;
 import com.ssafy.backend.account.service.AccountService;
 import com.ssafy.backend.account.service.OAuthService;
 import com.ssafy.backend.global.response.BaseResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.SUCCESS;
 
@@ -25,7 +23,6 @@ public class AcoountController {
     @Autowired
     @Qualifier("naverOAuthServiceImpl")
     OAuthService naverOAuthService;
-
 
     @Autowired
     AccountService accountService;
@@ -51,7 +48,6 @@ public class AcoountController {
      */
     @GetMapping("naver")
     public BaseResponse<?> naverLogin(@RequestParam String code, HttpServletResponse response) {
-        System.out.println("여기는 맞나요");
         String accessToken = naverOAuthService.getToken(code);
         String memberCode = naverOAuthService.getUser(accessToken);
 
@@ -60,6 +56,17 @@ public class AcoountController {
         response.setHeader("accessToken", tokenVo.getAccessToken());
         response.setHeader("refreshToken", tokenVo.getRefreshToken());
 
+        return new BaseResponse<>(SUCCESS);
+    }
+
+    /*
+     * 회원 탈퇴
+     */
+    @DeleteMapping("signout")
+    public BaseResponse<?> deleteMember(HttpServletRequest request) {
+//      Long membersSeq = (Long) request.getAttribute("seq");
+        Long memberSeq = 3L;
+        accountService.deleteMember(memberSeq);
         return new BaseResponse<>(SUCCESS);
     }
 }

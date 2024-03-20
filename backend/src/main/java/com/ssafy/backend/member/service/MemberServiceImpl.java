@@ -96,4 +96,14 @@ public class MemberServiceImpl implements MemberService {
         member.setNickname(nickname);
         memberRepository.save(member);
     }
+
+    @Override
+    public void deleteMember(Long memberSeq) {
+        Member member = memberRepository.findById(memberSeq).orElseThrow(()->new BaseException(NOT_EXIST_USER));
+        if (member.isDeleted()) {
+            throw new BaseException(NOT_EXIST_USER);
+        }
+        member.setDeleted(true);
+        memberRepository.save(member);
+    }
 }
