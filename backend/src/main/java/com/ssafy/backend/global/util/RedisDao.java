@@ -11,8 +11,6 @@ public class RedisDao {
     private RedisTemplate<String, Object> redisTemplate;
 
     public void saveToRedis(String key, Object value, Duration duration) {
-        System.out.println(key);
-        System.out.println(value);
         redisTemplate.opsForValue().set(key, value, duration);
     }
 

@@ -4,6 +4,7 @@ import com.ssafy.backend.account.model.domain.vo.TokenVo;
 import com.ssafy.backend.account.service.AccountService;
 import com.ssafy.backend.account.service.OAuthService;
 import com.ssafy.backend.global.response.BaseResponse;
+import com.ssafy.backend.global.util.RedisDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class AcoountController {
 
     @Autowired
     AccountService accountService;
+
+    @Autowired
+    RedisDao redisDao;
 
     /*
      * 카카오 로그인
@@ -56,6 +60,15 @@ public class AcoountController {
         response.setHeader("accessToken", tokenVo.getAccessToken());
         response.setHeader("refreshToken", tokenVo.getRefreshToken());
 
+        return new BaseResponse<>(SUCCESS);
+    }
+
+    @GetMapping("logout")
+    public BaseResponse<?> logout(HttpServletRequest request) {
+//      Long membersSeq = (Long) request.getAttribute("seq");
+        Long memberSeq = 2L;
+        redisDao.deleteFromRedis("accessToken:" + memberSeq);
+        redisDao.deleteFromRedis("refreshToken:" + memberSeq);
         return new BaseResponse<>(SUCCESS);
     }
 
