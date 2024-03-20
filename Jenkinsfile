@@ -1,6 +1,7 @@
 pipeline {
 
 	agent any
+	tools {nodejs "NodeJS"}
 
 	environment {
 		CREDENTIALS_ID = 'young285j'
@@ -28,7 +29,7 @@ pipeline {
 			steps {
 				echo 'Git Clone Start'
 
-				git branch : 'develop', credentialsId: '${CREDENTIALS_ID}', url: '${GIT_URL}'
+				git branch : 'develop', credentialsId: 'young285j', url: 'https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git'
 
 				echo 'Git Clone End'
 			}
