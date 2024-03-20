@@ -1,13 +1,10 @@
 package com.ssafy.backend.member.service;
 
 import com.ssafy.backend.global.exception.BaseException;
-import com.ssafy.backend.global.util.TagUtil;
+import com.ssafy.backend.global.util.GlobalUtil;
 import com.ssafy.backend.member.model.domain.Member;
 import com.ssafy.backend.member.model.mapping.MemberSeqMapping;
 import com.ssafy.backend.member.model.repository.MemberRepository;
-import com.ssafy.backend.member.model.vo.GetMemberInformationVo;
-import com.ssafy.backend.review.model.domain.DangmocaReview;
-import com.ssafy.backend.review.model.vo.UpdateReviewVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,10 +35,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Long isExistMember(String memberCode) {
-        Member member = memberRepository.findByMemberCode(memberCode);
-        if (member!=null) return member.getMemberSeq();
-        else return null;
+    public Member isExistMember(String memberCode) {
+        return memberRepository.findByMemberCode(memberCode);
     }
 
     @Override
@@ -102,7 +97,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void updatePreferenceTag(Long memberSeq, List<String> resultTag) {
         Member member = memberRepository.findById(memberSeq).orElseThrow(()->new BaseException(NOT_EXIST_USER));
-        member.setPreferenceTag(TagUtil.tagsToString(resultTag));
+        member.setPreferenceTag(GlobalUtil.tagsToString(resultTag));
         memberRepository.save(member);
     }
 

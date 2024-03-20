@@ -8,7 +8,8 @@ import java.util.List;
 public interface MemberService {
 
     Long OAuthRegist(String memberCode, char loginType, String nickname);
-    Long isExistMember(String memberCode);
+
+    Member isExistMember(String memberCode);
 
     List<Long> getSimilarMemberList(Long memberSeq);
 
