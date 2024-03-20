@@ -81,4 +81,10 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findByNickname(nickname);
         return member != null;
     }
+
+    @Override
+    public Member getMemberInformation(Long memberSeq) {
+        return memberRepository.findById(memberSeq).orElseThrow(()->new BaseException(NOT_EXIST_USER));
+    }
+
 }
