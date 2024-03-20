@@ -18,4 +18,6 @@ public interface MemberService {
     boolean isExistNickname(String nickname);
 
     Member getMemberInformation(Long memberSeq);
+
+    void updateNickname(Long memberSeq, String nickname);
 }

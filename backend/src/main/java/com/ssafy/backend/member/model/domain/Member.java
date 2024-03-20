@@ -4,6 +4,7 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Builder
@@ -26,6 +27,7 @@ public class Member {
     String imageUrl;
 
     @Column
+    @Setter
     String nickname;
 
     @Column

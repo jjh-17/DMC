@@ -1,16 +1,19 @@
 package com.ssafy.backend.member.service;
 
 import com.ssafy.backend.global.exception.BaseException;
+import com.ssafy.backend.global.util.TagUtil;
 import com.ssafy.backend.member.model.domain.Member;
 import com.ssafy.backend.member.model.mapping.MemberSeqMapping;
 import com.ssafy.backend.member.model.repository.MemberRepository;
+import com.ssafy.backend.review.model.domain.DangmocaReview;
+import com.ssafy.backend.review.model.vo.UpdateReviewVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_EXIST_USER;
+import static com.ssafy.backend.global.response.BaseResponseStatus.*;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -87,4 +90,10 @@ public class MemberServiceImpl implements MemberService {
         return memberRepository.findById(memberSeq).orElseThrow(()->new BaseException(NOT_EXIST_USER));
     }
 
+    @Override
+    public void updateNickname(Long memberSeq, String nickname) {
+        Member member = memberRepository.findById(memberSeq).orElseThrow(()->new BaseException(NOT_EXIST_USER));
+        member.setNickname(nickname);
+        memberRepository.save(member);
+    }
 }
