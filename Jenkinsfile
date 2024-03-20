@@ -1,7 +1,7 @@
 pipeline {
 
 	agent any
-	tools {nodejs "NodeJS"}
+	tools {nodejs 'NodeJS 21.7.1'}
 
 	environment {
 		CREDENTIALS_ID = 'young285j'
