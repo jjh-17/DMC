@@ -25,9 +25,13 @@ pipeline {
 
 
 		stage('Git Clone') {
-			echo 'Git Clone Start'
-			git branch : 'develop', credntialsId: ${CREDNTIALS_ID}, url: ${GIT_URL}
-			echo 'Git Clone End'
+			steps {
+				echo 'Git Clone Start'
+
+				git branch : 'develop', credntialsId: ${CREDNTIALS_ID}, url: ${GIT_URL}
+
+				echo 'Git Clone End'
+			}
 		}
 
 
@@ -35,72 +39,74 @@ pipeline {
 
 
 		stage('BE : Build') {
-			echo 'BE : Build Start'
+			steps {
+				echo 'BE : Build Start'
 
-			steps{
-				dir('./backend/') {
-					sh './gradlew clean build'
-				}
-			}
+					dir('./backend/') {
+						sh './gradlew clean build'
+					}
 
 			echo 'BE : Build End'
+			}
 		}
 
 
 		stage('BE : Docker Build') {
-			echo 'BE : Docker Build Start'
-
 			steps {
-				dir('./bacnkend/') {
-					script {
-						dockerImage = docker.build BACK_NAME
-					}
-				}
-			}
+				echo 'BE : Docker Build Start'
 
-			echo 'BE : Docker Build End'
+					dir('./bacnkend/') {
+						script {
+							dockerImage = docker.build BACK_NAME
+						}
+					}
+
+				echo 'BE : Docker Build End'
+			}
 		}
 
 
 		stage('BE : Docker Push') {
-			echo 'BE : Docker Push Start'
-
 			steps {
-				script {
-					dockerImage.push('latest')
-				}
-			}
+				echo 'BE : Docker Push Start'
 
-			echo 'BE : Docker Push End'
+					script {
+						dockerImage.push('latest')
+					}
+
+				echo 'BE : Docker Push End'
+			}
 		}
 
 
 		stage('BE : Remove Stopped Container') {
-			echo 'BE : Remove Stopped Start'
-
 			steps {
-				script {
-					def stoppedContainer =
-						sh(
-							script : 'ssh -t ${SSH_CONNECTION} \'docker ps -a --filter \"name = ${BACK_NAME}\" --filter \"status=exited\" --format \"{{.ID}}\"\'',
-							returnStdOut : true
-						).trim()
+				echo 'BE : Remove Stopped Start'
 
-					if (stoppedContainer) {
-						sh 'ssh -t ${SSH_CONNECTION} "docker rm ${stoppedContainer}"'
-						echo 'Stopped ${BACK_NAME}:${stoppedContainer} Container removed'
-					} else {
-						echo 'No Stopped ${BACK_NAME} Container found'
+					script {
+						def stoppedContainer =
+							sh(
+								script : 'ssh -t ${SSH_CONNECTION} \'docker ps -a --filter \"name = ${BACK_NAME}\" --filter \"status=exited\" --format \"{{.ID}}\"\'',
+								returnStdOut : true
+							).trim()
+
+						if (stoppedContainer) {
+							sh 'ssh -t ${SSH_CONNECTION} "docker rm ${stoppedContainer}"'
+							echo 'Stopped ${BACK_NAME}:${stoppedContainer} Container removed'
+						} else {
+							echo 'No Stopped ${BACK_NAME} Container found'
+						}
 					}
-				}
-			}
 
-			echo 'BE : Remove Stopped End'
+				echo 'BE : Remove Stopped End'
+			}
 		}
 
 
 		stage('BE : Deploy') {
 			steps {
+				echo 'BE : Deploy Start'
+
 				sshagent (credentials : [' ']) {
 					script {
 						sh 'ssh -o StrickHostKeyChecking = no ${SSH_CONNECTION} uptime'
@@ -137,6 +143,8 @@ pipeline {
 					}
 				}
 			}
+
+			echo 'BE : Deploy End'
 		}
 
 
@@ -144,53 +152,53 @@ pipeline {
 
 
 		stage('FE : Build') {
-			echo 'FE : Build Start'
-
 			steps {
+				echo 'FE : Build Start'
+
 				dir('./frontend/dangmoca-project') {
 					sh 'npm install'
 					sh 'npm run build'
 				}
-			}
 
-			echo 'FE : Build End'
+				echo 'FE : Build End'
+			}
 		}
 
 
 		stage('FE : Docker Build') {
-			echo 'FE : Docker Build Start'
-
 			steps {
+				echo 'FE : Docker Build Start'
+
 				dir('./forntend/dangmoca-project') {
 					script {
 						dockerImage = docker.build FRONT_NAME
 					}
 				}
-			}
 
-			echo 'FE : Docker Build End'
+				echo 'FE : Docker Build End'
+			}
 		}
 
 
 		stage('FE : Docker Push') {
-			echo 'FE : Docker Push Start'
-
 			steps {
+				echo 'FE : Docker Push Start'
+
 				dir('./frontend/dangmoca-project') {
 					script {
 						dockerImage.push('latest')
 					}
 				}
-			}
 
-			echo 'FE : Docker Push End'
+				echo 'FE : Docker Push End'
+			}
 		}
 
 
 		stage('FE : Remove Stopped Container') {
-			echo 'FE : Remove Stopped Start'
-
 			steps {
+				echo 'FE : Remove Stopped Start'
+
 				script {
 					def stoppedContainer =
 						sh(
@@ -205,14 +213,16 @@ pipeline {
 						echo 'No Stopped ${FRONT_NAME} Container found'
 					}
 				}
-			}
 
-			echo 'FE : Remove Stopped End'
+				echo 'FE : Remove Stopped End'
+			}
 		}
 
 
 		stage('FE : Deploy') {
 			steps {
+				echo 'FE : Deploy Start'
+
 				sshagent (credentials : [' ']) {
 					script {
 						sh 'ssh -o StrickHostKeyChecking = no ${SSH_CONNECTION} uptime'
@@ -249,6 +259,8 @@ pipeline {
 					}
 				}
 			}
+
+				echo 'FE : Deploy End'
 		}
 	}
 
