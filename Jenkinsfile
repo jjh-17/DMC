@@ -3,7 +3,7 @@ pipeline {
 	agent any
 
 	environment {
-		CREDNTIALS_ID = 'young285j'
+		CREDENTIALS_ID = 'young285j'
 		GIT_URL = 'https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git'
 		SSH_CONNECTION = 'ubuntu@j10a607.p.ssafy.io'
 		SSH_CONNECTION_SUB = 'ubuntu@j10a607a.p.ssafy.io'
@@ -28,7 +28,7 @@ pipeline {
 			steps {
 				echo 'Git Clone Start'
 
-				git branch : 'develop', credntialsId: '${CREDNTIALS_ID}', url: '${GIT_URL}'
+				git branch : 'develop', credentialsId: '${CREDENTIALS_ID}', url: '${GIT_URL}'
 
 				echo 'Git Clone End'
 			}
