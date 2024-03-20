@@ -42,7 +42,7 @@ export default function MyPage() {
   };
 
   const divClass = "min-w-[80%] m-10";
-  const spanClass = "ml-[25lvw] text-3xl lg:text-4xl whitespace-nowrap";
+  const spanClass = "ml-[25lvw] transform -translate-x-[50%] text-3xl lg:text-4xl whitespace-nowrap text-center";
   const buttonClass = "ml-[10lvw] text-sm lg:text-base whitespace-nowrap"
 
   return (
