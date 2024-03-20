@@ -3,7 +3,7 @@ pipeline {
 	agent any
 	tools {
 		nodejs 'NodeJS 21.7.1'
-		gradle 'Gradle 8.4'
+		gradle 'Gradle 8.6'
 	}
 
 	environment {
@@ -30,7 +30,7 @@ pipeline {
 			steps {
 				echo 'Git Clone Start'
 
-				git branch : 'develop', credentialsId: 'GitLab', url: 'https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git'
+				git branch : 'infra', credentialsId: 'GitLab', url: 'https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git'
 
 				echo 'Git Clone End'
 			}
