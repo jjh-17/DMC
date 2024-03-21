@@ -1,4 +1,5 @@
 import Button from "../components/common/Button"
+import InfoDiv from "../components/main/InfoDiv";
 import { useNavigate } from "react-router-dom";
 
 export default function MainPage() {
@@ -8,8 +9,6 @@ export default function MainPage() {
   const handleClick = () => {
     navigate('/login')
   };
-
-  const infoDivClass = "bg-[#BAA89B] flex flex-row justify-around bg-opacity-30 h-[30lvh] min-w-[40lvw] mt-[5lvh] items-center text-center shadow-md"
 
   return (
     <>
@@ -23,18 +22,10 @@ export default function MainPage() {
         </video>
         <Button label="시작하기" onClick={handleClick} addClass="whitespace-nowrap lg:text-3xl lg:p-4 lg:mb-20 lg:rounded-2xl" />
       </div>
-      <div className={infoDivClass}>
-        <h1> 내 주변 카페 찾으셈 ! </h1>
-        <div>svg</div>
-      </div>
-      <div className={infoDivClass}>
-        <div>svg</div>
-        <h1> 내 주변 카페 찾으셈 ! </h1>
-      </div>
-      <div className={infoDivClass}>
-        <h1> 내 주변 카페 찾으셈 ! </h1>
-        <div>아이콘</div>
-      </div>
+      <InfoDiv imgUrl="" imgAlt="카페추천화면" title="카페를 추천받으세요" description="ㅂㅂㅂ" />
+      <InfoDiv imgUrl="" imgAlt="카페북마크화면" title="당신의 카페를 북마크하세요" description="ㅂㅂㅂ" />
+      <InfoDiv imgUrl="" imgAlt="리뷰리스트화면" title="다른 사람의 리뷰 확인" description="ㅂㅂㅂ" />
+
     </>
   )
 }
