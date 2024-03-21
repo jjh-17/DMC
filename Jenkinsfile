@@ -64,25 +64,22 @@ pipeline {
 				echo 'BE : Docker Start'
 
 				echo 'Container stop & rm Start'
-				script{
-					def running =
-						sh(
-							script : 'ssh -t ${SSH_CONNECTION} \'docker ps -q -f name=${BACK_NAME}\'',
-							returnStdout : true
-						).trim()
-
 			echo '2'
+				def running = 
+					sh(
+						script : 'ssh -t ${SSH_CONNECTION} \'docker images -qf dangling=true \'',
+						returnStdOut : true
+					).trim()
 
-					if(running) {
 			echo '3'
-						sh 'ssh -t ${SSH_CONNECTION} "docker stop ${running}"'
-						echo '${BACK_NAME}:${running} Container stop'
+				sh 'ssh -t ${SSH_CONNECTION} "docker stop $('docker ps -qf name=${BACK_NAME}')"'
+				echo '${BACK_NAME}:${running} Container stop'
 			echo '4'
-						sh 'ssh -t ${SSH_CONNECTION} "docker rm ${running}"'
-						echo '${BACK_NAME}:${running} Container rm'
-					} else {
-						echo 'No Runngin ${BACK_NAME}:${running} Container'
-					}
+				sh 'ssh -t ${SSH_CONNECTION} "docker rm ${running}"'
+				echo '${BACK_NAME}:${running} Container rm'
+			} else {
+				echo 'No Runngin ${BACK_NAME}:${running} Container'
+
 				}
 				echo 'Container stop & rm End'
 
