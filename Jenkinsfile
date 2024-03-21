@@ -118,7 +118,7 @@ pipeline {
 					script {
 						sh 'ssh -o StrickHostKeyChecking = no ${SSH_CONNECTION} uptime'
 
-		echo 'BE 1'
+		sh 'cat 1'
 
 						script {
 							def existingContainerId =
@@ -127,7 +127,7 @@ pipeline {
 									returnStdout : true
 								).trim()
 
-		echo 'BE 2'
+		sh 'cat 2'
 
 							if (existingContainerId) {
 								sh 'ssh -t ${SSH_CONNECTION} "docker stop ${BACK_NAME}"'
@@ -137,7 +137,7 @@ pipeline {
 							}
 						}
 
-		echo 'BE 2'
+		sh 'cat 3'
 
 
 						script {
@@ -147,7 +147,7 @@ pipeline {
 									returnStdout : true
 								).trim()
 
-		echo 'BE 2'
+		sh 'cat 4'
 
 							if (existingImageId) {
 								sh 'ssh -t ${SSH_CONNECTION} "docker rmi ${existingImageId}"'
@@ -156,7 +156,7 @@ pipeline {
 							}
 						}
 
-		echo 'BE 2'
+		sh 'cat 5'
 
 
 						// sh 'ssh -t ${SSH_CONNECTION} "docker-compose pull ${DOCKER_COMPOSE_BACK}"'
