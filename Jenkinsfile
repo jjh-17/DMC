@@ -58,6 +58,7 @@ pipeline {
 			}
 		}
 
+/*
 		stage("BE : rm") {
 			steps {
 				echo "BE : rm Start"
@@ -65,7 +66,7 @@ pipeline {
 
 				echo "Container"
 				script {
-					def running = sh(script: '''docker ps -aqf name=${BACK_NAME}''', returnStdout: true).trim()
+					def running = sh(script: '''docker ps -aqf name = ${BACK_NAME}''', returnStdout: true).trim()
 					sh "${running}"
 					if(running != null && running != "") {
 						sh '''
@@ -75,10 +76,9 @@ pipeline {
 					}
 				}
 
-/*
 				echo "Image"
 				script {
-					def image = sh(script: '''docker images -aqf reference=${BACK_NAME}''', returnStdout: true).trim()
+					def image = sh(script: '''docker images -aqf reference = ${BACK_NAME}''', returnStdout: true).trim()
 					sh "${image}"
 					if(image != null && image != "") {
 						sh "docker rmi ${image}"
@@ -164,7 +164,7 @@ pipeline {
 				script {
 					def stoppedContainer =
 						sh(
-							script: '''ssh -t ${SSH_CONNECTION} \"docker ps -a --filter \"name=${FRONT_NAME}\" --filter \"status=exited\" --format \"{{.ID}}\"\"''',
+							script: '''ssh -t ${SSH_CONNECTION} \"docker ps -a --filter \"name = ${FRONT_NAME}\" --filter \"status=exited\" --format \"{{.ID}}\"\"''',
 							returnStdout: true
 						).trim()
 
@@ -191,7 +191,7 @@ pipeline {
 						script {
 							def existingContainerId =
 								sh(
-									script : "ssh -t ${SSH_CONNECTION} \"docker ps -q -f name=${FRONT_NAME}\"",
+									script : "ssh -t ${SSH_CONNECTION} \"docker ps -q -f name = ${FRONT_NAME}\"",
 									returnStdout : true
 								).trim()
 							if (existingContainerId) {
@@ -207,7 +207,7 @@ pipeline {
 						script {
 							def existingImageId =
 								sh(
-									script : "ssh -t ${SSH_CONNECTION} \"docker images -q -f name=${FRONT_NAME}\"",
+									script : "ssh -t ${SSH_CONNECTION} \"docker images -q -f name = ${FRONT_NAME}\"",
 									returnStdout : true
 								).trim()
 							if (existingImageId) {
