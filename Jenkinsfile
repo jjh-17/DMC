@@ -65,7 +65,7 @@ pipeline {
 
 				echo "Container"
 				script {
-					def running = sh(script: "docker ps -aqf name=${BACK_NAME}", returnStdout: true).trim()
+					def running = sh(script: '''docker ps -aqf name=${BACK_NAME}''', returnStdout: true).trim()
 					sh "${running}"
 					if(running != null && running != "") {
 						sh '''
@@ -78,7 +78,7 @@ pipeline {
 /*
 				echo "Image"
 				script {
-					def image = sh(script: "docker images -aqf reference=${BACK_NAME}", returnStdout: true).trim()
+					def image = sh(script: '''docker images -aqf reference=${BACK_NAME}''', returnStdout: true).trim()
 					sh "${image}"
 					if(image != null && image != "") {
 						sh "docker rmi ${image}"
@@ -164,7 +164,7 @@ pipeline {
 				script {
 					def stoppedContainer =
 						sh(
-							script: "ssh -t ${SSH_CONNECTION} \"docker ps -a --filter \"name=${FRONT_NAME}\" --filter \"status=exited\" --format \"{{.ID}}\"\"",
+							script: '''ssh -t ${SSH_CONNECTION} \"docker ps -a --filter \"name=${FRONT_NAME}\" --filter \"status=exited\" --format \"{{.ID}}\"\"''',
 							returnStdout: true
 						).trim()
 
@@ -235,8 +235,8 @@ pipeline {
 	post {
 		success {
 			script {
-				def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
-				def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+				def Author_ID = sh(script: '''git show -s --pretty=%an''', returnStdout: true).trim()
+				def Author_Name = sh(script: '''git show -s --pretty=%ae''', returnStdout: true).trim()
 				mattermostSend (
 					color: "good",
 					message: "빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)",
@@ -247,8 +247,8 @@ pipeline {
 		}
 		failure {
 			script {
-				def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
-				def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
+				def Author_ID = sh(script: '''git show -s --pretty=%an''', returnStdout: true).trim()
+				def Author_Name = sh(script: '''git show -s --pretty=%ae''', returnStdout: true).trim()
 				mattermostSend (
 					color: "danger",
 					message: "빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)",
