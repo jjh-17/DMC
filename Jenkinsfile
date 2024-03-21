@@ -4,7 +4,7 @@ pipeline {
 	tools {
 		nodejs 'NodeJS 21.7.1'
 		gradle 'Gradle 8.6'
-		docker 'DockerDefault'
+		dockerTool 'DockerDefault'
 	}
 
 	environment {
