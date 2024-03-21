@@ -80,7 +80,7 @@ pipeline {
 					def Image = sh(script: 'docker images -aqf reference=${BACK_NAME}', returnStdout: true).trim()
 					sh '''echo ${Image}'''
 					if(Image) {
-						sh 'docker rmi ${Image}'
+						sh '''docker rmi ${Image}'''
 					}
 				}
 
@@ -91,18 +91,14 @@ pipeline {
 		stage('BE : Docker') {
 			steps {
 				echo 'BE : Docker Build Start'
-				dir('./backend/') {
-					script {
-						sh '''docker build -t ${BACK_NAME}:latest ./'''
-					}
-				}
+				sh '''docker build -t ${BACK_NAME}:latest ./'''
 				echo 'BE : Docker Build End'
 			}
 		}
 
 		stage('BE : Container') {
 			steps {
-				sh ''' docker run --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}'''
+				sh '''docker run --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}'''
 			}
 		}
 
@@ -167,10 +163,10 @@ pipeline {
 						).trim()
 
 					if (stoppedContainer) {
-						sh 'ssh -t ${SSH_CONNECTION} "docker rm ${stoppedContainer}"'
-						echo 'Stopped ${BACK_NAME}:${stoppedContainer} Container removed'
+						sh '''ssh -t ${SSH_CONNECTION} "docker rm ${stoppedContainer}"'''
+						echo '''Stopped ${BACK_NAME}:${stoppedContainer} Container removed'''
 					} else {
-						echo 'No Stopped ${FRONT_NAME} Container found'
+						echo '''No Stopped ${FRONT_NAME} Container found'''
 					}
 				}
 
@@ -184,7 +180,7 @@ pipeline {
 				echo 'FE : Update Start'
 				sshagent (credentials : [' ']) {
 					script {
-						sh 'ssh -o StrickHostKeyChecking = no ${SSH_CONNECTION} uptime'
+						sh '''ssh -o StrickHostKeyChecking = no ${SSH_CONNECTION} uptime'''
 
 						script {
 							def existingContainerId =
@@ -193,10 +189,10 @@ pipeline {
 									returnStdout : true
 								).trim()
 							if (existingContainerId) {
-								sh 'ssh -t ${SSH_CONNECTION} "docker stop ${FRONT_NAME}"'
-								sh 'ssh -t ${SSH_CONNECTION} "docker rm ${FRONT_NAME}"'
+								sh '''docker stop ${FRONT_NAME}'''
+								sh '''docker rm ${FRONT_NAME}'''
 							} else {
-								echo 'No Existing ${FRONT_NAME} Container'
+								echo '''No Existing ${FRONT_NAME} Container'''
 							}
 						}
 
@@ -207,15 +203,15 @@ pipeline {
 									returnStdout : true
 								).trim()
 							if (existingImageId) {
-								sh 'ssh -t ${SSH_CONNECTION} "docker rmi ${existingImageId}"'
+								sh '''docker rmi ${existingImageId}'''
 							} else {
-								echo 'No Existing ${FRONT_NAME} Image'
+								echo '''No Existing ${FRONT_NAME} Image'''
 							}
 						}
 
-						// sh 'ssh -t ${SSH_CONNECTION} "docker-compose pull ${DOCKER_COMPOSE_FRONT}"'
-						// sh 'ssh -t ${SSH_CONNECTION} "docker-compose up -d ${DOCKER_COMPOSE_FRONT}"'
-						sh 'ssh -t ${SSH_CONNECTION} "docker run --name ${FRONT_NAME} -d -p ${DOCKER_FRONT_PORT}:{FRONT_PORT}  ${FRONT_NAME}"'
+						// sh '''docker-compose pull ${DOCKER_COMPOSE_FRONT}'''
+						// sh '''docker-compose up -d ${DOCKER_COMPOSE_FRONT}'''
+						sh '''docker run --name ${FRONT_NAME} -d -p ${DOCKER_FRONT_PORT}:{FRONT_PORT}  ${FRONT_NAME}'''
 					}
 				}
 				echo 'FE : Update Start'
@@ -235,7 +231,7 @@ pipeline {
 				def Author_Name = sh(script: 'git show -s --pretty=%ae', returnStdout: false).trim()
 				mattermostSend (
 					color: 'good',
-					message: '빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)',
+					message: '''빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)''',
 					endpoint: '''${MATTERMOST_ENDPOINT}''',
 					channel: '''${MATTERMOST_CHANNEL}'''
 				)
@@ -247,7 +243,7 @@ pipeline {
 				def Author_Name = sh(script: 'git show -s --pretty=%ae', returnStdout: false).trim()
 				mattermostSend (
 					color: 'danger',
-					message: '빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)',
+					message: '''빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)''',
 					endpoint: '''${MATTERMOST_ENDPOINT}''',
 					channel: '''${MATTERMOST_CHANNEL}'''
 				)
