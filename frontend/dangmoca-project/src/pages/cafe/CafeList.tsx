@@ -82,7 +82,7 @@ const CafeListPage = () => {
 
   const submitFilter = () => {
     setCafeList(cafeDummyData);
-    setCafeList(CafeFilterAndSort(cafeList, selectedSorts.current, selectedTags.current, selectedDesserts.current))
+    setCafeList(prevCafeList => CafeFilterAndSort(prevCafeList, selectedSorts.current, selectedTags.current, selectedDesserts.current));
   };
 
   return (
