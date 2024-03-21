@@ -73,7 +73,7 @@ pipeline {
 			}
 		}
 
-/*
+
 		stage('BE : Docker Push') {
 			steps {
 				echo 'BE : Docker Push Start'
@@ -85,7 +85,7 @@ pipeline {
 				echo 'BE : Docker Push End'
 			}
 		}
-*/
+
 /*
 		stage('BE : Remove Stopped Container') {
 			steps {
