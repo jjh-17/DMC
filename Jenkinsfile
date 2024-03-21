@@ -74,8 +74,7 @@ pipeline {
 						'''
 					}
 				}
-*/
-/*
+
 				echo "Image"
 				script {
 					def image = sh(script: "docker images -aqf reference=${BACK_NAME}", returnStdout: true).trim()
@@ -84,12 +83,11 @@ pipeline {
 						sh "docker rmi ${image}"
 					}
 				}
-*/
 
 				echo "BE : rm End"
 			}
 		}
-
+*/
 		stage("BE : Docker") {
 			steps {
 				echo "BE : Docker Build Start"
