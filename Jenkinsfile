@@ -75,7 +75,7 @@ pipeline {
 
 				echo 'Image'
 				script {
-					def image = sh 'docker ps -q ${BACK_NAME}:latest'
+					def image = sh 'docker ps -qf name=${BACK_NAME}'
 					if(image) {
 						sh 'docker rmi ${image}'
 					}
