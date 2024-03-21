@@ -67,7 +67,7 @@ pipeline {
 				script {
 					def running = sh(script: 'docker ps -aqf name=${BACK_NAME}', returnStdout: true).trim()
 					sh '''${running}'''
-					if(running!="") {
+					if(running != null && running != "") {
 						sh '''
 							docker stop ${BACK_NAME}
 							docker rm ${BACK_NAME}
@@ -77,10 +77,10 @@ pipeline {
 
 				echo 'Image'
 				script {
-					def Image = sh(script: 'docker images -aqf reference=${BACK_NAME}', returnStdout: true).trim()
-					sh '''${Image}'''
-					if(Image!="") {
-						sh '''docker rmi ${Image}'''
+					def image = sh(script: 'docker images -aqf reference=${BACK_NAME}', returnStdout: true).trim()
+					sh '''${image}'''
+					if(image != null && image != "") {
+						sh '''docker rmi ${image}'''
 					}
 				}
 
