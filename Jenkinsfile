@@ -97,7 +97,7 @@ pipeline {
 				echo 'Image Build End'
 
 				echo 'Service Running Start'
-				sh 'ssh -t ${SSH_CONNECTION} "docker run --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}
+				sh 'ssh -t ${SSH_CONNECTION} "docker run --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}"'
 				echo 'Service Running End'
 
 				echo 'BE : Docker End'
