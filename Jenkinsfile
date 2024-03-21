@@ -2,25 +2,25 @@ pipeline {
 
 	agent any
 	tools {
-		nodejs 'NodeJS 21.7.1'
-		gradle 'Gradle 8.6'
-		dockerTool 'DockerDefault'
+		nodejs "NodeJS 21.7.1"
+		gradle "Gradle 8.6"
+		dockerTool "DockerDefault"
 	}
 
 	environment {
-		SSH_CONNECTION = 'ubuntu@j10a607.p.ssafy.io'
-		SSH_CONNECTION_SUB = 'ubuntu@j10a607a.p.ssafy.io'
+		SSH_CONNECTION = "ubuntu@j10a607.p.ssafy.io"
+		SSH_CONNECTION_SUB = "ubuntu@j10a607a.p.ssafy.io"
 
-		BACK_NAME = 'dmc_be'
-		BACK_PORT = '8082'
-		FRONT_NAME = 'dmc_fe'
-		FRONT_PORT = '5173'
+		BACK_NAME = "dmc_be"
+		BACK_PORT = "8082"
+		FRONT_NAME = "dmc_fe"
+		FRONT_PORT = "5173"
 
-		DOCKER_BACK_PORT = '8082'
-		DOCKER_FRONT_PORT = '5173'
+		DOCKER_BACK_PORT = "8082"
+		DOCKER_FRONT_PORT = "5173"
 
-		MATTERMOST_ENDPOINT = 'https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh'
-		MATTERMOST_CHANNEL = 'A607-Jenkins'
+		MATTERMOST_ENDPOINT = "https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh"
+		MATTERMOST_CHANNEL = "A607-Jenkins"
 	}
 
 	stages {
@@ -29,13 +29,13 @@ pipeline {
 
 
 
-		stage('Git Clone') {
+		stage("Git Clone") {
 			steps {
-				echo 'Git Clone Start'
+				echo "Git Clone Start"
 
-				git branch : 'infra', credentialsId: 'GitLab', url: 'https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git'
+				git branch : "infra", credentialsId: "GitLab", url: "https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git"
 
-				echo 'Git Clone End'
+				echo "Git Clone End"
 			}
 		}
 
@@ -43,29 +43,29 @@ pipeline {
 
 
 
-		stage('BE : Build') {
+		stage("BE : Build") {
 			steps {
-				echo 'BE : Build Start'
+				echo "BE : Build Start"
 
-					dir('./backend/') {
+					dir("./backend/") {
 						sh '''
 							chmod +x gradlew
 							./gradlew clean build
 						'''
 					}
 
-			echo 'BE : Build End'
+			echo "BE : Build End"
 			}
 		}
 
-		stage('BE : rm') {
+		stage("BE : rm") {
 			steps {
-				echo 'BE : rm Start'
+				echo "BE : rm Start"
 				
 
-				echo 'Container'
+				echo "Container"
 				script {
-					def running = sh(script: 'docker ps -aqf name=${BACK_NAME}', returnStdout: true).trim()
+					def running = sh(script: "docker ps -aqf name=${BACK_NAME}", returnStdout: true).trim()
 					sh '''${running}'''
 					if(running != null && running != "") {
 						sh '''
@@ -76,9 +76,9 @@ pipeline {
 				}
 
 /*
-				echo 'Image'
+				echo "Image"
 				script {
-					def image = sh(script: 'docker images -aqf reference=${BACK_NAME}', returnStdout: true).trim()
+					def image = sh(script: "docker images -aqf reference=${BACK_NAME}", returnStdout: true).trim()
 					sh '''${image}'''
 					if(image != null && image != "") {
 						sh '''docker rmi ${image}'''
@@ -86,23 +86,23 @@ pipeline {
 				}
 */
 
-				echo 'BE : rm End'
+				echo "BE : rm End"
 			}
 		}
 
-		stage('BE : Docker') {
+		stage("BE : Docker") {
 			steps {
-				echo 'BE : Docker Build Start'
-				dir('./backend/') {
+				echo "BE : Docker Build Start"
+				dir("./backend/") {
 					script {
 						sh '''docker build -t ${BACK_NAME}:latest ./'''
 					}
 				}
-				echo 'BE : Docker Build End'
+				echo "BE : Docker Build End"
 			}
 		}
 
-		stage('BE : Container') {
+		stage("BE : Container") {
 			steps {
 				sh '''docker run --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}'''
 			}
@@ -113,58 +113,58 @@ pipeline {
 
 
 /**
-		stage('FE : Build') {
+		stage("FE : Build") {
 			steps {
-				echo 'FE : Build Start'
+				echo "FE : Build Start"
 
-				dir('./frontend/dangmoca-project') {
-					sh 'npm install'
-					sh 'npm run build'
+				dir("./frontend/dangmoca-project") {
+					sh "npm install"
+					sh "npm run build"
 				}
 
-				echo 'FE : Build End'
+				echo "FE : Build End"
 			}
 		}
 
 
-		stage('FE : Docker Build') {
+		stage("FE : Docker Build") {
 			steps {
-				echo 'FE : Docker Build Start'
+				echo "FE : Docker Build Start"
 
-				dir('./forntend/dangmoca-project') {
+				dir("./forntend/dangmoca-project") {
 					script {
 						dockerImage = docker.build FRONT_NAME
 					}
 				}
 
-				echo 'FE : Docker Build End'
+				echo "FE : Docker Build End"
 			}
 		}
 **/
 /*
-		stage('FE : Docker Push') {
+		stage("FE : Docker Push") {
 			steps {
-				echo 'FE : Docker Push Start'
+				echo "FE : Docker Push Start"
 
-				dir('./frontend/dangmoca-project') {
+				dir("./frontend/dangmoca-project") {
 					script {
-						dockerImage.push('latest')
+						dockerImage.push("latest")
 					}
 				}
 
-				echo 'FE : Docker Push End'
+				echo "FE : Docker Push End"
 			}
 		}
 */
 /*
-		stage('FE : Remove Stopped Container') {
+		stage("FE : Remove Stopped Container") {
 			steps {
-				echo 'FE : Remove Stopped Start'
+				echo "FE : Remove Stopped Start"
 
 				script {
 					def stoppedContainer =
 						sh(
-							script: 'ssh -t ${SSH_CONNECTION} \'docker ps -a --filter \"name=${FRONT_NAME}\" --filter \"status=exited\" --format \'{{.ID}}\'\"',
+							script: "ssh -t ${SSH_CONNECTION} \"docker ps -a --filter \"name=${FRONT_NAME}\" --filter \"status=exited\" --format \"{{.ID}}\"\"",
 							returnStdout: true
 						).trim()
 
@@ -176,22 +176,22 @@ pipeline {
 					}
 				}
 
-				echo 'FE : Remove Stopped End'
+				echo "FE : Remove Stopped End"
 			}
 		}
 */
 /**
-		stage('FE : Update') {
+		stage("FE : Update") {
 			steps {
-				echo 'FE : Update Start'
-				sshagent (credentials : [' ']) {
+				echo "FE : Update Start"
+				sshagent (credentials : [" "]) {
 					script {
 						sh '''ssh -o StrickHostKeyChecking = no ${SSH_CONNECTION} uptime'''
 
 						script {
 							def existingContainerId =
 								sh(
-									script : 'ssh -t ${SSH_CONNECTION} "docker ps -q -f name=${FRONT_NAME}"',
+									script : "ssh -t ${SSH_CONNECTION} \"docker ps -q -f name=${FRONT_NAME}\"",
 									returnStdout : true
 								).trim()
 							if (existingContainerId) {
@@ -205,7 +205,7 @@ pipeline {
 						script {
 							def existingImageId =
 								sh(
-									script : 'ssh -t ${SSH_CONNECTION} "docker images -q -f name=${FRONT_NAME}"',
+									script : "ssh -t ${SSH_CONNECTION} \"docker images -q -f name=${FRONT_NAME}\"",
 									returnStdout : true
 								).trim()
 							if (existingImageId) {
@@ -220,7 +220,7 @@ pipeline {
 						sh '''docker run --name ${FRONT_NAME} -d -p ${DOCKER_FRONT_PORT}:{FRONT_PORT}  ${FRONT_NAME}'''
 					}
 				}
-				echo 'FE : Update Start'
+				echo "FE : Update Start"
 			}
 		}
 **/
@@ -248,7 +248,7 @@ pipeline {
 				def Author_ID = sh(script: "git show -s --pretty=%an", returnStdout: true).trim()
 				def Author_Name = sh(script: "git show -s --pretty=%ae", returnStdout: true).trim()
 				mattermostSend (
-					color: 'danger',
+					color: "danger",
 					message: "빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)",
 					endpoint: "${MATTERMOST_ENDPOINT}",
 					channel: "${MATTERMOST_CHANNEL}"
