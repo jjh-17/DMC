@@ -93,7 +93,11 @@ pipeline {
 		stage('BE : Docker') {
 			steps {
 				echo 'BE : Docker Build Start'
-				sh '''docker build -t ${BACK_NAME}:latest ./'''
+				dir('./backend/') {
+					script {
+						sh '''docker build -t ${BACK_NAME}:latest ./'''
+					}
+				}
 				echo 'BE : Docker Build End'
 			}
 		}
