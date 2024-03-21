@@ -30,7 +30,7 @@ pipeline {
 			steps {
 				echo 'Git Clone Start'
 
-				git branch : 'develop', credentialsId: 'GitLab', url: 'https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git'
+				git branch : 'infra', credentialsId: 'GitLab', url: 'https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git'
 
 				echo 'Git Clone End'
 			}
@@ -45,8 +45,12 @@ pipeline {
 				echo 'BE : Build Start'
 
 					dir('./backend/') {
-						sh 'pwd'
-						sh './gradlew clean build'
+						sh '''
+							gradle wrapper
+							gradle init
+							chmod +x gradlew
+							./gradlew clean build
+						'''
 					}
 
 			echo 'BE : Build End'
