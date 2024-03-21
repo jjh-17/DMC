@@ -41,7 +41,7 @@ const BottomSheet = ({ prop }) => {
       />
 
       <motion.div
-        className="fixed bottom-96 left-0 w-full bg-white shadow-lg rounded-t-3xl p-3"
+        className="absolute top-0 left-0 w-full bg-white shadow-lg rounded-t-3xl p-3"
         style={{ height: "auto" }}
         initial="closed"
         animate={animateState}
