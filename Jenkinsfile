@@ -66,7 +66,7 @@ pipeline {
 				echo 'Container'
 				script {
 					def running = sh(script: 'docker ps -aqf name=${BACK_NAME}', returnStdout: true).trim()
-					echo '${running}'
+					sh '''echo ${running}'''
 					if(running) {
 						sh '''
 							docker stop ${BACK_NAME}
@@ -78,7 +78,7 @@ pipeline {
 				echo 'image'
 				script {
 					def image = sh(script: 'docker images -aqf reference=${BACK_NAME}', returnStdout: true).trim()
-					echo '${image}'
+					sh '''echo ${image}'''
 					if(image) {
 						sh 'docker rmi ${image}'
 					}
@@ -93,7 +93,7 @@ pipeline {
 				echo 'BE : Docker Build Start'
 				dir('./backend/') {
 					script {
-						sh 'docker build -t ${BACK_NAME}:latest ./'
+						sh '''docker build -t ${BACK_NAME}:latest ./'''
 					}
 				}
 				echo 'BE : Docker Build End'
@@ -102,7 +102,7 @@ pipeline {
 
 		stage('BE : Container') {
 			steps {
-				sh ' docker run --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}'
+				sh ''' docker run --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}'''
 			}
 		}
 
@@ -231,8 +231,8 @@ pipeline {
 	post {
 		success {
 			script {
-				def Author_ID = sh(script: 'git show -s --pretty=%an', returnStdout: false).trim()
-				def Author_Name = sh(script: 'git show -s --pretty=%ae', returnStdout: false).trim()
+				def Author_ID = sh(script: 'git show -s --pretty=%an', returnStdout: true).trim()
+				def Author_Name = sh(script: 'git show -s --pretty=%ae', returnStdout: true).trim()
 				mattermostSend (
 					color: 'good', 
 					message: '빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)', 
@@ -243,8 +243,8 @@ pipeline {
 		}
 		failure {
 			script {
-				def Author_ID = sh(script: 'git show -s --pretty=%an', returnStdout: false).trim()
-				def Author_Name = sh(script: 'git show -s --pretty=%ae', returnStdout: false).trim()
+				def Author_ID = sh(script: 'git show -s --pretty=%an', returnStdout: true).trim()
+				def Author_Name = sh(script: 'git show -s --pretty=%ae', returnStdout: true).trim()
 				mattermostSend (
 					color: 'danger', 
 					message: '빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)', 
