@@ -75,7 +75,8 @@ pipeline {
 						'''
 					}
 				}
-
+*/
+/*
 				echo "Image"
 				script {
 					def image = sh(script: "docker images -aqf reference=${BACK_NAME}", returnStdout: true).trim()
@@ -226,7 +227,6 @@ pipeline {
 			}
 		}
 **/
-
 	}
 
 
