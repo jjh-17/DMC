@@ -30,6 +30,12 @@ dist-ssr
 ###### Added ######
 .idea
 
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
 
 # Created by https://www.toptal.com/developers/gitignore/api/java,intellij,eclipse,vuejs,vue,visualstudiocode,git,gradle,redis
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,intellij,eclipse,vuejs,vue,visualstudiocode,git,gradle,redis
