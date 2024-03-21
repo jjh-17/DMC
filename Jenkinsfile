@@ -75,7 +75,7 @@ pipeline {
 					}
 				}
 
-/*
+
 				echo 'Image'
 				script {
 					def image = sh(script: 'docker images -aqf reference=${BACK_NAME}', returnStdout: true).trim()
@@ -84,7 +84,7 @@ pipeline {
 						sh '''docker rmi ${image}'''
 					}
 				}
-*/
+
 
 				echo 'BE : rm End'
 			}
@@ -237,9 +237,9 @@ pipeline {
 				def Author_Name = sh(script: 'git show -s --pretty=%ae', returnStdout: true).trim()
 				mattermostSend (
 					color: 'good',
-					message: '''빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)''',
-					endpoint: 'https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh',
-					channel: 'A607-Jenkins'
+					message: '빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)',
+					endpoint: '${MATTERMOST_ENDPOINT}',
+					channel: '${MATTERMOST_CHANNEL}'
 				)
 			}
 		}
@@ -249,9 +249,9 @@ pipeline {
 				def Author_Name = sh(script: 'git show -s --pretty=%ae', returnStdout: true).trim()
 				mattermostSend (
 					color: 'danger',
-					message: '''빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)''',
-					endpoint: 'https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh',
-					channel: 'A607-Jenkins'
+					message: '빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)',
+					endpoint: '${MATTERMOST_ENDPOINT}',
+					channel: '${MATTERMOST_CHANNEL}'
 				)
 			}
 		}
