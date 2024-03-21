@@ -1,0 +1,35 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_URL}:${MYSQL_PORT}/${MYSQL_DB}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  # data:
+    # redis:
+      # host: localhost
+      # port: 6379
+      # password: ohyes
+
+kakao:
+  rest-api-key: ${KAKAO_KEY}
+  redirect.url: http://localhost:5173/kakaoLogin
+
+naver:
+  client-id: ${NAVER_ID}
+  client-secret: ${NAVER_SECRET}
+  state: test
+  redirect.url: http://localhost:5173/naverLogin
+
+
+security:
+  salt: ${SECURITY_SALT}
+  access-token-expire: 1000000
+  refresh-token-expire: 10000000
