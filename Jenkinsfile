@@ -19,8 +19,8 @@ pipeline {
 		DOCKER_BACK_PORT = '8082'
 		DOCKER_FRONT_PORT = '5173'
 
-		// MATTERMOST_ENDPOINT = 'https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh'
-		// MATTERMOST_CHANNEL = 'A607-Jenkins'
+		MATTERMOST_ENDPOINT = 'https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh'
+		MATTERMOST_CHANNEL = 'A607-Jenkins'
 	}
 
 	stages {
@@ -229,8 +229,6 @@ pipeline {
 
 
 	post {
-		def MATTERMOST_ENDPOINT = 'https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh'
-		def MATTERMOST_CHANNEL = 'A607-Jenkins'
 		success {
 			script {
 				def Author_ID = sh(script: 'git show -s --pretty=%an', returnStdout: true).trim()
@@ -238,8 +236,8 @@ pipeline {
 				mattermostSend (
 					color: 'good', 
 					message: '빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)', 
-					endpoint: '${MATTERMOST_ENDPOINT}', 
-					channel: '${MATTERMOST_CHANNEL}'
+					endpoint: ${MATTERMOST_ENDPOINT}, 
+					channel: ${MATTERMOST_CHANNEL}
 				)
 			}
 		}
@@ -250,8 +248,8 @@ pipeline {
 				mattermostSend (
 					color: 'danger', 
 					message: '빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)', 
-					endpoint: '${MATTERMOST_ENDPOINT}', 
-					channel: '${MATTERMOST_CHANNEL}'
+					endpoint: ${MATTERMOST_ENDPOINT}, 
+					channel: ${MATTERMOST_CHANNEL}
 				)
 			}
 		}
