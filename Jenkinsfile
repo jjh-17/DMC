@@ -79,7 +79,7 @@ pipeline {
 				script {
 					def image = sh(script: 'docker images -aqf reference=${BACK_NAME}', returnStdout: true).trim()
 					sh '''${image}'''
-					if(${image}) {
+					if(${image}!="") {
 						sh '''docker rmi ${image}'''
 					}
 				}
