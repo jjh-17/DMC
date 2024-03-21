@@ -85,7 +85,8 @@ pipeline {
 				echo 'Container stop & rm End'
 
 				echo 'Dangling Image rmi Start'
-				sh 'ssh -t ${SSH_CONNECTION} "docker rmi \' docker images -f dangling=true -q \'"'
+
+					sh 'ssh -t ${SSH_CONNECTION} \"docker rmi \' $(docker images -qf dangling=true)  \'\"'
 				echo 'Dangling Image rmi End'
 
 				echo 'Image Build Start'
