@@ -113,6 +113,7 @@ pipeline {
 
 		stage('BE : Update') {
 			steps {
+				echo 'BE : Update Start'
 				sshagent (credentials : [' ']) {
 					script {
 						sh 'ssh -o StrickHostKeyChecking = no ${SSH_CONNECTION} uptime'
@@ -149,6 +150,7 @@ pipeline {
 						sh 'ssh -t ${SSH_CONNECTION} "docker run --name ${BACK_NAME} -d -p ${DOCKER_BACK_PORT}:{BACK_PORT} ${BACK_NAME}"'
 					}
 				}
+				echo 'BE : Update End'
 			}
 		}
 
@@ -224,9 +226,9 @@ pipeline {
 		}
 */
 
-		stage('FE : Deploy') {
+		stage('FE : Update') {
 			steps {
-
+				echo 'FE : Update Start'
 				sshagent (credentials : [' ']) {
 					script {
 						sh 'ssh -o StrickHostKeyChecking = no ${SSH_CONNECTION} uptime'
@@ -263,6 +265,7 @@ pipeline {
 						sh 'ssh -t ${SSH_CONNECTION} "docker run --name ${FRONT_NAME} -d -p ${DOCKER_FRONT_PORT}:{FRONT_PORT}  ${FRONT_NAME}"'
 					}
 				}
+				echo 'FE : Update Start'
 			}
 
 		}
