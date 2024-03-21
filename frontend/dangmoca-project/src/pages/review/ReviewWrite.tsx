@@ -87,20 +87,24 @@ export default function ReviewWrite() {
 
   const labelClass = "lg:text-2xl";
 
+  {
+    /* <div className="flex flex-col w-fit gap-4 text-center"></div> */
+  }
+
   return (
-    <div className="flex flex-col w-fit gap-4 text-center">
-      <img
+    <div className="min-w-screen max-w-[600px] flex flex-col gap-4 border-b-[1px] border-slate-500 mx-auto p-6">
+      {/* <img
         src="src/assets/testpic/bana.jpg"
         className="opacity-40 h-[40lvh] w-screen object-cover"
       />
       <div className="absolute text-3xl lg:text-4xl top-[37lvh] left-[50lvw] -translate-x-[50%]">
         {cafe.name}
-      </div>
+      </div> */}
       <label className="text-center text-2xl lg:text-3xl">별점 등록하기</label>
       <ReviewRating onRatingChange={handleRatingChange} />
-      <form className="p-4 m-4">
+      <form className="p-4 m-4 flex flex-col items-center">
         <div className="w-[25lvh] h-[25lvh] text-center padding-1 relative cursor-pointer border-2 border-dashed mb-5 mx-auto">
-          <img src="src/assets/pictures/upload.jpg" alt="upload" />
+          <img src="/src/assets/pictures/upload.jpg" alt="upload" />
           <h3>사진을 업로드하세요</h3>
           <input
             id="uploadInput"
