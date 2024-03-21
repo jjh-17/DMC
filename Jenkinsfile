@@ -61,46 +61,11 @@ pipeline {
 
 		stage('BE : Docker') {
 			steps {
-				echo 'BE : Docker Start'
-
-				echo 'Container stop & rm Start'
-			echo '2'
-				def running = 
-					sh(
-						script : 'ssh -t ${SSH_CONNECTION} \'docker images -qf dangling=true \'',
-						returnStdOut : true
-					).trim()
-
-			echo '3'
-				sh 'ssh -t ${SSH_CONNECTION} "docker stop $('docker ps -qf name=${BACK_NAME}')"'
-				echo '${BACK_NAME}:${running} Container stop'
-			echo '4'
-				sh 'ssh -t ${SSH_CONNECTION} "docker rm ${running}"'
-				echo '${BACK_NAME}:${running} Container rm'
-			} else {
-				echo 'No Runngin ${BACK_NAME}:${running} Container'
-
-				}
-				echo 'Container stop & rm End'
-
-				echo 'Dangling Image rmi Start'
-
-					sh 'ssh -t ${SSH_CONNECTION} \"docker rmi \' $(docker images -qf dangling=true)  \'\"'
-				echo 'Dangling Image rmi End'
-
-				echo 'Image Build Start'
 				dir('./backend/') {
 					script {
-						dockerImage = docker.build BACK_NAME
+						sh 'docker build -t ${BACK_NAME}:latest ./'
 					}
 				}
-				echo 'Image Build End'
-
-				echo 'Service Running Start'
-				sh 'ssh -t ${SSH_CONNECTION} "docker run --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}"'
-				echo 'Service Running End'
-
-				echo 'BE : Docker End'
 			}
 		}
 
