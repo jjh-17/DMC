@@ -59,103 +59,56 @@ pipeline {
 		}
 
 
-		stage('BE : Docker Build') {
+		stage('BE : Docker') {
 			steps {
-				echo 'BE : Docker Build Start'
+				echo 'BE : Docker Start'
 
-					dir('./backend/') {
-						script {
-							dockerImage = docker.build BACK_NAME
-						}
-					}
 
-				echo 'BE : Docker Build End'
-			}
-		}
+				echo 'Container stop & rm Start'
+				script{
+					def running =
+						sh(
+							script : 'ssh -t ${SSH_CONNECTION} "docker ps -q -f name=${BACK_NAME}"',
+							returnStdout : true
+						).trim()
 
-/*
-		stage('BE : Docker Push') {
-			steps {
-				echo 'BE : Docker Push Start'
+					if(running) {
+						sh 'ssh -t ${SSH_CONNECTION} "docker stop ${running}"'
+						echo '${BACK_NAME}:${running} Container stop'
 
-					script {
-						dockerImage.push('latest')
-					}
-
-				echo 'BE : Docker Push End'
-			}
-		}
-*/
-/*
-		stage('BE : Remove Stopped Container') {
-			steps {
-				echo 'BE : Remove Stopped Start'
-
-					script {
-						def stoppedContainer =
-							sh(
-								script : 'ssh -t ${SSH_CONNECTION} \'docker ps -a --filter \"name = ${BACK_NAME}\" --filter \"status=exited\" --format \"{{.ID}}\"\'',
-								returnStdOut : true
-							).trim()
-
-						if (stoppedContainer) {
-							sh 'ssh -t ${SSH_CONNECTION} "docker rm ${stoppedContainer}"'
-							echo 'Stopped ${BACK_NAME}:${stoppedContainer} Container removed'
-						} else {
-							echo 'No Stopped ${BACK_NAME} Container found'
-						}
-					}
-
-				echo 'BE : Remove Stopped End'
-			}
-		}
-*/
-/*
-		stage('BE : Update') {
-			steps {
-				sshagent (credentials : [' ']) {
-					script {
-						sh 'ssh -o StrickHostKeyChecking = no ${SSH_CONNECTION} uptime'
-
-						script {
-							def existingContainerId =
-								sh(
-									script : 'ssh -t ${SSH_CONNECTION} "docker ps -q -f name=${BACK_NAME}"',
-									returnStdout : true
-								).trim()
-							if (existingContainerId) {
-								sh 'ssh -t ${SSH_CONNECTION} "docker stop ${BACK_NAME}"'
-								sh 'ssh -t ${SSH_CONNECTION} "docker rm ${BACK_NAME}"'
-							} else {
-								echo 'No Existing ${BACK_NAME} Container'
-							}
-						}
-
-						script {
-							def existingImageId =
-								sh(
-									script : 'ssh -t ${SSH_CONNECTION} "docker images -q -f name=${BACK_NAME}"',
-									returnStdout : true
-								).trim()
-							if (existingImageId) {
-								sh 'ssh -t ${SSH_CONNECTION} "docker rmi ${existingImageId}"'
-							} else {
-								echo 'No Existing ${BACK_NAME} Image'
-							}
-						}
-
-						// sh 'ssh -t ${SSH_CONNECTION} "docker-compose pull ${DOCKER_COMPOSE_BACK}"'
-						// sh 'ssh -t ${SSH_CONNECTION} "docker-compose up -d ${DOCKER_COMPOSE_BACK}"'
-						sh 'ssh -t ${SSH_CONNECTION} "docker run --name ${BACK_NAME} -d -p ${DOCKER_BACK_PORT}:{BACK_PORT} ${BACK_NAME}"'
+						sh 'ssh -t ${SSH_CONNECTION} "docker rm ${running}"'
+						echo '${BACK_NAME}:${running} Container rm'
+					} else {
+						echo 'No Runngin ${BACK_NAME}:${running} Container'
 					}
 				}
+				echo 'Container stop & rm End'
+
+				echo 'Dangling Image rmi Start'
+				sh 'ssh -t ${SSH_CONNECTION} "docker rmi \' docker images -f dangling=true -q \'"'
+				echo 'Dangling Image rmi End'
+
+				echo 'Image Build Start'
+				dir('./backend/') {
+					script {
+						dockerImage = docker.build BACK_NAME
+					}
+				}
+				echo 'Image Build End'
+
+				echo 'Service Running Start'
+				sh 'ssh -t ${SSH_CONNECTION} "docker run --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}
+				echo 'Service Running End'
+
+				echo 'BE : Docker End'
 			}
 		}
-*/
 
 
 
 
+
+/**
 		stage('FE : Build') {
 			steps {
 				echo 'FE : Build Start'
@@ -183,7 +136,7 @@ pipeline {
 				echo 'FE : Docker Build End'
 			}
 		}
-
+**/
 /*
 		stage('FE : Docker Push') {
 			steps {
@@ -223,7 +176,7 @@ pipeline {
 			}
 		}
 */
-
+/**
 		stage('FE : Update') {
 			steps {
 				echo 'FE : Update Start'
@@ -265,8 +218,8 @@ pipeline {
 				}
 				echo 'FE : Update Start'
 			}
-
 		}
+**/
 	}
 
 
