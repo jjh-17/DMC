@@ -119,11 +119,10 @@ const CafeDetailPage = () => {
           <div className="text-center">
             <Button label="리뷰 작성하기" onClick={() => navigate("write")} />
           </div>
+          <BottomSheet prop={<CafeReview />} />
         </>
       )}
       <Outlet />
-
-      <BottomSheet prop={<CafeReview />} />
     </div>
   );
 };
