@@ -62,7 +62,7 @@ pipeline {
 			steps {
 				echo 'BE : Docker Build Start'
 
-					dir('./bacnkend/') {
+					dir('./backend/') {
 						script {
 							dockerImage = docker.build BACK_NAME
 						}
