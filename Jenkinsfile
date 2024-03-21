@@ -63,18 +63,22 @@ pipeline {
 				echo 'BE : rm Start'
 
 				echo 'Container'
-				def running = sh 'docker ps -qf name=${BACK_NAME}'
-				if(running) {
-					sh '''
-						docker stop ${BACK_NAME}
-						docker rm ${BACK_NAME}
-					'''
+				script {
+					def running = sh 'docker ps -qf name=${BACK_NAME}'
+					if(running) {
+						sh '''
+							docker stop ${BACK_NAME}
+							docker rm ${BACK_NAME}
+						'''
+					}
 				}
 
 				echo 'Image'
-				def image = sh 'docker ps -q ${BACK_NAME}:latest'
-				if(image) {
-					sh 'docker rmi ${image}'
+				script {
+					def image = sh 'docker ps -q ${BACK_NAME}:latest'
+					if(image) {
+						sh 'docker rmi ${image}'
+					}
 				}
 
 				echo 'BE : rm End'
