@@ -66,7 +66,7 @@ pipeline {
 				echo "Container"
 				script {
 					def running = sh(script: "docker ps -aqf name=${BACK_NAME}", returnStdout: true).trim()
-					sh '''${running}'''
+					sh "${running}"
 					if(running != null && running != "") {
 						sh '''
 							docker stop ${BACK_NAME}
@@ -79,9 +79,9 @@ pipeline {
 				echo "Image"
 				script {
 					def image = sh(script: "docker images -aqf reference=${BACK_NAME}", returnStdout: true).trim()
-					sh '''${image}'''
+					sh "${image}"
 					if(image != null && image != "") {
-						sh '''docker rmi ${image}'''
+						sh "docker rmi ${image}"
 					}
 				}
 */
@@ -95,7 +95,7 @@ pipeline {
 				echo "BE : Docker Build Start"
 				dir("./backend/") {
 					script {
-						sh '''docker build -t ${BACK_NAME}:latest ./'''
+						sh "docker build -t ${BACK_NAME}:latest"
 					}
 				}
 				echo "BE : Docker Build End"
@@ -104,7 +104,7 @@ pipeline {
 
 		stage("BE : Container") {
 			steps {
-				sh '''docker run --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}'''
+				sh "docker run --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}"
 			}
 		}
 
@@ -169,10 +169,10 @@ pipeline {
 						).trim()
 
 					if (stoppedContainer) {
-						sh '''ssh -t ${SSH_CONNECTION} "docker rm ${stoppedContainer}"'''
-						echo '''Stopped ${BACK_NAME}:${stoppedContainer} Container removed'''
+						sh "ssh -t ${SSH_CONNECTION} \"docker rm ${stoppedContainer}\""
+						echo "Stopped ${BACK_NAME}:${stoppedContainer} Container removed"
 					} else {
-						echo '''No Stopped ${FRONT_NAME} Container found'''
+						echo "No Stopped ${FRONT_NAME} Container found"
 					}
 				}
 
@@ -186,7 +186,7 @@ pipeline {
 				echo "FE : Update Start"
 				sshagent (credentials : [" "]) {
 					script {
-						sh '''ssh -o StrickHostKeyChecking = no ${SSH_CONNECTION} uptime'''
+						sh "ssh -o StrickHostKeyChecking = no ${SSH_CONNECTION} uptime"
 
 						script {
 							def existingContainerId =
@@ -195,10 +195,12 @@ pipeline {
 									returnStdout : true
 								).trim()
 							if (existingContainerId) {
-								sh '''docker stop ${FRONT_NAME}'''
-								sh '''docker rm ${FRONT_NAME}'''
+								sh '''
+									docker stop ${FRONT_NAME}
+									docker rm ${FRONT_NAME}
+								'''
 							} else {
-								echo '''No Existing ${FRONT_NAME} Container'''
+								echo "No Existing ${FRONT_NAME} Container"
 							}
 						}
 
@@ -209,15 +211,15 @@ pipeline {
 									returnStdout : true
 								).trim()
 							if (existingImageId) {
-								sh '''docker rmi ${existingImageId}'''
+								sh "docker rmi ${existingImageId}"
 							} else {
-								echo '''No Existing ${FRONT_NAME} Image'''
+								echo "No Existing ${FRONT_NAME} Image"
 							}
 						}
 
-						// sh '''docker-compose pull ${DOCKER_COMPOSE_FRONT}'''
-						// sh '''docker-compose up -d ${DOCKER_COMPOSE_FRONT}'''
-						sh '''docker run --name ${FRONT_NAME} -d -p ${DOCKER_FRONT_PORT}:{FRONT_PORT}  ${FRONT_NAME}'''
+						// sh "docker-compose pull ${DOCKER_COMPOSE_FRONT}"
+						// sh "docker-compose up -d ${DOCKER_COMPOSE_FRONT}"
+						sh "docker run --name ${FRONT_NAME} -d -p ${DOCKER_FRONT_PORT}:{FRONT_PORT}  ${FRONT_NAME}"
 					}
 				}
 				echo "FE : Update Start"
