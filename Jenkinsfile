@@ -58,6 +58,7 @@ pipeline {
 			}
 		}
 
+/*
 		stage("BE : rm") {
 			steps {
 				echo "BE : rm Start"
@@ -75,7 +76,6 @@ pipeline {
 					}
 				}
 
-/*
 				echo "Image"
 				script {
 					def image = sh(script: "docker images -aqf reference=${BACK_NAME}", returnStdout: true).trim()
