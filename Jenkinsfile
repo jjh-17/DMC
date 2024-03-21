@@ -66,9 +66,8 @@ pipeline {
 				echo 'Container'
 				script {
 					def running = sh(script: 'docker ps -aqf name=${BACK_NAME}', returnStdout: true).trim()
-					sh '''${running}==null'''
-					sh '''${running}==""'''
-					if(${running}) {
+					sh '''${running}'''
+					if(running!="") {
 						sh '''
 							docker stop ${BACK_NAME}
 							docker rm ${BACK_NAME}
