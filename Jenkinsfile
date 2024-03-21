@@ -66,16 +66,22 @@ pipeline {
 
 				echo 'Container stop & rm Start'
 				script{
+
+			echo '1'
+
 					def running =
 						sh(
 							script : 'ssh -t ${SSH_CONNECTION} "docker ps -q -f name=${BACK_NAME}"',
 							returnStdout : true
 						).trim()
 
+			echo '2'
+
 					if(running) {
+			echo '3'
 						sh 'ssh -t ${SSH_CONNECTION} "docker stop ${running}"'
 						echo '${BACK_NAME}:${running} Container stop'
-
+			echo '4'
 						sh 'ssh -t ${SSH_CONNECTION} "docker rm ${running}"'
 						echo '${BACK_NAME}:${running} Container rm'
 					} else {
