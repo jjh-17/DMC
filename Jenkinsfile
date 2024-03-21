@@ -63,15 +63,11 @@ pipeline {
 			steps {
 				echo 'BE : Docker Start'
 
-
 				echo 'Container stop & rm Start'
 				script{
-
-			echo '1'
-
 					def running =
 						sh(
-							script : 'ssh -t ${SSH_CONNECTION} \"docker ps -q -f name=${BACK_NAME}\"',
+							script : 'ssh -t ${SSH_CONNECTION} \'docker ps -q -f name=${BACK_NAME}\'',
 							returnStdout : true
 						).trim()
 
