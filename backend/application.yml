@@ -12,11 +12,11 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
-  # data:
-    # redis:
-      # host: localhost
-      # port: 6379
-      # password: ohyes
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: ohyes
 
 kakao:
   rest-api-key: ${KAKAO_KEY}
