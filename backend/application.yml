@@ -1,10 +1,10 @@
 server:
-  port: 8082
+  port: ${BACK_PORT}
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_URL}:${MYSQL_PORT}/${MYSQL_TABLE}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: ${MYSQL_URL}:${MYSQL_PORT}/${MYSQL_TABLE}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
   jpa:
@@ -15,18 +15,18 @@ spring:
   data:
     redis:
       host: localhost
-      port: 6379
-      password: ohyes
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
 
 kakao:
   rest-api-key: ${KAKAO_KEY}
-  redirect.url: http://{A607_URL}:5173/kakaoLogin
+  redirect.url: ${A607_URL}:${FRONT_PORT}/kakaoLogin
 
 naver:
   client-id: ${NAVER_ID}
   client-secret: ${NAVER_SECRET}
   state: test
-  redirect.url: http://{A607_URL}:5173/naverLogin
+  redirect.url: ${A607_URL}:${FRONT_PORT}/naverLogin
 
 
 security:
