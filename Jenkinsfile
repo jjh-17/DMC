@@ -11,8 +11,8 @@ pipeline {
 		SSH_CONNECTION = 'ubuntu@j10a607.p.ssafy.io'
 		SSH_CONNECTION_SUB = 'ubuntu@j10a607a.p.ssafy.io'
 
-		BACK_NAME = 'DMC_BE'
-		FRONT_NAME = 'DMC_FE'
+		BACK_NAME = 'dmc_be'
+		FRONT_NAME = 'dmc_fe'
 
 		DOCKER_COMPOSE_BACK = 'spring'
 		DOCKER_COMPOSE_FRONT = 'vue'
