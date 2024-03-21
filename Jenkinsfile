@@ -110,15 +110,12 @@ pipeline {
 			}
 		}
 */
-
+/*
 		stage('BE : Update') {
 			steps {
-				echo 'BE : Update Start'
 				sshagent (credentials : [' ']) {
 					script {
 						sh 'ssh -o StrickHostKeyChecking = no ${SSH_CONNECTION} uptime'
-
-		sh 'cat 1'
 
 						script {
 							def existingContainerId =
@@ -126,9 +123,6 @@ pipeline {
 									script : 'ssh -t ${SSH_CONNECTION} "docker ps -q -f name=${BACK_NAME}"',
 									returnStdout : true
 								).trim()
-
-		sh 'cat 2'
-
 							if (existingContainerId) {
 								sh 'ssh -t ${SSH_CONNECTION} "docker stop ${BACK_NAME}"'
 								sh 'ssh -t ${SSH_CONNECTION} "docker rm ${BACK_NAME}"'
@@ -137,18 +131,12 @@ pipeline {
 							}
 						}
 
-		sh 'cat 3'
-
-
 						script {
 							def existingImageId =
 								sh(
 									script : 'ssh -t ${SSH_CONNECTION} "docker images -q -f name=${BACK_NAME}"',
 									returnStdout : true
 								).trim()
-
-		sh 'cat 4'
-
 							if (existingImageId) {
 								sh 'ssh -t ${SSH_CONNECTION} "docker rmi ${existingImageId}"'
 							} else {
@@ -156,18 +144,14 @@ pipeline {
 							}
 						}
 
-		sh 'cat 5'
-
-
 						// sh 'ssh -t ${SSH_CONNECTION} "docker-compose pull ${DOCKER_COMPOSE_BACK}"'
 						// sh 'ssh -t ${SSH_CONNECTION} "docker-compose up -d ${DOCKER_COMPOSE_BACK}"'
 						sh 'ssh -t ${SSH_CONNECTION} "docker run --name ${BACK_NAME} -d -p ${DOCKER_BACK_PORT}:{BACK_PORT} ${BACK_NAME}"'
 					}
 				}
-				echo 'BE : Update End'
 			}
 		}
-
+*/
 
 
 
