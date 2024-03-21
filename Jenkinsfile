@@ -88,6 +88,7 @@ pipeline {
 			}
 		}
 */
+/*
 		stage("BE : Docker") {
 			steps {
 				echo "BE : Docker Build Start"
@@ -99,6 +100,7 @@ pipeline {
 				echo "BE : Docker Build End"
 			}
 		}
+*/
 
 		stage("BE : Container") {
 			steps {
