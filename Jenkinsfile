@@ -75,12 +75,12 @@ pipeline {
 					}
 				}
 
-				echo 'Image'
+				echo 'image'
 				script {
-					def Image = sh(script: 'docker images -aqf reference=${BACK_NAME}', returnStdout: true).trim()
-					sh '''echo ${Image}'''
-					if(Image) {
-						sh '''docker rmi ${Image}'''
+					def image = sh(script: 'docker images -aqf reference=${BACK_NAME}', returnStdout: true).trim()
+					sh '''echo ${image}'''
+					if(image) {
+						sh '''docker rmi ${image}'''
 					}
 				}
 
