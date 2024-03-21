@@ -19,8 +19,8 @@ pipeline {
 		DOCKER_BACK_PORT = '8082'
 		DOCKER_FRONT_PORT = '5173'
 
-		MATTERMOST_ENDPOINT = 'https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh'
-		MATTERMOST_CHANNEL = 'A607-Jenkins'
+		# MATTERMOST_ENDPOINT = 'https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh'
+		# MATTERMOST_CHANNEL = 'A607-Jenkins'
 	}
 
 	stages {
@@ -229,6 +229,8 @@ pipeline {
 
 
 	post {
+		def MATTERMOST_ENDPOINT = 'https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh'
+		def MATTERMOST_CHANNEL = 'A607-Jenkins'
 		success {
 			script {
 				def Author_ID = sh(script: 'git show -s --pretty=%an', returnStdout: true).trim()
