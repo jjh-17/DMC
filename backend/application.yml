@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_URL}:${MYSQL_PORT}/${MYSQL_DB}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://${MYSQL_URL}:${MYSQL_PORT}/${MYSQL_TABLE}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
   jpa:
@@ -20,13 +20,13 @@ spring:
 
 kakao:
   rest-api-key: ${KAKAO_KEY}
-  redirect.url: http://localhost:5173/kakaoLogin
+  redirect.url: http://{A607_URL}:5173/kakaoLogin
 
 naver:
   client-id: ${NAVER_ID}
   client-secret: ${NAVER_SECRET}
   state: test
-  redirect.url: http://localhost:5173/naverLogin
+  redirect.url: http://{A607_URL}:5173/naverLogin
 
 
 security:
