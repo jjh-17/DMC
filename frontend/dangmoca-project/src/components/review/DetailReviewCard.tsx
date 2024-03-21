@@ -30,7 +30,7 @@ interface Review {
   userTitle: string;
 }
 
-const DetailReviewCard = () => {
+const DetailReviewCard = ({onLikeClick}) => {
   const [ref] = useDragScroll();
 
   const review = {
@@ -117,7 +117,7 @@ const DetailReviewCard = () => {
 
         <div className="flex justify-between items-center px-4">
         {/* 좋아요 */}
-        <button onClick={() => console.log('좋아요')}>
+        <button onClick={onLikeClick}>
           <ThumbUp id="svgIcon" className='mr-2' />
           <span className='font-semibold text-slate-500'>50</span>
         </button>
