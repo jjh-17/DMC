@@ -12,10 +12,12 @@ pipeline {
 		SSH_CONNECTION_SUB = 'ubuntu@j10a607a.p.ssafy.io'
 
 		BACK_NAME = 'dmc_be'
+		BACK_PORT = '8082'
 		FRONT_NAME = 'dmc_fe'
+		FRONT_PORT = '5173'
 
-		DOCKER_COMPOSE_BACK = 'spring'
-		DOCKER_COMPOSE_FRONT = 'vue'
+		DOCKER_BACK_PORT = '8082'
+		DOCKER_FRONT_PORT = '5173'
 
 		MATTERMOST_ENDPOINT = 'https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh'
 		MATTERMOST_CHANNEL = 'A607-Jenkins'
@@ -71,7 +73,7 @@ pipeline {
 			}
 		}
 
-
+/*
 		stage('BE : Docker Push') {
 			steps {
 				echo 'BE : Docker Push Start'
@@ -83,8 +85,8 @@ pipeline {
 				echo 'BE : Docker Push End'
 			}
 		}
-
-
+*/
+/*
 		stage('BE : Remove Stopped Container') {
 			steps {
 				echo 'BE : Remove Stopped Start'
@@ -107,9 +109,9 @@ pipeline {
 				echo 'BE : Remove Stopped End'
 			}
 		}
+*/
 
-
-		stage('BE : Deploy') {
+		stage('BE : Update') {
 			steps {
 				sshagent (credentials : [' ']) {
 					script {
@@ -123,7 +125,7 @@ pipeline {
 								).trim()
 							if (existingContainerId) {
 								sh 'ssh -t ${SSH_CONNECTION} "docker stop ${BACK_NAME}"'
-								sh 'ssh -t ${SSH_CONNECTION} "docker remove ${BACK_NAME}"'
+								sh 'ssh -t ${SSH_CONNECTION} "docker rm ${BACK_NAME}"'
 							} else {
 								echo 'No Existing ${BACK_NAME} Container'
 							}
@@ -142,8 +144,9 @@ pipeline {
 							}
 						}
 
-						sh 'ssh -t ${SSH_CONNECTION} "docker-compose pull ${DOCKER_COMPOSE_BACK}"'
-						sh 'ssh -t ${SSH_CONNECTION} "docker-compose up -d ${DOCKER_COMPOSE_BACK}"'
+						// sh 'ssh -t ${SSH_CONNECTION} "docker-compose pull ${DOCKER_COMPOSE_BACK}"'
+						// sh 'ssh -t ${SSH_CONNECTION} "docker-compose up -d ${DOCKER_COMPOSE_BACK}"'
+						sh 'ssh -t ${SSH_CONNECTION} "docker run --name ${BACK_NAME} -d -p ${DOCKER_BACK_PORT}:{BACK_PORT} ${BACK_NAME}"'
 					}
 				}
 			}
@@ -181,7 +184,7 @@ pipeline {
 			}
 		}
 
-
+/*
 		stage('FE : Docker Push') {
 			steps {
 				echo 'FE : Docker Push Start'
@@ -195,8 +198,8 @@ pipeline {
 				echo 'FE : Docker Push End'
 			}
 		}
-
-
+*/
+/*
 		stage('FE : Remove Stopped Container') {
 			steps {
 				echo 'FE : Remove Stopped Start'
@@ -219,7 +222,7 @@ pipeline {
 				echo 'FE : Remove Stopped End'
 			}
 		}
-
+*/
 
 		stage('FE : Deploy') {
 			steps {
@@ -236,7 +239,7 @@ pipeline {
 								).trim()
 							if (existingContainerId) {
 								sh 'ssh -t ${SSH_CONNECTION} "docker stop ${FRONT_NAME}"'
-								sh 'ssh -t ${SSH_CONNECTION} "docker remove ${FRONT_NAME}"'
+								sh 'ssh -t ${SSH_CONNECTION} "docker rm ${FRONT_NAME}"'
 							} else {
 								echo 'No Existing ${FRONT_NAME} Container'
 							}
@@ -255,8 +258,9 @@ pipeline {
 							}
 						}
 
-						sh 'ssh -t ${SSH_CONNECTION} "docker-compose pull ${DOCKER_COMPOSE_FRONT}"'
-						sh 'ssh -t ${SSH_CONNECTION} "docker-compose up -d ${DOCKER_COMPOSE_FRONT}"'
+						// sh 'ssh -t ${SSH_CONNECTION} "docker-compose pull ${DOCKER_COMPOSE_FRONT}"'
+						// sh 'ssh -t ${SSH_CONNECTION} "docker-compose up -d ${DOCKER_COMPOSE_FRONT}"'
+						sh 'ssh -t ${SSH_CONNECTION} "docker run --name ${FRONT_NAME} -d -p ${DOCKER_FRONT_PORT}:{FRONT_PORT}  ${FRONT_NAME}"'
 					}
 				}
 			}
