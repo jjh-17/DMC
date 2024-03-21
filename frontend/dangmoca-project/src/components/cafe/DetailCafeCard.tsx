@@ -1,5 +1,7 @@
-import LocationPin from  '../../assets/icons/pin.svg?react';
+import LocationPin from '../../assets/icons/pin.svg?react';
 import { useNavigate } from "react-router-dom";
+import { tagMapper } from '../../assets/data/tag';
+import { useEffect, useState } from 'react';
 
 interface Cafe {
   cafeSeq: number;
@@ -12,9 +14,15 @@ interface Cafe {
   imageUrl: string;
 }
 
-const DetailCafeCard= (cafe : Cafe) => {
+const DetailCafeCard = (cafe: Cafe) => {
   const navigate = useNavigate();
+  const [mappedTags, setMappedTags] = useState([]);
 
+  useEffect(() => {
+    const mappedTagsArray = cafe.tag.map(tag => tagMapper.get(tag));
+    setMappedTags(mappedTagsArray);
+    }, [cafe])
+    
   return (
     <div className="p-1 flex flex-col m-4 shadow-lg rounded-sm items-center" onClick={() => navigate(`/cafeDetail/${cafe.cafeSeq}`)}>
       <img
@@ -26,12 +34,12 @@ const DetailCafeCard= (cafe : Cafe) => {
       <p className="text-[12px] font-light text-slate-700">{cafe.address}</p>
       <p className="w-68 my-2 flex justify-end items-center">
         <span className="text-[12px] mx-4 ml-0 left-0">
-          <LocationPin className="w-3 h-3 mx-1 inline-flex"/> 
-           {cafe.distance}m
+          <LocationPin className="w-3 h-3 mx-1 inline-flex" />
+          {cafe.distance}m
         </span>
-        {cafe.tag.map((tag, index) => (
+        {mappedTags.map((tag, index) => (
           <span className="text-[10px] text-primary mx-1" key={index}>
-            {tag}{" "}
+            #{tag}{" "}
           </span>
         ))}
       </p>

@@ -1,6 +1,7 @@
 import DetailCafeCard from "../../components/cafe/DetailCafeCard";
 import cafeDummyData from "../../assets/testData/cafeDummyData";
 import SortIcon from '../../assets/icons/sort.svg?react';
+import RightArrowIcon from '../../assets/icons/rightarrow.svg?react'
 import DownArrowIcon from '../../assets/icons/downarrow.svg?react'
 import CafeFilterAndSort from "../../utils/CafeFilterAndSort";
 
@@ -24,28 +25,7 @@ const CafeListPage = () => {
   const [showDessertCheckbox, setShowDessertCheckbox] = useState(false);
   const [cafeList, setCafeList] = useState<Cafe[]>([]);
 
-  const findKeyByValue = (object , value:string) => {
-    return Object.keys(object).find(key => object[key] === value);
-  };
-
   useEffect(() => {
-    cafeDummyData.map(cafe => {
-      const updatedTags = cafe.tag.every((tag) => {
-        const tagName = findKeyByValue(tags, tag);
-        return tagName;
-      });
-
-      const updatedDessertTags = cafe.dessertTag.every(dessertTag => {
-        const tagName = findKeyByValue(desserts, dessertTag);
-        return tagName;
-      });
-
-      return {
-        ...cafe,
-        tag: updatedTags,
-        dessertTag: updatedDessertTags,
-      };
-    });
     setCafeList(cafeDummyData);
   }, [])
 
@@ -89,12 +69,12 @@ const CafeListPage = () => {
     <>
       <div className="mt-[5lvh] mx-[20lvw]">
         <div className="text-right">
-          <button className="relative right-0" onClick={() => setShowFilter(!showFilter)}>
-            정렬하기
-            <SortIcon className="w-4 h-4 inline-block mx-1" />
+          <button className="relative right-0 font-light text-primary2" onClick={() => setShowFilter(!showFilter)}>
+            정렬
+            <SortIcon className="w-7 h-7 rounded-full m-1 mx-2 p-1 shadow-md inline-block" />
           </button>
           {showFilter && (
-            <div className="flex flex-col accent-primary3 bg-slate-50">
+            <div className="flex flex-col accent-primary3  gap-1 font-light">
               <div className="align-middle whitespace-pre-wrap">
                 {sort.map((item) => {
                   const label = Object.keys(item);
@@ -102,29 +82,38 @@ const CafeListPage = () => {
                   return (
                     <span className="whitespace-nowrap ml-2" key={label[0]}>
                       <label className="whitespace-nowrap">{label}</label>
-                      <input type="checkbox" value={value} onChange={handleSelectSort} />
+                      <input type="checkbox" value={value} onChange={handleSelectSort}/>
                     </span>);
                 })}
               </div>
               <div>
-                태그 선택 체크박스 accordion <DownArrowIcon className="w-4 h-4 inline-block" onClick={() => setShowTagCheckbox(!showTagCheckbox)} />
+                태그 선택하기
+                {!showTagCheckbox && <RightArrowIcon id="svgIcon" onClick={() => setShowTagCheckbox(true)} />}
                 {showTagCheckbox && (
-                  <div className="align-middle whitespace-pre-wrap">
-                    {tags.map((item) => {
-                      const label = Object.keys(item)[0];
-                      const value = Object.values(item)[0];
-                      return (
-                        <span className="whitespace-nowrap ml-2" key={label[0]}>
-                          <label className="whitespace-nowrap">#{label}</label>
-                          <input type="checkbox" value={value} onChange={handleSelectTags} />
-                        </span>);
-                    })}
-                  </div>
+                  <>
+                    <DownArrowIcon id="svgIcon" onClick={() => setShowTagCheckbox(false)}/>
+                    <div className="align-middle whitespace-pre-wrap ">
+                      {tags.map((item) => {
+                        const label = Object.keys(item)[0];
+                        const value = Object.values(item)[0];
+                        return (
+                          <span className="whitespace-nowrap ml-2" key={label[0]}>
+                            <label className="whitespace-nowrap mx-1">#{label}</label>
+                            <input type="checkbox" value={value} onChange={handleSelectTags} />
+                          </span>);
+                      })}
+                    </div>
+                  </>
                 )}
               </div>
               <div>
-                디저트 선택 체크박스 accordion <DownArrowIcon className="w-4 h-4 inline-block" onClick={() => setShowDessertCheckbox(!showDessertCheckbox)} />
+                디저트 선택하기
+                {!showDessertCheckbox &&
+                  <RightArrowIcon id="svgIcon" onClick={() => setShowDessertCheckbox(true)} />}
                 {showDessertCheckbox && (
+                  <>
+                  <DownArrowIcon id="svgIcon" onClick={() => setShowDessertCheckbox(false)} />
+
                   <div>
                     {desserts.map((item) => {
                       const label = Object.keys(item)[0];
@@ -136,10 +125,11 @@ const CafeListPage = () => {
                         </span>);
                     })}
                   </div>
+                  </>
                 )}
               </div>
-              <div>
-                <button onClick={submitFilter}>GO FILTER</button>
+              <div className="">
+                <button onClick={submitFilter} className="text-xl text-primary2">검색</button>
               </div>
             </div>
 

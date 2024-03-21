@@ -45,8 +45,6 @@ const CafeFilterAndSort = (Cafes: Cafe[],
         }
     }
 
-    console.log(sortedCafe)
-
     return sortedCafe;
 
 

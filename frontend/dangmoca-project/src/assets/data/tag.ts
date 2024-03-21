@@ -24,5 +24,11 @@ export const desserts = [
     { "브라우니" : "brownie"},
     { "크레페" : "crape"},
     { "치즈케이크" : "cheesecake" },
-
 ];
+
+const tagMap = new Map();
+tags.map((tag) => {
+    tagMap.set(Object.values(tag)[0], Object.keys(tag)[0])
+})
+
+export const tagMapper = tagMap;
