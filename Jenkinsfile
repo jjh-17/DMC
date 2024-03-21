@@ -65,7 +65,7 @@ pipeline {
 
 				echo 'Container'
 				script {
-					def running = sh 'docker ps -qf name=${BACK_NAME}'
+					def running = sh(script: 'docker ps -aqf name=${BACK_NAME}', returnStdout: true).trim()
 					echo '${running}'
 					if(running) {
 						sh '''
@@ -77,7 +77,7 @@ pipeline {
 
 				echo 'image'
 				script {
-					def image = sh 'docker ps -qf name=${BACK_NAME}'
+					def image = sh(script: 'docker images -aqf reference=${BACK_NAME}', returnStdout: true).trim()
 					echo '${image}'
 					if(image) {
 						sh 'docker rmi ${image}'
@@ -231,8 +231,8 @@ pipeline {
 	post {
 		success {
 			script {
-				def Author_ID = sh(script: 'git show -s --pretty=%an', returnStdout: true).trim()
-				def Author_Name = sh(script: 'git show -s --pretty=%ae', returnStdout: true).trim()
+				def Author_ID = sh(script: 'git show -s --pretty=%an', returnStdout: false).trim()
+				def Author_Name = sh(script: 'git show -s --pretty=%ae', returnStdout: false).trim()
 				mattermostSend (
 					color: 'good', 
 					message: '빌드 성공: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)', 
@@ -243,8 +243,8 @@ pipeline {
 		}
 		failure {
 			script {
-				def Author_ID = sh(script: 'git show -s --pretty=%an', returnStdout: true).trim()
-				def Author_Name = sh(script: 'git show -s --pretty=%ae', returnStdout: true).trim()
+				def Author_ID = sh(script: 'git show -s --pretty=%an', returnStdout: false).trim()
+				def Author_Name = sh(script: 'git show -s --pretty=%ae', returnStdout: false).trim()
 				mattermostSend (
 					color: 'danger', 
 					message: '빌드 실패: ${env.JOB_NAME} #${env.BUILD_NUMBER} by ${Author_ID}(${Author_Name})\n(<${env.BUILD_URL}|Details>)', 
