@@ -65,7 +65,7 @@ pipeline {
 
 				echo 'Container'
 				script {
-					def running = sh(script: "ssh -t ${SSH_CONNECTION} 'docker ps -aqf name=${BACK_NAME}'", returnStdout: true).trim()
+					def running = sh(script: 'docker ps -aqf name=${BACK_NAME}', returnStdout: true).trim()
 					sh '''echo ${running}'''
 					if(running) {
 						sh '''
@@ -77,7 +77,7 @@ pipeline {
 
 				echo 'image'
 				script {
-					def image = sh(script: "ssh -t ${SSH_CONNECTION} 'docker images -aqf reference=${BACK_NAME}'", returnStdout: true).trim()
+					def image = sh('docker images -aqf reference=${BACK_NAME}', returnStdout: true).trim()
 					sh '''echo ${image}'''
 					if(image) {
 						sh 'docker rmi ${image}'
