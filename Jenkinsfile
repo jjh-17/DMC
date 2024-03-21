@@ -225,8 +225,9 @@ pipeline {
 				echo "FE : Update Start"
 			}
 		}
-	}
 **/
+
+	}
 
 
 
