@@ -1,4 +1,4 @@
-import { useMemo, useState, ReactNode } from "react";
+import { useMemo, useState } from "react";
 import { useDragControls, motion } from "framer-motion";
 import useMeasure from "react-use-measure";
 
@@ -7,7 +7,7 @@ import useMeasure from "react-use-measure";
 //   viewpoint: number
 // }
 
-const BottomSheet = ({ prop }) => {
+const BottomSheet = ({ prop }:any) => {
   const [isOpened, setIsOpened] = useState(false);
   const [contentRef, contentBounds] = useMeasure();
   const dragControls = useDragControls();

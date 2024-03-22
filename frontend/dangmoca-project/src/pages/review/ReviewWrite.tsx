@@ -13,7 +13,7 @@ interface Image {
 export default function ReviewWrite() {
   const [ref] = useDragScroll();
 
-  const [review, setReview] = useState();
+  const [review, setReview] = useState([{review1 :"맛있어요", review2:"행복해요"}]);
 
   const cafe = {
     cafeSeq: 1,
@@ -27,7 +27,7 @@ export default function ReviewWrite() {
   };
 
   // 리뷰 별점 관련
-  const handleRatingChange = (rating) => {
+  const handleRatingChange = (rating:number) => {
     setReview((prevReview) => ({
       ...prevReview,
       rating: rating,
@@ -73,7 +73,7 @@ export default function ReviewWrite() {
   };
 
   // 태그 관련
-  const [tags, setTags] = useState<string[]>([]);
+  // const [tags, setTags] = useState<string[]>([]);
 
   // 리뷰 작성
   const writeReviewData = async () => {

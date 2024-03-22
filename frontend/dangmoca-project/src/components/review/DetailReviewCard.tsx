@@ -30,7 +30,7 @@ interface Review {
   userTitle: string;
 }
 
-const DetailReviewCard = ({onLikeClick}) => {
+const DetailReviewCard = ({onLikeClick}:any) => {
   const [ref] = useDragScroll();
 
   const review = {
