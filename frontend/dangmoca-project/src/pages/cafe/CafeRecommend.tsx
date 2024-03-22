@@ -13,7 +13,7 @@ const CafeRecommend = () => {
     useEffect(() => {
         setTagCafe(cafeDummyData);
         setSimilarCafe(cafeDummyData);
-        // setRateCafe(cafeDummyData);
+        setRateCafe(cafeDummyData);
     }, [])
 
     return (

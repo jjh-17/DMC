@@ -9,13 +9,19 @@ interface Props {
 }
 
 const CafeRecommendDiv = (Props: Props) => {
-  const [ref] = useDragScroll();
+  const [setRef] = useDragScroll();
 
+  const handleRef = (node: HTMLElement | null) => {
+    if (node) {
+      setRef(node);
+    }
+  };
+  
   return (
     <div className="my-10">
       <h1 id='test' className="text-2xl lg:text-4xl"># {Props.title}</h1>
       {Props.CafeList.length > 0 && <div className="mx-auto whitespace-nowrap">
-        <div ref={ref} className="flex flex-row overflow-x-scroll no-scroll">
+        <div ref={handleRef} className="flex flex-row overflow-x-scroll no-scroll">
           {Props.CafeList.map((cafe) => (
             <div key={cafe.cafeSeq}>
               <SimpleCafeCard {...cafe} />
