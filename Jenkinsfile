@@ -130,9 +130,8 @@ pipeline {
 				dir("${FRONT_DIR}") {
 					sh '''
 						npm install
-						
-					'''
 						// npm run build
+					'''
 				}
 
 				echo "FE : Build End"
