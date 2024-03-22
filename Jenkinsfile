@@ -74,7 +74,7 @@ echo '1'
 echo '2'
 							echo 'stop'
 echo '3'
-							docker rm $BACK_NAME
+							docker rm ${BACK_NAME}
 echo '4'
 							echo 'rm'
 echo '5'
@@ -88,9 +88,18 @@ echo '5'
 				script {
 					def image = sh(script: "docker images -aqf reference=${BACK_NAME}", returnStdout: true).trim()
 					sh "echo $image"
-					if($image != null && $image != "") {
+
+sh '''
+echo "image"
+echo "${image}"
+'''
+
+
+					if(image != null && image != "") {
 						sh '''
-							docker rmi $image
+echo "image"
+echo "${image}"
+							docker rmi image
 							echo 'rmi'
 						'''
 					}else {
