@@ -1,12 +1,18 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import useUserStore from "../../stores/userStore";
 
 const NaverRedirectHandler = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
+
+  const [ userState, setUserState ] = useUserStore();
+
+  console.log(userState.user);
+  setUserState({id:3, name:"조" });
 
   useEffect(() => {
     const code = queryParams.get("code");
