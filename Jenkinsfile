@@ -69,16 +69,11 @@ pipeline {
 					sh "echo ${running}"
 
 					if(running) {
-
-					def back = "${BACK_NAME}"
-					sh "echo ${back}"
-
 						sh '''
-							docker stop back
+							docker stop "${BACK_NAME}"
 							echo 'stop'
-						'''
-						sh '''
-							docker rm back
+
+							docker rm "${BACK_NAME}"
 							echo 'rm'
 						'''
 					}else {
