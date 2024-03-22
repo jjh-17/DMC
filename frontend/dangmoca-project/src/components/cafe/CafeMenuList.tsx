@@ -13,27 +13,27 @@ const MenuTest: CafeMenu[] = [
     {
         name: '바나바나바니라카노',
         price: 1000,
-        imageUrl: 'src/assets/testpic/menu.png',
+        imageUrl: '/src/assets/testPic/menu.png',
     },
     {
         name: '아메아메아메리카노',
         price: 10000,
-        imageUrl: 'src/assets/testpic/menu.png',
+        imageUrl: '/src/assets/testPic/menu.png',
     },
     {
         name: '아아메리카노',
         price: 2000,
-        imageUrl: 'src/assets/testpic/menu.png',
+        imageUrl: '/src/assets/testPic/menu.png',
     },
     {
         name: '바바나리나카노',
         price: 30000,
-        imageUrl: 'src/assets/testpic/menu.png',
+        imageUrl: '/src/assets/testPic/menu.png',
     },
     {
         name: '시커먼아메리카노',
         price: 4000,
-        imageUrl: 'src/assets/testpic/menu.png',
+        imageUrl: '/src/assets/testPic/menu.png',
     },
 ];
 
@@ -45,13 +45,13 @@ const CafeMenuList = () => {
     };
 
     return (
-        <div className='text-center '>
-            <label className='mr-[60lvw] font-light text-xl'>메뉴</label>
+        <div className='text-center mx-auto px-4 pt-4 md:w-[80lvw] lg:w-[50lvw]'>
+            <label className='text-2xl'>메뉴</label>
 
             {MenuTest.slice(0, showAll ? MenuTest.length : 2).map((menu, index) => (
                 <CafeMenuCard key={index} {...menu} />
             ))}
-            <button onClick={toggleShowAll} className='mb-12 text-xl font-light cursor-pointer'>
+            <button onClick={toggleShowAll} className='mb-6 text-xl cursor-pointer'>
                 {showAll ? (
                     <>
                         숨기기 <UpArrow id='svgIcon' />

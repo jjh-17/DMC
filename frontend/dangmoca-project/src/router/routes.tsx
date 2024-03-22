@@ -12,6 +12,9 @@ import MyInfo from "../pages/mypage/MyInfo";
 import KakaoMain from "../pages/user/KakaoMain";
 import NaverMain from "../pages/user/NaverMain";
 import CafeDetail from "../pages/cafe/CafeDetail";
+import CafeSearch from "../pages/cafe/CafeSearch";
+import ReviewWrite from "../pages/review/ReviewWrite";
+import CafeReview from "../pages/review/CafeReview";
 
 const routes = createBrowserRouter([
   {
@@ -22,13 +25,24 @@ const routes = createBrowserRouter([
       { path: "login", element: <Login /> },
       { path: "kakaoLogin", element: <KakaoMain /> },
       { path: "naverLogin", element: <NaverMain /> },
-      { path: "mypage", element: <MyPage /> },
-      { path: "myinfo", element: <MyInfo /> },
-      { path: "my-reviews", element: <MyReview /> },
+      { path: "myPage", element: <MyPage /> },
+      { path: "myInfo", element: <MyInfo /> },
+      { path: "myReview", element: <MyReview /> },
       { path: "bookmark", element: <Bookmark /> },
-      { path: "cafetest", element: <CafeTest /> },
-      { path: "cafeDetailTest", element: <CafeDetail /> },
-      { path: "cafes", element: <CafeList />, children: [] },
+      { path: "cafeTest", element: <CafeTest /> },
+      { path: "search", element: <CafeSearch /> },
+      {
+        path: "cafeDetail/*",
+        element: <CafeDetail />,
+        children: [
+          {
+            path: "write",
+            element: <ReviewWrite />,
+          },
+        ],
+      },
+      { path: "cafes/*", element: <CafeList />, children: [] },
+      { path: "my-reviews", element: <MyReview /> },
     ],
   },
   { path: "/*", element: <ErrorPage /> },
