@@ -81,7 +81,7 @@ pipeline {
 							echo rm
 						'''
 					}else {
-						sh "echo 'no running'"
+						sh "echo no running"
 					}
 				}
 
@@ -93,7 +93,7 @@ pipeline {
 					if(image) {
 						sh "docker rmi ${image}"
 					}else {
-						sh "echo 'no image'"
+						sh "echo no image"
 					}
 				}
 
@@ -151,37 +151,42 @@ pipeline {
 
 					if(running) {
 						sh '''
-							echo '1'
 							docker stop ${FRONT_NAME}
-							echo "stop"
-							echo 1
+							echo stop
 
-							echo 2
 							docker rm ${FRONT_NAME}
-							echo "rm"
-							echo '2'
+							echo rm
 						'''
 					}else {
-						sh "echo 'no running'"
+						sh "echo no running"
 					}
 				}
 
+				echo "Image"
+				script {
+					def image = sh(script: "docker images -aqf reference=${FRONT_NAME}", returnStdout: true).trim()
+					sh "echo ${image}"
 
+					if(image) {
+						sh "docker rmi ${image}"
+					}else {
+						sh "echo no image"
+					}
+				}
 
 				echo "FE : rm End"
 			}
 		}
 
-		stage("FE : Docker Build") {
+		stage("FE : Docker") {
 			steps {
 				echo "FE : Docker Build Start"
 
-				dir("./forntend/dangmoca-project") {
+				dir("${FRONT_DIR}") {
 					script {
-						dockerImage = docker.build FRONT_NAME
+						sh "docker build -t ${BACK_NAME}:latest ./"
 					}
 				}
-
 				echo "FE : Docker Build End"
 			}
 		}
