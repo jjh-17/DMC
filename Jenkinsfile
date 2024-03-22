@@ -15,8 +15,11 @@ pipeline {
 
 		BACK_NAME = "dmc_be"
 		BACK_PORT = "8082"
+		BACK_DIR = "./backend/"
+
 		FRONT_NAME = "dmc_fe"
 		FRONT_PORT = "5173"
+		FRONT_DIR = "./frontend/dangmoca-project"
 
 		DOCKER_BACK_PORT = "8082"
 		DOCKER_FRONT_PORT = "5173"
@@ -30,7 +33,7 @@ pipeline {
 
 
 
-
+////// Git
 		stage("Git Clone") {
 			steps {
 				echo "Git Clone Start"
@@ -44,12 +47,12 @@ pipeline {
 
 
 
-
+////// BE
 		stage("BE : Build") {
 			steps {
 				echo "BE : Build Start"
 
-					dir("./backend/") {
+					dir("${BACK_DIR}") {
 						sh '''
 							chmod +x gradlew
 							./gradlew clean build
@@ -63,6 +66,7 @@ pipeline {
 		stage("BE : rm") {
 			steps {
 				echo "BE : rm Start"
+
 				echo "Container"
 				script {
 					def running = sh(script: "docker ps -aqf name=${BACK_NAME}", returnStdout: true).trim()
@@ -100,7 +104,7 @@ pipeline {
 		stage("BE : Docker") {
 			steps {
 				echo "BE : Docker Build Start"
-				dir("./backend/") {
+				dir("${BACK_DIR}") {
 					script {
 						sh "docker build -t ${BACK_NAME}:latest ./"
 					}
@@ -119,20 +123,53 @@ pipeline {
 
 
 
-/**
+////// FE
 		stage("FE : Build") {
 			steps {
 				echo "FE : Build Start"
 
-				dir("./frontend/dangmoca-project") {
-					sh "npm install"
-					sh "npm run build"
+				dir("${FRONT_DIR}") {
+					sh '''
+						npm install
+						npm run build
+					'''
 				}
 
 				echo "FE : Build End"
 			}
 		}
 
+		stage("FE : rm") {
+			steps {
+				echo "FE : rm Start"
+
+				echo "Container"
+				script {
+					def running = sh(script: "docker ps -aqf =name${FRONT_NAME}", returnStdout: true).trim()
+					sh "echo ${running}"
+
+					if(running) {
+						sh '''
+							echo '1'
+							docker stop ${FRONT_NAME}
+							echo "stop"
+							echo 1
+
+							echo 2
+							docker rm ${FRONT_NAME}
+							echo "rm"
+							echo '2'
+						'''
+					}else {
+						sh "echo 'no running'"
+					}
+				}
+
+
+
+				echo "FE : rm End"
+			}
+		}
 
 		stage("FE : Docker Build") {
 			steps {
@@ -147,13 +184,13 @@ pipeline {
 				echo "FE : Docker Build End"
 			}
 		}
-**/
+
 /*
 		stage("FE : Docker Push") {
 			steps {
 				echo "FE : Docker Push Start"
 
-				dir("./frontend/dangmoca-project") {
+				dir("${FRONT_DIR}") {
 					script {
 						dockerImage.push("latest")
 					}
