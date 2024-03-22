@@ -71,6 +71,8 @@ pipeline {
 						sh '''
 							docker stop ${BACK_NAME}
 							echo 'stop'
+						'''
+						sh '''
 							docker rm ${BACK_NAME}
 							echo 'rm'
 						'''
