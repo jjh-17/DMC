@@ -3,35 +3,41 @@ import EmptyBean from "../../assets/icons/empty-coffee-bean.svg?react";
 import FullBean from "../../assets/icons/full-coffee-bean.svg?react";
 import ThumbUp from "../../assets/icons/thumbup.svg?react";
 
-interface Review {
-  //   reviewSeq: number;
-  //   memberSeq: number;
-  //   cafeSeq: number;
-  //   name: string;
-  //   image: string[];
-  //   content: string;
-  //   tag: string[];
-  //   rating: number;
-  //   createdDate: string;
-  reviewSeq: number;
-  memberSeq: number;
-  cafeSeq: number;
-  name: string;
-  nickname: string;
-  image: string[];
-  content: string;
-  tag: string[];
-  rating: number;
-  createdDate: string;
-  isLiked: boolean;
-  isDeleted: boolean;
-  // 나중에 추가 받아야 함
-  profileImage: string;
-  userTitle: string;
-}
+// interface Review {
+//   //   reviewSeq: number;
+//   //   memberSeq: number;
+//   //   cafeSeq: number;
+//   //   name: string;
+//   //   image: string[];
+//   //   content: string;
+//   //   tag: string[];
+//   //   rating: number;
+//   //   createdDate: string;
+//   reviewSeq: number;
+//   memberSeq: number;
+//   cafeSeq: number;
+//   name: string;
+//   nickname: string;
+//   image: string[];
+//   content: string;
+//   tag: string[];
+//   rating: number;
+//   createdDate: string;
+//   isLiked: boolean;
+//   isDeleted: boolean;
+//   // 나중에 추가 받아야 함
+//   profileImage: string;
+//   userTitle: string;
+// }
 
-const DetailReviewCard = ({onLikeClick}) => {
-  const [ref] = useDragScroll();
+const DetailReviewCard = ({ onLikeClick }: any) => {
+  const [setRef] = useDragScroll();
+
+  const handleRef = (node: HTMLElement | null) => {
+    if (node) {
+      setRef(node);
+    }
+  };
 
   const review = {
     reviewSeq: 0,
@@ -91,7 +97,7 @@ const DetailReviewCard = ({onLikeClick}) => {
 
       {/* 이미지 리스트 */}
       {review.image.length > 0 && (
-        <div ref={ref} className="flex overflow-x-auto p-4 no-scroll">
+        <div ref={handleRef} className="flex overflow-x-auto p-4 no-scroll">
           {review.image.map((img, index) => (
             <img
               key={index}
@@ -116,23 +122,22 @@ const DetailReviewCard = ({onLikeClick}) => {
         <p className="px-5 py-2">{review.content}</p>
 
         <div className="flex justify-between items-center px-4">
-        {/* 좋아요 */}
-        <button onClick={onLikeClick}>
-          <ThumbUp id="svgIcon" className='mr-2' />
-          <span className='font-semibold text-slate-500'>50</span>
-        </button>
+          {/* 좋아요 */}
+          <button onClick={onLikeClick}>
+            <ThumbUp id="svgIcon" className="mr-2" />
+            <span className="font-semibold text-slate-500">50</span>
+          </button>
 
-        {/* 태그 리스트 */}
-        {review.tag.length > 0 && (
-          <div className="flex overflow-x-auto p-4">
-            {review.tag.map((tag, index) => (
-              <span key={index} className="mr-2">
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-
+          {/* 태그 리스트 */}
+          {review.tag.length > 0 && (
+            <div className="flex overflow-x-auto p-4">
+              {review.tag.map((tag, index) => (
+                <span key={index} className="mr-2">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

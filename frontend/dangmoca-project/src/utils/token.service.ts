@@ -2,19 +2,19 @@ import { Component } from 'react';
 
 // 예시임 바꿔도됨
 // localstorage에 토큰 저장 및 관리
-const parseJwt = (token: string) => {
-  const base64Url = token.split('.')[1];
-  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  const jsonPayload = decodeURIComponent(
-    atob(base64)
-      .split('')
-      .map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join('')
-  );
-  return JSON.parse(jsonPayload);
-};
+// const parseJwt = (token: string) => {
+//   const base64Url = token.split('.')[1];
+//   const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+//   const jsonPayload = decodeURIComponent(
+//     atob(base64)
+//       .split('')
+//       .map(function (c) {
+//         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+//       })
+//       .join('')
+//   );
+//   return JSON.parse(jsonPayload);
+// };
 
 class TokenService extends Component {
   getLocalRefreshToken = () => {

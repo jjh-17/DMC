@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import Button from "../../components/common/Button";
 import ReviewRating from "../../components/review/ReviewRating";
 import { useDragScroll } from "../../utils/useDragScroll";
-import { reviewAPI } from "../../api/reviewAPI";
+// import { reviewAPI } from "../../api/reviewAPI";
 
 interface Image {
   id: number;
@@ -11,9 +11,36 @@ interface Image {
 
 // TODO : 헤더명 리뷰 작성하기'
 export default function ReviewWrite() {
-  const [ref] = useDragScroll();
+  const [setRef] = useDragScroll();
 
-  const [review, setReview] = useState();
+  const handleRef = (node: HTMLElement | null) => {
+    if (node) {
+      setRef(node);
+    }
+  };
+
+  const [review, setReview] = useState([{
+    reviewSeq: 0,
+    memberSeq: 0,
+    cafeSeq: 0,
+    name: "카페 남부",
+    image: [
+      "/src/assets/testpic/1.jpg",
+      "/src/assets/testpic/2.jpg",
+      "/src/assets/testpic/3.jpg",
+      "/src/assets/testpic/4.jpg",
+      "/src/assets/testpic/5.jpg",
+    ],
+    content: "맛잇엇요",
+    tag: ["조용한", "시끄러운"],
+    rating: 4,
+    createdDate: "2024-01-02",
+
+    profileImage: "/src/assets/testpic/1.jpg",
+    userTitle: "하루 커피 5잔",
+    nickName: "DMC",
+    comment: "dd"
+  }]);
 
   const cafe = {
     cafeSeq: 1,
@@ -27,7 +54,7 @@ export default function ReviewWrite() {
   };
 
   // 리뷰 별점 관련
-  const handleRatingChange = (rating) => {
+  const handleRatingChange = (rating:number) => {
     setReview((prevReview) => ({
       ...prevReview,
       rating: rating,
@@ -37,7 +64,7 @@ export default function ReviewWrite() {
   // 리뷰 내용 관련
   const reviewContentRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleBlur = (event) => {
+  const handleBlur = (event:any) => {
     // textarea의 현재 값을 content 상태에 저장
     setReview((prevReview) => ({
       ...prevReview,
@@ -72,18 +99,23 @@ export default function ReviewWrite() {
     }));
   };
 
+  console.log(cafe);
+  console.log(review);
+
+  // 더미데이터라 에러남.. 데이터 제대로 오면 인터페이스 만들고 살릴 것
+
   // 태그 관련
-  const [tags, setTags] = useState<string[]>([]);
+  // const [tags, setTags] = useState<string[]>([]);
 
   // 리뷰 작성
-  const writeReviewData = async () => {
-    try {
-      await reviewAPI.writeReview(cafe.cafeSeq, review);
-    } catch (error) {
-      console.error("리뷰 작성 에러: ", error);
-    }
-    console.log("업로드", review); // 백 연결 후 review 출력해보기
-  };
+  // const writeReviewData = async () => {
+  //   try {
+  //     await reviewAPI.writeReview(cafe.cafeSeq, review);
+  //   } catch (error) {
+  //     console.error("리뷰 작성 에러: ", error);
+  //   }
+  //   console.log("업로드", review); // 백 연결 후 review 출력해보기
+  // };
 
   const labelClass = "lg:text-2xl";
 
@@ -115,7 +147,7 @@ export default function ReviewWrite() {
         </div>
         <label className={labelClass}>등록한 사진</label>
         <div
-          ref={ref}
+          ref={handleRef}
           className="flex rounded-lg overflow-x-auto my-5 no-scroll w-full h-[28lvh] border-2 border-primary bg-slate-100"
         >
           {reviewImages.map((image) => (
@@ -142,7 +174,8 @@ export default function ReviewWrite() {
 
         <Button
           label="업로드"
-          onClick={writeReviewData}
+          // onClick={writeReviewData}
+          onClick={()=>{}}
           addClass="mx-auto"
         ></Button>
       </form>
