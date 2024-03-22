@@ -6,23 +6,10 @@ import HomePageIcon from "../../assets/icons/homepage.svg?react";
 import Button from "../../components/common/Button";
 import CafeMenuList from "../../components/cafe/CafeMenuList";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { CafeDetail } from "../../types/datatype";
 import BottomSheet from "../../components/review/BottomSheet";
 import CafeReview from "../review/CafeReview";
 // import { useState, useEffect } from "react";
-
-interface CafeDetail {
-  cafeSeq: number;
-  name: string;
-  distance: string;
-  address: string;
-  tag: string[];
-  imageUrl: string;
-  homepageUrl: string;
-  rating: number;
-  isBookmarked: boolean;
-  updatedDate: string;
-  openingHour: string;
-}
 
 const testDetail: CafeDetail = {
   cafeSeq: 1,

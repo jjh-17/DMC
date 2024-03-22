@@ -1,13 +1,13 @@
 import React from 'react';
 
 export const useDragScroll = (): [(nodeEle: HTMLElement) => void] => {
-    const [node, setNode] = React.useState<HTMLElement>(null);
+    const [node, setNode] = React.useState<HTMLElement>();
 
     const ref = React.useCallback((nodeEle: HTMLElement) => {
         setNode(nodeEle);
     }, []);
 
-    const handleMouseDown = React.useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const handleMouseDown = React.useCallback((e: MouseEvent) => {
         if (!node) {
             return;
         }
@@ -42,7 +42,7 @@ export const useDragScroll = (): [(nodeEle: HTMLElement) => void] => {
         };
     }, [node]);
 
-    const handleTouchStart = React.useCallback((e: React.TouchEvent<HTMLElement>) => {
+    const handleTouchStart = React.useCallback((e: TouchEvent) => {
         if (!node) {
             return;
         }
@@ -93,7 +93,6 @@ export const useDragScroll = (): [(nodeEle: HTMLElement) => void] => {
         if (!node) {
             return;
         }
-
         node.addEventListener("mousedown", handleMouseDown);
         node.addEventListener("touchstart", handleTouchStart);
 
@@ -101,7 +100,7 @@ export const useDragScroll = (): [(nodeEle: HTMLElement) => void] => {
             node.removeEventListener("mousedown", handleMouseDown);
             node.removeEventListener("touchstart", handleTouchStart);
         };
-    }, [node]);
+    }, [node, handleMouseDown, handleTouchStart]);
 
     return [ref];
 };

@@ -7,17 +7,7 @@ import CafeFilterAndSort from "../../utils/CafeFilterAndSort";
 
 import { sort, tags, desserts } from '../../assets/data/tag'
 import { useState, useEffect, useRef } from "react";
-
-interface Cafe {
-  cafeSeq: number;
-  name: string;
-  distance: string;
-  address: string;
-  tag: string[];
-  isOpen: boolean;
-  dessertTag: string[];
-  imageUrl: string;
-}
+import { Cafe } from "../../types/datatype";
 
 const CafeListPage = () => {
   const [showFilter, setShowFilter] = useState(false);

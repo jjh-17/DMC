@@ -1,8 +1,4 @@
-interface CafeMenu {
-  name : string;
-  price : number;
-  imageUrl : string;
-}
+import { CafeMenu } from "../../types/datatype"
 
 const CafeMenuCard = (menu: CafeMenu) => {
   return (

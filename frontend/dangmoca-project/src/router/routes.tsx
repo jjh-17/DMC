@@ -9,12 +9,14 @@ import MyReview from "../pages/mypage/MyReview";
 import RootLayout from "../pages/RootLayout";
 import Bookmark from "../pages/mypage/Bookmark";
 import MyInfo from "../pages/mypage/MyInfo";
-import KakaoMain from "../pages/user/KakaoMain";
-import NaverMain from "../pages/user/NaverMain";
 import CafeDetail from "../pages/cafe/CafeDetail";
 import CafeSearch from "../pages/cafe/CafeSearch";
 import ReviewWrite from "../pages/review/ReviewWrite";
 import CafeReview from "../pages/review/CafeReview";
+import NaverRedirectHandler from "../pages/user/NaverRedirectHandler";
+import KakaoRedirectHandler from "../pages/user/KakaoRedirectHandler";
+import CafeRecommend from "../pages/cafe/CafeRecommend";
+
 
 const routes = createBrowserRouter([
   {
@@ -23,8 +25,8 @@ const routes = createBrowserRouter([
     children: [
       { path: "/", element: <Main /> }, // 메인화면 (첫 화면)
       { path: "login", element: <Login /> },
-      { path: "kakaoLogin", element: <KakaoMain /> },
-      { path: "naverLogin", element: <NaverMain /> },
+      { path: "kakaoLogin", element: <KakaoRedirectHandler /> },
+      { path: "naverLogin", element: <NaverRedirectHandler /> },
       { path: "myPage", element: <MyPage /> },
       { path: "myInfo", element: <MyInfo /> },
       { path: "myReview", element: <MyReview /> },
@@ -43,6 +45,9 @@ const routes = createBrowserRouter([
       },
       { path: "cafes/*", element: <CafeList />, children: [] },
       { path: "my-reviews", element: <MyReview /> },
+      { path: "review-write", element: <ReviewWrite /> },
+      { path: "temp", element: <CafeReview /> },
+      { path: "myCafe", element: <CafeRecommend />},
     ],
   },
   { path: "/*", element: <ErrorPage /> },

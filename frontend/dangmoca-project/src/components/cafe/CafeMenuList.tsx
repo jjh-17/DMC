@@ -2,12 +2,7 @@ import { useState } from 'react';
 import CafeMenuCard from './CafeMenuCard';
 import UpArrow from '../../assets/icons/uparrow.svg?react'
 import DownArrow from '../../assets/icons/downarrow.svg?react'
-
-interface CafeMenu {
-    name: string;
-    price: number;
-    imageUrl: string;
-}
+import { CafeMenu } from '../../types/datatype';
 
 const MenuTest: CafeMenu[] = [
     {

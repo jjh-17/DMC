@@ -47,13 +47,13 @@ class TokenService extends Component {
     } 
   };
 
-  expiredToken = () => {
-    try {
-      return parseJwt(this.getLocalAccessToken()).exp * 1000 <= Date.now();
-    } catch {
-      return false;
-    }
-  };
+  // expiredToken = () => {
+  //   try {
+  //     return parseJwt(this.getLocalAccessToken()).exp * 1000 <= Date.now();
+  //   } catch {
+  //     return false;
+  //   }
+  // };
 }
 
 export default TokenService;
