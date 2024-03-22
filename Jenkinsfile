@@ -182,7 +182,7 @@ pipeline {
 
 				dir("${FRONT_DIR}") {
 					script {
-						sh "docker build -t ${BACK_NAME}:latest ./"
+						sh "docker build -t ${FRONT_NAME}:latest ./"
 					}
 				}
 				echo "FE : Docker Build End"
@@ -218,7 +218,7 @@ pipeline {
 
 					if (stoppedContainer) {
 						sh "ssh -t ${SSH_CONNECTION} \"docker rm ${stoppedContainer}\""
-						echo "Stopped ${BACK_NAME}:${stoppedContainer} Container removed"
+						echo "Stopped ${FRONT_NAME}:${stoppedContainer} Container removed"
 					} else {
 						echo "No Stopped ${FRONT_NAME} Container found"
 					}
