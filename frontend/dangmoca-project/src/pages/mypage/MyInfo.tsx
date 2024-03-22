@@ -40,7 +40,7 @@ export default function MyInfo() {
   };
 
   return (
-    <div className="flex flex-col items-start w-full max-w-4xl mx-auto p-4 space-y-4">
+    <div className="flex flex-col items-start w-full max-w-4xl mx-auto mt-5 p-4 space-y-4">
       <p className="text-left w-full">내 프로필 사진</p>
       <div className="w-full">
         <div className="w-40 h-40 mx-auto bg-brown-500 rounded-full overflow-hidden">
