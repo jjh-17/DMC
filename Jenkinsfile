@@ -2,7 +2,7 @@ pipeline {
 
 	agent any
 	tools {
-		nodejs "NodeJS 20.1.1"
+		nodejs "NodeJS 20.11.1"
 		gradle "Gradle 8.6"
 		dockerTool "DockerDefault"
 	}
