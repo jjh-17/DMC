@@ -35,7 +35,7 @@ pipeline {
 			steps {
 				echo "Git Clone Start"
 
-				git branch : ${GIT_BRANCH}, credentialsId: "GitLab", url: "https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git"
+				git branch : "${GIT_BRANCH}", credentialsId: "GitLab", url: "https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git"
 
 				echo "Git Clone End"
 			}
