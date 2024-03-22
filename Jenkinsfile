@@ -106,6 +106,7 @@ pipeline {
 				echo "BE : Docker Build Start"
 				dir("${BACK_DIR}") {
 					script {
+						echo pwd
 						sh "docker build -t ${BACK_NAME}:latest ./"
 					}
 				}
