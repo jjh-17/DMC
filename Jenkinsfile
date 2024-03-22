@@ -69,15 +69,10 @@ pipeline {
 					sh "echo ${running}"
 					if(running != null && running != "") {
 						sh '''
-echo '1'
 							docker stop ${BACK_NAME}
-echo '2'
 							echo 'stop'
-echo '3'
 							docker rm ${BACK_NAME}
-echo '4'
 							echo 'rm'
-echo '5'
 						'''
 					}else {
 						sh "echo 'no running'"
@@ -87,19 +82,10 @@ echo '5'
 				echo "Image"
 				script {
 					def image = sh(script: "docker images -aqf reference=${BACK_NAME}", returnStdout: true).trim()
-					sh "echo $image"
-
-sh '''
-echo "image"
-echo "${image}"
-'''
-
-
+					sh "echo ${image}"
 					if(image != null && image != "") {
 						sh '''
-echo "image"
-echo "${image}"
-							docker rmi image
+							docker rmi ${image}
 							echo 'rmi'
 						'''
 					}else {
@@ -116,7 +102,7 @@ echo "${image}"
 				echo "BE : Docker Build Start"
 				dir("./backend/") {
 					script {
-						sh "docker build -t ${BACK_NAME}:latest"
+						sh "docker build -t ${BACK_NAME}:latest ./"
 					}
 				}
 				echo "BE : Docker Build End"
