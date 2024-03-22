@@ -2,12 +2,7 @@ import { useState } from 'react';
 import CafeMenuCard from './CafeMenuCard';
 import UpArrow from '../../assets/icons/uparrow.svg?react'
 import DownArrow from '../../assets/icons/downarrow.svg?react'
-
-interface CafeMenu {
-    name: string;
-    price: number;
-    imageUrl: string;
-}
+import { CafeMenu } from '../../types/datatype';
 
 const MenuTest: CafeMenu[] = [
     {
@@ -45,13 +40,13 @@ const CafeMenuList = () => {
     };
 
     return (
-        <div className='text-center mt-4'>
+        <div className='text-center mx-auto px-4 pt-4 md:w-[80lvw] lg:w-[50lvw]'>
             <label className='text-2xl'>메뉴</label>
 
             {MenuTest.slice(0, showAll ? MenuTest.length : 2).map((menu, index) => (
                 <CafeMenuCard key={index} {...menu} />
             ))}
-            <button onClick={toggleShowAll} className='mb-12 text-xl cursor-pointer'>
+            <button onClick={toggleShowAll} className='mb-6 text-xl cursor-pointer'>
                 {showAll ? (
                     <>
                         숨기기 <UpArrow id='svgIcon' />

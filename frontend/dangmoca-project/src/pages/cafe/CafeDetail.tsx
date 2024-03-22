@@ -1,4 +1,3 @@
-// cafeCard를 누를 시 cafeSeq와 현재 위치를 보낸 후 받아오는 response
 import CoffeeBeanIcon from "../../assets/icons/coffeebean.svg?react";
 import BookMarkIcon from "../../assets/icons/bookmark.svg?react";
 import PinIcon from "../../assets/icons/locationpin.svg?react";
@@ -7,27 +6,17 @@ import HomePageIcon from "../../assets/icons/homepage.svg?react";
 import Button from "../../components/common/Button";
 import CafeMenuList from "../../components/cafe/CafeMenuList";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-
-interface CafeDetail {
-  cafeSeq: number;
-  name: string;
-  distance: string;
-  address: string;
-  tag: string[];
-  imageUrl: string;
-  homepageUrl: string;
-  rating: number;
-  isBookmarked: boolean;
-  updatedDate: string;
-  openingHour: string;
-}
+import { CafeDetail } from "../../types/datatype";
+import BottomSheet from "../../components/review/BottomSheet";
+import CafeReview from "../review/CafeReview";
+// import { useState, useEffect } from "react";
 
 const testDetail: CafeDetail = {
   cafeSeq: 1,
   name: "바나프레소 테헤란로점",
   distance: "100m",
   address: "서울 강남구 역삼동",
-  tag: ["가성비", "테이크아웃", ""],
+  tag: ["가성비", "테이크아웃", "분위기"],
   imageUrl: "/src/assets/testPic/bana.jpg",
   homepageUrl: "https://www.banapresso.com/",
   rating: 3.7,
@@ -36,11 +25,25 @@ const testDetail: CafeDetail = {
   openingHour: "월~금 07:00~20:00",
 };
 
-// export default function CafeDetailPage(cafeDetail: CafeDetail) {
 const CafeDetailPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const isReviewPage = location.pathname.includes("/reviews");
+  const isReviewPage = location.pathname.includes("/write");
+
+  // const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setViewportHeight(window.innerHeight);
+  //   };
+
+  //   window.addEventListener("resize", handleResize);
+
+  //   // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
 
   const cafeAddress: string[] = testDetail.address.split(" ");
   const simpleAddress = cafeAddress[0] + ", " + cafeAddress[1];
@@ -66,12 +69,15 @@ const CafeDetailPage = () => {
       </p>
       {!isReviewPage && (
         <>
-          {testDetail.tag.map((text, idx) => {
-            <span className="absolute top-[84lvh] right-0 ml-2 text-[4lvw] text-primary font-light">
-              {text}
-            </span>;
-          })}
-          <div className="m-2 border-b-[1px] border-primary p-2">
+          {testDetail.tag.map((text, idx) => (
+            <span
+              key={idx}
+              className="relative ml-2 text-base text-white -top-[5lvh]  left-[35lvw] whitespace-nowrap underline"
+            >
+              #{text}{" "}
+            </span>
+          ))}
+          <div className="border-b-[1px] border-primary pb-2 mx-2 lg:mx-10">
             <span className={textClass}>
               <CoffeeBeanIcon className={svgClass + " fill-primary"} />
               {testDetail.rating}
@@ -98,8 +104,9 @@ const CafeDetailPage = () => {
           </div>
           <CafeMenuList />
           <div className="text-center">
-            <Button label="리뷰 상세보기" onClick={() => navigate("reviews")} />
+            <Button label="리뷰 작성하기" onClick={() => navigate("write")} />
           </div>
+          <BottomSheet prop={<CafeReview />} />
         </>
       )}
       <Outlet />

@@ -1,6 +1,7 @@
 import { useDragScroll } from "../../utils/useDragScroll";
 import EmptyBean from "../../assets/icons/empty-coffee-bean.svg?react";
 import FullBean from "../../assets/icons/full-coffee-bean.svg?react";
+import ThumbUp from "../../assets/icons/thumbup.svg?react";
 
 interface Review {
   //   reviewSeq: number;
@@ -29,7 +30,7 @@ interface Review {
   userTitle: string;
 }
 
-const DetailReviewCard = () => {
+const DetailReviewCard = ({onLikeClick}) => {
   const [ref] = useDragScroll();
 
   const review = {
@@ -114,9 +115,16 @@ const DetailReviewCard = () => {
         {/* 리뷰 내용 */}
         <p className="px-5 py-2">{review.content}</p>
 
+        <div className="flex justify-between items-center px-4">
+        {/* 좋아요 */}
+        <button onClick={onLikeClick}>
+          <ThumbUp id="svgIcon" className='mr-2' />
+          <span className='font-semibold text-slate-500'>50</span>
+        </button>
+
         {/* 태그 리스트 */}
         {review.tag.length > 0 && (
-          <div className="flex overflow-x-auto p-4 justify-end">
+          <div className="flex overflow-x-auto p-4">
             {review.tag.map((tag, index) => (
               <span key={index} className="mr-2">
                 {tag}
@@ -124,6 +132,8 @@ const DetailReviewCard = () => {
             ))}
           </div>
         )}
+
+        </div>
       </div>
     </div>
   );

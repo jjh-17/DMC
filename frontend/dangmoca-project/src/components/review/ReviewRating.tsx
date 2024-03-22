@@ -5,19 +5,27 @@ import FullBean from "../../assets/icons/full-coffee-bean.svg?react";
 interface BeanIconProps {
   onClick: () => void;
   onMouseEnter: () => void;
-  type: 'empty' | 'full';
+  type: "empty" | "full";
 }
 
-const BeanIcon = ({ onClick, onMouseEnter, type } : BeanIconProps) => {
-  const Icon = type === 'full' ? FullBean : EmptyBean;
+interface ReviewRatingProps {
+  onRatingChange: (value: number) => void;
+}
+
+const BeanIcon = ({ onClick, onMouseEnter, type }: BeanIconProps) => {
+  const Icon = type === "full" ? FullBean : EmptyBean;
   return (
-    <button onClick={onClick} onMouseEnter={onMouseEnter} className="w-8 h-8">
+    <button
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      className="w-[15lvw] h-[15lvw] max-w-[60px] max-h-[60px]"
+    >
       <Icon className="w-full h-full" />
     </button>
   );
 };
 
-export default function ReviewRating() {
+export default function ReviewRating({ onRatingChange }: ReviewRatingProps) {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
 
@@ -27,6 +35,7 @@ export default function ReviewRating() {
 
   const handleClick = (value: number) => {
     setRating(value);
+    onRatingChange(value);
   };
 
   const renderBeans = () => {
@@ -37,7 +46,7 @@ export default function ReviewRating() {
           key={i}
           onClick={() => handleClick(i)}
           onMouseEnter={() => handleMouseEnter(i)}
-          type={hoverRating >= i || rating >= i ? 'full' : 'empty'}
+          type={hoverRating >= i || rating >= i ? "full" : "empty"}
         />
       );
     }
@@ -45,7 +54,10 @@ export default function ReviewRating() {
   };
 
   return (
-    <div className="flex flex-row space-x-1" onMouseLeave={() => setHoverRating(rating)}>
+    <div
+      className="flex flex-row items-center mx-auto max-w-2xl"
+      onMouseLeave={() => setHoverRating(rating)}
+    >
       {renderBeans()}
     </div>
   );
