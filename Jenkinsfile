@@ -69,10 +69,10 @@ pipeline {
 					sh "echo ${running}"
 					if(${running} != null && ${running} != "") {
 						sh '''
-							docker stop ${BACK_NAME}
+							docker stop $BACK_NAME
 							echo 'stop'
 							docker rm ${BACK_NAME}
-							echo 'rmi'
+							echo 'rm'
 						'''
 					}else {
 						sh "echo 'no running'"
