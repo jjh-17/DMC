@@ -85,9 +85,10 @@ pipeline {
 				script {
 					def image = sh(script: "docker images -aqf reference=${BACK_NAME}", returnStdout: true).trim()
 					sh "echo ${image}"
+
 					if(image) {
 						sh '''
-							docker rmi "${image}"
+							docker rmi image
 							echo 'rmi'
 						'''
 					}else {
@@ -98,7 +99,7 @@ pipeline {
 				echo "BE : rm End"
 			}
 		}
-
+/*
 		stage("BE : Docker") {
 			steps {
 				echo "BE : Docker Build Start"
@@ -116,7 +117,7 @@ pipeline {
 				sh "docker run --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}"
 			}
 		}
-
+*/
 
 
 
