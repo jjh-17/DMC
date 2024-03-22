@@ -80,21 +80,21 @@ pipeline {
 						sh "echo 'no running'"
 					}
 				}
-/*
+
 				echo "Image"
 				script {
 					def image = sh(script: "docker images -aqf reference=${BACK_NAME}", returnStdout: true).trim()
 					sh "echo ${image}"
 					if(image) {
 						sh '''
-							docker rmi ${image}
+							docker rmi "${image}"
 							echo 'rmi'
 						'''
 					}else {
 						sh "echo 'no image'"
 					}
 				}
-*/
+
 				echo "BE : rm End"
 			}
 		}
