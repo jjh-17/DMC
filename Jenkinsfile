@@ -8,6 +8,8 @@ pipeline {
 	}
 
 	environment {
+		GIT_BRANCH = "infra"
+
 		SSH_CONNECTION = "ubuntu@j10a607.p.ssafy.io"
 		SSH_CONNECTION_SUB = "ubuntu@j10a607a.p.ssafy.io"
 
@@ -33,7 +35,7 @@ pipeline {
 			steps {
 				echo "Git Clone Start"
 
-				git branch : "infra", credentialsId: "GitLab", url: "https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git"
+				git branch : ${GIT_BRANCH}, credentialsId: "GitLab", url: "https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git"
 
 				echo "Git Clone End"
 			}
@@ -66,21 +68,30 @@ pipeline {
 				echo "Container"
 				script {
 					def running = sh(script: "docker ps -aqf name=${BACK_NAME}", returnStdout: true).trim()
-					sh "${running}"
-					if(running != null && running != "") {
+					sh "echo $running"
+					if($running != null && $running != "") {
 						sh '''
 							docker stop ${BACK_NAME}
+							echo 'stop'
 							docker rm ${BACK_NAME}
+							echo 'rmi'
 						'''
+					}else {
+						sh "echo \"no running\""
 					}
 				}
 
 				echo "Image"
 				script {
 					def image = sh(script: "docker images -aqf reference=${BACK_NAME}", returnStdout: true).trim()
-					sh "${image}"
-					if(image != null && image != "") {
-						sh "docker rmi ${image}"
+					sh "echo $image"
+					if($image != null && $image != "") {
+						sh '''
+							docker rmi $image
+							echo 'rmi'
+						'''
+					}else {
+						sh "echo \"no image\""
 					}
 				}
 
