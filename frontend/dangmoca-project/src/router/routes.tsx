@@ -37,18 +37,16 @@ const routes = createBrowserRouter([
         element: <CafeDetail />,
         children: [
           {
-            path: "reviews",
-            element: <CafeReview />,
+            path: "write",
+            element: <ReviewWrite />,
           },
         ],
       },
       { path: "cafes/*", element: <CafeList />, children: [] },
       { path: "my-reviews", element: <MyReview /> },
       { path: "review-write", element: <ReviewWrite /> },
-
       { path: "temp", element: <CafeReview /> },
       { path: "myCafe", element: <CafeRecommend />},
-
     ],
   },
   { path: "/*", element: <ErrorPage /> },

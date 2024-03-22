@@ -1,4 +1,3 @@
-// cafeCard를 누를 시 cafeSeq와 현재 위치를 보낸 후 받아오는 response
 import CoffeeBeanIcon from "../../assets/icons/coffeebean.svg?react";
 import BookMarkIcon from "../../assets/icons/bookmark.svg?react";
 import PinIcon from "../../assets/icons/locationpin.svg?react";
@@ -8,6 +7,9 @@ import Button from "../../components/common/Button";
 import CafeMenuList from "../../components/cafe/CafeMenuList";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { CafeDetail } from "../../types/datatype";
+import BottomSheet from "../../components/review/BottomSheet";
+import CafeReview from "../review/CafeReview";
+// import { useState, useEffect } from "react";
 
 const testDetail: CafeDetail = {
   cafeSeq: 1,
@@ -26,7 +28,22 @@ const testDetail: CafeDetail = {
 const CafeDetailPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const isReviewPage = location.pathname.includes("/reviews");
+  const isReviewPage = location.pathname.includes("/write");
+
+  // const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setViewportHeight(window.innerHeight);
+  //   };
+
+  //   window.addEventListener("resize", handleResize);
+
+  //   // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
 
   const cafeAddress: string[] = testDetail.address.split(" ");
   const simpleAddress = cafeAddress[0] + ", " + cafeAddress[1];
@@ -87,8 +104,9 @@ const CafeDetailPage = () => {
           </div>
           <CafeMenuList />
           <div className="text-center">
-            <Button label="리뷰 상세보기" onClick={() => navigate("reviews")} />
+            <Button label="리뷰 작성하기" onClick={() => navigate("write")} />
           </div>
+          <BottomSheet prop={<CafeReview />} />
         </>
       )}
       <Outlet />
