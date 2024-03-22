@@ -64,6 +64,7 @@ const BottomSheet = ({ prop }:any) => {
             Math.abs(info.delta.y) > deltaThreshold;
           if (!isOverThreshold) return;
           setIsOpened(info.offset.y < 0);
+          console.log(event);
         }}
       >
         <div
