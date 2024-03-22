@@ -104,9 +104,9 @@ pipeline {
 		stage("BE : Docker") {
 			steps {
 				echo "BE : Docker Build Start"
+				echo "pwd : ${pwd}"
 				dir("${BACK_DIR}") {
 					script {
-						echo pwd
 						sh "docker build -t ${BACK_NAME}:latest ./"
 					}
 				}
