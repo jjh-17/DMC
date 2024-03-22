@@ -87,10 +87,7 @@ pipeline {
 					sh "echo ${image}"
 
 					if(image) {
-						sh '''
-							docker rmi image
-							echo 'rmi'
-						'''
+						sh "docker rmi ${image}"
 					}else {
 						sh "echo 'no image'"
 					}
