@@ -57,7 +57,7 @@ pipeline {
 			echo "BE : Build End"
 			}
 		}
-/*
+
 		stage("BE : rm") {
 			steps {
 				echo "BE : rm Start"
@@ -87,7 +87,7 @@ pipeline {
 				echo "BE : rm End"
 			}
 		}
-*/
+
 /*
 		stage("BE : Docker") {
 			steps {
