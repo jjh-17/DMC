@@ -146,7 +146,7 @@ pipeline {
 
 				echo "Container"
 				script {
-					def running = sh(script: "docker ps -aqf =name${FRONT_NAME}", returnStdout: true).trim()
+					def running = sh(script: "docker ps -aqf name=${FRONT_NAME}", returnStdout: true).trim()
 					sh "echo ${running}"
 
 					if(running) {
