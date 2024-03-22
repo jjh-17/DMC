@@ -96,7 +96,7 @@ pipeline {
 				echo "BE : rm End"
 			}
 		}
-/*
+
 		stage("BE : Docker") {
 			steps {
 				echo "BE : Docker Build Start"
@@ -114,7 +114,7 @@ pipeline {
 				sh "docker run --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}"
 			}
 		}
-*/
+
 
 
 
