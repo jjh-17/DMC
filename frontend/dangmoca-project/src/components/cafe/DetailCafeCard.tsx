@@ -2,27 +2,17 @@ import LocationPin from '../../assets/icons/pin.svg?react';
 import { useNavigate } from "react-router-dom";
 import { tagMapper } from '../../assets/data/tag';
 import { useEffect, useState } from 'react';
-
-interface Cafe {
-  cafeSeq: number;
-  name: string;
-  distance: string;
-  address: string;
-  tag: string[];
-  isOpen: boolean;
-  dessertTag: string[];
-  imageUrl: string;
-}
+import { Cafe } from '../../types/datatype';
 
 const DetailCafeCard = (cafe: Cafe) => {
   const navigate = useNavigate();
-  const [mappedTags, setMappedTags] = useState([]);
+  const [mappedTags, setMappedTags] = useState<string[]>([]);
 
   useEffect(() => {
-    const mappedTagsArray = cafe.tag.map(tag => tagMapper.get(tag));
+    const mappedTagsArray: string[] = cafe.tag.map(tag => tagMapper.get(tag));
     setMappedTags(mappedTagsArray);
-    }, [cafe])
-    
+  }, [cafe])
+
   return (
     <div className="p-1 flex flex-col m-4 shadow-lg rounded-sm items-center" onClick={() => navigate(`/cafeDetail/${cafe.cafeSeq}`)}>
       <img

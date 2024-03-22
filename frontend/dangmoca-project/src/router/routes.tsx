@@ -15,6 +15,7 @@ import CafeDetail from "../pages/cafe/CafeDetail";
 import CafeSearch from "../pages/cafe/CafeSearch";
 import ReviewWrite from "../pages/review/ReviewWrite";
 import CafeReview from "../pages/review/CafeReview";
+import CafeRecommend from "../pages/cafe/CafeRecommend";
 
 const routes = createBrowserRouter([
   {
@@ -43,6 +44,9 @@ const routes = createBrowserRouter([
       },
       { path: "cafes/*", element: <CafeList />, children: [] },
       { path: "my-reviews", element: <MyReview /> },
+      { path: "review-write", element: <ReviewWrite /> },
+      { path: "temp", element: <CafeReview /> },
+      { path: "myCafe", element: <CafeRecommend />},
     ],
   },
   { path: "/*", element: <ErrorPage /> },
