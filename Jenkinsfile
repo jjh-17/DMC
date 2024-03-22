@@ -63,13 +63,11 @@ pipeline {
 		stage("BE : rm") {
 			steps {
 				echo "BE : rm Start"
-				
-
 				echo "Container"
 				script {
 					def running = sh(script: "docker ps -aqf name=${BACK_NAME}", returnStdout: true).trim()
-					sh "echo $running"
-					if($running != null && $running != "") {
+					sh "echo ${running}"
+					if(${running} != null && ${running} != "") {
 						sh '''
 							docker stop ${BACK_NAME}
 							echo 'stop'
@@ -77,7 +75,7 @@ pipeline {
 							echo 'rmi'
 						'''
 					}else {
-						sh "echo \"no running\""
+						sh "echo 'no running'"
 					}
 				}
 
@@ -91,7 +89,7 @@ pipeline {
 							echo 'rmi'
 						'''
 					}else {
-						sh "echo \"no image\""
+						sh "echo 'no image'"
 					}
 				}
 
