@@ -131,7 +131,7 @@ pipeline {
 				dir("${FRONT_DIR}") {
 					sh '''
 						npm install
-						npm run build
+						// npm run build
 					'''
 				}
 
