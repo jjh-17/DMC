@@ -39,14 +39,24 @@ public class MemberController {
      * 닉네임 변경
      */
     @PatchMapping("/{memberid}")
-    public BaseResponse<?> updateNickname(@PathVariable("memberid") Long memberSeq, @RequestBody Map<String, Object> body) {
+    public BaseResponse<?> updateNickname( @RequestBody Map<String, Object> body){
+        // Long membersSeq = (Long) request.getAttribute("seq");
         boolean able = (boolean) body.get("able");
+        Long memberSeq = 2L;
         if (able) {
             memberService.updateNickname(memberSeq, (String) body.get("nickname"));
             return new BaseResponse<>(SUCCESS);
         } else {
             throw new BaseException(EXIST_NICKNAME);
         }
+    }
+
+    /*
+     * 프로필 사진 변경
+     */
+    public BaseResponse<?> updateProfileImage() {
+
+        return new BaseResponse<>(SUCCESS);
     }
 
     /*
