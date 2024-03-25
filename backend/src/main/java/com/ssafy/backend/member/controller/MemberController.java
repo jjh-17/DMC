@@ -69,9 +69,20 @@ public class MemberController {
     @GetMapping("/{memberid}")
     public BaseResponse<?> getMemberInformation(@PathVariable("memberid") Long memberSeq) {
         GetMemberInformationVo getMemberInformationVo = memberFacade.getMemberInformation(memberSeq);
-
         return new BaseResponse<>(getMemberInformationVo);
     }
+
+    /*
+     * 내 정보 조회
+     */
+    @GetMapping("/mypage")
+    public BaseResponse<?> getMyPageInformation() {
+        // Long membersSeq = (Long) request.getAttribute("seq");
+        Long memberSeq = 2L;
+        GetMemberInformationVo getMemberInformationVo = memberFacade.getMemberInformation(memberSeq);
+        return new BaseResponse<>(getMemberInformationVo);
+    }
+
 
     /*
      * 회원 선호 태그 반영
