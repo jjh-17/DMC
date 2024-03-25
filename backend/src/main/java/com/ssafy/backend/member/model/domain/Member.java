@@ -1,9 +1,12 @@
 package com.ssafy.backend.member.model.domain;
 
+import com.ssafy.backend.global.util.GlobalUtil;
+import com.ssafy.backend.member.model.vo.GetMemberInformationVo;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Builder
@@ -26,6 +29,7 @@ public class Member {
     String imageUrl;
 
     @Column
+    @Setter
     String nickname;
 
     @Column
@@ -33,6 +37,7 @@ public class Member {
 
     @Column
     @Nullable
+    @Setter
     String preferenceTag;
 
     @Column
@@ -40,9 +45,11 @@ public class Member {
     String title;
 
     @Column
+    @Setter
     boolean isDeleted;
 
-    public Member() {}
+    public Member() {
+    }
 
     public Member(Long memberSeq, String memberCode, Character type, @Nullable String imageUrl, String nickname, Integer mileage, @Nullable String preferenceTag, @Nullable String title, boolean isDeleted) {
         this.memberSeq = memberSeq;
@@ -54,5 +61,9 @@ public class Member {
         this.preferenceTag = preferenceTag;
         this.title = title;
         this.isDeleted = isDeleted;
+    }
+
+    public GetMemberInformationVo toInformationVo() {
+        return new GetMemberInformationVo(this.memberSeq, this.nickname, this.imageUrl, this.title, GlobalUtil.tagsToList(this.preferenceTag), this.isDeleted);
     }
 }

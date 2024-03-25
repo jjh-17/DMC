@@ -3,6 +3,7 @@ package com.ssafy.backend.account.service;
 import com.ssafy.backend.account.model.domain.vo.TokenVo;
 import com.ssafy.backend.global.util.JwtProvider;
 import com.ssafy.backend.global.util.RedisDao;
+import com.ssafy.backend.member.service.MemberFacade;
 import com.ssafy.backend.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +13,9 @@ import java.time.Duration;
 
 @Service
 public class AccountServiceImpl implements AccountService {
+
+    @Autowired
+    MemberFacade memberFacade;
 
     @Autowired
     MemberService memberService;
@@ -33,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public TokenVo OAuthLogin(String memberCode, char loginType) {
-        Long memberSeq = memberService.OAuthLogin(memberCode, loginType);
+        Long memberSeq = memberFacade.OAuthLogin(memberCode, loginType);
 
         String accessToken = jwtProvider.createAccessToken(memberSeq, accessTokenExpire);
         String refreshToken = jwtProvider.createRefreshToken(memberSeq, refreshTokenExpire);
@@ -42,5 +46,10 @@ public class AccountServiceImpl implements AccountService {
         redisDao.saveToRedis("refreshToken:" + memberSeq, refreshToken, Duration.ofMillis(refreshTokenExpire));
 
         return new TokenVo(accessToken, refreshToken);
+    }
+
+    @Override
+    public void deleteMember(Long memberSeq) {
+        memberService.deleteMember(memberSeq);
     }
 }

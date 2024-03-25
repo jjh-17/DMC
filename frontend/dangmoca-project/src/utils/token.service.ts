@@ -1,5 +1,3 @@
-import { Component } from 'react';
-
 // 예시임 바꿔도됨
 // localstorage에 토큰 저장 및 관리
 // const parseJwt = (token: string) => {
@@ -16,29 +14,29 @@ import { Component } from 'react';
 //   return JSON.parse(jsonPayload);
 // };
 
-class TokenService extends Component {
-  getLocalRefreshToken = () => {
+class TokenService {
+  static getLocalRefreshToken = () => {
     return localStorage.getItem('user') ? localStorage.getItem('refresh-token') : null;
   };
 
-  getLocalAccessToken = () => {
+  static getLocalAccessToken = () => {
     return localStorage.getItem('user') ? localStorage.getItem('token') : null;
   };
 
-  setLocalRefreshToken = (token: string) => {
+  static setLocalRefreshToken = (token: string) => {
     localStorage.setItem('refresh-token', token);
   };
 
-  setLocalAccessToken = (token: string) => {
+  static setLocalAccessToken = (token: string) => {
     localStorage.setItem('token', token);
   };
 
-  updateLocalAccessToken = (token: string) => {
+  static updateLocalAccessToken = (token: string) => {
     localStorage.setItem('token', token);
   };
 
   
-  removeUser = () => {
+  static removeUser = () => {
     localStorage.removeItem('token');
     try {
       localStorage.removeItem('refresh-token');
