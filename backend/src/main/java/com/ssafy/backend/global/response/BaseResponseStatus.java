@@ -28,7 +28,6 @@ public enum BaseResponseStatus {
     NOT_VALID_CAFE_NAME(false, 400, "유효하지 않은 카페 이름입니다."),
     NOT_VALID_CAFE_ADDRESS(false, 400, "유효하지 않은 카페 주소입니다."),
     NOT_VALID_CAFE_IMAGE(false, 400, "유효하지 않은 카페 이미지입니다."),
-    NOT_VALID_CAFE_TAG(false, 400, "유효하지 않은 카페 태그입니다."),
     NOT_VALID_DESSERT_TAG(false, 400, "유효하지 않은 디저트 태그입니다."),
 
 

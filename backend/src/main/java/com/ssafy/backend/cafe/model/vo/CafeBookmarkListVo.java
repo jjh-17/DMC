@@ -71,9 +71,6 @@ public class CafeBookmarkListVo {
     }
 
     public void setTag(String tag) {
-        if (tag == null || tag.isBlank()) {
-            throw new BaseException(NOT_VALID_CAFE_TAG);
-        }
         this.tag = tag;
     }
 
