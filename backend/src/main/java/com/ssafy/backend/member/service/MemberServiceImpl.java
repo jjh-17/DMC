@@ -149,6 +149,7 @@ public class MemberServiceImpl implements MemberService {
             if (key == totalCount) {
                 achievementRepository.save(Achievement.builder()
                         .title(getTotalAchievement().get(key))
+                        .memberSeq(memberSeq)
                         .created_date(String.valueOf(LocalDate.now()))
                         .build());
                 return getTotalAchievement().get(key);
@@ -164,13 +165,30 @@ public class MemberServiceImpl implements MemberService {
             throw new BaseException(NOT_EXIST_USER);
         }
 
-        StringBuilder sb = new StringBuilder();
+        HashSet<String> set = new HashSet<>();
 
-        if (getRatingAchievement().containsKey(rating) && getCountAchievement().containsKey(count)) {
-            sb.append(getRatingAchievement().get(rating)).append(getCountAchievement().get(count));
+        for (Achievement achievement : achievementRepository.findByMemberSeq(memberSeq)) {
+            set.add(achievement.getTitle());
         }
 
-        return sb.toString();
+        if (getRatingAchievement().containsKey(rating) && getCountAchievement().containsKey(count)) {
+            StringBuilder sb = new StringBuilder();
+            String title = sb.append(getRatingAchievement().get(rating)).append(getCountAchievement().get(count)).toString();
+
+            if (set.contains(title)) {
+                return null;
+            }
+
+            achievementRepository.save(Achievement.builder()
+                    .title(title)
+                    .memberSeq(memberSeq)
+                    .created_date(String.valueOf(LocalDate.now()))
+                    .build());
+
+            return title;
+        }
+
+        return null;
     }
 
     private Map<Integer, String> getRatingAchievement() {

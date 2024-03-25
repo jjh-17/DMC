@@ -1,11 +1,7 @@
 package com.ssafy.backend.member.model.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Builder;
-import lombok.Getter;
 
 @Entity
 @Table(name = "achievement")
@@ -13,6 +9,10 @@ import lombok.Getter;
 public class Achievement {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    Long achievementSeq;
+
     @Column
     Long memberSeq;
 
@@ -22,7 +22,8 @@ public class Achievement {
     @Column
     String created_date;
 
-    public Achievement(Long memberSeq, String title, String created_date) {
+    public Achievement(Long achievementSeq, Long memberSeq, String title, String created_date) {
+        this.achievementSeq = achievementSeq;
         this.memberSeq = memberSeq;
         this.title = title;
         this.created_date = created_date;
@@ -30,5 +31,9 @@ public class Achievement {
 
     public Achievement() {
 
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

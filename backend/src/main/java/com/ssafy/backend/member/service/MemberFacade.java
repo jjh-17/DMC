@@ -44,10 +44,23 @@ public class MemberFacade {
     public List<String> getAchievement(Long memberSeq, HashMap<String, Integer> ratingMap) {
         List<String> list = new ArrayList<>();
 
-        list.add(memberService.getTotalCountAchievement(memberSeq, ratingMap.get("total")));
-        list.add(memberService.getRatingAchievement(memberSeq, 1, ratingMap.get("1")));
-        list.add(memberService.getRatingAchievement(memberSeq, 3, ratingMap.get("3")));
-        list.add(memberService.getRatingAchievement(memberSeq, 5, ratingMap.get("5")));
+        String totalAchievement = memberService.getTotalCountAchievement(memberSeq, ratingMap.get("total"));
+        String oneAchievement = memberService.getRatingAchievement(memberSeq, 1, ratingMap.get("1"));
+        String threeAchievement = memberService.getRatingAchievement(memberSeq, 3, ratingMap.get("3"));
+        String fiveAchievement = memberService.getRatingAchievement(memberSeq, 5, ratingMap.get("5"));
+
+        if (totalAchievement != null) {
+            list.add(totalAchievement);
+        }
+        if (oneAchievement != null) {
+            list.add(oneAchievement);
+        }
+        if (threeAchievement != null) {
+            list.add(threeAchievement);
+        }
+        if (fiveAchievement != null) {
+            list.add(fiveAchievement);
+        }
 
         return list;
     }
