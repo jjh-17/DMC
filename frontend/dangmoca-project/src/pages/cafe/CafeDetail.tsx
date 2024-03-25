@@ -10,12 +10,13 @@ import { CafeDetail } from "../../types/datatype";
 import BottomSheet from "../../components/review/BottomSheet";
 import CafeReview from "../review/CafeReview";
 // import { useState, useEffect } from "react";
+import KakaoMap from '../../components/cafe/KakaoMap';
 
 const testDetail: CafeDetail = {
   cafeSeq: 1,
   name: "바나프레소 테헤란로점",
   distance: "100m",
-  address: "서울 강남구 역삼동",
+  address: "서울 강남구 테헤란로 208 바나프레소",
   tag: ["가성비", "테이크아웃", "분위기"],
   imageUrl: "/src/assets/testPic/bana.jpg",
   homepageUrl: "https://www.banapresso.com/",
@@ -102,6 +103,7 @@ const CafeDetailPage = () => {
               {testDetail.openingHour}
             </div>
           </div>
+          <KakaoMap address={testDetail.address} name={testDetail.name}/>
           <CafeMenuList />
           <div className="text-center">
             <Button label="리뷰 작성하기" onClick={() => navigate("write")} />
