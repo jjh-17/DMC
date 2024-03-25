@@ -1,9 +1,8 @@
 package com.ssafy.backend.review.controller;
 
-import com.ssafy.backend.cafe.model.dto.AddTagCountDto;
-import com.ssafy.backend.cafe.service.CafeService;
 import com.ssafy.backend.global.response.BaseResponse;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
+import com.ssafy.backend.review.model.dto.ReviewRequestDto;
 import com.ssafy.backend.review.model.dto.LikeReivewDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;
 import com.ssafy.backend.review.model.vo.ViewReviewVo;
@@ -86,11 +85,10 @@ public class ReviewController {
      * 리뷰 작성하기
      */
     @PostMapping("/cafe/{cafeid}")
-    public BaseResponse<?> addReview(@PathVariable("cafeid") Long cafeSeq, @RequestPart List<MultipartFile> reviewImages, @RequestPart Map<String, Object> body) {
+    public BaseResponse<?> addReview(@PathVariable("cafeid") Long cafeSeq, ReviewRequestDto reviewRequestDto) {
         // Long membersSeq = (Long) request.getAttribute("seq");
         Long memberSeq = 2L;
-        AddReviewDto addReviewDto = new AddReviewDto(memberSeq, cafeSeq, (String) body.get("content"), (List<String>) body.get("tag"), (Integer) body.get("rating"));
-        reviewFacade.addReview(addReviewDto, reviewImages, addReviewDto.getTag());
+        reviewFacade.addReview(new AddReviewDto(reviewRequestDto.getReviewImages(), memberSeq, cafeSeq, reviewRequestDto.getContent(), reviewRequestDto.getTag(), reviewRequestDto.getRating()));
         return new BaseResponse<>(SUCCESS);
     }
 
@@ -98,11 +96,10 @@ public class ReviewController {
      * 리뷰 수정하기
      */
     @PatchMapping("/cafe/{reviewid}")
-    public BaseResponse<?> updateReview(@PathVariable("reviewid") Long reviewSeq, @RequestPart(required = false) List<MultipartFile> reviewImages, @RequestPart Map<String, Object> body) {
+    public BaseResponse<?> updateReview(@PathVariable("reviewid") Long reviewSeq, ReviewRequestDto reviewRequestDto) {
         // Long membersSeq = (Long) request.getAttribute("seq");
         Long memberSeq = 2L;
-        UpdateReviewDto updateReviewDto = new UpdateReviewDto(reviewSeq, memberSeq, (String) body.get("content"), (List<String>) body.get("tag"), (Integer) body.get("rating"));
-        reviewFacade.updateReview(updateReviewDto, reviewImages, updateReviewDto.getTag());
+        reviewFacade.updateReview(new UpdateReviewDto(reviewRequestDto.getReviewImages(), reviewSeq, memberSeq, reviewRequestDto.getContent(), reviewRequestDto.getTag(), reviewRequestDto.getRating()));
         return new BaseResponse<>(SUCCESS);
     }
 

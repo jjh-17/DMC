@@ -2,6 +2,7 @@ package com.ssafy.backend.review.model.dto;
 
 import com.ssafy.backend.global.exception.BaseException;
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,6 +13,7 @@ import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_VALID_RAT
 @Getter
 public class UpdateReviewDto {
 
+    private List<MultipartFile> reviewImages;
     private Long reviewSeq;
     private Long memberSeq;
     private String content;
@@ -20,7 +22,8 @@ public class UpdateReviewDto {
     private String updatedDate;
     private boolean isDeleted;
 
-    public UpdateReviewDto(Long reviewSeq, Long memberSeq, String content, List<String> tag, Integer rating) {
+    public UpdateReviewDto(List<MultipartFile> reviewImages, Long reviewSeq, Long memberSeq, String content, List<String> tag, Integer rating) {
+        setReviewImages(reviewImages);
         setReviewSeq(reviewSeq);
         setMemberSeq(memberSeq);
         setContent(content);
@@ -28,6 +31,10 @@ public class UpdateReviewDto {
         setRating(rating);
         setUpdatedDate();
         setIsDeleted(false);
+    }
+
+    public void setReviewImages(List<MultipartFile> reviewImages) {
+        this.reviewImages = reviewImages;
     }
 
     public void setReviewSeq(Long reviewSeq) {

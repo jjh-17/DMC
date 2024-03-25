@@ -70,33 +70,33 @@ public class ReviewFacade {
     }
 
     @Transactional
-    public void addReview(AddReviewDto addeReviewDto, List<MultipartFile> reviewImages, List<String> tagList) {
+    public void addReview(AddReviewDto addReviewDto) {
         int mileage = 100;
-        Long reviewSeq = reviewService.addReview(addeReviewDto);
-        if (!reviewImages.isEmpty()) {
+        Long reviewSeq = reviewService.addReview(addReviewDto);
+        if (addReviewDto.getReviewImages() != null) {
             mileage += 50;
             try {
-                reviewService.addReviewImage(reviewSeq, reviewImages);
+                reviewService.addReviewImage(reviewSeq, addReviewDto.getReviewImages());
             } catch (IOException e) {
                 throw new BaseException(OOPS);
             }
         }
-        memberService.addMileage(new AddMileageDto(addeReviewDto.getMemberSeq(), mileage));
-        cafeService.addTagCount(new AddTagCountDto(addeReviewDto.getCafeSeq(), true, tagList));
+        memberService.addMileage(new AddMileageDto(addReviewDto.getMemberSeq(), mileage));
+        cafeService.addTagCount(new AddTagCountDto(addReviewDto.getCafeSeq(), true, addReviewDto.getTag()));
     }
 
     @Transactional
-    public void updateReview(UpdateReviewDto updateReviewDto, List<MultipartFile> reviewImages, List<String> newTagList) {
+    public void updateReview(UpdateReviewDto updateReviewDto) {
         UpdateReviewVo updateReviewVo = reviewService.updateReview(updateReviewDto);
         reviewService.deleteReviewImage(updateReviewDto.getReviewSeq());
-        if (reviewImages != null){
+        if (updateReviewDto.getReviewImages() != null){
             try {
-                reviewService.addReviewImage(updateReviewDto.getReviewSeq(), reviewImages);
+                reviewService.addReviewImage(updateReviewDto.getReviewSeq(), updateReviewDto.getReviewImages());
             } catch (IOException e) {
                 throw new BaseException(OOPS);
             }
         }
-        cafeService.updateReviewTag(updateReviewVo, newTagList);
+        cafeService.updateReviewTag(updateReviewVo, updateReviewDto.getTag());
     }
 
     @Transactional
