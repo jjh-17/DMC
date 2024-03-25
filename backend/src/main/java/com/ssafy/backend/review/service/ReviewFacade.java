@@ -5,6 +5,7 @@ import com.ssafy.backend.cafe.service.CafeService;
 import com.ssafy.backend.global.exception.BaseException;
 import com.ssafy.backend.member.model.domain.Member;
 import com.ssafy.backend.member.model.dto.AddMileageDto;
+import com.ssafy.backend.member.service.MemberFacade;
 import com.ssafy.backend.member.service.MemberService;
 import com.ssafy.backend.review.model.domain.DangmocaReview;
 import com.ssafy.backend.review.model.domain.LikeReview;
@@ -15,9 +16,9 @@ import com.ssafy.backend.review.model.vo.ViewReviewVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.OOPS;
@@ -30,7 +31,8 @@ public class ReviewFacade {
 
     @Autowired
     MemberService memberService;
-
+    @Autowired
+    MemberFacade memberFacade;
     @Autowired
     private CafeService cafeService;
 
@@ -70,7 +72,8 @@ public class ReviewFacade {
     }
 
     @Transactional
-    public void addReview(AddReviewDto addReviewDto) {
+    public List<String> addReview(AddReviewDto addReviewDto) {
+
         int mileage = 100;
         Long reviewSeq = reviewService.addReview(addReviewDto);
         if (addReviewDto.getReviewImages() != null) {
@@ -81,15 +84,27 @@ public class ReviewFacade {
                 throw new BaseException(OOPS);
             }
         }
+
         memberService.addMileage(new AddMileageDto(addReviewDto.getMemberSeq(), mileage));
         cafeService.addTagCount(new AddTagCountDto(addReviewDto.getCafeSeq(), true, addReviewDto.getTag()));
+
+        HashMap<String, Integer> ratingMap = new HashMap<>();
+        ratingMap.put("total", reviewService.getTotalRatingCount(addReviewDto.getMemberSeq()));
+        ratingMap.put("1", reviewService.getRatingCount(addReviewDto.getMemberSeq(), 1));
+        ratingMap.put("3", reviewService.getRatingCount(addReviewDto.getMemberSeq(), 3));
+        ratingMap.put("5", reviewService.getRatingCount(addReviewDto.getMemberSeq(), 5));
+
+        // 별점 목록 주고 그 중 해당하는 칭호 받아오기
+        List<String> list = memberFacade.getAchievement(addReviewDto.getMemberSeq(), ratingMap);
+
+        return list;
     }
 
     @Transactional
     public void updateReview(UpdateReviewDto updateReviewDto) {
         UpdateReviewVo updateReviewVo = reviewService.updateReview(updateReviewDto);
         reviewService.deleteReviewImage(updateReviewDto.getReviewSeq());
-        if (updateReviewDto.getReviewImages() != null){
+        if (updateReviewDto.getReviewImages() != null) {
             try {
                 reviewService.addReviewImage(updateReviewDto.getReviewSeq(), updateReviewDto.getReviewImages());
             } catch (IOException e) {
@@ -104,6 +119,7 @@ public class ReviewFacade {
         DangmocaReview deletedReview = reviewService.deleteReview(reviewSeq);
         List<String> imageUrls = reviewService.getImageUrl(deletedReview.getReviewSeq());
         if (!imageUrls.isEmpty()) reviewService.deleteReviewImage(deletedReview.getReviewSeq());
-        if (deletedReview.getTag() != null) cafeService.deleteTagCount(deletedReview.getCafeSeq(), deletedReview.getTag());
+        if (deletedReview.getTag() != null)
+            cafeService.deleteTagCount(deletedReview.getCafeSeq(), deletedReview.getTag());
     }
 }

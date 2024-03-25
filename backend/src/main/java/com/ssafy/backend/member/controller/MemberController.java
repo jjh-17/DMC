@@ -39,7 +39,7 @@ public class MemberController {
      * 닉네임 변경
      */
     @PatchMapping("/{memberid}")
-    public BaseResponse<?> updateNickname(@PathVariable("memberid") Long memberSeq, @RequestBody Map<String, Object> body){
+    public BaseResponse<?> updateNickname(@PathVariable("memberid") Long memberSeq, @RequestBody Map<String, Object> body) {
         boolean able = (boolean) body.get("able");
         if (able) {
             memberService.updateNickname(memberSeq, (String) body.get("nickname"));
@@ -54,7 +54,8 @@ public class MemberController {
      */
     @GetMapping("/{memberid}")
     public BaseResponse<?> getMemberInformation(@PathVariable("memberid") Long memberSeq) {
-        GetMemberInformationVo getMemberInformationVo = memberService.getMemberInformation(memberSeq).toInformationVo();
+        GetMemberInformationVo getMemberInformationVo = memberFacade.getMemberInformation(memberSeq);
+
         return new BaseResponse<>(getMemberInformationVo);
     }
 

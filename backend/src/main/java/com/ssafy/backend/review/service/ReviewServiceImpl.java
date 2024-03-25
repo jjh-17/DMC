@@ -194,4 +194,15 @@ public class ReviewServiceImpl implements ReviewService {
         return cafeSeqMappings.get(randomIndex).getCafeSeq();
     }
 
+    @Override
+    public int getTotalRatingCount(Long memberSeq) {
+        return Math.toIntExact(dangmocaReviewRepository.countByMemberSeqAndIsDeletedFalse(memberSeq));
+    }
+
+    @Override
+    public int getRatingCount(Long memberSeq, int rating) {
+        return Math.toIntExact(dangmocaReviewRepository.countByMemberSeqAndRatingAndIsDeletedFalse(memberSeq, rating));
+    }
+
+
 }

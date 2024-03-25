@@ -16,6 +16,16 @@ public class GetMemberInformationVo {
     private String nickname;
     private String profileImageUrl;
     private String title;
+    private List<String> titleList;
     private List<String> preferenceTag;
     private boolean isDeleted;
+
+    public GetMemberInformationVo(Long memberSeq, String nickname, String profileImageUrl, String title, List<String> preferenceTag, boolean isDeleted) {
+        setMemberSeq(memberSeq);
+        setNickname(nickname);
+        setProfileImageUrl(profileImageUrl);
+        setTitle(title);
+        setPreferenceTag(preferenceTag);
+        setDeleted(isDeleted);
+    }
 }

@@ -21,6 +21,8 @@ public interface MemberService {
 
     Member getMemberInformation(Long memberSeq);
 
+    List<String> getMemberAchievement(Long memberSeq);
+
     void updateNickname(Long memberSeq, String nickname);
 
     void updatePreferenceTag(Long memberSeq, List<String> resultTag);
@@ -28,4 +30,8 @@ public interface MemberService {
     void deleteMember(Long memberSeq);
 
     void addMileage(AddMileageDto addMileageDto);
+
+    String getTotalCountAchievement(Long memberSeq, int totalCount);
+
+    String getRatingAchievement(Long memberSeq, int rating, int count);
 }

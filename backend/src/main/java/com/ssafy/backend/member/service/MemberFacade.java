@@ -1,20 +1,15 @@
 package com.ssafy.backend.member.service;
 
-import com.ssafy.backend.global.exception.BaseException;
-import com.ssafy.backend.global.util.GlobalUtil;
 import com.ssafy.backend.member.model.domain.Member;
-import com.ssafy.backend.member.model.mapping.MemberSeqMapping;
-import com.ssafy.backend.member.model.repository.MemberRepository;
 import com.ssafy.backend.member.model.vo.GetMemberInformationVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-
-import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_EXIST_USER;
 
 @Service
 public class MemberFacade {
@@ -37,12 +32,45 @@ public class MemberFacade {
         return memberSeq;
     }
 
-    private String makeRandomNickname(){
+    private String makeRandomNickname() {
         String nickname;
         while (true) {
             nickname = "당모카" + UUID.randomUUID().toString().substring(0, 8);
             if (!memberService.isExistNickname(nickname)) break;
         }
         return nickname;
+    }
+
+    @Transactional
+    public List<String> getAchievement(Long memberSeq, HashMap<String, Integer> ratingMap) {
+        List<String> list = new ArrayList<>();
+
+        String totalAchievement = memberService.getTotalCountAchievement(memberSeq, ratingMap.get("total"));
+        String oneAchievement = memberService.getRatingAchievement(memberSeq, 1, ratingMap.get("1"));
+        String threeAchievement = memberService.getRatingAchievement(memberSeq, 3, ratingMap.get("3"));
+        String fiveAchievement = memberService.getRatingAchievement(memberSeq, 5, ratingMap.get("5"));
+
+        if (totalAchievement != null) {
+            list.add(totalAchievement);
+        }
+        if (oneAchievement != null) {
+            list.add(oneAchievement);
+        }
+        if (threeAchievement != null) {
+            list.add(threeAchievement);
+        }
+        if (fiveAchievement != null) {
+            list.add(fiveAchievement);
+        }
+
+        return list;
+    }
+
+    public GetMemberInformationVo getMemberInformation(Long memberSeq) {
+        GetMemberInformationVo getMemberInformationVo = memberService.getMemberInformation(memberSeq).toInformationVo();
+
+        getMemberInformationVo.setTitleList(memberService.getMemberAchievement(memberSeq));
+
+        return getMemberInformationVo;
     }
 }

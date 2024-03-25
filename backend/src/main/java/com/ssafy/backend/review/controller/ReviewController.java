@@ -63,7 +63,7 @@ public class ReviewController {
      * 리뷰 좋아요하기
      */
     @PostMapping("/cafe/like")
-    public BaseResponse<?> likeReview(@RequestParam(value="reviewid") Long reviewSeq) {
+    public BaseResponse<?> likeReview(@RequestParam(value = "reviewid") Long reviewSeq) {
         // Long membersSeq = (Long) request.getAttribute("seq");
         Long membersSeq = 2L;
         reviewService.likeReview(new LikeReivewDto(membersSeq, reviewSeq));
@@ -74,7 +74,7 @@ public class ReviewController {
      * 리뷰 좋아요 취소
      */
     @DeleteMapping("/cafe/like")
-    public BaseResponse<?> dislikeReview(@RequestParam(value="reviewid") Long reviewSeq) {
+    public BaseResponse<?> dislikeReview(@RequestParam(value = "reviewid") Long reviewSeq) {
         // Long membersSeq = (Long) request.getAttribute("seq");
         Long membersSeq = 2L;
         reviewService.dislikeReview(new LikeReivewDto(membersSeq, reviewSeq));
@@ -88,8 +88,8 @@ public class ReviewController {
     public BaseResponse<?> addReview(@PathVariable("cafeid") Long cafeSeq, ReviewRequestDto reviewRequestDto) {
         // Long membersSeq = (Long) request.getAttribute("seq");
         Long memberSeq = 2L;
-        reviewFacade.addReview(new AddReviewDto(reviewRequestDto.getReviewImages(), memberSeq, cafeSeq, reviewRequestDto.getContent(), reviewRequestDto.getTag(), reviewRequestDto.getRating()));
-        return new BaseResponse<>(SUCCESS);
+        List<String> list = reviewFacade.addReview(new AddReviewDto(reviewRequestDto.getReviewImages(), memberSeq, cafeSeq, reviewRequestDto.getContent(), reviewRequestDto.getTag(), reviewRequestDto.getRating()));
+        return new BaseResponse<>(SUCCESS, list);
     }
 
     /*
