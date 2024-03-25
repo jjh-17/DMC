@@ -2,6 +2,7 @@ package com.ssafy.backend.member.service;
 
 import com.ssafy.backend.global.exception.BaseException;
 import com.ssafy.backend.global.util.GlobalUtil;
+import com.ssafy.backend.global.util.S3UploadUtil;
 import com.ssafy.backend.member.model.domain.Achievement;
 import com.ssafy.backend.member.model.domain.Member;
 import com.ssafy.backend.member.model.domain.MileageLog;
@@ -12,12 +13,15 @@ import com.ssafy.backend.member.model.repository.MemberRepository;
 import com.ssafy.backend.member.model.repository.MileageLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_EXIST_USER;
+import static com.ssafy.backend.global.response.BaseResponseStatus.OOPS;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -30,6 +34,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     AchievementRepository achievementRepository;
+
+    @Autowired
+    S3UploadUtil s3UploadUtil;
 
     Map<Integer, String> totalAchievements;
     Map<Integer, String> ratingAchievement;
@@ -122,6 +129,26 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findById(memberSeq).orElseThrow(() -> new BaseException(NOT_EXIST_USER));
         member.setNickname(nickname);
         memberRepository.save(member);
+    }
+
+    @Override
+    public void deleteMemberProfileImage(Long memberSeq) {
+        Member member = memberRepository.findById(memberSeq).orElseThrow(() -> new BaseException(NOT_EXIST_USER));
+        if (member.getImageUrl() != null) {
+            s3UploadUtil.deleteImg(member.getImageUrl());
+            member.setImageUrl(null);
+        }
+    }
+
+    @Override
+    public void updateMemberProfileImage(Long memberSeq, MultipartFile profileImage) {
+        Member member = memberRepository.findById(memberSeq).orElseThrow(() -> new BaseException(NOT_EXIST_USER));
+        try {
+            member.setImageUrl(s3UploadUtil.uploadProfileImg(profileImage, memberSeq));
+            memberRepository.save(member);
+        } catch (IOException e) {
+            throw new BaseException(OOPS);
+        }
     }
 
     @Override
