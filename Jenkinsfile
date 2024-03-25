@@ -52,6 +52,7 @@ pipeline {
 		stage("BE : Build") {
 			steps {
 				echo "BE : Build Start"
+
 				dir("${BACK_DIR}") {
 					sh '''
 						chmod +x gradlew
@@ -121,19 +122,17 @@ pipeline {
 
 
 
-/*
+
 ////// FE
 		stage("FE : Build") {
 			steps {
 				echo "FE : Build Start"
-
 				dir("${FRONT_DIR}") {
 					sh '''
 						npm install --legacy-peer-deps
 						npm run build
 					'''
 				}
-
 				echo "FE : Build End"
 			}
 		}
@@ -179,7 +178,6 @@ pipeline {
 		stage("FE : Docker") {
 			steps {
 				echo "FE : Docker Build Start"
-
 				dir("${FRONT_DIR}") {
 					script {
 						sh "docker build -t ${FRONT_NAME}:latest ./"
@@ -188,7 +186,6 @@ pipeline {
 				echo "FE : Docker Build End"
 			}
 		}
-*/
 /*
 		stage("FE : Docker Push") {
 			steps {
@@ -203,8 +200,7 @@ pipeline {
 				echo "FE : Docker Push End"
 			}
 		}
-*/
-/*
+*//*
 		stage("FE : Remove Stopped Container") {
 			steps {
 				echo "FE : Remove Stopped Start"
@@ -228,52 +224,6 @@ pipeline {
 			}
 		}
 */
-/**
-		stage("FE : Update") {
-			steps {
-				echo "FE : Update Start"
-				sshagent (credentials : [" "]) {
-					script {
-						sh "ssh -o StrickHostKeyChecking = no ${SSH_CONNECTION} uptime"
-
-						script {
-							def existingContainerId =
-								sh(
-									script : "ssh -t ${SSH_CONNECTION} \"docker ps -q -f name=${FRONT_NAME}\"",
-									returnStdout : true
-								).trim()
-							if (existingContainerId) {
-								sh '''
-									docker stop ${FRONT_NAME}
-									docker rm ${FRONT_NAME}
-								'''
-							} else {
-								echo "No Existing ${FRONT_NAME} Container"
-							}
-						}
-
-						script {
-							def existingImageId =
-								sh(
-									script : "ssh -t ${SSH_CONNECTION} \"docker images -q -f name=${FRONT_NAME}\"",
-									returnStdout : true
-								).trim()
-							if (existingImageId) {
-								sh "docker rmi ${existingImageId}"
-							} else {
-								echo "No Existing ${FRONT_NAME} Image"
-							}
-						}
-
-						// sh "docker-compose pull ${DOCKER_COMPOSE_FRONT}"
-						// sh "docker-compose up -d ${DOCKER_COMPOSE_FRONT}"
-						sh "docker run --name ${FRONT_NAME} -d -p ${DOCKER_FRONT_PORT}:{FRONT_PORT}  ${FRONT_NAME}"
-					}
-				}
-				echo "FE : Update Start"
-			}
-		}
-**/
 	}
 
 
