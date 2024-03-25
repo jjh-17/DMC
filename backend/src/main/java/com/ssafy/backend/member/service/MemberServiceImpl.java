@@ -3,8 +3,11 @@ package com.ssafy.backend.member.service;
 import com.ssafy.backend.global.exception.BaseException;
 import com.ssafy.backend.global.util.GlobalUtil;
 import com.ssafy.backend.member.model.domain.Member;
+import com.ssafy.backend.member.model.domain.MileageLog;
+import com.ssafy.backend.member.model.dto.AddMileageDto;
 import com.ssafy.backend.member.model.mapping.MemberSeqMapping;
 import com.ssafy.backend.member.model.repository.MemberRepository;
+import com.ssafy.backend.member.model.repository.MileageLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @Autowired
+    MileageLogRepository mileageLogRepository;
 
     @Override
     public Long OAuthRegist(String memberCode, char loginType, String nickname) {
@@ -109,5 +115,16 @@ public class MemberServiceImpl implements MemberService {
         }
         member.setDeleted(true);
         memberRepository.save(member);
+    }
+
+    @Override
+    public void addMileage(AddMileageDto addMileageDto) {
+        mileageLogRepository.save(
+                MileageLog.builder()
+                        .memberSeq(addMileageDto.getMemberSeq())
+                        .mileageChange(addMileageDto.getMileageChange())
+                        .createdDate(addMileageDto.getCreatedDate())
+                        .build()
+        );
     }
 }
