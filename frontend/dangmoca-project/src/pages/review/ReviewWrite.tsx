@@ -2,11 +2,13 @@ import { useRef, useState } from "react";
 import Button from "../../components/common/Button";
 import ReviewRating from "../../components/review/ReviewRating";
 import { useDragScroll } from "../../utils/useDragScroll";
-// import { reviewAPI } from "../../api/reviewAPI";
+import { reviewAPI } from "../../api/reviewAPI";
 
-interface Image {
-  id: number;
-  url: string;
+interface Review {
+  reviewImages: string[];
+  content: string;
+  tag: string[];
+  rating: number;
 }
 
 // TODO : 헤더명 리뷰 작성하기'
@@ -19,42 +21,17 @@ export default function ReviewWrite() {
     }
   };
 
-  const [review, setReview] = useState([{
-    reviewSeq: 0,
-    memberSeq: 0,
-    cafeSeq: 0,
-    name: "카페 남부",
-    image: [
-      "/src/assets/testpic/1.jpg",
-      "/src/assets/testpic/2.jpg",
-      "/src/assets/testpic/3.jpg",
-      "/src/assets/testpic/4.jpg",
-      "/src/assets/testpic/5.jpg",
-    ],
-    content: "맛잇엇요",
-    tag: ["조용한", "시끄러운"],
-    rating: 4,
-    createdDate: "2024-01-02",
+  const [review, setReview] = useState<Review>({
+    reviewImages: [],
+    content: "",
+    tag: [],
+    rating: 0,
+  });
 
-    profileImage: "/src/assets/testpic/1.jpg",
-    userTitle: "하루 커피 5잔",
-    nickName: "DMC",
-    comment: "dd"
-  }]);
-
-  const cafe = {
-    cafeSeq: 1,
-    name: "식빵카페",
-    distance: "555",
-    address: "서울 종로구 새문안로 85",
-    tag: ["#테이크아웃", "#분위기", "#가성비"],
-    isOpen: true, // 영업 중 여부
-    dessertTag: ["#마카롱", "#매커롱", "#맥커롱"],
-    imageUrl: "src/assets/testPic/1.jpg",
-  };
+  const { reviewImages } = review;
 
   // 리뷰 별점 관련
-  const handleRatingChange = (rating:number) => {
+  const handleRatingChange = (rating: number) => {
     setReview((prevReview) => ({
       ...prevReview,
       rating: rating,
@@ -64,7 +41,7 @@ export default function ReviewWrite() {
   // 리뷰 내용 관련
   const reviewContentRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleBlur = (event:any) => {
+  const handleBlur = (event: any) => {
     // textarea의 현재 값을 content 상태에 저장
     setReview((prevReview) => ({
       ...prevReview,
@@ -75,63 +52,42 @@ export default function ReviewWrite() {
   };
 
   // 이미지 관련
-  const [reviewImages, setReviewImages] = useState<Image[]>([]);
-
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const file = event.target.files[0];
       const reader = new FileReader();
 
       reader.onloadend = () => {
-        const newImage: Image = {
-          id: Date.now(), // 간단한 ID 생성
-          url: reader.result as string,
-        };
-        setReviewImages([...reviewImages, newImage]);
+        const newImage: string = reader.result as string;
+        setReview((prevReview) => ({
+          ...prevReview,
+          reviewImages: [...prevReview.reviewImages, newImage],
+        }));
       };
 
       reader.readAsDataURL(file);
     }
-
-    setReview((prevReview) => ({
-      ...prevReview,
-      image: reviewImages,
-    }));
   };
-
-  console.log(cafe);
-  console.log(review);
-
-  // 더미데이터라 에러남.. 데이터 제대로 오면 인터페이스 만들고 살릴 것
 
   // 태그 관련
   // const [tags, setTags] = useState<string[]>([]);
 
   // 리뷰 작성
-  // const writeReviewData = async () => {
-  //   try {
-  //     await reviewAPI.writeReview(cafe.cafeSeq, review);
-  //   } catch (error) {
-  //     console.error("리뷰 작성 에러: ", error);
-  //   }
-  //   console.log("업로드", review); // 백 연결 후 review 출력해보기
-  // };
+  const writeReviewData = async () => {
+    // event: React.MouseEvent<HTMLButtonElement>
+    // event.preventDefault();
+    try {
+      await reviewAPI.writeReview(1, review);
+    } catch (error) {
+      console.error("리뷰 작성 에러: ", error);
+    }
+    console.log("업로드", review); // 백 연결 후 review 출력해보기
+  };
 
   const labelClass = "lg:text-2xl";
 
-  {
-    /* <div className="flex flex-col w-fit gap-4 text-center"></div> */
-  }
-
   return (
     <div className="min-w-screen max-w-[600px] flex flex-col gap-4 border-b-[1px] border-slate-500 mx-auto p-6">
-      {/* <img
-        src="src/assets/testpic/bana.jpg"
-        className="opacity-40 h-[40lvh] w-screen object-cover"
-      />
-      <div className="absolute text-3xl lg:text-4xl top-[37lvh] left-[50lvw] -translate-x-[50%]">
-        {cafe.name}
-      </div> */}
       <label className="text-center text-2xl lg:text-3xl">별점 등록하기</label>
       <ReviewRating onRatingChange={handleRatingChange} />
       <form className="p-4 m-4 flex flex-col items-center">
@@ -150,10 +106,10 @@ export default function ReviewWrite() {
           ref={handleRef}
           className="flex rounded-lg overflow-x-auto my-5 no-scroll w-full h-[28lvh] border-2 border-primary bg-slate-100"
         >
-          {reviewImages.map((image) => (
+          {reviewImages.map((image, index) => (
             <img
-              key={image.id}
-              src={image.url}
+              key={index}
+              src={image}
               alt="Uploaded"
               className="w-[25lvh] h-[25lvh] object-cover m-2 border-[1px] border-slate-400 p-2"
             />
@@ -174,8 +130,7 @@ export default function ReviewWrite() {
 
         <Button
           label="업로드"
-          // onClick={writeReviewData}
-          onClick={()=>{}}
+          onClick={writeReviewData}
           addClass="mx-auto"
         ></Button>
       </form>

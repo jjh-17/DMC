@@ -1,11 +1,14 @@
 import { AxiosResponse } from "axios";
-import { defaultAxios } from "./AuthCommon";
+import { authAxios, defaultAxios } from "./AuthCommon";
 
 const END_POINT = "reviews";
 
 interface ReviewData {
+  content: string | null;
+  reviewImages: string[] | null;
+  tag: string[] | null;
   rating: number;
-  comment: string;
+
   // 중요!@!@!@!@!@!!!
   // 실제 데이터에 따라 수정하고 분리 필요!!!!!!
   // 중요~~~~!!!!!
@@ -14,7 +17,7 @@ interface ReviewData {
 export const reviewAPI = {
   // 리뷰 기본 CRUD
   writeReview(cafeId: number, reviewData: ReviewData): Promise<AxiosResponse> {
-    return defaultAxios({
+    return authAxios({
       method: "post",
       url: `${END_POINT}/cafe/${cafeId}`,
       data: reviewData,
