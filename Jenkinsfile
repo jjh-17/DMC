@@ -2,8 +2,9 @@ pipeline {
 
 	agent any
 	tools {
-		nodejs "NodeJS 20.11.1"
+		openjdk "zulu_jdk17.0.10"
 		gradle "Gradle 8.6"
+		nodejs "NodeJS 20.11.1"
 		dockerTool "DockerDefault"
 	}
 
@@ -121,7 +122,7 @@ pipeline {
 
 
 
-
+/*
 ////// FE
 		stage("FE : Build") {
 			steps {
@@ -188,7 +189,7 @@ pipeline {
 				echo "FE : Docker Build End"
 			}
 		}
-
+*/
 /*
 		stage("FE : Docker Push") {
 			steps {
