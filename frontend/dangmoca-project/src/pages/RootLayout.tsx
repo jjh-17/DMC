@@ -1,17 +1,27 @@
-import { Outlet } from "react-router-dom";
-import { useRef} from "react";
+import { Outlet, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import TheHeader from "../components/common/TheHeader";
 import TheFooter from "../components/common/TheFooter";
 
 export default function RootLayout() {
-  const showHeader = useRef(true);
+  const [showHeader, setShowHeader] = useState(true);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === '/login') {
+      setShowHeader(false);
+    } else{
+      setShowHeader(true);
+    }
+  }, [location]);
+
   return (
-    <>
-      <TheHeader textHeader="당모카" showHeader={showHeader.current} />
-      <div className="mt-12 mb-20"> {/* header, footer 길이만큼 margin */}
-      <Outlet />
+    <div className="bg-[#765439]">
+      {showHeader && <TheHeader textHeader={"당모카"} />}
+      <div className="mb-20 bg-white md:w-[60lvw] h-full min-h-screen pt-10 mx-auto"> {/* header, footer 길이만큼 margin */}
+        <Outlet />
       </div>
       <TheFooter />
-    </>
+    </div>
   );
 }

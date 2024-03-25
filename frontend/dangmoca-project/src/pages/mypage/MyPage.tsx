@@ -1,6 +1,7 @@
 import SimpleCafeCard from "../../components/cafe/SimpleCafeCard";
 import SimpleReviewCard from "../../components/review/SimpleReviewCard";
 import Profile from "../../components/mypage/Profile";
+import RightArrow from '../../assets/icons/rightarrow.svg?react'
 
 export default function MyPage() {
   const dummyUser = {
@@ -39,15 +40,34 @@ export default function MyPage() {
     rating: 4,
     createdDate: "2024-01-02",
   };
+
+  const divClass = "min-w-[80%] m-10";
+  const spanClass = "ml-[25lvw] transform -translate-x-[50%] text-3xl lg:text-4xl whitespace-nowrap text-center";
+  const buttonClass = "ml-[10lvw] text-sm lg:text-base whitespace-nowrap"
+
   return (
-    <div className="w-[60lvw] mx-auto flex flex-col items-center">
+    <div className="min-w-full mx-auto flex flex-col items-center gap-4">
       <Profile {...dummyUser} />
-      <hr className="w-full bg-primary size-[1px] m-2"/>
-      북마크한 카페
-      <SimpleCafeCard {...dummyCafe} />
-      <hr className="w-full bg-primary size-[1px] m-2"/>
-      내가 쓴 리뷰
-      <SimpleReviewCard {...dummyReview} />
+      <div className={divClass}>
+        <div className="flex items-center">
+          <span className={spanClass} id="test">북마크한 카페</span>
+          <a href="/??" className={buttonClass} id="test">
+            전체보기
+            <RightArrow id="svgIcon" />
+          </a>
+        </div>
+        <SimpleCafeCard {...dummyCafe} />
+      </div>
+      <div className={divClass}>
+        <div className="flex items-center">
+          <span className={spanClass} id="test">작성한 리뷰</span>
+          <a href="/??" className={buttonClass} id="test">
+            전체보기
+            <RightArrow id="svgIcon" />
+          </a>
+        </div>
+        <SimpleReviewCard {...dummyReview} />
+      </div>
     </div>
   );
 }

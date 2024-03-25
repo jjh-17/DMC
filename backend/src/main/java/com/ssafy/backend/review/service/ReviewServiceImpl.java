@@ -2,6 +2,7 @@ package com.ssafy.backend.review.service;
 
 import com.ssafy.backend.global.exception.BaseException;
 import com.ssafy.backend.global.util.GlobalUtil;
+import com.ssafy.backend.global.util.S3UploadUtil;
 import com.ssafy.backend.review.model.domain.DangmocaReview;
 import com.ssafy.backend.review.model.domain.LikeReview;
 import com.ssafy.backend.review.model.domain.ReviewImage;
@@ -17,7 +18,9 @@ import com.ssafy.backend.review.model.vo.ViewReviewVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -35,6 +38,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     LikeReviewRepository likeReviewRepository;
+
+    @Autowired
+    S3UploadUtil s3UploadUtil;
 
     @Override
     public List<ViewReviewVo> viewCafeReview(Long cafeSeq) {
@@ -118,8 +124,10 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void addReviewImage(Long reviewSeq, List<String> imageUrls) {
-        for (String imageUrl : imageUrls) {
+    public void addReviewImage(Long reviewSeq, List<MultipartFile> reviewImages) throws IOException {
+        for (MultipartFile reviewImage : reviewImages) {
+            String imageUrl = null;
+            imageUrl = s3UploadUtil.uploadReviewImage(reviewImage, reviewSeq);
             reviewImageRepository.save(
                     ReviewImage.builder()
                             .reviewSeq(reviewSeq)
@@ -142,13 +150,13 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void updateReviewImage(Long reviewSeq, List<String> imageUrls) {
-        List<ReviewImage> reviewImages = reviewImageRepository.findAllByReviewSeq(reviewSeq);
-        if (reviewImages != null) {
-            reviewImageRepository.deleteAll(reviewImages);
-        }
-        if (imageUrls != null) {
-            addReviewImage(reviewSeq, imageUrls);
+    public void deleteReviewImage(Long reviewSeq) {
+        List<ReviewImage> originReviewImages = reviewImageRepository.findAllByReviewSeq(reviewSeq);
+        if (!originReviewImages.isEmpty()) {
+            for (ReviewImage originReviewImage : originReviewImages) {
+                s3UploadUtil.deleteImg(originReviewImage.getImageUrl());
+            }
+            reviewImageRepository.deleteAll(originReviewImages);
         }
     }
 
