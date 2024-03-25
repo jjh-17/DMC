@@ -1,6 +1,7 @@
 package com.ssafy.backend.member.service;
 
 import com.ssafy.backend.member.model.domain.Member;
+import com.ssafy.backend.member.model.vo.GetMemberInformationVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,5 +64,13 @@ public class MemberFacade {
         }
 
         return list;
+    }
+
+    public GetMemberInformationVo getMemberInformation(Long memberSeq) {
+        GetMemberInformationVo getMemberInformationVo = memberService.getMemberInformation(memberSeq).toInformationVo();
+
+        getMemberInformationVo.setTitleList(memberService.getMemberAchievement(memberSeq));
+
+        return getMemberInformationVo;
     }
 }

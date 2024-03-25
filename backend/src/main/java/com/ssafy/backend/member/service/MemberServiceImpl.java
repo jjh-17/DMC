@@ -100,7 +100,21 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member getMemberInformation(Long memberSeq) {
         Member member = memberRepository.findById(memberSeq).orElseThrow(() -> new BaseException(NOT_EXIST_USER));
+
         return member;
+    }
+
+    @Override
+    public List<String> getMemberAchievement(Long memberSeq) {
+        List<Achievement> archievementList = achievementRepository.findByMemberSeq(memberSeq);
+
+        List<String> list = new ArrayList<>();
+
+        for (Achievement achievement : archievementList) {
+            list.add(achievement.getTitle());
+        }
+
+        return list;
     }
 
     @Override

@@ -21,6 +21,8 @@ public interface MemberService {
 
     Member getMemberInformation(Long memberSeq);
 
+    List<String> getMemberAchievement(Long memberSeq);
+
     void updateNickname(Long memberSeq, String nickname);
 
     void updatePreferenceTag(Long memberSeq, List<String> resultTag);
