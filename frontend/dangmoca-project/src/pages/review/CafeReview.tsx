@@ -1,7 +1,19 @@
+import { useState } from "react";
 import { reviewAPI } from "../../api/reviewAPI";
 import DetailReviewCard from "../../components/review/DetailReviewCard";
 
 export default function CafeReview() {
+  const [ cafeReviews, setCafeReviews ] = useState();
+
+  const getCafeReviewData = async () => {
+    try {
+      const data = await reviewAPI.getCafeReview(4);
+      setCafeReviews(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleLike = async () => {
     try {
       await reviewAPI.likeReview(4);
@@ -10,6 +22,7 @@ export default function CafeReview() {
       console.log("좋아요 성공");
     } catch (error) {
       console.log("좋아요 실패");
+      console.log(error);
     }
   };
 

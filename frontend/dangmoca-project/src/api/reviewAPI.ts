@@ -25,7 +25,7 @@ export const reviewAPI = {
   },
 
   getCafeReview(cafeId: number) {
-    return defaultAxios({
+    return authAxios({
       method: "get",
       url: `${END_POINT}/cafe/${cafeId}`,
     });
@@ -55,7 +55,7 @@ export const reviewAPI = {
 
   // 좋아요 기능
   likeReview(reviewId: number) {
-    return defaultAxios({
+    return authAxios({
       method: "post",
       url: `${END_POINT}/cafe/like`,
       params: {
