@@ -26,6 +26,7 @@ public class Member {
 
     @Column
     @Nullable
+    @Setter
     String imageUrl;
 
     @Column
