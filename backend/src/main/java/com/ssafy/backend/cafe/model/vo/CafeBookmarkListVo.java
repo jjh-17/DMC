@@ -1,19 +1,16 @@
 package com.ssafy.backend.cafe.model.vo;
 
+import com.ssafy.backend.global.exception.BaseException;
+
 import java.util.List;
+
+import static com.ssafy.backend.global.response.BaseResponseStatus.*;
 
 public class CafeBookmarkListVo {
     private Long cafeSeq;
     private String name, tag, address, imageUrl;
     private List<String> dessertTag;
     private Boolean isOpen;
-
-    public CafeBookmarkListVo(Long cafeSeq, String name, String address, String imageUrl) {
-        setCafeSeq(cafeSeq);
-        setName(name);
-        setAddress(address);
-        setImageUrl(imageUrl);
-    }
 
     public CafeBookmarkListVo(Long cafeSeq, String name, String address, String imageUrl, String tag, List<String> dessertTag, Boolean isOpen) {
         setCafeSeq(cafeSeq);
@@ -30,6 +27,9 @@ public class CafeBookmarkListVo {
     }
 
     public void setCafeSeq(Long cafeSeq) {
+        if (cafeSeq == null || cafeSeq <= 0) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
         this.cafeSeq = cafeSeq;
     }
 
@@ -38,6 +38,9 @@ public class CafeBookmarkListVo {
     }
 
     public void setName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new BaseException(NOT_VALID_CAFE_NAME);
+        }
         this.name = name;
     }
 
@@ -46,6 +49,9 @@ public class CafeBookmarkListVo {
     }
 
     public void setAddress(String address) {
+        if (address == null || address.isBlank()) {
+            throw new BaseException(NOT_VALID_CAFE_ADDRESS);
+        }
         this.address = address;
     }
 
@@ -54,6 +60,9 @@ public class CafeBookmarkListVo {
     }
 
     public void setImageUrl(String imageUrl) {
+        if (imageUrl == null || imageUrl.isBlank()) {
+            throw new BaseException(NOT_VALID_CAFE_IMAGE);
+        }
         this.imageUrl = imageUrl;
     }
 
@@ -62,6 +71,9 @@ public class CafeBookmarkListVo {
     }
 
     public void setTag(String tag) {
+        if (tag == null || tag.isBlank()) {
+            throw new BaseException(NOT_VALID_CAFE_TAG);
+        }
         this.tag = tag;
     }
 
@@ -70,6 +82,9 @@ public class CafeBookmarkListVo {
     }
 
     public void setDessertTag(List<String> dessertTag) {
+        if (dessertTag == null || dessertTag.isEmpty()) {
+            throw new BaseException(NOT_VALID_DESSERT_TAG);
+        }
         this.dessertTag = dessertTag;
     }
 
