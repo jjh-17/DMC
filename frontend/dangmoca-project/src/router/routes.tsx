@@ -10,6 +10,7 @@ import RootLayout from "../pages/RootLayout";
 import Bookmark from "../pages/mypage/Bookmark";
 import MyInfo from "../pages/mypage/MyInfo";
 import KakaoMain from "../pages/user/KakaoMain";
+import NaverMain from "../pages/user/NaverMain";
 import CafeDetail from "../pages/cafe/CafeDetail";
 
 const routes = createBrowserRouter([
@@ -20,12 +21,13 @@ const routes = createBrowserRouter([
       { path: "/", element: <Main /> }, // 메인화면 (첫 화면)
       { path: "login", element: <Login /> },
       { path: "kakaoLogin", element: <KakaoMain /> },
+      { path: "naverLogin", element: <NaverMain /> },
       { path: "mypage", element: <MyPage /> },
       { path: "myinfo", element: <MyInfo /> },
       { path: "my-reviews", element: <MyReview /> },
       { path: "bookmark", element: <Bookmark /> },
       { path: "cafetest", element: <CafeTest /> },
-      { path: "cafeDetailTest", element: <CafeDetail />},
+      { path: "cafeDetailTest", element: <CafeDetail /> },
       { path: "cafes", element: <CafeList />, children: [] },
     ],
   },
