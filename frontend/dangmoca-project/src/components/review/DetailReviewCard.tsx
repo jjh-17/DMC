@@ -1,7 +1,8 @@
 import { useDragScroll } from "../../utils/useDragScroll";
 import EmptyBean from "../../assets/icons/empty-coffee-bean.svg?react";
 import FullBean from "../../assets/icons/full-coffee-bean.svg?react";
-import ThumbUp from "../../assets/icons/thumbup.svg?react";
+import EmptyHeart from "../../assets/icons/empty-heart.svg?react";
+import FullHeart from "../../assets/icons/full-heart.svg?react";
 
 // interface Review {
 //   //   reviewSeq: number;
@@ -30,7 +31,8 @@ import ThumbUp from "../../assets/icons/thumbup.svg?react";
 //   userTitle: string;
 // }
 
-const DetailReviewCard = ({ onLikeClick }: any) => {
+// review
+const DetailReviewCard = ({ onLikeClick, liked }: any) => {
   const [setRef] = useDragScroll();
 
   const handleRef = (node: HTMLElement | null) => {
@@ -44,7 +46,7 @@ const DetailReviewCard = ({ onLikeClick }: any) => {
     memberSeq: 0,
     cafeSeq: 0,
     name: "카페 남부",
-    image: [
+    imageUrl: [
       "/src/assets/testpic/1.jpg",
       "/src/assets/testpic/2.jpg",
       "/src/assets/testpic/3.jpg",
@@ -69,10 +71,11 @@ const DetailReviewCard = ({ onLikeClick }: any) => {
     const beans = [];
 
     for (let i = 1; i <= 5; i++) {
+      const key = `bean-${i}`;
       if (i <= rating) {
-        beans.push(<FullBean className="w-8 h-8" />);
+        beans.push(<FullBean key={key} className="w-8 h-8" />);
       } else {
-        beans.push(<EmptyBean className="w-8 h-8" />);
+        beans.push(<EmptyBean key={key} className="w-8 h-8" />);
       }
     }
     return beans;
@@ -96,9 +99,9 @@ const DetailReviewCard = ({ onLikeClick }: any) => {
       </div>
 
       {/* 이미지 리스트 */}
-      {review.image.length > 0 && (
+      {review.imageUrl.length > 0 && (
         <div ref={handleRef} className="flex overflow-x-auto p-4 no-scroll">
-          {review.image.map((img, index) => (
+          {review.imageUrl.map((img, index) => (
             <img
               key={index}
               src={img}
@@ -124,8 +127,17 @@ const DetailReviewCard = ({ onLikeClick }: any) => {
         <div className="flex justify-between items-center px-4">
           {/* 좋아요 */}
           <button onClick={onLikeClick}>
-            <ThumbUp id="svgIcon" className="mr-2" />
-            <span className="font-semibold text-slate-500">50</span>
+            {liked ? (
+              <>
+                <FullHeart id="svgIcon" className="mr-2" />
+                <span className="font-semibold text-red-500">50</span>
+              </>
+            ) : (
+              <>
+                <EmptyHeart id="svgIcon" className="mr-2" />
+                <span className="font-semibold text-slate-500">50</span>
+              </>
+            )}
           </button>
 
           {/* 태그 리스트 */}
