@@ -49,13 +49,24 @@ public class ReviewController {
     }
 
     /*
+     * 나의 전체 리뷰 조회하기
+     */
+    @GetMapping("/member/myreview")
+    public BaseResponse<?> viewMyReview() {
+        // Long membersSeq = (Long) request.getAttribute("seq");
+        Long memberSeq = 2L;
+        List<ViewReviewVo> reviews = reviewFacade.viewMemberReview(memberSeq);
+        return new BaseResponse<>(reviews);
+    }
+
+    /*
      * 좋아요한 리뷰 조회하기
      */
     @GetMapping("/member/like")
     public BaseResponse<?> viewLikeReview() {
         // Long membersSeq = (Long) request.getAttribute("seq");
-        Long membersSeq = 2L;
-        List<ViewReviewVo> reviews = reviewFacade.viewLikeReview(membersSeq);
+        Long memberSeq = 2L;
+        List<ViewReviewVo> reviews = reviewFacade.viewLikeReview(memberSeq);
         return new BaseResponse<>(reviews);
     }
 
