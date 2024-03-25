@@ -5,6 +5,7 @@ import com.ssafy.backend.member.model.vo.GetMemberInformationVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ public class MemberFacade {
     @Autowired
     MemberService memberService;
 
+    @Transactional
     public Long OAuthLogin(String memberCode, char loginType) {
         Member member = memberService.isExistMember(memberCode);
         Long memberSeq;
@@ -66,11 +68,18 @@ public class MemberFacade {
         return list;
     }
 
+    @Transactional
     public GetMemberInformationVo getMemberInformation(Long memberSeq) {
         GetMemberInformationVo getMemberInformationVo = memberService.getMemberInformation(memberSeq).toInformationVo();
-
         getMemberInformationVo.setTitleList(memberService.getMemberAchievement(memberSeq));
-
         return getMemberInformationVo;
+    }
+
+    @Transactional
+    public void updateProfileImage(Long memberSeq, MultipartFile profileImage) {
+        memberService.deleteMemberProfileImage(memberSeq);
+        if (profileImage!=null){
+            memberService.updateMemberProfileImage(memberSeq, profileImage);
+        }
     }
 }

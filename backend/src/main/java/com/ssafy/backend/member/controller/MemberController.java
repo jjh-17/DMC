@@ -8,6 +8,7 @@ import com.ssafy.backend.member.service.MemberFacade;
 import com.ssafy.backend.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -38,8 +39,8 @@ public class MemberController {
     /*
      * 닉네임 변경
      */
-    @PatchMapping("/{memberid}")
-    public BaseResponse<?> updateNickname( @RequestBody Map<String, Object> body){
+    @PatchMapping("/nickname")
+    public BaseResponse<?> updateNickname(@RequestBody Map<String, Object> body){
         // Long membersSeq = (Long) request.getAttribute("seq");
         boolean able = (boolean) body.get("able");
         Long memberSeq = 2L;
@@ -54,8 +55,11 @@ public class MemberController {
     /*
      * 프로필 사진 변경
      */
-    public BaseResponse<?> updateProfileImage() {
-
+    @PatchMapping("/profile")
+    public BaseResponse<?> updateProfileImage(@RequestBody MultipartFile profileImage) {
+        // Long membersSeq = (Long) request.getAttribute("seq");
+        Long memberSeq = 2L;
+        memberFacade.updateProfileImage(memberSeq, profileImage);
         return new BaseResponse<>(SUCCESS);
     }
 
