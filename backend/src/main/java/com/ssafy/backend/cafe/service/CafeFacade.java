@@ -44,7 +44,7 @@ public class CafeFacade {
 
         Page<CafeListMapping> cafeMappingList;
 
-        if (keyword.isEmpty()) {
+        if (keyword.isBlank()) {
             cafeMappingList = cafeService.cafeList(currentLocationDto, pageable);
         } else {
             cafeMappingList = cafeService.cafeSearch(currentLocationDto, keyword, pageable);

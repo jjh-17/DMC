@@ -79,9 +79,6 @@ public class CafeBookmarkListVo {
     }
 
     public void setDessertTag(List<String> dessertTag) {
-        if (dessertTag == null || dessertTag.isEmpty()) {
-            throw new BaseException(NOT_VALID_DESSERT_TAG);
-        }
         this.dessertTag = dessertTag;
     }
 
