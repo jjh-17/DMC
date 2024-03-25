@@ -55,11 +55,12 @@ export default function CafeSearch() {
             <form onSubmit={submitKeyword}>
                 <SearchIcon id="svgIcon" />
                 <input
-                    className="align-middle shadow-sm m-4 lg:w-[50lvw] md:w-[50lvw] sm:w-[80lvw] h-10 p-2 focus:border-[1px] focus:border-slate-200"
+                    className="align-middle shadow-sm m-4 lg:w-[40lvw] md:w-[40lvw] sm:w-[60lvw] h-10 p-2 focus:border-[1px] focus:border-slate-200"
                     placeholder="검색어를 입력하세요"
                     value={keyword}
                     onChange={handleInputChange}
                 />
+                <button type="submit" className='text-primary2'>검색</button>
             </form>
             <span className='text-primary3'>최근 검색 내역</span>
             <button onClick={deleteSearchHistoryAll} className='text-xs font-light float-end hover:text-red-500'>검색 내역 삭제</button>
