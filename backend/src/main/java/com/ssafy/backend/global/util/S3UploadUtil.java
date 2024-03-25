@@ -3,6 +3,7 @@ package com.ssafy.backend.global.util;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ssafy.backend.global.exception.BaseException;
+import io.lettuce.core.ScriptOutputType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_VALID_PHOTO;
+import static com.ssafy.backend.global.response.BaseResponseStatus.OOPS;
 
 @Component
 public class S3UploadUtil {
@@ -46,10 +48,11 @@ public class S3UploadUtil {
         filePath = filePath + "." + contentType.substring(contentType.lastIndexOf('/') + 1);
         amazonS3.putObject(bucket, filePath, multipartFile.getInputStream(), metadata);
         return amazonS3.getUrl(bucket, filePath).toString();
+
     }
 
     public void deleteImg(String url) {
-        String filePath = url.substring(51);
+        String filePath = url.substring(50);
         amazonS3.deleteObject(bucket, filePath);
     }
 

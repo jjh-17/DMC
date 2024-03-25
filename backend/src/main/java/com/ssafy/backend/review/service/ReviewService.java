@@ -7,7 +7,9 @@ import com.ssafy.backend.review.model.dto.LikeReivewDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;
 import com.ssafy.backend.review.model.vo.UpdateReviewVo;
 import com.ssafy.backend.review.model.vo.ViewReviewVo;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ReviewService {
@@ -29,11 +31,11 @@ public interface ReviewService {
 
     Long addReview(AddReviewDto addReviewDto);
 
-    void addReviewImage(Long reviewSeq, List<String> images);
+    void addReviewImage(Long reviewSeq, List<MultipartFile> images) throws IOException;
 
     UpdateReviewVo updateReview(UpdateReviewDto updateReviewDto);
 
-    void updateReviewImage(Long reviewSeq, List<String> imageUrls);
+    void deleteReviewImage(Long reviewSeq);
 
     DangmocaReview deleteReview(Long reviewSeq);
 
