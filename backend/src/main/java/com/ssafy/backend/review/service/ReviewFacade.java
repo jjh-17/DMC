@@ -2,8 +2,8 @@ package com.ssafy.backend.review.service;
 
 import com.ssafy.backend.cafe.model.dto.AddTagCountDto;
 import com.ssafy.backend.cafe.service.CafeService;
+import com.ssafy.backend.global.exception.BaseException;
 import com.ssafy.backend.member.model.domain.Member;
-import com.ssafy.backend.member.model.domain.MileageLog;
 import com.ssafy.backend.member.model.dto.AddMileageDto;
 import com.ssafy.backend.member.service.MemberService;
 import com.ssafy.backend.review.model.domain.DangmocaReview;
@@ -15,8 +15,12 @@ import com.ssafy.backend.review.model.vo.ViewReviewVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+
+import static com.ssafy.backend.global.response.BaseResponseStatus.OOPS;
 
 @Service
 public class ReviewFacade {
@@ -66,27 +70,40 @@ public class ReviewFacade {
     }
 
     @Transactional
-    public void addReview(AddReviewDto addeReviewDto, List<String> imageUrls, List<String> tagList) {
+    public void addReview(AddReviewDto addeReviewDto, List<MultipartFile> reviewImages, List<String> tagList) {
         int mileage = 100;
         Long reviewSeq = reviewService.addReview(addeReviewDto);
-        if (imageUrls != null) {
+        if (!reviewImages.isEmpty()) {
             mileage += 50;
-            reviewService.addReviewImage(reviewSeq, imageUrls);
+            try {
+                reviewService.addReviewImage(reviewSeq, reviewImages);
+            } catch (IOException e) {
+                throw new BaseException(OOPS);
+            }
         }
         memberService.addMileage(new AddMileageDto(addeReviewDto.getMemberSeq(), mileage));
         cafeService.addTagCount(new AddTagCountDto(addeReviewDto.getCafeSeq(), true, tagList));
     }
 
     @Transactional
-    public void updateReview(UpdateReviewDto updateReviewDto, List<String> imageUrls, List<String> newTagList) {
+    public void updateReview(UpdateReviewDto updateReviewDto, List<MultipartFile> reviewImages, List<String> newTagList) {
         UpdateReviewVo updateReviewVo = reviewService.updateReview(updateReviewDto);
-        reviewService.updateReviewImage(updateReviewDto.getReviewSeq(), imageUrls);
+        reviewService.deleteReviewImage(updateReviewDto.getReviewSeq());
+        if (reviewImages != null){
+            try {
+                reviewService.addReviewImage(updateReviewDto.getReviewSeq(), reviewImages);
+            } catch (IOException e) {
+                throw new BaseException(OOPS);
+            }
+        }
         cafeService.updateReviewTag(updateReviewVo, newTagList);
     }
 
     @Transactional
     public void deleteReview(Long reviewSeq) {
         DangmocaReview deletedReview = reviewService.deleteReview(reviewSeq);
+        List<String> imageUrls = reviewService.getImageUrl(deletedReview.getReviewSeq());
+        if (!imageUrls.isEmpty()) reviewService.deleteReviewImage(deletedReview.getReviewSeq());
         if (deletedReview.getTag() != null) cafeService.deleteTagCount(deletedReview.getCafeSeq(), deletedReview.getTag());
     }
 }

@@ -11,6 +11,7 @@ import com.ssafy.backend.review.service.ReviewFacade;
 import com.ssafy.backend.review.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -85,13 +86,11 @@ public class ReviewController {
      * 리뷰 작성하기
      */
     @PostMapping("/cafe/{cafeid}")
-    public BaseResponse<?> addReview(@PathVariable("cafeid") Long cafeSeq, @RequestBody Map<String, Object> body) {
+    public BaseResponse<?> addReview(@PathVariable("cafeid") Long cafeSeq, @RequestPart List<MultipartFile> reviewImages, @RequestPart Map<String, Object> body) {
         // Long membersSeq = (Long) request.getAttribute("seq");
         Long memberSeq = 2L;
         AddReviewDto addReviewDto = new AddReviewDto(memberSeq, cafeSeq, (String) body.get("content"), (List<String>) body.get("tag"), (Integer) body.get("rating"));
-        List<String> imageUrls = (List<String>) body.get("imageUrls");
-        List<String> tagList = addReviewDto.getTag();
-        reviewFacade.addReview(addReviewDto, imageUrls, tagList);
+        reviewFacade.addReview(addReviewDto, reviewImages, addReviewDto.getTag());
         return new BaseResponse<>(SUCCESS);
     }
 
@@ -99,13 +98,11 @@ public class ReviewController {
      * 리뷰 수정하기
      */
     @PatchMapping("/cafe/{reviewid}")
-    public BaseResponse<?> updateReview(@PathVariable("reviewid") Long reviewSeq, @RequestBody Map<String, Object> body) {
+    public BaseResponse<?> updateReview(@PathVariable("reviewid") Long reviewSeq, @RequestPart(required = false) List<MultipartFile> reviewImages, @RequestPart Map<String, Object> body) {
         // Long membersSeq = (Long) request.getAttribute("seq");
         Long memberSeq = 2L;
         UpdateReviewDto updateReviewDto = new UpdateReviewDto(reviewSeq, memberSeq, (String) body.get("content"), (List<String>) body.get("tag"), (Integer) body.get("rating"));
-        List<String> imageUrls = (List<String>) body.get("imageUrls");
-        List<String> newTagList = updateReviewDto.getTag();
-        reviewFacade.updateReview(updateReviewDto, imageUrls, newTagList);
+        reviewFacade.updateReview(updateReviewDto, reviewImages, updateReviewDto.getTag());
         return new BaseResponse<>(SUCCESS);
     }
 
