@@ -1,5 +1,9 @@
 package com.ssafy.backend.cafe.model.vo;
 
+import com.ssafy.backend.global.exception.BaseException;
+
+import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_VALID_MENU_NAME;
+
 public class CafeMenuVo {
     private String name, price, imageUrl;
 
@@ -14,6 +18,9 @@ public class CafeMenuVo {
     }
 
     public void setName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new BaseException(NOT_VALID_MENU_NAME);
+        }
         this.name = name;
     }
 

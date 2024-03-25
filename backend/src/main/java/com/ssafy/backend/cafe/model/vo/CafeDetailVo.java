@@ -1,5 +1,9 @@
 package com.ssafy.backend.cafe.model.vo;
 
+import com.ssafy.backend.global.exception.BaseException;
+
+import static com.ssafy.backend.global.response.BaseResponseStatus.*;
+
 public class CafeDetailVo {
     private Long cafeSeq;
     private String name, address, imageUrl, tag, openingHour, homepageUrl, updatedDate;
@@ -23,6 +27,9 @@ public class CafeDetailVo {
     }
 
     public void setCafeSeq(Long cafeSeq) {
+        if (cafeSeq == null || cafeSeq <= 0) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
         this.cafeSeq = cafeSeq;
     }
 
@@ -31,6 +38,9 @@ public class CafeDetailVo {
     }
 
     public void setName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new BaseException(NOT_VALID_CAFE_NAME);
+        }
         this.name = name;
     }
 
@@ -39,6 +49,9 @@ public class CafeDetailVo {
     }
 
     public void setAddress(String address) {
+        if (address == null || address.isBlank()) {
+            throw new BaseException(NOT_VALID_CAFE_ADDRESS);
+        }
         this.address = address;
     }
 
@@ -47,6 +60,9 @@ public class CafeDetailVo {
     }
 
     public void setImageUrl(String imageUrl) {
+        if (imageUrl == null || imageUrl.isBlank()) {
+            throw new BaseException(NOT_VALID_CAFE_IMAGE);
+        }
         this.imageUrl = imageUrl;
     }
 

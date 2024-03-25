@@ -25,6 +25,12 @@ public enum BaseResponseStatus {
     NOT_VALID_BOOKMARK_CANCEL(false, 400, "이미 취소한 북마크입니다."),
     NO_FIVE_STAR_REVIEW(false, 400, "5점을 준 리뷰가 없습니다."),
     NOT_VALID_TAG(false, 400, "카페의 태그가 존재하지 않습니다."),
+    NOT_VALID_LOCATION(false, 400, "유효하지 않은 위경도입니다."),
+    NOT_VALID_CAFE_NAME(false, 400, "유효하지 않은 카페 이름입니다."),
+    NOT_VALID_CAFE_ADDRESS(false, 400, "유효하지 않은 카페 주소입니다."),
+    NOT_VALID_CAFE_IMAGE(false, 400, "유효하지 않은 카페 이미지입니다."),
+    NOT_VALID_DISTANCE(false, 400, "유효하지 않은 거리입니다."),
+    NOT_VALID_MENU_NAME(false, 400, "유효하지 않은 메뉴 이름입니다."),
 
 
     /**
@@ -39,6 +45,11 @@ public enum BaseResponseStatus {
      * JWT 에러
      */
     JWT_ERROR(false, 401, "인증 오류입니다."),
+
+    /*
+     * S3 에러
+     */
+    NOT_VALID_PHOTO(false, 400, "사진 업로드 오류입니다."),
 
     /**
      * 5000 : 잡지 못 한 서버 오류

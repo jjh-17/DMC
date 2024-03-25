@@ -14,10 +14,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.SUCCESS;
 
@@ -34,8 +32,10 @@ public class CafeController {
     // 사용자의 현위치를 기반으로 사용자 반경 500m안의 카페 목록 가까운 순 제공
     // 검색어 입력 시 검색한 결과 제공
     @GetMapping
-    public BaseResponse<List<CafeListVo>> cafeList(@RequestBody CurrentLocationDto currentLocationDto, @RequestParam(name = "keyword", defaultValue = "") String keyword, @RequestParam(name = "page", defaultValue = "1") int page) {
+    public BaseResponse<List<CafeListVo>> cafeList(@RequestParam(name = "latitude") double latitude, @RequestParam(name = "longitude") double longitude, @RequestParam(name = "keyword", defaultValue = "") String keyword, @RequestParam(name = "page", defaultValue = "1") int page) {
         Pageable pageable = PageRequest.of(page - 1, 10);
+
+        CurrentLocationDto currentLocationDto = new CurrentLocationDto(latitude, longitude);
 
         List<CafeListVo> list = cafeFacade.cafeList(currentLocationDto, pageable, keyword);
 
@@ -94,9 +94,11 @@ public class CafeController {
 
     // 사용자 선호 태그를 포함하고 있는 카페를 거리순 5개 반환
     @GetMapping("mytag")
-    public BaseResponse<?> cafeTagRecommend(HttpServletRequest request, @RequestBody CurrentLocationDto currentLocationDto) {
+    public BaseResponse<?> cafeTagRecommend(HttpServletRequest request, @RequestParam(name = "latitude") double latitude, @RequestParam(name = "longitude") double longitude) {
 //        Long memberSeq = (Long) request.getAttribute("seq");
         Long memberSeq = 1L;
+
+        CurrentLocationDto currentLocationDto = new CurrentLocationDto(latitude, longitude);
 
         List<CafeListVo> list = cafeFacade.cafeTagRecommendList(memberSeq, currentLocationDto);
 
@@ -105,9 +107,11 @@ public class CafeController {
 
     // 나와 선호 태그가 같은 사용자가 5점을 준 카페 5개 반환
     @GetMapping("myinfo")
-    public BaseResponse<?> cafeInfoRecommend(HttpServletRequest request, @RequestBody CurrentLocationDto currentLocationDto) {
+    public BaseResponse<?> cafeInfoRecommend(HttpServletRequest request, @RequestParam(name = "latitude") double latitude, @RequestParam(name = "longitude") double longitude) {
 //        Long memberSeq = (Long) request.getAttribute("seq");
         Long memberSeq = 1L;
+
+        CurrentLocationDto currentLocationDto = new CurrentLocationDto(latitude, longitude);
 
         List<CafeListVo> list = cafeFacade.cafeInfoRecommendList(memberSeq, currentLocationDto);
 
@@ -116,11 +120,14 @@ public class CafeController {
 
     // 내가 5점을 준 카페와 비슷한 카페 5개 반환
     @GetMapping("myrating")
-    public BaseResponse<?> cafeRatingRecommend(HttpServletRequest request, @RequestBody CurrentLocationDto currentLocationDto) {
+    public BaseResponse<?> cafeRatingRecommend(HttpServletRequest request, @RequestParam(name = "latitude") double latitude, @RequestParam(name = "longitude") double longitude) {
 //        Long memberSeq = (Long) request.getAttribute("seq");
         Long memberSeq = 1L;
 
-        Map<String, Object> resultMap = cafeFacade.cafeRatingRecommendList(memberSeq, currentLocationDto);;
+        CurrentLocationDto currentLocationDto = new CurrentLocationDto(latitude, longitude);
+
+        Map<String, Object> resultMap = cafeFacade.cafeRatingRecommendList(memberSeq, currentLocationDto);
+        ;
 
         return new BaseResponse<>(SUCCESS, resultMap);
     }
