@@ -1,6 +1,7 @@
 package com.ssafy.backend.cafe.controller;
 
 import com.ssafy.backend.cafe.model.dto.CurrentLocationDto;
+import com.ssafy.backend.cafe.model.dto.FilterDto;
 import com.ssafy.backend.cafe.model.vo.CafeBookmarkListVo;
 import com.ssafy.backend.cafe.model.vo.CafeDetailVo;
 import com.ssafy.backend.cafe.model.vo.CafeListVo;
@@ -38,6 +39,17 @@ public class CafeController {
         CurrentLocationDto currentLocationDto = new CurrentLocationDto(latitude, longitude);
 
         List<CafeListVo> list = cafeFacade.cafeList(currentLocationDto, pageable, keyword);
+
+        return new BaseResponse<>(SUCCESS, list);
+    }
+
+    @PostMapping
+    public BaseResponse<List<CafeListVo>> cafeListFilter(@RequestParam(name = "latitude") double latitude, @RequestParam(name = "longitude") double longitude, @RequestParam(name = "keyword", defaultValue = "") String keyword, @RequestParam(name = "page", defaultValue = "1") int page, @RequestBody FilterDto filterDto) {
+        Pageable pageable = PageRequest.of(page - 1, 10);
+
+        CurrentLocationDto currentLocationDto = new CurrentLocationDto(latitude, longitude);
+
+        List<CafeListVo> list = cafeFacade.cafeFilter(currentLocationDto, pageable, keyword, filterDto);
 
         return new BaseResponse<>(SUCCESS, list);
     }

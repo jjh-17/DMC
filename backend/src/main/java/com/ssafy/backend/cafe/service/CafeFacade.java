@@ -1,6 +1,7 @@
 package com.ssafy.backend.cafe.service;
 
 import com.ssafy.backend.cafe.model.dto.CurrentLocationDto;
+import com.ssafy.backend.cafe.model.dto.FilterDto;
 import com.ssafy.backend.cafe.model.mapping.CafeBookmarkListMapping;
 import com.ssafy.backend.cafe.model.mapping.CafeListMapping;
 import com.ssafy.backend.cafe.model.mapping.CafeSeqMapping;
@@ -52,6 +53,85 @@ public class CafeFacade {
 
         for (CafeListMapping cafeListMapping : cafeMappingList) {
             list.add(convertMappingToVo(cafeListMapping));
+        }
+
+        return list;
+    }
+
+    public List<CafeListVo> cafeFilter(CurrentLocationDto currentLocationDto, Pageable pageable, String keyword, FilterDto filterDto) {
+        List<CafeListVo> list = new ArrayList<>();
+
+        Page<CafeListMapping> cafeMappingList;
+
+        if (keyword.isBlank()) {
+            cafeMappingList = cafeService.cafeList(currentLocationDto, pageable);
+        } else {
+            cafeMappingList = cafeService.cafeSearch(currentLocationDto, keyword, pageable);
+        }
+
+        boolean isTagFilter = filterDto.getTagList() != null && !filterDto.getTagList().isEmpty(); // 필터 있는지 확인
+
+        if (filterDto.getOpen()) {
+            if (isTagFilter) {
+                for (CafeListMapping cafeListMapping : cafeMappingList) {
+                    CafeListVo cafeListVo = convertMappingToVo(cafeListMapping);
+
+                    // 영업중이거나 null이고
+                    if (cafeListVo.getOpen() == null || cafeListVo.getOpen()) {
+                        for (String tag : filterDto.getTagList()) {
+                            // 필터링 기준인 태그 돌면서 해당 태그를 포함하고 있을 때
+                            if (cafeListVo.getTag().contains(tag)) {
+                                list.add(cafeListVo);
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else {
+                for (CafeListMapping cafeListMapping : cafeMappingList) {
+                    CafeListVo cafeListVo = convertMappingToVo(cafeListMapping);
+                    // 영업중이거나 null이고
+                    if (cafeListVo.getOpen() == null || cafeListVo.getOpen()) {
+                        list.add(cafeListVo);
+                    }
+                }
+            }
+        } else {
+            if (isTagFilter) {
+                for (CafeListMapping cafeListMapping : cafeMappingList) {
+                    CafeListVo cafeListVo = convertMappingToVo(cafeListMapping);
+
+                    // 영업중이거나 null이고
+                    if (cafeListVo.getOpen() == null || cafeListVo.getOpen()) {
+                        for (String tag : filterDto.getTagList()) {
+                            // 필터링 기준인 태그 돌면서 해당 태그를 포함하고 있을 때
+                            if (cafeListVo.getTag().contains(tag)) {
+                                list.add(cafeListVo);
+                                break;
+                            }
+                        }
+                    }
+                }
+            } else {
+                for (CafeListMapping cafeListMapping : cafeMappingList) {
+                    CafeListVo cafeListVo = convertMappingToVo(cafeListMapping);
+                    // 영업중이거나 null이고
+                    if (cafeListVo.getOpen() == null || cafeListVo.getOpen()) {
+                        list.add(cafeListVo);
+                    }
+                }
+            }
+        }
+
+
+        for (CafeListMapping cafeListMapping : cafeMappingList) {
+            CafeListVo cafeListVo = convertMappingToVo(cafeListMapping);
+
+            // filterDto.getOpen()이 true이면 영업중이 true이거나 null인 애들
+
+            // filterDto.getTagList() for문 돌면서 해당 태그를 하나라도 포함하면 return(합집합)
+
+
         }
 
         return list;
@@ -336,5 +416,6 @@ public class CafeFacade {
         // 현재 요일이 세트에 포함되어 있는지 확인
         return daySet.contains(today);
     }
+
     //////////////////////////////////////////////////////////////////////////
 }
