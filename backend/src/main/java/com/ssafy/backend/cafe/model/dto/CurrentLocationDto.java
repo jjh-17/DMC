@@ -3,6 +3,11 @@ package com.ssafy.backend.cafe.model.dto;
 public class CurrentLocationDto {
     private double latitude, longitude;
 
+    public CurrentLocationDto(double latitude, double longitude) {
+        setLatitude(latitude);
+        setLongitude(longitude);
+    }
+
     public double getLatitude() {
         return latitude;
     }
