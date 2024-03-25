@@ -1,7 +1,5 @@
 package com.ssafy.backend.review.controller;
 
-import com.ssafy.backend.cafe.model.dto.AddTagCountDto;
-import com.ssafy.backend.cafe.service.CafeService;
 import com.ssafy.backend.global.response.BaseResponse;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.LikeReivewDto;
@@ -63,7 +61,7 @@ public class ReviewController {
      * 리뷰 좋아요하기
      */
     @PostMapping("/cafe/like")
-    public BaseResponse<?> likeReview(@RequestParam(value="reviewid") Long reviewSeq) {
+    public BaseResponse<?> likeReview(@RequestParam(value = "reviewid") Long reviewSeq) {
         // Long membersSeq = (Long) request.getAttribute("seq");
         Long membersSeq = 2L;
         reviewService.likeReview(new LikeReivewDto(membersSeq, reviewSeq));
@@ -74,7 +72,7 @@ public class ReviewController {
      * 리뷰 좋아요 취소
      */
     @DeleteMapping("/cafe/like")
-    public BaseResponse<?> dislikeReview(@RequestParam(value="reviewid") Long reviewSeq) {
+    public BaseResponse<?> dislikeReview(@RequestParam(value = "reviewid") Long reviewSeq) {
         // Long membersSeq = (Long) request.getAttribute("seq");
         Long membersSeq = 2L;
         reviewService.dislikeReview(new LikeReivewDto(membersSeq, reviewSeq));
@@ -91,8 +89,8 @@ public class ReviewController {
         AddReviewDto addReviewDto = new AddReviewDto(memberSeq, cafeSeq, (String) body.get("content"), (List<String>) body.get("tag"), (Integer) body.get("rating"));
         List<String> imageUrls = (List<String>) body.get("imageUrls");
         List<String> tagList = addReviewDto.getTag();
-        reviewFacade.addReview(addReviewDto, imageUrls, tagList);
-        return new BaseResponse<>(SUCCESS);
+        List<String> list = reviewFacade.addReview(addReviewDto, imageUrls, tagList);
+        return new BaseResponse<>(SUCCESS, list);
     }
 
     /*

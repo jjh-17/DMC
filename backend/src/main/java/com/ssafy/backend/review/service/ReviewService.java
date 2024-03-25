@@ -40,4 +40,9 @@ public interface ReviewService {
     List<Long> getFiveStarCafeList(List<Long> memberSeqList);
 
     Long getFiveStarCafe(Long memberSeq);
+
+    int getTotalRatingCount(Long memberSeq);
+
+    int getRatingCount(Long memberSeq, int rating);
+
 }

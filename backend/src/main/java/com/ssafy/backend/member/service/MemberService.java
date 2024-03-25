@@ -28,4 +28,8 @@ public interface MemberService {
     void deleteMember(Long memberSeq);
 
     void addMileage(AddMileageDto addMileageDto);
+
+    String getTotalCountAchievement(Long memberSeq, int totalCount);
+
+    String getRatingAchievement(Long memberSeq, int rating, int count);
 }

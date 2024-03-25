@@ -14,4 +14,9 @@ public interface DangmocaReviewRepository extends JpaRepository<DangmocaReview, 
     DangmocaReview findByReviewSeq(Long reviewSeq);
 
     List<CafeSeqMapping> findDistinctByMemberSeqInAndRating(List<Long> memberSeq, Integer rating);
+
+    Long countByMemberSeqAndIsDeletedFalse(Long memberSeq);
+
+    Long countByMemberSeqAndRatingAndIsDeletedFalse(Long memberSeq, Integer ratings);
+
 }
