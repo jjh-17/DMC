@@ -19,11 +19,11 @@ pipeline {
 		BACK_DIR = "./backend/"
 
 		FRONT_NAME = "dmc_fe"
-		FRONT_PORT = "5173"
+		FRONT_PORT = "3000"
 		FRONT_DIR = "./frontend/dangmoca-project"
 
 		DOCKER_BACK_PORT = "8082"
-		DOCKER_FRONT_PORT = "5173"
+		DOCKER_FRONT_PORT = "3000"
 
 		MATTERMOST_ENDPOINT = "https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh"
 		MATTERMOST_CHANNEL = "A607-Jenkins"
@@ -187,43 +187,16 @@ pipeline {
 			}
 		}
 /*
-		stage("FE : Docker Push") {
+		stage("FE : Container") {
 			steps {
-				echo "FE : Docker Push Start"
-
-				dir("${FRONT_DIR}") {
-					script {
-						dockerImage.push("latest")
-					}
-				}
-
-				echo "FE : Docker Push End"
-			}
-		}
-*//*
-		stage("FE : Remove Stopped Container") {
-			steps {
-				echo "FE : Remove Stopped Start"
-
-				script {
-					def stoppedContainer =
-						sh(
-							script: "ssh -t ${SSH_CONNECTION} \"docker ps -a --filter \"name=${FRONT_NAME}\" --filter \"status=exited\" --format \"{{.ID}}\"\"",
-							returnStdout: true
-						).trim()
-
-					if (stoppedContainer) {
-						sh "ssh -t ${SSH_CONNECTION} \"docker rm ${stoppedContainer}\""
-						echo "Stopped ${FRONT_NAME}:${stoppedContainer} Container removed"
-					} else {
-						echo "No Stopped ${FRONT_NAME} Container found"
-					}
-				}
-
-				echo "FE : Remove Stopped End"
+				sh "docker run --name ${FRONT_NAME} -d -p ${FRONT_PORT}:${DOCKER_FRONT_PORT} ${FRONT_NAME}"
 			}
 		}
 */
+
+
+
+
 	}
 
 
