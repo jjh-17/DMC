@@ -52,15 +52,14 @@ pipeline {
 		stage("BE : Build") {
 			steps {
 				echo "BE : Build Start"
-				echo "${JAVA_HOME}"
-					dir("${BACK_DIR}") {
-						sh '''
-							chmod +x gradlew
-							./gradlew clean build
-						'''
-					}
+				dir("${BACK_DIR}") {
+					sh '''
+						chmod +x gradlew
+						./gradlew clean build
+					'''
+				}
 
-			echo "BE : Build End"
+				echo "BE : Build End"
 			}
 		}
 
