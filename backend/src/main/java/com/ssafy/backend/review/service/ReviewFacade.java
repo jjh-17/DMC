@@ -3,6 +3,8 @@ package com.ssafy.backend.review.service;
 import com.ssafy.backend.cafe.model.dto.AddTagCountDto;
 import com.ssafy.backend.cafe.service.CafeService;
 import com.ssafy.backend.member.model.domain.Member;
+import com.ssafy.backend.member.model.domain.MileageLog;
+import com.ssafy.backend.member.model.dto.AddMileageDto;
 import com.ssafy.backend.member.service.MemberService;
 import com.ssafy.backend.review.model.domain.DangmocaReview;
 import com.ssafy.backend.review.model.domain.LikeReview;
@@ -65,8 +67,13 @@ public class ReviewFacade {
 
     @Transactional
     public void addReview(AddReviewDto addeReviewDto, List<String> imageUrls, List<String> tagList) {
+        int mileage = 100;
         Long reviewSeq = reviewService.addReview(addeReviewDto);
-        if (imageUrls != null) reviewService.addReviewImage(reviewSeq, imageUrls);
+        if (imageUrls != null) {
+            mileage += 50;
+            reviewService.addReviewImage(reviewSeq, imageUrls);
+        }
+        memberService.addMileage(new AddMileageDto(addeReviewDto.getMemberSeq(), mileage));
         cafeService.addTagCount(new AddTagCountDto(addeReviewDto.getCafeSeq(), true, tagList));
     }
 

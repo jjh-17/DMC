@@ -1,7 +1,7 @@
 package com.ssafy.backend.member.service;
 
 import com.ssafy.backend.member.model.domain.Member;
-import com.ssafy.backend.member.model.vo.GetMemberInformationVo;
+import com.ssafy.backend.member.model.dto.AddMileageDto;
 
 import java.util.List;
 
@@ -27,5 +27,5 @@ public interface MemberService {
 
     void deleteMember(Long memberSeq);
 
-
+    void addMileage(AddMileageDto addMileageDto);
 }
