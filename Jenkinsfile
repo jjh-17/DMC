@@ -52,7 +52,7 @@ pipeline {
 		stage("BE : Build") {
 			steps {
 				echo "BE : Build Start"
-
+				echo "${JAVA_HOME}"
 					dir("${BACK_DIR}") {
 						sh '''
 							chmod +x gradlew
