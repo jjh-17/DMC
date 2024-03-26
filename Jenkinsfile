@@ -116,7 +116,7 @@ pipeline {
 
 		stage("BE : Container") {
 			steps {
-				sh "docker run --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}"
+				sh "docker run --env-file /docker/env --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}"
 			}
 		}
 
@@ -186,7 +186,7 @@ pipeline {
 
 		stage("FE : Container") {
 			steps {
-				sh "docker run --name ${FRONT_NAME} -d -p ${FRONT_PORT}:${DOCKER_FRONT_PORT} ${FRONT_NAME}"
+				sh "docker run --env-file /docker/env --name ${FRONT_NAME} -d -p ${FRONT_PORT}:${DOCKER_FRONT_PORT} ${FRONT_NAME}"
 			}
 		}
 
