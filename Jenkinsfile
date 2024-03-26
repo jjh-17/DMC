@@ -47,7 +47,7 @@ pipeline {
 
 				sh '''
 					echo Check env
-					echo cat /docker/env
+					cat /docker/env
 				'''
 
 			}
