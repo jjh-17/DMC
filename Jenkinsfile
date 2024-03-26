@@ -11,6 +11,8 @@ pipeline {
 	environment {
 		GIT_BRANCH = "infra"
 
+		DOCKER_ENV = "/docker/env"
+
 		SSH_CONNECTION = "ubuntu@j10a607.p.ssafy.io"
 		SSH_CONNECTION_SUB = "ubuntu@j10a607a.p.ssafy.io"
 
@@ -42,6 +44,12 @@ pipeline {
 				git branch : "${GIT_BRANCH}", credentialsId: "GitLab", url: "https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git"
 
 				echo "Git Clone End"
+
+				echo '''
+					Check env
+					cat /docker/env
+				'''
+
 			}
 		}
 
@@ -116,7 +124,7 @@ pipeline {
 
 		stage("BE : Container") {
 			steps {
-				sh "docker run --env-file /docker/env --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}"
+				sh "docker run --env-file ${DOCKER_ENV} --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}"
 			}
 		}
 
@@ -186,7 +194,7 @@ pipeline {
 
 		stage("FE : Container") {
 			steps {
-				sh "docker run --env-file /docker/env --name ${FRONT_NAME} -d -p ${FRONT_PORT}:${DOCKER_FRONT_PORT} ${FRONT_NAME}"
+				sh "docker run --env-file ${DOCKER_ENV} --name ${FRONT_NAME} -d -p ${FRONT_PORT}:${DOCKER_FRONT_PORT} ${FRONT_NAME}"
 			}
 		}
 
