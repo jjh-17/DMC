@@ -2,7 +2,7 @@ pipeline {
 
 	agent any
 	tools {
-		jdk "zulu_jdk17.0.10"
+		openjdk "zulu_jdk17.0.10"
 		gradle "Gradle 8.6"
 		nodejs "NodeJS 20.11.1"
 		dockerTool "DockerDefault"
