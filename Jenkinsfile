@@ -194,7 +194,7 @@ pipeline {
 
 		stage("FE : Container") {
 			steps {
-				sh "docker run --env-file ${DOCKER_ENV} --name ${FRONT_NAME} -d -p ${FRONT_PORT}:${DOCKER_FRONT_PORT} ${FRONT_NAME} -e TZ=Asia/Seoul"
+				sh "docker run --env-file ${DOCKER_ENV} --name ${FRONT_NAME} -d -p ${FRONT_PORT}:${DOCKER_FRONT_PORT} ${FRONT_NAME}"
 			}
 		}
 
