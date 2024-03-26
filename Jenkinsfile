@@ -46,7 +46,7 @@ pipeline {
 				echo "Git Clone End"
 
 				sh '''
-					echo Check env
+					echo Print env
 					cat /docker/env
 				'''
 
