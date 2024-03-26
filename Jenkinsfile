@@ -124,7 +124,7 @@ pipeline {
 
 		stage("BE : Container") {
 			steps {
-				sh "docker run --env-file ${DOCKER_ENV} --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}"
+				sh "docker run --env-file ${DOCKER_ENV} --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME} -e TZ=Asia/Seoul"
 			}
 		}
 
@@ -194,7 +194,7 @@ pipeline {
 
 		stage("FE : Container") {
 			steps {
-				sh "docker run --env-file ${DOCKER_ENV} --name ${FRONT_NAME} -d -p ${FRONT_PORT}:${DOCKER_FRONT_PORT} ${FRONT_NAME}"
+				sh "docker run --env-file ${DOCKER_ENV} --name ${FRONT_NAME} -d -p ${FRONT_PORT}:${DOCKER_FRONT_PORT} ${FRONT_NAME} -e TZ=Asia/Seoul"
 			}
 		}
 
