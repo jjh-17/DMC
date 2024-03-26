@@ -128,10 +128,7 @@ pipeline {
 			steps {
 				echo "FE : Build Start"
 				dir("${FRONT_DIR}") {
-					sh '''
-						npm install --legacy-peer-deps
-						npm run build
-					'''
+					sh "npm install --legacy-peer-deps"
 				}
 				echo "FE : Build End"
 			}
