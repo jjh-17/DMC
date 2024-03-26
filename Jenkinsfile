@@ -183,13 +183,13 @@ pipeline {
 				echo "FE : Docker Build End"
 			}
 		}
-/*
+
 		stage("FE : Container") {
 			steps {
 				sh "docker run --name ${FRONT_NAME} -d -p ${FRONT_PORT}:${DOCKER_FRONT_PORT} ${FRONT_NAME}"
 			}
 		}
-*/
+
 
 
 
