@@ -58,6 +58,16 @@ public class CafeFacade {
         return list;
     }
 
+    private boolean containsTag(CafeListVo cafeListVo, List<String> tagList) {
+        for (String tag : tagList) {
+            // 필터링 기준인 태그 돌면서 해당 태그를 포함하고 있을 때
+            if (cafeListVo.getTag().contains(tag)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<CafeListVo> cafeFilter(CurrentLocationDto currentLocationDto, Pageable pageable, String keyword, FilterDto filterDto) {
         List<CafeListVo> list = new ArrayList<>();
 
@@ -69,69 +79,42 @@ public class CafeFacade {
             cafeMappingList = cafeService.cafeSearch(currentLocationDto, keyword, pageable);
         }
 
-        boolean isTagFilter = filterDto.getTagList() != null && !filterDto.getTagList().isEmpty(); // 필터 있는지 확인
+        boolean hasOpenFilter = filterDto.getOpen() != null && filterDto.getOpen(); // 영업중 필터 있는지 확인
+        boolean hasTagFilter = filterDto.getTagList() != null && !filterDto.getTagList().isEmpty(); // 태그 필터 있는지 확인
 
-        if (filterDto.getOpen()) {
-            if (isTagFilter) {
+        if (hasOpenFilter) { // 영업중 필터 있음
+            if (hasTagFilter) { // 태그 필터 있음
                 for (CafeListMapping cafeListMapping : cafeMappingList) {
                     CafeListVo cafeListVo = convertMappingToVo(cafeListMapping);
-
                     // 영업중이거나 null이고
                     if (cafeListVo.getOpen() == null || cafeListVo.getOpen()) {
-                        for (String tag : filterDto.getTagList()) {
-                            // 필터링 기준인 태그 돌면서 해당 태그를 포함하고 있을 때
-                            if (cafeListVo.getTag().contains(tag)) {
-                                list.add(cafeListVo);
-                                break;
-                            }
+                        if (containsTag(cafeListVo, filterDto.getTagList())) { // 태그를 포함하면
+                            list.add(cafeListVo);
                         }
                     }
                 }
-            } else {
+            } else { // 태그 필터 없음
                 for (CafeListMapping cafeListMapping : cafeMappingList) {
                     CafeListVo cafeListVo = convertMappingToVo(cafeListMapping);
-                    // 영업중이거나 null이고
+                    // 영업중이거나 null이면
                     if (cafeListVo.getOpen() == null || cafeListVo.getOpen()) {
                         list.add(cafeListVo);
                     }
                 }
             }
-        } else {
-            if (isTagFilter) {
+        } else { // 영업중 필터 없음
+            if (hasTagFilter) { // 태그 필터 있음
                 for (CafeListMapping cafeListMapping : cafeMappingList) {
                     CafeListVo cafeListVo = convertMappingToVo(cafeListMapping);
-
-                    // 영업중이거나 null이고
-                    if (cafeListVo.getOpen() == null || cafeListVo.getOpen()) {
-                        for (String tag : filterDto.getTagList()) {
-                            // 필터링 기준인 태그 돌면서 해당 태그를 포함하고 있을 때
-                            if (cafeListVo.getTag().contains(tag)) {
-                                list.add(cafeListVo);
-                                break;
-                            }
-                        }
-                    }
-                }
-            } else {
-                for (CafeListMapping cafeListMapping : cafeMappingList) {
-                    CafeListVo cafeListVo = convertMappingToVo(cafeListMapping);
-                    // 영업중이거나 null이고
-                    if (cafeListVo.getOpen() == null || cafeListVo.getOpen()) {
+                    if (containsTag(cafeListVo, filterDto.getTagList())) { // 태그를 포함하면
                         list.add(cafeListVo);
                     }
                 }
+            } else { // 태그 필터 없음
+                for (CafeListMapping cafeListMapping : cafeMappingList) {
+                    list.add(convertMappingToVo(cafeListMapping));
+                }
             }
-        }
-
-
-        for (CafeListMapping cafeListMapping : cafeMappingList) {
-            CafeListVo cafeListVo = convertMappingToVo(cafeListMapping);
-
-            // filterDto.getOpen()이 true이면 영업중이 true이거나 null인 애들
-
-            // filterDto.getTagList() for문 돌면서 해당 태그를 하나라도 포함하면 return(합집합)
-
-
         }
 
         return list;
