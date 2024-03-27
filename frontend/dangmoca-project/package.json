@@ -3,17 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
-#    "dev": "vite",
-#    "build": "tsc && vite build",
-#    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-#    "preview": "vite preview",
-#
-#    "start": "react-scripts start",
-#    "test": "react-scripts test",
-#    "eject": "react-scripts eject",
-    "build": "react-scripts build"
-  },
   "dependencies": {
     "axios": "^1.6.8",
     "framer-motion": "^11.0.18",
@@ -24,6 +13,12 @@
     "react-wordcloud": "^1.2.7",
     "sweetalert2-react-content": "^5.0.7",
     "zustand": "^4.5.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",
