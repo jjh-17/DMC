@@ -24,5 +24,4 @@ export const authAxios:AxiosInstance = axios.create({
 
 export const defaultAxios:AxiosInstance = axios.create({
     baseURL: SERVER,
-
 });

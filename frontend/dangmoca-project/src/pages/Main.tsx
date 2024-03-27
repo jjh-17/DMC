@@ -31,7 +31,6 @@ export default function MainPage() {
       <InfoDiv imgUrl="" imgAlt="실제카페추천화면" title="카페를 추천받으세요" description="ㅂㅂㅂ" />
       <InfoDiv imgUrl="" imgAlt="실제카페북마크화면" title="당신의 카페를 북마크하세요" description="ㅂㅂㅂ" />
       <InfoDiv imgUrl="" imgAlt="실제리뷰리스트화면" title="다른 사람의 리뷰 확인" description="ㅂㅂㅂ" />
-
     </>
   )
 }

@@ -1,3 +1,4 @@
+import Pagination from "../../components/common/Pagination";
 import DetailCafeCard from "../../components/cafe/DetailCafeCard";
 import cafeDummyData from "../../assets/testData/cafeDummyData";
 import CafeLoading from "../../components/cafe/CafeLoading";
@@ -11,16 +12,36 @@ import { sort, tags, desserts } from "../../utils/tag";
 import { useState, useEffect, useRef } from "react";
 import { Cafe } from "../../types/datatype";
 
+import {cafeAPI } from '../../api/cafe'
+
 const CafeListPage = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [showTagCheckbox, setShowTagCheckbox] = useState(false);
   const [showDessertCheckbox, setShowDessertCheckbox] = useState(false);
   const [cafeList, setCafeList] = useState<Cafe[]>([]);
   const hasSearched = useRef(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [endPage, setEndPage] = useState<number>(1);  
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  }
 
   useEffect(() => {
     setCafeList(cafeDummyData);
   }, []);
+
+  useEffect(() => {
+    cafeAPI.getCafeList(1).then((response) => {
+      setEndPage(response.data.result.totalCount);
+      setCafeList(response.data.result.list);
+    })
+   }, []);
+   
+   useEffect(() => {
+    cafeAPI.getCafeList(currentPage).then((response) => {
+      setCafeList(response.data.result.list);
+    })
+   }, [currentPage]);
 
   const selectedSorts = useRef<string[]>([]);
   const selectedTags = useRef<string[]>([]);
@@ -36,6 +57,7 @@ const CafeListPage = () => {
       );
     }
   };
+
 
   const handleSelectTags = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = event.target;
@@ -222,6 +244,7 @@ const CafeListPage = () => {
           </div>
         </div>
       </div>
+      <Pagination currentPage={currentPage} endPage={endPage} onPageChange={handlePageChange}/>
     </>
   );
 };
