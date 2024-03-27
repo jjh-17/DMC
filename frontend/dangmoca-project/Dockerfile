@@ -4,4 +4,5 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --save --legacy-peer-deps react react-dom react-scripts
 COPY . .
+RUN npm build
 ENTRYPOINT ["npm","start"]
