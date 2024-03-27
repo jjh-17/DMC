@@ -40,7 +40,9 @@ public class CafeFacade {
     ReviewService reviewService;
 
     @Transactional
-    public List<CafeListVo> cafeList(CurrentLocationDto currentLocationDto, Pageable pageable, String keyword) {
+    public Map<String, Object> cafeList(CurrentLocationDto currentLocationDto, Pageable pageable, String keyword) {
+        Map<String, Object> resultMap = new HashMap<>();
+
         List<CafeListVo> list = new ArrayList<>();
 
         Page<CafeListMapping> cafeMappingList;
@@ -55,20 +57,15 @@ public class CafeFacade {
             list.add(convertMappingToVo(cafeListMapping));
         }
 
-        return list;
+        resultMap.put("list", list);
+        resultMap.put("totalCount", cafeMappingList.getTotalElements());
+        return resultMap;
     }
 
-    private boolean containsTag(CafeListVo cafeListVo, List<String> tagList) {
-        for (String tag : tagList) {
-            // 필터링 기준인 태그 돌면서 해당 태그를 포함하고 있을 때
-            if (cafeListVo.getTag().contains(tag)) {
-                return true;
-            }
-        }
-        return false;
-    }
+    @Transactional
+    public Map<String, Object> cafeFilter(CurrentLocationDto currentLocationDto, Pageable pageable, String keyword, FilterDto filterDto) {
+        Map<String, Object> resultMap = new HashMap<>();
 
-    public List<CafeListVo> cafeFilter(CurrentLocationDto currentLocationDto, Pageable pageable, String keyword, FilterDto filterDto) {
         List<CafeListVo> list = new ArrayList<>();
 
         Page<CafeListMapping> cafeMappingList;
@@ -117,7 +114,10 @@ public class CafeFacade {
             }
         }
 
-        return list;
+
+        resultMap.put("list", list);
+        resultMap.put("totalCount", list.size());
+        return resultMap;
     }
 
     @Transactional
@@ -164,10 +164,12 @@ public class CafeFacade {
     }
 
     @Transactional
-    public List<CafeBookmarkListVo> cafeBookmarkList(Long memberSeq, Pageable pageable) {
+    public Map<String, Object> cafeBookmarkList(Long memberSeq, Pageable pageable) {
         if (memberService.isMemberNotExist(memberSeq)) {
             throw new BaseException(NOT_EXIST_USER);
         }
+
+        Map<String, Object> resultMap = new HashMap<>();
 
         List<CafeBookmarkListVo> list = new ArrayList<>();
 
@@ -185,7 +187,9 @@ public class CafeFacade {
             list.add(cafeBookmarkListVo);
         }
 
-        return list;
+        resultMap.put("list", list);
+        resultMap.put("totalCount", cafeSeqList.getTotalElements());
+        return resultMap;
     }
 
     @Transactional
@@ -268,6 +272,16 @@ public class CafeFacade {
         Boolean isOpen = isBusinessOpen(openingHour);
 
         return new CafeListVo(cafeListMapping.getCafe_seq(), cafeListMapping.getName(), cafeListMapping.getAddress(), cafeListMapping.getImage_url(), cafeListMapping.getDistance(), cafeListMapping.getTop_tag(), dessertTag, isOpen);
+    }
+
+    private boolean containsTag(CafeListVo cafeListVo, List<String> tagList) {
+        for (String tag : tagList) {
+            // 필터링 기준인 태그 돌면서 해당 태그를 포함하고 있을 때
+            if (cafeListVo.getTag().contains(tag)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // 영업중 판단 method
