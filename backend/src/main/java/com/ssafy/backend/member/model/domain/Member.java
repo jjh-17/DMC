@@ -1,13 +1,12 @@
 package com.ssafy.backend.member.model.domain;
 
-import com.ssafy.backend.global.util.TagUtil;
+import com.ssafy.backend.global.util.GlobalUtil;
 import com.ssafy.backend.member.model.vo.GetMemberInformationVo;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.jpa.domain.AbstractAuditable_;
 
 @Entity
 @Builder
@@ -65,6 +64,6 @@ public class Member {
     }
 
     public GetMemberInformationVo toInformationVo() {
-        return new GetMemberInformationVo(this.memberSeq, this.nickname, this.imageUrl, this.title, TagUtil.tagsToList(this.preferenceTag));
+        return new GetMemberInformationVo(this.memberSeq, this.nickname, this.imageUrl, this.title, GlobalUtil.tagsToList(this.preferenceTag), this.isDeleted);
     }
 }

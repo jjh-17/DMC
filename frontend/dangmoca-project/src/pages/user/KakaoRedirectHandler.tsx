@@ -1,12 +1,15 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useTokenStore } from "../../stores/userStore"; 
 
 const KakaoRedirectHandler = () => {
   const navigate = useNavigate();
-
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
+
+  const setAccessToken = useTokenStore((state) => state.setAccessToken);
+  const setRefreshToken = useTokenStore((state) => state.setRefreshToken);
 
   useEffect(() => {
     const code = queryParams.get("code");
@@ -18,15 +21,19 @@ const KakaoRedirectHandler = () => {
         // const accessToken = response.headers.accesstoken;
 
         const accessToken = response.headers.accesstoken;
-        document.cookie = `accessToken=${accessToken}; max-age=3600; path=/;`;
+        const refreshToken = response.headers.refreshtoken;
 
-        // 리프레시 토큰을 로컬 스토리지에 저장 (서버 응답에 따라 리프레시 토큰 키가 달라질 수 있음)
-        const refreshToken = response.headers.refreshtoken; // 가정
+        console.log(accessToken);
+        console.log(refreshToken);
+        console.log(response.data);
+
+        setAccessToken(accessToken);
+        setRefreshToken(refreshToken);
+
+        document.cookie = `accessToken=${accessToken}; max-age=3600; path=/;`;
         localStorage.setItem("refreshToken", refreshToken);
 
-        // 메인 페이지로 리디렉션
         navigate("/");
-        console.log(accessToken);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);

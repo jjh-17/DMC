@@ -1,14 +1,15 @@
 package com.ssafy.backend.member.service;
 
 import com.ssafy.backend.member.model.domain.Member;
-import com.ssafy.backend.member.model.vo.GetMemberInformationVo;
+import com.ssafy.backend.member.model.dto.AddMileageDto;
 
 import java.util.List;
 
 public interface MemberService {
 
     Long OAuthRegist(String memberCode, char loginType, String nickname);
-    Long isExistMember(String memberCode);
+
+    Member isExistMember(String memberCode);
 
     List<Long> getSimilarMemberList(Long memberSeq);
 
@@ -26,5 +27,5 @@ public interface MemberService {
 
     void deleteMember(Long memberSeq);
 
-
+    void addMileage(AddMileageDto addMileageDto);
 }

@@ -19,7 +19,7 @@ const CafeRecommendDiv = (Props: Props) => {
   
   return (
     <div className="my-10">
-      <h1 id='test' className="text-2xl lg:text-4xl"># {Props.title}</h1>
+      <h1 id='test' className="text-2xl lg:text-4xl">#{Props.title}</h1>
       {Props.CafeList.length > 0 && <div className="mx-auto whitespace-nowrap">
         <div ref={handleRef} className="flex flex-row overflow-x-scroll no-scroll">
           {Props.CafeList.map((cafe) => (

@@ -132,13 +132,13 @@ pipeline {
 
 
 ////// FE
-		stage("FE : Build") {
+		stage("FE : Install") {
 			steps {
-				echo "FE : Build Start"
+				echo "FE : Install Start"
 				dir("${FRONT_DIR}") {
-					sh "npm install --legacy-peer-deps"
+					sh "npm install --save --legacy-peer-deps react react-dom react-scripts"
 				}
-				echo "FE : Build End"
+				echo "FE : Install End"
 			}
 		}
 

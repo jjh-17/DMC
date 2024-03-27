@@ -1,5 +1,7 @@
 import DetailCafeCard from "../../components/cafe/DetailCafeCard";
 import cafeDummyData from "../../assets/testData/cafeDummyData";
+import CafeLoading from "../../components/cafe/CafeLoading";
+import CafeNotFound from "../../components/cafe/CafeNotFound";
 import SortIcon from '../../assets/icons/sort.svg?react';
 import RightArrowIcon from '../../assets/icons/rightarrow.svg?react'
 import DownArrowIcon from '../../assets/icons/downarrow.svg?react'
@@ -14,6 +16,7 @@ const CafeListPage = () => {
   const [showTagCheckbox, setShowTagCheckbox] = useState(false);
   const [showDessertCheckbox, setShowDessertCheckbox] = useState(false);
   const [cafeList, setCafeList] = useState<Cafe[]>([]);
+  const hasSearched = useRef(false);
 
   useEffect(() => {
     setCafeList(cafeDummyData);
@@ -51,45 +54,68 @@ const CafeListPage = () => {
   };
 
   const submitFilter = () => {
+    hasSearched.current = true;
     setCafeList(cafeDummyData);
     setCafeList(prevCafeList => CafeFilterAndSort(prevCafeList, selectedSorts.current, selectedTags.current, selectedDesserts.current));
   };
 
+  const toggleFilter = (() => setShowFilter(!showFilter));
+  const toggleTag = (() => setShowTagCheckbox(!showTagCheckbox));
+  const toggleDessert = (() => setShowDessertCheckbox(!showDessertCheckbox))
+
   return (
     <>
-      <div className="mt-[5lvh] mx-[20lvw]">
+      <div className="mt-[5lvh] mx-[10lvw]">
         <div className="text-right">
-          <button className="relative right-0 font-light text-primary2" onClick={() => setShowFilter(!showFilter)}>
+          <button className="relative right-0 font-light text-primary2 cursor-pointer" onClick={toggleFilter}>
             정렬
             <SortIcon className="w-7 h-7 rounded-full m-1 mx-2 p-1 shadow-md inline-block" />
           </button>
           {showFilter && (
-            <div className="flex flex-col accent-primary3  gap-1 font-light">
+            <div className="flex flex-col accent-primary3  gap-1 font-light mr-4 my-2">
               <div className="align-middle whitespace-pre-wrap">
-                {sort.map((item) => {
-                  const label = Object.keys(item);
-                  const value = Object.values(item);
+                {sort.map((item, index) => {
+                  const label = Object.keys(item)[0];
+                  const value = Object.values(item)[0];
+                  const inputId = index.toString();
+
                   return (
-                    <span className="whitespace-nowrap ml-2" key={label[0]}>
-                      <label className="whitespace-nowrap">{label}</label>
-                      <input type="checkbox" value={value} onChange={handleSelectSort}/>
-                    </span>);
+                    <span className="whitespace-nowrap ml-2 hover:text-primary2" key={label}>
+                      <label htmlFor={inputId} className="whitespace-nowrap">
+                        {label}
+                      </label>
+                      <input
+                        id={inputId}
+                        type="checkbox"
+                        value={value}
+                        onChange={handleSelectSort}
+                      />
+                    </span>
+                  );
                 })}
               </div>
               <div>
-                태그 선택하기
-                {!showTagCheckbox && <RightArrowIcon id="svgIcon" onClick={() => setShowTagCheckbox(true)} />}
+                <span className="font-medium m-2 cursor-pointer" onClick={toggleTag} >태그 선택하기</span>
+                {!showTagCheckbox && <RightArrowIcon id="svgIcon"  onClick={toggleTag} />}
                 {showTagCheckbox && (
                   <>
-                    <DownArrowIcon id="svgIcon" onClick={() => setShowTagCheckbox(false)}/>
-                    <div className="align-middle whitespace-pre-wrap ">
-                      {tags.map((item) => {
+                    <DownArrowIcon id="svgIcon" onClick={toggleTag} />
+                    <div className="align-middle whitespace-pre-wrap mt-2 bg-slate-50">
+                      {tags.map((item, index) => {
                         const label = Object.keys(item)[0];
                         const value = Object.values(item)[0];
+                        const inputId = (index + 100).toString();
+
                         return (
-                          <span className="whitespace-nowrap ml-2" key={label[0]}>
-                            <label className="whitespace-nowrap mx-1">#{label}</label>
-                            <input type="checkbox" value={value} onChange={handleSelectTags} />
+                          <span className="whitespace-nowrap ml-2 hover:text-primary" key={label}>
+                            <label 
+                            className="whitespace-nowrap mx-1"
+                            htmlFor={inputId}>#{label}</label>
+                            <input 
+                            type="checkbox" 
+                            value={value} 
+                            id={inputId}
+                            onChange={handleSelectTags} />
                           </span>);
                       })}
                     </div>
@@ -97,29 +123,38 @@ const CafeListPage = () => {
                 )}
               </div>
               <div>
-                디저트 선택하기
+                <span className="font-medium m-2" onClick={toggleDessert}>디저트 선택하기</span>
                 {!showDessertCheckbox &&
-                  <RightArrowIcon id="svgIcon" onClick={() => setShowDessertCheckbox(true)} />}
+                  <RightArrowIcon id="svgIcon" onClick={toggleDessert} />}
                 {showDessertCheckbox && (
                   <>
-                  <DownArrowIcon id="svgIcon" onClick={() => setShowDessertCheckbox(false)} />
+                    <DownArrowIcon id="svgIcon" onClick={toggleDessert} />
 
-                  <div>
-                    {desserts.map((item) => {
-                      const label = Object.keys(item)[0];
-                      const value = Object.values(item)[0];
-                      return (
-                        <span className="whitespace-nowrap ml-2" key={label[0]}>
-                          <label className="whitespace-nowrap">{label}</label>
-                          <input type="checkbox" value={value} onChange={handleSelectDesserts} />
-                        </span>);
-                    })}
-                  </div>
+                    <div className="bg-slate-50">
+                      {desserts.map((item, index) => {
+                        const label = Object.keys(item)[0];
+                        const value = Object.values(item)[0];
+                        const inputId = (index + 1000).toString();
+
+                        return (
+                          <span className="whitespace-nowrap ml-2 hover:text-primary3" key={label}>
+                            <label
+                             className="whitespace-nowrap"
+                             htmlFor={inputId}
+                             >{label}</label>
+                            <input 
+                            type="checkbox" 
+                            value={value} 
+                            id={inputId}
+                            onChange={handleSelectDesserts} />
+                          </span>);
+                      })}
+                    </div>
                   </>
                 )}
               </div>
               <div className="">
-                <button onClick={submitFilter} className="text-xl text-primary2">검색</button>
+                <button onClick={submitFilter} className="text-primary2 font-medium hover:font-bold">필터 적용하기</button>
               </div>
             </div>
 
@@ -127,18 +162,14 @@ const CafeListPage = () => {
         </div>
         <div className="w-fit mx-auto">
           <div className="flex flex-col">
-            {cafeList.length == 0 && (
-              <div>
-                <p>해당하는 카페가 없습니다 TT ㅠㅠ 아이쿠</p>
-                <p>애니메이션 추가예정</p>
-              </div>
+            {(cafeList.length == 0 && !hasSearched) && (
+              <CafeLoading />
+            )}
+            {(cafeList.length == 0 && hasSearched) && (
+              <CafeNotFound />
             )}
 
             {cafeList.length > 0 && cafeList.map((cafe) => (
-
-
-
-
               <div className="cursor-pointer" key={cafe.cafeSeq}>
                 <DetailCafeCard {...cafe} />
               </div>
