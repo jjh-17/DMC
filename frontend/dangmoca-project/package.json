@@ -35,5 +35,9 @@
     "typescript": "^5.2.2",
     "vite": "^5.1.4",
     "vite-plugin-svgr": "^4.2.0"
-  }
+  },
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
