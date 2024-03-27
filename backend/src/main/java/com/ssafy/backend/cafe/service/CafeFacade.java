@@ -1,7 +1,6 @@
 package com.ssafy.backend.cafe.service;
 
 import com.ssafy.backend.cafe.model.dto.CurrentLocationDto;
-import com.ssafy.backend.cafe.model.dto.FilterDto;
 import com.ssafy.backend.cafe.model.mapping.CafeBookmarkListMapping;
 import com.ssafy.backend.cafe.model.mapping.CafeListMapping;
 import com.ssafy.backend.cafe.model.mapping.CafeSeqMapping;
@@ -59,63 +58,6 @@ public class CafeFacade {
 
         resultMap.put("list", list);
         resultMap.put("totalPages", cafeMappingList.getTotalPages());
-        return resultMap;
-    }
-
-    @Transactional
-    public Map<String, Object> cafeFilter(CurrentLocationDto currentLocationDto, Pageable pageable, String keyword, FilterDto filterDto) {
-        Map<String, Object> resultMap = new HashMap<>();
-
-        List<CafeListVo> list = new ArrayList<>();
-
-        Page<CafeListMapping> cafeMappingList;
-
-        if (keyword.isBlank()) {
-            cafeMappingList = cafeService.cafeList(currentLocationDto, pageable);
-        } else {
-            cafeMappingList = cafeService.cafeSearch(currentLocationDto, keyword, pageable);
-        }
-
-        boolean hasOpenFilter = filterDto.getOpen() != null && filterDto.getOpen(); // 영업중 필터 있는지 확인
-        boolean hasTagFilter = filterDto.getTagList() != null && !filterDto.getTagList().isEmpty(); // 태그 필터 있는지 확인
-
-        if (hasOpenFilter) { // 영업중 필터 있음
-            if (hasTagFilter) { // 태그 필터 있음
-                for (CafeListMapping cafeListMapping : cafeMappingList) {
-                    CafeListVo cafeListVo = convertMappingToVo(cafeListMapping);
-                    // 영업중이거나 null이고
-                    if (cafeListVo.getOpen() == null || cafeListVo.getOpen()) {
-                        if (containsTag(cafeListVo, filterDto.getTagList())) { // 태그를 포함하면
-                            list.add(cafeListVo);
-                        }
-                    }
-                }
-            } else { // 태그 필터 없음
-                for (CafeListMapping cafeListMapping : cafeMappingList) {
-                    CafeListVo cafeListVo = convertMappingToVo(cafeListMapping);
-                    // 영업중이거나 null이면
-                    if (cafeListVo.getOpen() == null || cafeListVo.getOpen()) {
-                        list.add(cafeListVo);
-                    }
-                }
-            }
-        } else { // 영업중 필터 없음
-            if (hasTagFilter) { // 태그 필터 있음
-                for (CafeListMapping cafeListMapping : cafeMappingList) {
-                    CafeListVo cafeListVo = convertMappingToVo(cafeListMapping);
-                    if (containsTag(cafeListVo, filterDto.getTagList())) { // 태그를 포함하면
-                        list.add(cafeListVo);
-                    }
-                }
-            } else { // 태그 필터 없음
-                for (CafeListMapping cafeListMapping : cafeMappingList) {
-                    list.add(convertMappingToVo(cafeListMapping));
-                }
-            }
-        }
-
-        resultMap.put("list", list);
-        resultMap.put("totalPages", list.size());
         return resultMap;
     }
 
