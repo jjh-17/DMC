@@ -1,3 +1,4 @@
+import Pagination from "../../components/common/Pagination";
 import DetailCafeCard from "../../components/cafe/DetailCafeCard";
 import cafeDummyData from "../../assets/testData/cafeDummyData";
 import CafeLoading from "../../components/cafe/CafeLoading";
@@ -11,16 +12,36 @@ import { sort, tags, desserts } from '../../assets/data/tag'
 import { useState, useEffect, useRef } from "react";
 import { Cafe } from "../../types/datatype";
 
+import {cafeAPI } from '../../api/cafe'
+
 const CafeListPage = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [showTagCheckbox, setShowTagCheckbox] = useState(false);
   const [showDessertCheckbox, setShowDessertCheckbox] = useState(false);
   const [cafeList, setCafeList] = useState<Cafe[]>([]);
   const hasSearched = useRef(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [endPage, setEndPage] = useState<number>(1);  
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  }
 
   useEffect(() => {
     setCafeList(cafeDummyData);
   }, [])
+
+  useEffect(() => {
+    cafeAPI.getCafeList(1).then((response) => {
+      setEndPage(response.data.result.totalCount);
+      setCafeList(response.data.result.list);
+    })
+   }, []);
+   
+   useEffect(() => {
+    cafeAPI.getCafeList(currentPage).then((response) => {
+      setCafeList(response.data.result.list);
+    })
+   }, [currentPage]);
 
   const selectedSorts = useRef<string[]>([]);
   const selectedTags = useRef<string[]>([]);
@@ -34,6 +55,7 @@ const CafeListPage = () => {
       selectedSorts.current = selectedSorts.current.filter(sort => sort !== value);
     }
   };
+
 
   const handleSelectTags = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = event.target;
@@ -96,7 +118,7 @@ const CafeListPage = () => {
               </div>
               <div>
                 <span className="font-medium m-2 cursor-pointer" onClick={toggleTag} >태그 선택하기</span>
-                {!showTagCheckbox && <RightArrowIcon id="svgIcon"  onClick={toggleTag} />}
+                {!showTagCheckbox && <RightArrowIcon id="svgIcon" onClick={toggleTag} />}
                 {showTagCheckbox && (
                   <>
                     <DownArrowIcon id="svgIcon" onClick={toggleTag} />
@@ -108,14 +130,14 @@ const CafeListPage = () => {
 
                         return (
                           <span className="whitespace-nowrap ml-2 hover:text-primary" key={label}>
-                            <label 
-                            className="whitespace-nowrap mx-1"
-                            htmlFor={inputId}>#{label}</label>
-                            <input 
-                            type="checkbox" 
-                            value={value} 
-                            id={inputId}
-                            onChange={handleSelectTags} />
+                            <label
+                              className="whitespace-nowrap mx-1"
+                              htmlFor={inputId}>#{label}</label>
+                            <input
+                              type="checkbox"
+                              value={value}
+                              id={inputId}
+                              onChange={handleSelectTags} />
                           </span>);
                       })}
                     </div>
@@ -139,14 +161,14 @@ const CafeListPage = () => {
                         return (
                           <span className="whitespace-nowrap ml-2 hover:text-primary3" key={label}>
                             <label
-                             className="whitespace-nowrap"
-                             htmlFor={inputId}
-                             >{label}</label>
-                            <input 
-                            type="checkbox" 
-                            value={value} 
-                            id={inputId}
-                            onChange={handleSelectDesserts} />
+                              className="whitespace-nowrap"
+                              htmlFor={inputId}
+                            >{label}</label>
+                            <input
+                              type="checkbox"
+                              value={value}
+                              id={inputId}
+                              onChange={handleSelectDesserts} />
                           </span>);
                       })}
                     </div>
@@ -177,6 +199,7 @@ const CafeListPage = () => {
           </div>
         </div>
       </div>
+      <Pagination currentPage={currentPage} endPage={endPage} onPageChange={handlePageChange}/>
     </>
   );
 }
