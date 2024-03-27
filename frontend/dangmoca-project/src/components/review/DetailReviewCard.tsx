@@ -4,6 +4,8 @@ import FullBean from "../../assets/icons/full-coffee-bean.svg?react";
 import EmptyHeart from "../../assets/icons/empty-heart.svg?react";
 import FullHeart from "../../assets/icons/full-heart.svg?react";
 
+// 타입 다 임시 any임 나중에 다고쳐야함.
+
 // interface Review {
 //   //   reviewSeq: number;
 //   //   memberSeq: number;
@@ -32,7 +34,7 @@ import FullHeart from "../../assets/icons/full-heart.svg?react";
 // }
 
 // review
-const DetailReviewCard = ({ onLikeClick, liked }: any) => {
+const DetailReviewCard = (review:any, { onLikeClick }: any) => {
   const [setRef] = useDragScroll();
 
   const handleRef = (node: HTMLElement | null) => {
@@ -41,27 +43,27 @@ const DetailReviewCard = ({ onLikeClick, liked }: any) => {
     }
   };
 
-  const review = {
-    reviewSeq: 0,
-    memberSeq: 0,
-    cafeSeq: 0,
-    name: "카페 남부",
-    imageUrl: [
-      "/src/assets/testpic/1.jpg",
-      "/src/assets/testpic/2.jpg",
-      "/src/assets/testpic/3.jpg",
-      "/src/assets/testpic/4.jpg",
-      "/src/assets/testpic/5.jpg",
-    ],
-    content: "맛잇엇요",
-    tag: ["조용한", "시끄러운"],
-    rating: 4,
-    createdDate: "2024-01-02",
+  // const review = {
+  //   reviewSeq: 0,
+  //   memberSeq: 0,
+  //   cafeSeq: 0,
+  //   name: "카페 남부",
+  //   imageUrl: [
+  //     "/src/assets/testpic/1.jpg",
+  //     "/src/assets/testpic/2.jpg",
+  //     "/src/assets/testpic/3.jpg",
+  //     "/src/assets/testpic/4.jpg",
+  //     "/src/assets/testpic/5.jpg",
+  //   ],
+  //   content: "맛잇엇요",
+  //   tag: ["조용한", "시끄러운"],
+  //   rating: 4,
+  //   createdDate: "2024-01-02",
 
-    profileImage: "/src/assets/testpic/1.jpg",
-    userTitle: "하루 커피 5잔",
-    nickName: "DMC",
-  };
+  //   profileImage: "/src/assets/testpic/1.jpg",
+  //   userTitle: "하루 커피 5잔",
+  //   nickName: "DMC",
+  // };
 
   <button className="w-8 h-8">
     <FullBean className="w-full h-full" />
@@ -101,7 +103,7 @@ const DetailReviewCard = ({ onLikeClick, liked }: any) => {
       {/* 이미지 리스트 */}
       {review.imageUrl.length > 0 && (
         <div ref={handleRef} className="flex overflow-x-auto p-4 no-scroll">
-          {review.imageUrl.map((img, index) => (
+          {review.imageUrl.map((img:any, index:any) => (
             <img
               key={index}
               src={img}
@@ -127,15 +129,15 @@ const DetailReviewCard = ({ onLikeClick, liked }: any) => {
         <div className="flex justify-between items-center px-4">
           {/* 좋아요 */}
           <button onClick={onLikeClick}>
-            {liked ? (
+            {review.liked ? (
               <>
                 <FullHeart id="svgIcon" className="mr-2" />
-                <span className="font-semibold text-red-500">50</span>
+                <span className="font-semibold text-red-500">{review.likeCount}</span>
               </>
             ) : (
               <>
                 <EmptyHeart id="svgIcon" className="mr-2" />
-                <span className="font-semibold text-slate-500">50</span>
+                <span className="font-semibold text-slate-500">{review.likeCount}</span>
               </>
             )}
           </button>
@@ -143,7 +145,7 @@ const DetailReviewCard = ({ onLikeClick, liked }: any) => {
           {/* 태그 리스트 */}
           {review.tag.length > 0 && (
             <div className="flex overflow-x-auto p-4">
-              {review.tag.map((tag, index) => (
+              {review.tag.map((tag:any, index:any) => (
                 <span key={index} className="mr-2">
                   {tag}
                 </span>
