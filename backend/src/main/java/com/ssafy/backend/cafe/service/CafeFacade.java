@@ -58,7 +58,7 @@ public class CafeFacade {
         }
 
         resultMap.put("list", list);
-        resultMap.put("totalCount", cafeMappingList.getTotalElements());
+        resultMap.put("totalPages", cafeMappingList.getTotalPages());
         return resultMap;
     }
 
@@ -114,9 +114,8 @@ public class CafeFacade {
             }
         }
 
-
         resultMap.put("list", list);
-        resultMap.put("totalCount", list.size());
+        resultMap.put("totalPages", list.size());
         return resultMap;
     }
 
@@ -188,7 +187,7 @@ public class CafeFacade {
         }
 
         resultMap.put("list", list);
-        resultMap.put("totalCount", cafeSeqList.getTotalElements());
+        resultMap.put("totalPages", cafeSeqList.getTotalPages());
         return resultMap;
     }
 
