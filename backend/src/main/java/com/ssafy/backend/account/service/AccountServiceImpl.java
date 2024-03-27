@@ -42,8 +42,8 @@ public class AccountServiceImpl implements AccountService {
         String accessToken = jwtProvider.createAccessToken(memberSeq, accessTokenExpire);
         String refreshToken = jwtProvider.createRefreshToken(memberSeq, refreshTokenExpire);
 
-        redisDao.saveToRedis("accessToken:" + memberSeq, accessToken, Duration.ofMillis(accessTokenExpire));
-        redisDao.saveToRedis("refreshToken:" + memberSeq, refreshToken, Duration.ofMillis(refreshTokenExpire));
+        // redisDao.saveToRedis("accessToken:" + memberSeq, accessToken, Duration.ofMillis(accessTokenExpire));
+        // redisDao.saveToRedis("refreshToken:" + memberSeq, refreshToken, Duration.ofMillis(refreshTokenExpire));
 
         return new TokenVo(accessToken, refreshToken);
     }

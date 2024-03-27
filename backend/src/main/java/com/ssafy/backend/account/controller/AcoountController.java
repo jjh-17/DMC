@@ -67,8 +67,8 @@ public class AcoountController {
     public BaseResponse<?> logout(HttpServletRequest request) {
 //      Long membersSeq = (Long) request.getAttribute("seq");
         Long memberSeq = 2L;
-        redisDao.deleteFromRedis("accessToken:" + memberSeq);
-        redisDao.deleteFromRedis("refreshToken:" + memberSeq);
+        // redisDao.deleteFromRedis("accessToken:" + memberSeq);
+        // redisDao.deleteFromRedis("refreshToken:" + memberSeq);
         return new BaseResponse<>(SUCCESS);
     }
 
