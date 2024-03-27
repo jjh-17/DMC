@@ -29,6 +29,8 @@ public interface ReviewService {
 
     List<String> getImageUrl(Long reviewSeq);
 
+    Integer getLikeCount(Long reviewSeq);
+
     Long addReview(AddReviewDto addReviewDto);
 
     void addReviewImage(Long reviewSeq, List<MultipartFile> images) throws IOException;
@@ -46,5 +48,4 @@ public interface ReviewService {
     int getTotalRatingCount(Long memberSeq);
 
     int getRatingCount(Long memberSeq, int rating);
-
 }

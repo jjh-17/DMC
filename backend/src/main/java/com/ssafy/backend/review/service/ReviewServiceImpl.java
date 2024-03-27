@@ -108,6 +108,11 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public Integer getLikeCount(Long reviewSeq) {
+        return dangmocaReviewRepository.countByReviewSeq(reviewSeq);
+    }
+
+    @Override
     public Long addReview(AddReviewDto addReviewDto) {
         return dangmocaReviewRepository.save(
                 DangmocaReview.builder()
