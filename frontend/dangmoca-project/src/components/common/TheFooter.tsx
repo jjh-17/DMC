@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function TheFooter() {
   const navigate = useNavigate();
-  const footerStyle = "fixed w-full bg-white inset-x-0 bottom-0 text-center flex flex-row justify-around";
+  const footerStyle = "fixed w-full bg-white inset-x-0 bottom-0 text-center flex flex-row justify-around z-10";
   const footerButtonStyle = "inline-block m-2 p-1 flex flex-col items-center hover:mb-2 hover:-mt-0 hover:text-primary duration-300 hover:border-b-2 hover:border-primary";
   const labelStyle = "text-sm font-light"
 
