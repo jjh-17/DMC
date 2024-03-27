@@ -4,7 +4,7 @@ import com.ssafy.backend.account.model.domain.vo.TokenVo;
 import com.ssafy.backend.account.service.AccountService;
 import com.ssafy.backend.account.service.OAuthService;
 import com.ssafy.backend.global.response.BaseResponse;
-import com.ssafy.backend.global.util.RedisDao;
+// import com.ssafy.backend.global.util.RedisDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,8 @@ public class AcoountController {
     @Autowired
     AccountService accountService;
 
-    @Autowired
-    RedisDao redisDao;
+    // @Autowired
+    // RedisDao redisDao;
 
     /*
      * 카카오 로그인
