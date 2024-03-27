@@ -1,7 +1,6 @@
 package com.ssafy.backend.cafe.controller;
 
 import com.ssafy.backend.cafe.model.dto.CurrentLocationDto;
-import com.ssafy.backend.cafe.model.vo.CafeBookmarkListVo;
 import com.ssafy.backend.cafe.model.vo.CafeDetailVo;
 import com.ssafy.backend.cafe.model.vo.CafeListVo;
 import com.ssafy.backend.cafe.model.vo.CafeMenuVo;
@@ -32,12 +31,12 @@ public class CafeController {
     // 사용자의 현위치를 기반으로 사용자 반경 500m안의 카페 목록 가까운 순 제공
     // 검색어 입력 시 검색한 결과 제공
     @GetMapping
-    public BaseResponse<List<CafeListVo>> cafeList(@RequestParam(name = "latitude") double latitude, @RequestParam(name = "longitude") double longitude, @RequestParam(name = "keyword", defaultValue = "") String keyword, @RequestParam(name = "page", defaultValue = "1") int page) {
+    public BaseResponse<?> cafeList(@RequestParam(name = "latitude") double latitude, @RequestParam(name = "longitude") double longitude, @RequestParam(name = "keyword", defaultValue = "") String keyword, @RequestParam(name = "page", defaultValue = "1") int page) {
         Pageable pageable = PageRequest.of(page - 1, 10);
 
         CurrentLocationDto currentLocationDto = new CurrentLocationDto(latitude, longitude);
 
-        List<CafeListVo> list = cafeFacade.cafeList(currentLocationDto, pageable, keyword);
+        Map<String, Object> list = cafeFacade.cafeList(currentLocationDto, pageable, keyword);
 
         return new BaseResponse<>(SUCCESS, list);
     }
@@ -87,7 +86,7 @@ public class CafeController {
         Long memberSeq = 1L;
         Pageable pageable = PageRequest.of(page - 1, 10);
 
-        List<CafeBookmarkListVo> list = cafeFacade.cafeBookmarkList(memberSeq, pageable);
+        Map<String, Object> list = cafeFacade.cafeBookmarkList(memberSeq, pageable);
 
         return new BaseResponse<>(SUCCESS, list);
     }
@@ -127,7 +126,6 @@ public class CafeController {
         CurrentLocationDto currentLocationDto = new CurrentLocationDto(latitude, longitude);
 
         Map<String, Object> resultMap = cafeFacade.cafeRatingRecommendList(memberSeq, currentLocationDto);
-        ;
 
         return new BaseResponse<>(SUCCESS, resultMap);
     }
