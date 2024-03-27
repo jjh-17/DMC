@@ -18,14 +18,16 @@ public class GetMemberInformationVo {
     private String title;
     private List<String> titleList;
     private List<String> preferenceTag;
+    private Integer mileage;
     private boolean isDeleted;
 
-    public GetMemberInformationVo(Long memberSeq, String nickname, String profileImageUrl, String title, List<String> preferenceTag, boolean isDeleted) {
+    public GetMemberInformationVo(Long memberSeq, String nickname, String profileImageUrl, String title, List<String> preferenceTag, Integer mileage, boolean isDeleted) {
         setMemberSeq(memberSeq);
         setNickname(nickname);
         setProfileImageUrl(profileImageUrl);
         setTitle(title);
         setPreferenceTag(preferenceTag);
+        setMileage(mileage);
         setDeleted(isDeleted);
     }
 }

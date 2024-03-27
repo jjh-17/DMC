@@ -65,6 +65,6 @@ public class Member {
     }
 
     public GetMemberInformationVo toInformationVo() {
-        return new GetMemberInformationVo(this.memberSeq, this.nickname, this.imageUrl, this.title, GlobalUtil.tagsToList(this.preferenceTag), this.isDeleted);
+        return new GetMemberInformationVo(this.memberSeq, this.nickname, this.imageUrl, this.title, GlobalUtil.tagsToList(this.preferenceTag), this.mileage, this.isDeleted);
     }
 }
