@@ -1,7 +1,7 @@
 package com.ssafy.backend.review.service;
 
 import com.ssafy.backend.global.exception.BaseException;
-import com.ssafy.backend.global.util.TagUtil;
+import com.ssafy.backend.global.util.GlobalUtil;
 import com.ssafy.backend.review.model.domain.DangmocaReview;
 import com.ssafy.backend.review.model.domain.LikeReview;
 import com.ssafy.backend.review.model.domain.ReviewImage;
@@ -108,7 +108,7 @@ public class ReviewServiceImpl implements ReviewService {
                         .memberSeq(addReviewDto.getMemberSeq())
                         .cafeSeq(addReviewDto.getCafeSeq())
                         .content(addReviewDto.getContent())
-                        .tag(TagUtil.tagsToString(addReviewDto.getTag()))
+                        .tag(GlobalUtil.tagsToString(addReviewDto.getTag()))
                         .createdDate(addReviewDto.getCreatedDate())
                         .rating(addReviewDto.getRating())
                         .isDeleted(addReviewDto.isDeleted())
@@ -136,7 +136,7 @@ public class ReviewServiceImpl implements ReviewService {
             throw new BaseException(NO_SAME_USER);
         }
         UpdateReviewVo updateReviewVo = new UpdateReviewVo(dangmocaReview.getCafeSeq(), dangmocaReview.getTag());
-        dangmocaReview.updateReview(updateReviewDto.getContent(), TagUtil.tagsToString(updateReviewDto.getTag()), updateReviewDto.getRating(), updateReviewDto.getUpdatedDate());
+        dangmocaReview.updateReview(updateReviewDto.getContent(), GlobalUtil.tagsToString(updateReviewDto.getTag()), updateReviewDto.getRating(), updateReviewDto.getUpdatedDate());
         dangmocaReviewRepository.save(dangmocaReview);
         return updateReviewVo;
     }
