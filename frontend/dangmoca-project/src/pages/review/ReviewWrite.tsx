@@ -66,8 +66,23 @@ export default function ReviewWrite() {
   };
 
   // 태그 관련
-  // const [selectedTags, setselectedTags] = useState<string[]>([]);
+  // 영어 변환 작업 해야함
   const tagKeys = tags.map((tag) => Object.keys(tag)[0]);
+
+  const selectedTags = useRef<string[]>([]);
+
+  const handleSelectTags = (key: string) => {
+    if (! selectedTags.current.includes(key)) {
+      selectedTags.current.push(key);
+    } else {
+      selectedTags.current = selectedTags.current.filter((tag) => tag !== key);
+    }
+    setReview((prevReview) => ({
+      ...prevReview,
+      tag: [...selectedTags.current],
+    }));
+    console.log(selectedTags.current);
+  };
 
   // 리뷰 작성
   const writeReviewData = async () => {
@@ -83,10 +98,8 @@ export default function ReviewWrite() {
     });
 
     try {
-      
       await reviewAPI.writeReview(selectCafeSeq, formData);
     } catch (error) {
-
       console.error("리뷰 작성 에러: ", error);
     }
     console.log("업로드", review); // 백 연결 후 review 출력해보기
@@ -140,7 +153,14 @@ export default function ReviewWrite() {
         <div className="my-5 flex flex-wrap -m-1">
           {tagKeys.map((key, index) => (
             <div key={index} className="flex-auto w-1/7 p-1">
-              <div className="text-center border border-gray-300 p-2 rounded-lg">
+              <div
+                onClick={() => handleSelectTags(key)}
+                className={`text-center border border-gray-300 p-2 rounded-lg cursor-pointer ${
+                  selectedTags.current.includes(key)
+                    ? "bg-primary text-white hover:bg-primary"
+                    : "hover:bg-gray-200"
+                }`}
+              >
                 {key}
               </div>
             </div>
