@@ -19,6 +19,7 @@ public class ViewReviewVo {
     private String content;
     private String tag;
     private Integer rating;
+    private Integer likeCount;
     private boolean isDeleted;
     private boolean isLiked;
     private String updatedDate;
