@@ -24,5 +24,4 @@ authAxios.interceptors.response.use(
 
 export const defaultAxios:AxiosInstance = axios.create({
     baseURL: SERVER,
-
 });

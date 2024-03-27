@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { defaultAxios } from "./AuthCommon";
+import { authAxios } from "./AuthCommon";
 
 let latitude = 0;
 let longitude = 0;
@@ -11,78 +11,76 @@ const getLocation = () => navigator.geolocation.getCurrentPosition((position) =>
 
 const END_POINT = '/cafes'
 
-const cafeAPI = {
-    getCafeList():Promise<AxiosResponse> {
+export const cafeAPI = {
+    getCafeList(curPage: number):Promise<AxiosResponse> {
         getLocation(); 
-        return defaultAxios({
+        return authAxios({
             method: 'GET',
-            url: END_POINT + `?longitude=${longitude}&latitude=${latitude}`
+            url: END_POINT + `?longitude=${longitude}&latitude=${latitude}&page=${curPage}`
         })
     },
 
     getCafeRecommendList():Promise<AxiosResponse> {
         getLocation();
-        return defaultAxios({
+        return authAxios({
             method: 'GET',
             url: END_POINT + `?longitude=${longitude}&latitude=${latitude}`
         })
     },
 
     getCafeDetail(id: number):Promise<AxiosResponse> {
-        return defaultAxios({
+        return authAxios({
             method: 'GET',
             url: END_POINT + id
         })
     },
 
     getCafeMenu(id: number):Promise<AxiosResponse> {
-        return defaultAxios({
+        return authAxios({
             method: 'GET',
             url: END_POINT + id + '/menus'
         })
     },
 
     doBookmark(cafeId: number):Promise<AxiosResponse> {
-        return defaultAxios({
+        return authAxios({
             method: 'POST',
             url: END_POINT + cafeId + '/bookmarks'
         })
     },
 
     deleteBookmark(cafeId: number):Promise<AxiosResponse> {
-        return defaultAxios({
+        return authAxios({
             method: 'DELETE',
             url: END_POINT + cafeId + '/bookmarks'
         })
     },
 
     getBookmark(page: number):Promise<AxiosResponse> {
-        return defaultAxios({
+        return authAxios({
             method: 'POST',
             url: `bookmark?page=${page}`
         })
     },
 
     getCafeByTag():Promise<AxiosResponse> {
-        return defaultAxios({
+        return authAxios({
             method: 'GET',
             url: 'mytag'
         })
     },
 
     getCafeByInfo():Promise<AxiosResponse> {
-        return defaultAxios({
+        return authAxios({
             method: 'GET',
             url: 'myinfo'
         })
     },
     
     getCafeByRating():Promise<AxiosResponse> {
-        return defaultAxios({
+        return authAxios({
             method: 'GET',
             url: 'myrating'
         })
     },
 }
-
-export default cafeAPI;
