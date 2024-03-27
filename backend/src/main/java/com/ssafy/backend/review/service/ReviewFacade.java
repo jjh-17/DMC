@@ -44,6 +44,7 @@ public class ReviewFacade {
             viewReviewVo.setNickname(member.getNickname());
             viewReviewVo.setProfileImageUrl(member.getImageUrl());
             viewReviewVo.setLiked(reviewService.isLikedReview(viewReviewVo.getReviewSeq(), memberSeq));
+            viewReviewVo.setLikeCount(reviewService.getLikeCount(viewReviewVo.getReviewSeq()));
         }
         return reviews;
     }
@@ -55,6 +56,8 @@ public class ReviewFacade {
             Member member = memberService.getMemberInformation(memberSeq);
             viewReviewVo.setNickname(member.getNickname());
             viewReviewVo.setProfileImageUrl(member.getImageUrl());
+            viewReviewVo.setLiked(reviewService.isLikedReview(viewReviewVo.getReviewSeq(), memberSeq));
+            viewReviewVo.setLikeCount(reviewService.getLikeCount(viewReviewVo.getReviewSeq()));
         }
         return reviews;
     }
@@ -67,6 +70,8 @@ public class ReviewFacade {
             Member member = memberService.getMemberInformation(memberSeq);
             viewReviewVo.setNickname(member.getNickname());
             viewReviewVo.setProfileImageUrl(member.getImageUrl());
+            viewReviewVo.setLiked(reviewService.isLikedReview(viewReviewVo.getReviewSeq(), memberSeq));
+            viewReviewVo.setLikeCount(reviewService.getLikeCount(viewReviewVo.getReviewSeq()));
         }
         return reviewList;
     }
