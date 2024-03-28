@@ -27,9 +27,9 @@ const CafeListPage = () => {
     setCurrentPage(newPage);
   }
 
-  useEffect(() => {
-    setCafeList(cafeDummyData);
-  }, []);
+  // useEffect(() => {
+  //   setCafeList(cafeDummyData);
+  // }, []);
 
   const getCafeList = async () => {
     const currentUrl = window.location.href;

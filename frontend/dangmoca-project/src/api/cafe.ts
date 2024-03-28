@@ -1,8 +1,8 @@
 import { AxiosResponse } from "axios";
 import { defaultAxios } from "./AuthCommon";
 
-const latitude = 37.483034;
-const longitude = 126.902435;
+const latitude = 37.501271677039064;
+const longitude = 127.03960465624748;
 // TODO : getLocation 뺀뒤에 store로 관리
 // const getLocation = () => navigator.geolocation.getCurrentPosition((position) => {
 //     latitude = position.coords.latitude;
@@ -16,7 +16,7 @@ export const cafeAPI = {
         // getLocation(); 
         return defaultAxios({
             method: 'GET',
-            url: END_POINT + `?latitude=${latitude}&longitude=${longitude}`
+            url: END_POINT + `?latitude=${latitude}&longitude=${longitude}&page=${curPage}`
         })
     },
 
@@ -39,28 +39,28 @@ export const cafeAPI = {
     getCafeDetail(id: number):Promise<AxiosResponse> {
         return defaultAxios({
             method: 'GET',
-            url: END_POINT + id
+            url: END_POINT + "/" + id
         })
     },
 
     getCafeMenu(id: number):Promise<AxiosResponse> {
         return defaultAxios({
             method: 'GET',
-            url: END_POINT + id + '/menus'
+            url: END_POINT + "/" + id + '/menus'
         })
     },
 
     doBookmark(cafeId: number):Promise<AxiosResponse> {
         return defaultAxios({
             method: 'POST',
-            url: END_POINT + cafeId + '/bookmarks'
+            url: END_POINT + "/" + cafeId + '/bookmark'
         })
     },
 
     deleteBookmark(cafeId: number):Promise<AxiosResponse> {
         return defaultAxios({
             method: 'DELETE',
-            url: END_POINT + cafeId + '/bookmarks'
+            url: END_POINT + "/" + cafeId + '/bookmark'
         })
     },
 

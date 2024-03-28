@@ -11,83 +11,114 @@ import BottomSheet from "../../components/review/BottomSheet";
 import CafeReview from "../review/CafeReview";
 // import { useState, useEffect } from "react";
 import KakaoMap from '../../components/cafe/KakaoMap';
+import useCafeStore from '../../stores/cafeStore';
+import { cafeAPI } from "../../api/cafe";
+import { useEffect, useState } from "react";
 
-const testDetail: CafeDetail = {
-  cafeSeq: 1,
-  name: "바나프레소 테헤란로점",
-  distance: "100m",
-  address: "서울 강남구 테헤란로 208 바나프레소",
-  tag: ["가성비", "테이크아웃", "분위기"],
-  imageUrl: "/src/assets/testPic/bana.jpg",
-  homepageUrl: "https://www.banapresso.com/",
-  rating: 3.7,
-  isBookmarked: false,
-  updatedDate: "2024-03-14",
-  openingHour: "월~금 07:00~20:00",
-};
+// const testDetail: CafeDetail = {
+//   cafeSeq: 1,
+//   name: "바나프레소 테헤란로점",
+//   distance: "100m",
+//   address: "서울 강남구 테헤란로 208 바나프레소",
+//   tag: ["가성비", "테이크아웃", "분위기"],
+//   imageUrl: "/src/assets/testPic/bana.jpg",
+//   homepageUrl: "https://www.banapresso.com/",
+//   rating: 3.7,
+//   isBookmarked: false,
+//   updatedDate: "2024-03-14",
+//   openingHour: "월~금 07:00~20:00",
+// };
 
 const CafeDetailPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const isReviewPage = location.pathname.includes("/write");
+  const store = useCafeStore();
+  const cafeSeq = store.selectedCafeSeq;
 
-  // const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+  const [cafeDetail, setCafeDetail] = useState<CafeDetail>({
+    cafeSeq: 0,
+    address: "",
+    distance: "",
+    homepageUrl: "",
+    imageUrl: "",
+    bookmarked: false,
+    name: "",
+    openingHour: "",
+    rating: 0,
+    tag: ["default1", "d2", "d3"],
+    updatedDate: "",
+  });
 
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setViewportHeight(window.innerHeight);
-  //   };
+  const getCafeDetail = async () => {
+    try {
+      const response = await cafeAPI.getCafeDetail(cafeSeq);
+      setCafeDetail(response.data.result);
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
 
-  //   window.addEventListener("resize", handleResize);
+  useEffect(() => {
+    getCafeDetail();
+    console.log(cafeDetail.tag)
+  }, []);
 
-  //   // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
-
-  const cafeAddress: string[] = testDetail.address.split(" ");
+  const cafeAddress: string[] = cafeDetail.address != null? cafeDetail.address.split(" "): ["", ""];
   const simpleAddress = cafeAddress[0] + ", " + cafeAddress[1];
-
   const svgClass = "w-6 h-6 inline-block mr-1";
   const textClass = "font-light text-lg my-2 mx-4";
 
-  const bookmarkCafe = () => {
-    console.log("bookmark");
+  const bookmarkCafe = async () => {
+    try {
+      if (cafeDetail.bookmarked) {
+        await cafeAPI.deleteBookmark(cafeSeq);
+      } else {
+        await cafeAPI.doBookmark(cafeSeq);
+      }
+      setCafeDetail(prevCafeDetail => ({
+        ...prevCafeDetail,
+        bookmarked: !prevCafeDetail.bookmarked
+      }));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <div className="mt-0">
+    <div className="my-5">
       <img
-        src={testDetail.imageUrl}
+        src={cafeDetail.imageUrl}
         className="opacity-80 h-[80lvh] w-screen object-cover -z-10"
       />
-      <h1 className="absolute top-[75lvh] ml-4 text-3xl text-white">
-        {testDetail.name}
+      <h1 className="absolute top-[75lvh] ml-4 text-3xl bg-white bg-opacity-20">
+        {cafeDetail.name}
       </h1>
-      <p className="absolute top-[80lvh] ml-4 text-white font-light">
+      <p className="absolute top-[80lvh] ml-4 font-light bg-white bg-opacity-20">
         {simpleAddress}
+        {/* {testDetail.address} */}
       </p>
       {!isReviewPage && (
         <>
-          {testDetail.tag.map((text, idx) => (
+          {Array.isArray(cafeDetail.tag) && cafeDetail.tag.length > 0 && cafeDetail.tag.map((text: string, idx: number) => (
             <span
               key={idx}
-              className="relative ml-2 text-base text-white -top-[5lvh]  left-[35lvw] whitespace-nowrap underline"
+              className="ml-2 my-2 text-base whitespace-nowrap underline"
             >
               #{text}{" "}
             </span>
           ))}
-          <div className="border-b-[1px] border-primary pb-2 mx-2 lg:mx-10">
+          <div className="border-b-[1px] border-primary pb-2 mx-2 my-2 lg:mx-10">
             <span className={textClass}>
               <CoffeeBeanIcon className={svgClass + " fill-primary"} />
-              {testDetail.rating}
+              {(Math.round(cafeDetail.rating * 100) / 100).toFixed(2)}
               <BookMarkIcon
-                className={svgClass + " cursor-pointer mx-2 hover:fill-primary"}
+                className={svgClass + " cursor-pointer mx-2 " + (cafeDetail.bookmarked? " fill-primary": "")}
                 onClick={bookmarkCafe}
               />
               <a
-                href={testDetail.homepageUrl}
+                href={cafeDetail.homepageUrl}
                 className="cursor-pointer"
                 target="_blank"
               >
@@ -96,14 +127,17 @@ const CafeDetailPage = () => {
             </span>
             <div className={textClass}>
               <PinIcon className={svgClass} />
-              {testDetail.address}
+              {cafeDetail.address}
             </div>
             <div className={textClass + " mb-4"}>
               <ClockIcon className={svgClass} />
-              {testDetail.openingHour}
+              {cafeDetail.openingHour}
             </div>
           </div>
-          <KakaoMap address={testDetail.address} name={testDetail.name}/>
+          {cafeDetail.address.length > 0 &&
+
+            <KakaoMap address={cafeDetail.address} name={cafeDetail.name} />
+          }
           <CafeMenuList />
           <div className="text-center">
             <Button label="리뷰 작성하기" onClick={() => navigate("write")} />

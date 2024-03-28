@@ -7,12 +7,13 @@ import useCafeStore from '../../stores/cafeStore';
 
 const DetailCafeCard = (cafe: Cafe) => {
   const navigate = useNavigate();
-  const [mappedTags, setMappedTags] = useState<string[]>([]);
+  // const [mappedTags, setMappedTags] = useState<string[]>([]);
   const setSelectedCafeSeq = useCafeStore(state => state.setSelectedCafeSeq);
 
   useEffect(() => {
-    const mappedTagsArray: string[] = cafe.tag.map(tag => tagMapper.get(tag));
-    setMappedTags(mappedTagsArray);
+    // 태그 수정 후 확인
+    // const mappedTagsArray: string[] = cafe.tag.map(tag => tagMapper.get(tag));
+    // setMappedTags(mappedTagsArray);
   }, [cafe])
 
   const handleCafeClick = () => {
@@ -32,13 +33,13 @@ const DetailCafeCard = (cafe: Cafe) => {
       <p className="w-68 my-2 flex justify-end items-center">
         <span className="text-[12px] mx-4 ml-0 left-0">
           <LocationPin className="w-3 h-3 mx-1 inline-flex" />
-          {cafe.distance}m
+          {Math.round(parseFloat(cafe.distance))}m
         </span>
-        {mappedTags.map((tag, index) => (
+        {/* {mappedTags.map((tag, index) => (
           <span className="text-[10px] text-primary mx-1" key={index}>
             #{tag}{" "}
           </span>
-        ))}
+        ))} */}
       </p>
     </div>
   );
