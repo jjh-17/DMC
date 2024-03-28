@@ -1,6 +1,7 @@
 package com.ssafy.backend.review.model.domain;
 
 
+import com.ssafy.backend.global.util.GlobalUtil;
 import com.ssafy.backend.review.model.vo.ViewReviewVo;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -78,7 +79,7 @@ public class DangmocaReview {
         viewReviewVo.setMemberSeq(this.memberSeq);
         viewReviewVo.setCafeSeq(this.cafeSeq);
         viewReviewVo.setContent(this.content);
-        viewReviewVo.setTag(this.tag);
+        viewReviewVo.setTag(GlobalUtil.tagsToList(this.tag));
         viewReviewVo.setRating(this.rating);
         viewReviewVo.setDeleted(this.isDeleted);
         viewReviewVo.setCreatedDate(this.createdDate);
