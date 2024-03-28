@@ -64,7 +64,7 @@ public class JwtProvider {
         }
     }
 
-    public Long getCode(String token) {
+    public Long getMemberSeq(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(salt)
                 .parseClaimsJws(token)

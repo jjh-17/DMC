@@ -82,8 +82,8 @@ public class CafeController {
     // 카페 북마크 목록 조회
     @GetMapping("bookmark")
     public BaseResponse<?> cafeBookmarkList(HttpServletRequest request, @RequestParam(name = "page", defaultValue = "1") int page) {
-//        Long memberSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 1L;
+        Long memberSeq = (Long) request.getAttribute("seq");
+//        Long memberSeq = 1L;
         Pageable pageable = PageRequest.of(page - 1, 10);
 
         Map<String, Object> list = cafeFacade.cafeBookmarkList(memberSeq, pageable);
