@@ -1,11 +1,5 @@
 use hive_db;
 
-DROP TABLE IF EXISTS kakao_cafe_menu;
-DROP TABLE IF EXISTS kakao_platform_review;
-DROP TABLE IF EXISTS naver_cafe_info;
-DROP TABLE IF EXISTS naver_cafe_menu;
-DROP TABLE IF EXISTS naver_platform_review;
-
 -- 스크래핑한 카카오 카페 정보 테이블
 DROP TABLE IF EXISTS kakao_cafe_info;
 CREATE TABLE IF NOT EXISTS kakao_cafe_info  (
@@ -28,6 +22,7 @@ LOAD DATA INPATH '/hive/input/kakao_cafe.csv' INTO TABLE kakao_cafe_info;
 
 
 -- 스크래핑한 카카오 카페 메뉴 테이블
+DROP TABLE IF EXISTS kakao_cafe_menu;
 CREATE TABLE IF NOT EXISTS kakao_cafe_menu  (
     cafe_name VARCHAR(100),
     name VARCHAR(100),
@@ -38,9 +33,12 @@ CREATE TABLE IF NOT EXISTS kakao_cafe_menu  (
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
 LINES TERMINATED BY '\n'
-STORED AS TEXTFILE;
+STORED AS TEXTFILE
+TBLPROPERTIES ('skip.header.line.count'='1');
+LOAD DATA INPATH '/hive/input/kakao_menu.csv' INTO TABLE kakao_cafe_menu;
 
 -- 스크래핑한 카카오 리뷰 테이블
+DROP TABLE IF EXISTS kakao_platform_review;
 CREATE TABLE IF NOT EXISTS kakao_platform_review  (
     cafe_name VARCHAR(100),
     content STRING,
@@ -52,9 +50,12 @@ CREATE TABLE IF NOT EXISTS kakao_platform_review  (
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
 LINES TERMINATED BY '\n'
-STORED AS TEXTFILE;
+STORED AS TEXTFILE
+TBLPROPERTIES ('skip.header.line.count'='1');
+LOAD DATA INPATH '/hive/input/kakao_review.csv' INTO TABLE kakao_platform_review;
 
 -- 스크래핑한 네이버 카페 정보 테이블
+DROP TABLE IF EXISTS naver_cafe_info;
 CREATE TABLE IF NOT EXISTS naver_cafe_info  (
     cafe_name VARCHAR(100),
     latitude DOUBLE,
@@ -69,9 +70,12 @@ CREATE TABLE IF NOT EXISTS naver_cafe_info  (
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
 LINES TERMINATED BY '\n'
-STORED AS TEXTFILE;
+STORED AS TEXTFILE
+TBLPROPERTIES ('skip.header.line.count'='1');
+LOAD DATA INPATH '/hive/input/naver_cafe.csv' INTO TABLE naver_cafe_info;
 
 -- 스크래핑한 네이버 카페 메뉴 테이블
+DROP TABLE IF EXISTS naver_cafe_menu;
 CREATE TABLE IF NOT EXISTS naver_cafe_menu  (
     cafe_name VARCHAR(100),
     name VARCHAR(100),
@@ -82,9 +86,12 @@ CREATE TABLE IF NOT EXISTS naver_cafe_menu  (
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
 LINES TERMINATED BY '\n'
-STORED AS TEXTFILE;
+STORED AS TEXTFILE
+TBLPROPERTIES ('skip.header.line.count'='1');
+LOAD DATA INPATH '/hive/input/naver_menu.csv' INTO TABLE naver_cafe_menu;
 
 -- 스크래핑한 네이버 리뷰 테이블
+DROP TABLE IF EXISTS naver_platform_review;
 CREATE TABLE IF NOT EXISTS naver_platform_review  (
     cafe_name VARCHAR(100),
     content STRING,
@@ -96,4 +103,6 @@ CREATE TABLE IF NOT EXISTS naver_platform_review  (
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
 LINES TERMINATED BY '\n'
-STORED AS TEXTFILE;
+STORED AS TEXTFILE
+TBLPROPERTIES ('skip.header.line.count'='1');
+LOAD DATA INPATH '/hive/input/naver_review.csv' INTO TABLE naver_platform_review;
