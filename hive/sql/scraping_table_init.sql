@@ -26,9 +26,9 @@ DROP TABLE IF EXISTS kakao_cafe_menu;
 CREATE TABLE IF NOT EXISTS kakao_cafe_menu  (
     cafe_name VARCHAR(100),
     name VARCHAR(100),
+    dessert_tag VARCHAR(255),
     price VARCHAR(50),
     image_url VARCHAR(255),
-    dessert_tag VARCHAR(255)
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
@@ -41,11 +41,13 @@ LOAD DATA INPATH '/hive/input/kakao_menu.csv' INTO TABLE kakao_cafe_menu;
 DROP TABLE IF EXISTS kakao_platform_review;
 CREATE TABLE IF NOT EXISTS kakao_platform_review  (
     cafe_name VARCHAR(100),
-    content STRING,
     nickname VARCHAR(50),
-    platform STRING DEFAULT 'K',
-    created_date VARCHAR(255),
-    collected_date VARCHAR(255)
+    rating FLOAT,
+    content STRING,
+    profile VARCHAR(255),
+    created_date VARCHAR(15),
+    collected_date VARCHAR(15),
+    platform STRING DEFAULT 'K'
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
@@ -79,9 +81,9 @@ DROP TABLE IF EXISTS naver_cafe_menu;
 CREATE TABLE IF NOT EXISTS naver_cafe_menu  (
     cafe_name VARCHAR(100),
     name VARCHAR(100),
+    dessert_tag VARCHAR(255),
     price VARCHAR(50),
     image_url VARCHAR(255),
-    dessert_tag VARCHAR(255)
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
@@ -94,11 +96,13 @@ LOAD DATA INPATH '/hive/input/naver_menu.csv' INTO TABLE naver_cafe_menu;
 DROP TABLE IF EXISTS naver_platform_review;
 CREATE TABLE IF NOT EXISTS naver_platform_review  (
     cafe_name VARCHAR(100),
-    content STRING,
     nickname VARCHAR(50),
-    platform STRING DEFAULT 'N',
-    created_date VARCHAR(255),
-    collected_date VARCHAR(255)
+    rating FLOAT,
+    content STRING,
+    profile VARCHAR(255),
+    created_date VARCHAR(15),
+    collected_date VARCHAR(15),
+    platform STRING DEFAULT 'N'
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
