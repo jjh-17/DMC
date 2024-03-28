@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS cafe_info  (
     longitude DOUBLE,
     kakao_name VARCHAR(100),
     naver_name VARCHAR(100),
-    image_url VARCHAR(255),
+    image_url STRING,
     address VARCHAR(255),
     tel VARCHAR(50),
     rating FLOAT,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS cafe_menu  (
     cafe_seq BIGINT,
     name VARCHAR(100),
     price VARCHAR(50),
-    image_url VARCHAR(255),
+    image_url STRING,
     dessert_tag VARCHAR(255)
 )
 ROW FORMAT DELIMITED

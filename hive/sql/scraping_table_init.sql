@@ -7,14 +7,14 @@ use hive_db;
 DROP TABLE IF EXISTS kakao_cafe_info;
 CREATE TABLE IF NOT EXISTS kakao_cafe_info  (
     cafe_name VARCHAR(100),
-    image_url VARCHAR(255),
+    image_url STRING,
     rating FLOAT,
     latitude DOUBLE,
     longitude DOUBLE,
     address VARCHAR(255),
     tel VARCHAR(25),
     opening_hour STRING,
-    homepage_url VARCHAR(255)
+    homepage_url STRING
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS kakao_cafe_menu  (
     name VARCHAR(100),
     dessert_tag VARCHAR(255),
     price VARCHAR(50),
-    image_url VARCHAR(255)
+    image_url STRING
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
@@ -62,14 +62,14 @@ LOAD DATA INPATH '/hive/input/kakao_review.csv' INTO TABLE kakao_platform_review
 DROP TABLE IF EXISTS naver_cafe_info;
 CREATE TABLE IF NOT EXISTS naver_cafe_info  (
     cafe_name VARCHAR(100),
-    image_url VARCHAR(255),
+    image_url STRING,
     rating FLOAT,
     latitude DOUBLE,
     longitude DOUBLE,
     address VARCHAR(255),
     tel VARCHAR(25),
     opening_hour STRING,
-    homepage_url VARCHAR(255)
+    homepage_url STRING
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS naver_cafe_menu  (
     name VARCHAR(100),
     dessert_tag VARCHAR(255),
     price VARCHAR(50),
-    image_url VARCHAR(255)
+    image_url STRING
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
