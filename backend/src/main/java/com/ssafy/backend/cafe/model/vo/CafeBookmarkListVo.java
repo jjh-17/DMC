@@ -49,9 +49,6 @@ public class CafeBookmarkListVo {
     }
 
     public void setAddress(String address) {
-        if (address == null || address.isBlank()) {
-            throw new BaseException(NOT_VALID_CAFE_ADDRESS);
-        }
         this.address = address;
     }
 
@@ -60,9 +57,6 @@ public class CafeBookmarkListVo {
     }
 
     public void setImageUrl(String imageUrl) {
-        if (imageUrl == null || imageUrl.isBlank()) {
-            throw new BaseException(NOT_VALID_CAFE_IMAGE);
-        }
         this.imageUrl = imageUrl;
     }
 
