@@ -33,7 +33,7 @@ const ScrollToTop = () => {
       {isVisible && (
         <>
           <div
-            className="fixed bottom-0 left-0 ml-8 mb-20 py-2 px-4 rounded-full md:ml-80"
+            className="fixed cursor-pointer bottom-0 left-0 ml-8 mb-20 py-2 px-4 rounded-full md:ml-80"
             onClick={scrollToTop}
             style={{ transition: "opacity 0.5s" }}
           >

@@ -32,7 +32,8 @@ import ScrollToTop from "../../components/common/ScrollToTop";
 const CafeDetailPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const isReviewPage = location.pathname.includes("/write");
+  const isReviewPage = location.pathname.includes("/review");
+  const isWritePage = location.pathname.includes("/write");
   const store = useCafeStore();
   const cafeSeq = store.selectedCafeSeq;
 
