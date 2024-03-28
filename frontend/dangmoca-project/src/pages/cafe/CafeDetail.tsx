@@ -7,10 +7,9 @@ import Button from "../../components/common/Button";
 import CafeMenuList from "../../components/cafe/CafeMenuList";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { CafeDetail } from "../../types/datatype";
-import BottomSheet from "../../components/review/BottomSheet";
-import CafeReview from "../review/CafeReview";
-// import { useState, useEffect } from "react";
-import KakaoMap from '../../components/cafe/KakaoMap';
+// import BottomSheet from "../../components/review/BottomSheet";
+import KakaoMap from "../../components/cafe/KakaoMap";
+import ScrollToTop from "../../components/common/ScrollToTop";
 
 const testDetail: CafeDetail = {
   cafeSeq: 1,
@@ -29,7 +28,8 @@ const testDetail: CafeDetail = {
 const CafeDetailPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const isReviewPage = location.pathname.includes("/write");
+  const isReviewPage = location.pathname.includes("/review");
+  const isWritePage = location.pathname.includes("/write");
 
   // const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
 
@@ -68,7 +68,7 @@ const CafeDetailPage = () => {
       <p className="absolute top-[80lvh] ml-4 text-white font-light">
         {simpleAddress}
       </p>
-      {!isReviewPage && (
+      {!isReviewPage && !isWritePage && (
         <>
           {testDetail.tag.map((text, idx) => (
             <span
@@ -103,12 +103,22 @@ const CafeDetailPage = () => {
               {testDetail.openingHour}
             </div>
           </div>
-          <KakaoMap address={testDetail.address} name={testDetail.name}/>
+          <KakaoMap address={testDetail.address} name={testDetail.name} />
           <CafeMenuList />
           <div className="text-center">
-            <Button label="리뷰 작성하기" onClick={() => navigate("write")} />
+            <Button label="리뷰 보러가기" onClick={() => navigate("review")} />
           </div>
-          <BottomSheet prop={<CafeReview />} />
+        </>
+      )}
+      {isReviewPage && (
+        <>
+          <Button
+            addClass="fixed right-0 bottom-0 mr-8 mb-20 md:mr-80"
+            label="리뷰 작성하기"
+            onClick={() => navigate("write")}
+          />
+
+          <ScrollToTop />
         </>
       )}
       <Outlet />
