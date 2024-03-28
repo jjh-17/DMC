@@ -40,6 +40,7 @@ public enum BaseResponseStatus {
     NOT_VALID_RATING(false, 400, "평점을 남겨주세요."),
     NOT_EXIST_REVIEW(false, 400, "존재하지 않는 리뷰입니다."),
     NO_SAME_USER(false, 400, "수정할 수 없는 리뷰입니다."),
+    ALREADY_EXIST_LIKE(false, 400, "이미 좋아요 누른 리뷰입니다."),
 
     /**
      * JWT 에러

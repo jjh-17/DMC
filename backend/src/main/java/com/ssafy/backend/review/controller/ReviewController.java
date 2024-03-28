@@ -34,7 +34,7 @@ public class ReviewController {
     @GetMapping("/cafe/{cafeid}")
     public BaseResponse<?> viewCafeReview(@PathVariable("cafeid") Long cafeSeq) {
         // Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 2L;
+        Long memberSeq = 1L;
         List<ViewReviewVo> reviews = reviewFacade.viewCafeReview(cafeSeq, memberSeq);
         return new BaseResponse<>(reviews);
     }

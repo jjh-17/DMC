@@ -78,6 +78,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void likeReview(LikeReivewDto likeReivewDto) {
+        if (likeReviewRepository.findByReviewSeqAndMemberSeq(likeReivewDto.getReviewSeq(), likeReivewDto.getMemberSeq()) != null) {
+            throw new BaseException(ALREADY_EXIST_LIKE);
+        }
         likeReviewRepository.save(
                 LikeReview.builder()
                         .memberSeq(likeReivewDto.getMemberSeq())
