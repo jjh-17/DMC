@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class WebMvcConfig {
+public class WebFilterConfig {
 
     @Bean
     public FilterRegistrationBean<JwtAuthenticationFilter> jwtFilter(JwtProvider jwtProvider, RedisDao redisDao) {

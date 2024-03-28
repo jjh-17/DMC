@@ -58,12 +58,12 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public TokenVo reissue(String headerToken) {
-        String refershToken = getToken(headerToken);
+        String refreshToken = jwtProvider.getToken(headerToken);
 
         Long memberSeq;
 
-        if (refershToken != null && jwtProvider.validateToken(refershToken)) {
-            memberSeq = jwtProvider.getMemberSeq(refershToken);
+        if (refreshToken != null && jwtProvider.validateToken(refreshToken)) {
+            memberSeq = jwtProvider.getMemberSeq(refreshToken);
 
             String token = (String) redisDao.readFromRedis("refreshToken:" + memberSeq);
 
@@ -74,19 +74,13 @@ public class AccountServiceImpl implements AccountService {
             throw new BaseException(REISSUE_ERROR);
         }
 
-        String accessToken = jwtProvider.createAccessToken(memberSeq, accessTokenExpire);
-        String refreshToken = jwtProvider.createRefreshToken(memberSeq, refreshTokenExpire);
+        String newAccessToken = jwtProvider.createAccessToken(memberSeq, accessTokenExpire);
+        String newRefreshToken = jwtProvider.createRefreshToken(memberSeq, refreshTokenExpire);
 
-        redisDao.saveToRedis("accessToken:" + memberSeq, accessToken, Duration.ofMillis(accessTokenExpire));
-        redisDao.saveToRedis("refreshToken:" + memberSeq, refreshToken, Duration.ofMillis(refreshTokenExpire));
+        redisDao.saveToRedis("accessToken:" + memberSeq, newAccessToken, Duration.ofMillis(accessTokenExpire));
+        redisDao.saveToRedis("refreshToken:" + memberSeq, newRefreshToken, Duration.ofMillis(refreshTokenExpire));
 
-        return new TokenVo(accessToken, refreshToken);
+        return new TokenVo(newAccessToken, newRefreshToken);
     }
 
-    private String getToken(String header) {
-        if (header != null && header.startsWith("Bearer")) {
-            return header.substring("Bearer ".length());
-        }
-        return null;
-    }
 }

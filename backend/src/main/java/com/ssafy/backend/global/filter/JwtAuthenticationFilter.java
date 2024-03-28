@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String atk = getToken(request.getHeader("Authorization"));
+        String atk = jwtProvider.getToken(request.getHeader("Authorization"));
 
         try {
             if (atk != null && jwtProvider.validateToken(atk)) {
@@ -83,10 +83,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     }
 
-    private String getToken(String header) {
-        if (header != null && header.startsWith("Bearer")) {
-            return header.substring("Bearer ".length());
-        }
-        return null;
-    }
 }

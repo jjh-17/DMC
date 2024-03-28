@@ -71,4 +71,11 @@ public class JwtProvider {
         return claims.get("memberSeq", Long.class);
     }
 
+    public String getToken(String header) {
+        if (header != null && header.startsWith("Bearer")) {
+            return header.substring("Bearer ".length());
+        }
+        return null;
+    }
+
 }
