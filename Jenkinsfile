@@ -136,7 +136,7 @@ pipeline {
 			steps {
 				echo "FE : Install Start"
 				dir("${FRONT_DIR}") {
-					sh "npm install react react-dom react-scripts"
+					sh "npm install --legacy-peer-deps react react-dom react-scripts"
 				}
 				echo "FE : Install End"
 			}
