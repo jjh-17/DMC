@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS naver_cafe_menu;
 
 -- 스크래핑한 카카오 카페 정보 테이블
 CREATE TABLE IF NOT EXISTS kakao_cafe_info  (
-    name VARCHAR(100),
+    cafe_name VARCHAR(100),
     latitude DOUBLE,
     longitude DOUBLE,
     image_url VARCHAR(255),
@@ -16,6 +16,19 @@ CREATE TABLE IF NOT EXISTS kakao_cafe_info  (
     rating FLOAT,
     opening_hour VARCHAR(255),
     homepage_url VARCHAR(255)
+)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE;
+
+-- 스크래핑한 카카오 카페 메뉴 테이블
+CREATE TABLE IF NOT EXISTS kakao_cafe_menu  (
+    cafe_name VARCHAR(100),
+    name VARCHAR(100),
+    price VARCHAR(50),
+    image_url VARCHAR(255),
+    dessert_tag VARCHAR(255)
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
