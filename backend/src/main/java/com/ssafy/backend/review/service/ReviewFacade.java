@@ -56,6 +56,7 @@ public class ReviewFacade {
             Member member = memberService.getMemberInformation(memberSeq);
             viewReviewVo.setNickname(member.getNickname());
             viewReviewVo.setProfileImageUrl(member.getImageUrl());
+            viewReviewVo.setTitle(member.getTitle());
             viewReviewVo.setLiked(reviewService.isLikedReview(viewReviewVo.getReviewSeq(), memberSeq));
             viewReviewVo.setLikeCount(reviewService.getLikeCount(viewReviewVo.getReviewSeq()));
         }
