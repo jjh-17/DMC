@@ -1,18 +1,21 @@
 package com.ssafy.backend.global.filter;
 
-import com.ssafy.backend.global.exception.BaseException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.backend.global.util.JwtProvider;
 import com.ssafy.backend.global.util.RedisDao;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.Arrays;
-
-import static com.ssafy.backend.global.response.BaseResponseStatus.JWT_ERROR;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -48,7 +51,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String atk = getToken(request.getHeader("Authorization"));
 
-//        try {
+        try {
             if (atk != null && jwtProvider.validateToken(atk)) {
                 Long seq = jwtProvider.getMemberSeq(atk);
                 request.setAttribute("seq", seq);
@@ -56,16 +59,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String token = (String) redisDao.readFromRedis("accessToken:" + seq);
 
                 if (token == null) {
-                    throw new BaseException(JWT_ERROR);
+                    throw new JwtException("유효하지 않은 토큰입니다.");
                 }
             } else {
-                throw new BaseException(JWT_ERROR);
+                throw new JwtException("유효하지 않은 토큰입니다.");
             }
-//        } catch (Exception e) {
-//            throw new BaseException(JWT_ERROR);
-//        }
 
-        filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response);
+
+        } catch (Exception e) {
+            ObjectMapper mapper = new ObjectMapper();
+
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.setCharacterEncoding("utf-8");
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("message", e.getMessage());
+            resultMap.put("code", 401);
+
+            mapper.writeValue(response.getWriter(), resultMap);
+        }
 
     }
 

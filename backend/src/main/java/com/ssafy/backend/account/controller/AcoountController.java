@@ -87,6 +87,7 @@ public class AcoountController {
     @GetMapping("reissue")
     public BaseResponse<?> reissue(HttpServletRequest request, HttpServletResponse response) {
         String headerToken = request.getHeader("Authorization-refresh");
+
         TokenVo tokenVo = accountService.reissue(headerToken);
 
         response.setHeader("accessToken", tokenVo.getAccessToken());
