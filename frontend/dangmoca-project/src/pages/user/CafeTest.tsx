@@ -1,6 +1,6 @@
 import TestProgress from "../../components/main/TestProgress";
 import TestSelect from "../../components/main/TestSelect";
-import { questionForTags } from "../../assets/data/tag";
+import { questionForTags } from "../../utils/tag";
 import { useRef, useState } from "react";
 
 export default function CafeTestPage() {

@@ -2,15 +2,20 @@ import { useRef, useState } from "react";
 import Button from "../../components/common/Button";
 import ReviewRating from "../../components/review/ReviewRating";
 import { useDragScroll } from "../../utils/useDragScroll";
-// import { reviewAPI } from "../../api/reviewAPI";
+import { reviewAPI } from "../../api/reviewAPI";
+import useCafeStore from "../../stores/cafeStore";
+import { tags } from "../../utils/tag";
 
-interface Image {
-  id: number;
-  url: string;
+interface Review {
+  reviewImages: File[];
+  content: string;
+  tag: string[];
+  rating: number;
 }
 
 // TODO : 헤더명 리뷰 작성하기'
 export default function ReviewWrite() {
+  const selectCafeSeq = useCafeStore((state) => state.selectedCafeSeq);
   const [setRef] = useDragScroll();
 
   const handleRef = (node: HTMLElement | null) => {
@@ -19,42 +24,17 @@ export default function ReviewWrite() {
     }
   };
 
-  const [review, setReview] = useState([{
-    reviewSeq: 0,
-    memberSeq: 0,
-    cafeSeq: 0,
-    name: "카페 남부",
-    image: [
-      "/src/assets/testpic/1.jpg",
-      "/src/assets/testpic/2.jpg",
-      "/src/assets/testpic/3.jpg",
-      "/src/assets/testpic/4.jpg",
-      "/src/assets/testpic/5.jpg",
-    ],
-    content: "맛잇엇요",
-    tag: ["조용한", "시끄러운"],
-    rating: 4,
-    createdDate: "2024-01-02",
+  const [review, setReview] = useState<Review>({
+    reviewImages: [],
+    content: "",
+    tag: [],
+    rating: 0,
+  });
 
-    profileImage: "/src/assets/testpic/1.jpg",
-    userTitle: "하루 커피 5잔",
-    nickName: "DMC",
-    comment: "dd"
-  }]);
-
-  const cafe = {
-    cafeSeq: 1,
-    name: "식빵카페",
-    distance: "555",
-    address: "서울 종로구 새문안로 85",
-    tag: ["#테이크아웃", "#분위기", "#가성비"],
-    isOpen: true, // 영업 중 여부
-    dessertTag: ["#마카롱", "#매커롱", "#맥커롱"],
-    imageUrl: "src/assets/testPic/1.jpg",
-  };
+  const { reviewImages } = review;
 
   // 리뷰 별점 관련
-  const handleRatingChange = (rating:number) => {
+  const handleRatingChange = (rating: number) => {
     setReview((prevReview) => ({
       ...prevReview,
       rating: rating,
@@ -64,77 +44,82 @@ export default function ReviewWrite() {
   // 리뷰 내용 관련
   const reviewContentRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleBlur = (event:any) => {
+  const handleBlur = (event: any) => {
     // textarea의 현재 값을 content 상태에 저장
     setReview((prevReview) => ({
       ...prevReview,
       content: event.target.value,
     }));
 
-    console.log("리뷰 내용 변경");
+    console.log("리뷰 내용 임시 저장");
   };
 
   // 이미지 관련
-  const [reviewImages, setReviewImages] = useState<Image[]>([]);
-
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const file = event.target.files[0];
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        const newImage: Image = {
-          id: Date.now(), // 간단한 ID 생성
-          url: reader.result as string,
-        };
-        setReviewImages([...reviewImages, newImage]);
-      };
-
-      reader.readAsDataURL(file);
+      setReview((prevReview) => ({
+        ...prevReview,
+        reviewImages: [...prevReview.reviewImages, file],
+      }));
     }
+  };
+
+  // 태그 관련
+  // 영어 변환 작업 해야함
+  const tagKeys = tags.map((tag) => Object.keys(tag)[0]);
+
+  const selectedTags = useRef<string[]>([]);
+
+  const handleSelectTags = (key: string) => {
+    if (!selectedTags.current.includes(key)) {
+      selectedTags.current.push(key);
+    } else {
+      selectedTags.current = selectedTags.current.filter((tag) => tag !== key);
+    }
+
+    // 한글 태그 영어로 변환
+    const mappedTag = selectedTags.current.map((koreanTag) => {
+      const tagObject = tags.find((tag) => Object.keys(tag)[0] === koreanTag);
+      return tagObject ? String(tagObject[koreanTag]) : "";
+    });
 
     setReview((prevReview) => ({
       ...prevReview,
-      image: reviewImages,
+      tag: mappedTag,
     }));
+    console.log(selectedTags.current);
+    console.log(mappedTag);
   };
 
-  console.log(cafe);
-  console.log(review);
-
-  // 더미데이터라 에러남.. 데이터 제대로 오면 인터페이스 만들고 살릴 것
-
-  // 태그 관련
-  // const [tags, setTags] = useState<string[]>([]);
-
   // 리뷰 작성
-  // const writeReviewData = async () => {
-  //   try {
-  //     await reviewAPI.writeReview(cafe.cafeSeq, review);
-  //   } catch (error) {
-  //     console.error("리뷰 작성 에러: ", error);
-  //   }
-  //   console.log("업로드", review); // 백 연결 후 review 출력해보기
-  // };
+  const writeReviewData = async () => {
+    // 폼데이타 변환
+    const formData = new FormData();
+    review.reviewImages.forEach((image, index) => {
+      formData.append(`reviewImages[${index}]`, image);
+    });
+    formData.append("content", review.content);
+    formData.append("rating", review.rating.toString());
+    review.tag.forEach((tag, index) => {
+      formData.append(`tag[${index}]`, tag);
+    });
+
+    try {
+      await reviewAPI.writeReview(selectCafeSeq, formData);
+    } catch (error) {
+      console.error("리뷰 작성 에러: ", error);
+    }
+    console.log("업로드", review); // 백 연결 후 review 출력해보기
+  };
 
   const labelClass = "lg:text-2xl";
 
-  {
-    /* <div className="flex flex-col w-fit gap-4 text-center"></div> */
-  }
-
   return (
     <div className="min-w-screen max-w-[600px] flex flex-col gap-4 border-b-[1px] border-slate-500 mx-auto p-6">
-      {/* <img
-        src="src/assets/testpic/bana.jpg"
-        className="opacity-40 h-[40lvh] w-screen object-cover"
-      />
-      <div className="absolute text-3xl lg:text-4xl top-[37lvh] left-[50lvw] -translate-x-[50%]">
-        {cafe.name}
-      </div> */}
       <label className="text-center text-2xl lg:text-3xl">별점 등록하기</label>
       <ReviewRating onRatingChange={handleRatingChange} />
-      <form className="p-4 m-4 flex flex-col items-center">
+      <div className="p-4 m-4 flex flex-col items-center">
         <div className="w-[25lvh] h-[25lvh] text-center padding-1 relative cursor-pointer border-2 border-dashed mb-5 mx-auto">
           <img src="/src/assets/pictures/upload.jpg" alt="upload" />
           <h3>사진을 업로드하세요</h3>
@@ -150,12 +135,13 @@ export default function ReviewWrite() {
           ref={handleRef}
           className="flex rounded-lg overflow-x-auto my-5 no-scroll w-full h-[28lvh] border-2 border-primary bg-slate-100"
         >
-          {reviewImages.map((image) => (
+          {reviewImages.map((imageFile, index) => (
             <img
-              key={image.id}
-              src={image.url}
+              key={index}
+              src={URL.createObjectURL(imageFile)}
               alt="Uploaded"
               className="w-[25lvh] h-[25lvh] object-cover m-2 border-[1px] border-slate-400 p-2"
+              onLoad={() => URL.revokeObjectURL(URL.createObjectURL(imageFile))}
             />
           ))}
         </div>
@@ -167,18 +153,34 @@ export default function ReviewWrite() {
           onBlur={handleBlur}
         />
         <label className={labelClass}>태그 추가</label>
-        <p className="whitespace-pre-wrap">
+        {/* <p className="whitespace-pre-wrap">
           입력한 태그 나열, 누르면 태그 입력받을 + 동그라미 태그 정해지면
           추가해야 함
-        </p>
+        </p> */}
+        {/* <div className="flex rounded-lg overflow-x-auto my-5 w-full h-[28lvh] border-2 border-primary bg-slate-100"> */}
+        <div className="my-5 flex flex-wrap -m-1">
+          {tagKeys.map((key, index) => (
+            <div key={index} className="flex-auto w-1/7 p-1">
+              <div
+                onClick={() => handleSelectTags(key)}
+                className={`text-center border border-gray-300 p-2 rounded-lg cursor-pointer ${
+                  selectedTags.current.includes(key)
+                    ? "bg-primary text-white hover:bg-primary"
+                    : "hover:bg-gray-200"
+                }`}
+              >
+                {key}
+              </div>
+            </div>
+          ))}
+        </div>
 
         <Button
           label="업로드"
-          // onClick={writeReviewData}
-          onClick={()=>{}}
+          onClick={writeReviewData}
           addClass="mx-auto"
         ></Button>
-      </form>
+      </div>
     </div>
   );
 }
