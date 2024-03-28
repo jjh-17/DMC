@@ -32,7 +32,7 @@ public class CafeController {
     // 검색어 입력 시 검색한 결과 제공
     @GetMapping
     public BaseResponse<?> cafeList(@RequestParam(name = "latitude") double latitude, @RequestParam(name = "longitude") double longitude, @RequestParam(name = "keyword", defaultValue = "") String keyword, @RequestParam(name = "page", defaultValue = "1") int page) {
-        Pageable pageable = PageRequest.of(page - 1, 10);
+        Pageable pageable = PageRequest.of(page - 1, 100);
 
         CurrentLocationDto currentLocationDto = new CurrentLocationDto(latitude, longitude);
 
