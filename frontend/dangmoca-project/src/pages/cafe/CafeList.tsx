@@ -8,40 +8,85 @@ import RightArrowIcon from "../../assets/icons/rightarrow.svg?react";
 import DownArrowIcon from "../../assets/icons/downarrow.svg?react";
 import CafeFilterAndSort from "../../utils/CafeFilterAndSort";
 
-import { sort, tags, desserts } from "../../utils/tag";
+import { sort, tags } from "../../utils/tag";
 import { useState, useEffect, useRef } from "react";
 import { Cafe } from "../../types/datatype";
-
-import {cafeAPI } from '../../api/cafe'
+import { cafeAPI } from '../../api/cafe'
+import { CafeListApiResponse } from "../../types/datatype";
 
 const CafeListPage = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [showTagCheckbox, setShowTagCheckbox] = useState(false);
-  const [showDessertCheckbox, setShowDessertCheckbox] = useState(false);
-  const [cafeList, setCafeList] = useState<Cafe[]>([]);
+  const [cafeList, setCafeList] = useState<Cafe[] | undefined>([]);
   const hasSearched = useRef(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [endPage, setEndPage] = useState<number>(1);  
+  const [endPage, setEndPage] = useState<number>(1);
+  const isSearch = useRef(false);
+  const searchKeyword = useRef("");
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   }
 
+  // useEffect(() => {
+  //   setCafeList(cafeDummyData);
+  // }, []);
+
+  const getCafeList = async () => {
+    const currentUrl = window.location.href;
+
+    // URL을 URLSearchParams 객체로 변환
+    const urlParams = new URLSearchParams(currentUrl);
+
+    // 'cafes' 뒤의 키워드 추출
+    const keyword = urlParams.get('cafes');
+
+    // 추출된 키워드 사용
+    console.log(keyword);
+
+    if (keyword != null) {
+      isSearch.current = true;
+      searchKeyword.current = keyword || "";
+      try {
+        const response = await cafeAPI.getCafeSearchList(1, keyword);
+        const data: CafeListApiResponse = response.data;
+        setEndPage(data.result.totalCount);
+        setCafeList(data.result.list);
+      }
+      catch (error) {
+        console.log(error);
+      }
+
+    }
+    else {
+      console.log(1)
+      try {
+        const response = await cafeAPI.getCafeList(1);
+        const data: CafeListApiResponse = response.data;
+        setEndPage(data.result.totalCount);
+        setCafeList(data.result.list);
+      }
+      catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
   useEffect(() => {
-    setCafeList(cafeDummyData);
+    getCafeList();
   }, []);
 
   useEffect(() => {
-    cafeAPI.getCafeList(1).then((response) => {
-      setEndPage(response.data.result.totalCount);
-      setCafeList(response.data.result.list);
-    })
-   }, []);
-   
-   useEffect(() => {
-    cafeAPI.getCafeList(currentPage).then((response) => {
-      setCafeList(response.data.result.list);
-    })
-   }, [currentPage]);
+    if (isSearch.current) {
+      cafeAPI.getCafeSearchList(currentPage, searchKeyword.current).then((response) => {
+        setCafeList(response.data.result.list);
+      })
+    }
+    else {
+      cafeAPI.getCafeList(currentPage).then((response) => {
+        setCafeList(response.data.result.list);
+      })
+    }
+  }, [currentPage]);
 
   const selectedSorts = useRef<string[]>([]);
   const selectedTags = useRef<string[]>([]);
@@ -70,33 +115,20 @@ const CafeListPage = () => {
     }
   };
 
-  const handleSelectDesserts = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = event.target;
-    if (checked) {
-      selectedDesserts.current.push(value);
-    } else {
-      selectedDesserts.current = selectedDesserts.current.filter(
-        (sort) => sort !== value
-      );
-    }
-  };
-
   const submitFilter = () => {
     hasSearched.current = true;
     setCafeList(cafeDummyData);
     setCafeList((prevCafeList) =>
       CafeFilterAndSort(
-        prevCafeList,
+        prevCafeList||[],
         selectedSorts.current,
         selectedTags.current,
         selectedDesserts.current
       )
     );
   };
-
   const toggleFilter = () => setShowFilter(!showFilter);
   const toggleTag = () => setShowTagCheckbox(!showTagCheckbox);
-  const toggleDessert = () => setShowDessertCheckbox(!showDessertCheckbox);
 
   return (
     <>
@@ -178,47 +210,6 @@ const CafeListPage = () => {
                   </>
                 )}
               </div>
-              <div>
-                <span className="font-medium m-2" onClick={toggleDessert}>
-                  디저트 선택하기
-                </span>
-                {!showDessertCheckbox && (
-                  <RightArrowIcon id="svgIcon" onClick={toggleDessert} />
-                )}
-                {showDessertCheckbox && (
-                  <>
-                    <DownArrowIcon id="svgIcon" onClick={toggleDessert} />
-
-                    <div className="bg-slate-50">
-                      {desserts.map((item, index) => {
-                        const label = Object.keys(item)[0];
-                        const value = Object.values(item)[0];
-                        const inputId = (index + 1000).toString();
-
-                        return (
-                          <span
-                            className="whitespace-nowrap ml-2 hover:text-primary3"
-                            key={label}
-                          >
-                            <label
-                              className="whitespace-nowrap"
-                              htmlFor={inputId}
-                            >
-                              {label}
-                            </label>
-                            <input
-                              type="checkbox"
-                              value={value}
-                              id={inputId}
-                              onChange={handleSelectDesserts}
-                            />
-                          </span>
-                        );
-                      })}
-                    </div>
-                  </>
-                )}
-              </div>
               <div className="">
                 <button
                   onClick={submitFilter}
@@ -232,10 +223,11 @@ const CafeListPage = () => {
         </div>
         <div className="w-fit mx-auto">
           <div className="flex flex-col">
-            {cafeList.length == 0 && !hasSearched && <CafeLoading />}
-            {cafeList.length == 0 && hasSearched && <CafeNotFound />}
+            
+            {!cafeList && !hasSearched && <CafeLoading />}
+            {!cafeList && hasSearched && <CafeNotFound />}
 
-            {cafeList.length > 0 &&
+            {cafeList &&
               cafeList.map((cafe) => (
                 <div className="cursor-pointer" key={cafe.cafeSeq}>
                   <DetailCafeCard {...cafe} />
@@ -244,7 +236,7 @@ const CafeListPage = () => {
           </div>
         </div>
       </div>
-      <Pagination currentPage={currentPage} endPage={endPage} onPageChange={handlePageChange}/>
+      <Pagination currentPage={currentPage} endPage={endPage} onPageChange={handlePageChange} />
     </>
   );
 };

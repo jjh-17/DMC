@@ -20,12 +20,12 @@ export default function MainPage() {
       <div
         className="mx-auto flex flex-col items-center text-center w-full min-w-[40lvw] min-h-[80lvh] relative mt-[5lvh]"
       >
-        <h1 id="test" className="text-6xl lg:text-7xl whitespace-pre-wrap text-primary2 mt-16 lg:mt-0">DANGMOCA</h1>
+        <h1 id="test" className="text-6xl lg:text-7xl whitespace-pre-wrap text-primary2 mt-4 lg:mt-0">DANGMOCA</h1>
         <span id="test" className="text-xl lg:text-2xl whitespace-nowrap mb-5 lg:mb-0"> 당신의 모든 카페 </span>
-        <video className="h-[100lvw] w-[100lvw] md:h-[40lvw] md:w-[40lvw] lg:h-[30lvw] lg:w-[30lvw] mt-0 rounded-full object-cover p-6 lg:p-10 pointer-events-none" autoPlay muted loop>
+        <video className="h-[90lvw] w-[90lvw] md:h-[40lvw] md:w-[40lvw] lg:h-[30lvw] lg:w-[30lvw] mt-0 rounded-full object-cover p-6 lg:p-10 pointer-events-none" autoPlay muted loop>
           <source src="/src/assets/videos/coffee.mp4" type="video/mp4"/>
         </video>
-        <Button label={!isLogin? "시작하기" : "내 카페 찾기"} onClick={handleClick} addClass="whitespace-nowrap lg:text-2xl mt-10 lg:p-4 lg:mt-0 lg:mb-10 lg:rounded-2xl" />
+        <Button label={!isLogin? "시작하기" : "내 카페 찾기"} onClick={handleClick} addClass="whitespace-nowrap lg:text-2xl lg:p-4 lg:mt-0 lg:mb-10 lg:rounded-2xl" />
         <button onClick={() => setIsLogin(!isLogin)}>로그인상태테스트</button>
       </div>
       <InfoDiv imgUrl="" imgAlt="실제카페추천화면" title="카페를 추천받으세요" description="ㅂㅂㅂ" />
