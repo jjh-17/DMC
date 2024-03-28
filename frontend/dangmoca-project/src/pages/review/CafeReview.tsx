@@ -33,6 +33,8 @@ export default function CafeReview() {
     undefined
   );
   const selectCafeSeq = useCafeStore((state) => state.selectedCafeSeq);
+  const [likeUpdateTrigger, setLikeUpdateTrigger] = useState(0);
+  console.log(likeUpdateTrigger)
 
   const getCafeReviewData = async () => {
     try {
@@ -41,6 +43,7 @@ export default function CafeReview() {
       setCafeReviews(data.result);
 
       console.log(`${selectCafeSeq} 카페 리뷰 가져오기 성공!`);
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -57,8 +60,7 @@ export default function CafeReview() {
         await reviewAPI.unlikeReview(reviewSeq);
         console.log("좋다 말았어요 성공");
       }
-
-      setCafeReviews(undefined);
+      setLikeUpdateTrigger(prev => prev + 1);
     } catch (error) {
       console.log(isLiked ? "좋아요 실패" : "좋다 말았어요 실패");
       console.log(error);
@@ -67,27 +69,18 @@ export default function CafeReview() {
 
   useEffect(() => {
     getCafeReviewData();
-  }, []);
+  }, [likeUpdateTrigger]);
 
   return (
     <>
-      {/* <p>데이터 들어오면 주석 처리한 리스트 로직으로 변경</p>
-      <DetailReviewCard onLikeClick={handleLike} />
-      <DetailReviewCard onLikeClick={handleLike} />
-      <DetailReviewCard onLikeClick={handleLike} />
-      <DetailReviewCard onLikeClick={handleLike} /> */}
-      {/* <div className="w-fit mx-auto"> */}
-      {/* <div className="flex flex-col"> */}
       {cafeReviews?.map((review) => (
         <div key={review.reviewSeq}>
           <DetailReviewCard
             {...review}
-            onLikeClick={handleLike(review.reviewSeq, review.liked)}
+            onLikeClick={() => handleLike(review.reviewSeq, review.liked)}
           />
         </div>
       ))}
-      {/* </div> */}
-      {/* </div> */}
     </>
   );
 }

@@ -60,7 +60,7 @@ export const reviewAPI = {
       method: "post",
       url: `${END_POINT}/cafe/like`,
       params: {
-        reviewId: reviewId,
+        reviewid: reviewId,
       },
     });
   },
@@ -70,7 +70,7 @@ export const reviewAPI = {
       method: "delete",
       url: `${END_POINT}/cafe/like`,
       params: {
-        reviewId: reviewId,
+        reviewid: reviewId,
       },
     });
   },
