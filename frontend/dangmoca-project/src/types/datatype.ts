@@ -44,11 +44,42 @@ export interface History {
 
 export interface UserInfo {
     memberSeq: number,
-    nickname: string, 
+    nickname: string,
     profileImageUrl: string,
     title: string,
     titleList: string[],
     mileage: number,
     preferenceTag: string[],
     deleted: boolean,
+}
+
+export interface Review {
+    reviewSeq: number;
+    memberSeq: number;
+    cafeSeq: number;
+    nickname: string;
+    profileImageUrl: string;
+    content: string;
+    tag: string[];
+    rating: number;
+    updatedDate: string;
+    createdDate: string;
+    imageUrl: string[];
+    deleted: boolean;
+    likeCount: number;
+    liked: boolean;
+}
+
+export interface ApiResponse {
+    message: string;
+    code: number;
+    result: Review[];
+    success: boolean;
+}
+
+export interface CafeListApiResponse {
+    result: {
+        totalCount: number,
+        list: Cafe[],
+    },
 }
