@@ -1,6 +1,7 @@
 package com.ssafy.backend.account.service;
 
 import com.ssafy.backend.account.model.domain.vo.TokenVo;
+import com.ssafy.backend.global.exception.BaseException;
 import com.ssafy.backend.global.util.JwtProvider;
 import com.ssafy.backend.global.util.RedisDao;
 import com.ssafy.backend.member.service.MemberFacade;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+
+import static com.ssafy.backend.global.response.BaseResponseStatus.REISSUE_ERROR;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -51,5 +54,39 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteMember(Long memberSeq) {
         memberService.deleteMember(memberSeq);
+    }
+
+    @Override
+    public TokenVo reissue(String headerToken) {
+        String refershToken = getToken(headerToken);
+
+        Long memberSeq;
+
+        if (refershToken != null && jwtProvider.validateToken(refershToken)) {
+            memberSeq = jwtProvider.getMemberSeq(refershToken);
+
+            String token = (String) redisDao.readFromRedis("refreshToken:" + memberSeq);
+
+            if (token == null) {
+                throw new BaseException(REISSUE_ERROR);
+            }
+        } else {
+            throw new BaseException(REISSUE_ERROR);
+        }
+
+        String accessToken = jwtProvider.createAccessToken(memberSeq, accessTokenExpire);
+        String refreshToken = jwtProvider.createRefreshToken(memberSeq, refreshTokenExpire);
+
+        redisDao.saveToRedis("accessToken:" + memberSeq, accessToken, Duration.ofMillis(accessTokenExpire));
+        redisDao.saveToRedis("refreshToken:" + memberSeq, refreshToken, Duration.ofMillis(refreshTokenExpire));
+
+        return new TokenVo(accessToken, refreshToken);
+    }
+
+    private String getToken(String header) {
+        if (header != null && header.startsWith("Bearer")) {
+            return header.substring("Bearer ".length());
+        }
+        return null;
     }
 }

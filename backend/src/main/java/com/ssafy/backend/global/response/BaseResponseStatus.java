@@ -45,6 +45,7 @@ public enum BaseResponseStatus {
      * JWT 에러
      */
     JWT_ERROR(false, 401, "인증 오류입니다."),
+    REISSUE_ERROR(false, 401, "재발행 오류입니다."),
 
     /*
      * S3 에러

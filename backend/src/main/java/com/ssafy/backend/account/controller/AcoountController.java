@@ -82,4 +82,16 @@ public class AcoountController {
         accountService.deleteMember(memberSeq);
         return new BaseResponse<>(SUCCESS);
     }
+
+    // jwt 재발급
+    @GetMapping("reissue")
+    public BaseResponse<?> reissue(HttpServletRequest request, HttpServletResponse response) {
+        String headerToken = request.getHeader("Authorization-refresh");
+        TokenVo tokenVo = accountService.reissue(headerToken);
+
+        response.setHeader("accessToken", tokenVo.getAccessToken());
+        response.setHeader("refreshToken", tokenVo.getRefreshToken());
+
+        return new BaseResponse<>(SUCCESS);
+    }
 }
