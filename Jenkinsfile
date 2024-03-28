@@ -146,9 +146,10 @@ pipeline {
 		stage("FE : rm") {
 			steps {
 				echo "FE : rm Start"
-
+/*
 				echo "Volume"
 				sh "sudo rm -rf ${FRONT_VOLUEM}/*"
+*/
 
 				echo "Container"
 				script {
