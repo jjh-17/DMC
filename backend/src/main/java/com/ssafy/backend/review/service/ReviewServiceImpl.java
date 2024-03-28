@@ -5,6 +5,7 @@ import com.ssafy.backend.global.util.GlobalUtil;
 import com.ssafy.backend.global.util.S3UploadUtil;
 import com.ssafy.backend.review.model.domain.DangmocaReview;
 import com.ssafy.backend.review.model.domain.LikeReview;
+import com.ssafy.backend.review.model.domain.PlatformReview;
 import com.ssafy.backend.review.model.domain.ReviewImage;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.LikeReivewDto;
@@ -12,6 +13,7 @@ import com.ssafy.backend.review.model.dto.UpdateReviewDto;
 import com.ssafy.backend.review.model.mapping.CafeSeqMapping;
 import com.ssafy.backend.review.model.repository.DangmocaReviewRepository;
 import com.ssafy.backend.review.model.repository.LikeReviewRepository;
+import com.ssafy.backend.review.model.repository.PlatformReviewRepository;
 import com.ssafy.backend.review.model.repository.ReviewImageRepository;
 import com.ssafy.backend.review.model.vo.UpdateReviewVo;
 import com.ssafy.backend.review.model.vo.ViewReviewVo;
@@ -34,6 +36,9 @@ public class ReviewServiceImpl implements ReviewService {
     DangmocaReviewRepository dangmocaReviewRepository;
 
     @Autowired
+    PlatformReviewRepository platformReviewRepository;
+
+    @Autowired
     ReviewImageRepository reviewImageRepository;
 
     @Autowired
@@ -43,11 +48,21 @@ public class ReviewServiceImpl implements ReviewService {
     S3UploadUtil s3UploadUtil;
 
     @Override
-    public List<ViewReviewVo> viewCafeReview(Long cafeSeq) {
+    public List<ViewReviewVo> viewDmcReview(Long cafeSeq) {
         List<DangmocaReview> dangmocaReviews = dangmocaReviewRepository.findAllByCafeSeqOrderByCreatedDateDesc(cafeSeq);
         List<ViewReviewVo> reviews = new ArrayList<>();
         for (DangmocaReview dangmocaReview : dangmocaReviews) {
             reviews.add(dangmocaReview.toVo());
+        }
+        return reviews;
+    }
+
+    @Override
+    public List<ViewReviewVo> viewPlatformReview(Long cafeSeq) {
+        List<PlatformReview> platformReviews = platformReviewRepository.findAllByCafeSeqOrderByCreatedDateDesc(cafeSeq);
+        List<ViewReviewVo> reviews = new ArrayList<>();
+        for (PlatformReview platformReview : platformReviews) {
+            reviews.add(platformReview.toVo());
         }
         return reviews;
     }
