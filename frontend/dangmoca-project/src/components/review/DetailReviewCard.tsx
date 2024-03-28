@@ -3,38 +3,12 @@ import EmptyBean from "../../assets/icons/empty-coffee-bean.svg?react";
 import FullBean from "../../assets/icons/full-coffee-bean.svg?react";
 import EmptyHeart from "../../assets/icons/empty-heart.svg?react";
 import FullHeart from "../../assets/icons/full-heart.svg?react";
+import { tagMapper } from "../../utils/tag";
 
 // 타입 다 임시 any임 나중에 다고쳐야함.
 
-// interface Review {
-//   //   reviewSeq: number;
-//   //   memberSeq: number;
-//   //   cafeSeq: number;
-//   //   name: string;
-//   //   image: string[];
-//   //   content: string;
-//   //   tag: string[];
-//   //   rating: number;
-//   //   createdDate: string;
-//   reviewSeq: number;
-//   memberSeq: number;
-//   cafeSeq: number;
-//   name: string;
-//   nickname: string;
-//   image: string[];
-//   content: string;
-//   tag: string[];
-//   rating: number;
-//   createdDate: string;
-//   isLiked: boolean;
-//   isDeleted: boolean;
-//   // 나중에 추가 받아야 함
-//   profileImage: string;
-//   userTitle: string;
-// }
-
 // review
-const DetailReviewCard = (review:any, { onLikeClick }: any) => {
+const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
   const [setRef] = useDragScroll();
 
   const handleRef = (node: HTMLElement | null) => {
@@ -42,28 +16,6 @@ const DetailReviewCard = (review:any, { onLikeClick }: any) => {
       setRef(node);
     }
   };
-
-  // const review = {
-  //   reviewSeq: 0,
-  //   memberSeq: 0,
-  //   cafeSeq: 0,
-  //   name: "카페 남부",
-  //   imageUrl: [
-  //     "/src/assets/testpic/1.jpg",
-  //     "/src/assets/testpic/2.jpg",
-  //     "/src/assets/testpic/3.jpg",
-  //     "/src/assets/testpic/4.jpg",
-  //     "/src/assets/testpic/5.jpg",
-  //   ],
-  //   content: "맛잇엇요",
-  //   tag: ["조용한", "시끄러운"],
-  //   rating: 4,
-  //   createdDate: "2024-01-02",
-
-  //   profileImage: "/src/assets/testpic/1.jpg",
-  //   userTitle: "하루 커피 5잔",
-  //   nickName: "DMC",
-  // };
 
   <button className="w-8 h-8">
     <FullBean className="w-full h-full" />
@@ -143,11 +95,11 @@ const DetailReviewCard = (review:any, { onLikeClick }: any) => {
           </button>
 
           {/* 태그 리스트 */}
-          {review.tag.length > 0 && (
+          {Array.isArray(review.tag) && review.tag.length > 0 && (
             <div className="flex overflow-x-auto p-4">
               {review.tag.map((tag:any, index:any) => (
                 <span key={index} className="mr-2">
-                  {tag}
+                  #{tagMapper.get(tag)}
                 </span>
               ))}
             </div>
