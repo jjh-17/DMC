@@ -41,3 +41,14 @@ export interface History {
     keyword: string;
     datetime: Date;
 }
+
+export interface UserInfo {
+    memberSeq: number,
+    nickname: string, 
+    profileImageUrl: string,
+    title: string,
+    titleList: string[],
+    mileage: number,
+    preferenceTag: string[],
+    deleted: boolean,
+}
