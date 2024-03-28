@@ -7,13 +7,13 @@ import Button from "../../components/common/Button";
 import CafeMenuList from "../../components/cafe/CafeMenuList";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { CafeDetail } from "../../types/datatype";
-import BottomSheet from "../../components/review/BottomSheet";
-import CafeReview from "../review/CafeReview";
 // import { useState, useEffect } from "react";
 import KakaoMap from '../../components/cafe/KakaoMap';
 import useCafeStore from '../../stores/cafeStore';
 import { cafeAPI } from "../../api/cafe";
 import { useEffect, useState } from "react";
+// import BottomSheet from "../../components/review/BottomSheet";
+import ScrollToTop from "../../components/common/ScrollToTop";
 
 // const testDetail: CafeDetail = {
 //   cafeSeq: 1,
@@ -99,7 +99,7 @@ const CafeDetailPage = () => {
         {simpleAddress}
         {/* {testDetail.address} */}
       </p>
-      {!isReviewPage && (
+      {!isReviewPage && !isWritePage && (
         <>
           {Array.isArray(cafeDetail.tag) && cafeDetail.tag.length > 0 && cafeDetail.tag.map((text: string, idx: number) => (
             <span
@@ -135,14 +135,22 @@ const CafeDetailPage = () => {
             </div>
           </div>
           {cafeDetail.address.length > 0 &&
-
             <KakaoMap address={cafeDetail.address} name={cafeDetail.name} />
           }
           <CafeMenuList />
           <div className="text-center">
-            <Button label="리뷰 작성하기" onClick={() => navigate("write")} />
+            <Button label="리뷰 보러가기" onClick={() => navigate("review")} />
           </div>
-          <BottomSheet prop={<CafeReview />} />
+        </>
+      )}
+      {isReviewPage && (
+        <>
+          <Button
+            addClass="fixed right-0 bottom-0 mr-8 mb-20 md:mr-80"
+            label="리뷰 작성하기"
+            onClick={() => navigate("write")}
+          />
+          <ScrollToTop />
         </>
       )}
       <Outlet />
