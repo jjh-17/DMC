@@ -18,7 +18,6 @@ function Map(Props: Props) {
 
     const initMap = () => {
         const container = document.getElementById('map');
-
         const options = {
             center: new window.kakao.maps.LatLng(37.483034, 126.902435),
             level: 4,
@@ -54,7 +53,7 @@ function Map(Props: Props) {
         window.kakao.maps.load(() => initMap());
     }, [mapRef]);
 
-    return <div id="map" className='w-[80lvw] h-[80lvw] md:w-[40lvw] md:h-[40lvw] mx-auto my-10'></div>;
+    return <div id="map" className='w-[80lvw] h-[80lvw] md:w-[60lvw] md:h-[60lvw] mx-auto my-10'></div>;
 }
 
 export default Map;

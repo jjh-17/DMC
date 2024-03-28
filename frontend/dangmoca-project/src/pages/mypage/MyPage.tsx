@@ -2,14 +2,18 @@ import SimpleCafeCard from "../../components/cafe/SimpleCafeCard";
 import SimpleReviewCard from "../../components/review/SimpleReviewCard";
 import Profile from "../../components/mypage/Profile";
 import RightArrow from '../../assets/icons/rightarrow.svg?react'
+import { UserInfo } from "../../types/datatype";
 
 export default function MyPage() {
-  const dummyUser = {
+  const dummyUser: UserInfo = {
     memberSeq: 1,
-    profileImage: "src/assets/icons/dummyUserImg.png",
-    nickName: "DMC",
-    title: "커피에 미친 사람",
-    tag: ["#조용한 카페", "#분위기 좋은 카페"]
+    profileImageUrl: "src/assets/icons/dummyUserImg.png",
+    nickname: "당모카",
+    title: "행복한 커피원두",
+    preferenceTag: ["조용한", "커피"],
+    deleted: false,
+    mileage: 1215,
+    titleList: ["깐깐한 커피콩","행복한 커피원두","무덤덤한 커피열매", "리뷰의 첫걸음"]
   };
 
   const dummyCafe = {
@@ -35,7 +39,7 @@ export default function MyPage() {
       "src/assets/testpic/4.jpg",
       "src/assets/testpic/5.jpg",
     ],
-    content: "맛잇엇요",
+    content: "매우매우 맛있어요. 다시는 가고 싶어요",
     tag: ["조용한"],
     rating: 4,
     createdDate: "2024-01-02",
