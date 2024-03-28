@@ -125,7 +125,7 @@ pipeline {
 
 		stage("BE : Container") {
 			steps {
-				sh "docker run --env-file ${DOCKER_ENV} --name ${BACK_NAME} --detach --publish ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME} -e TZ=Asia/Seoul"
+				sh "docker run --env-file ${DOCKER_ENV} --name ${BACK_NAME} --detach --publish ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}"
 			}
 		}
 
@@ -137,7 +137,7 @@ pipeline {
 			steps {
 				echo "FE : Install Start"
 				dir("${FRONT_DIR}") {
-					sh "npm install --legacy-peer-deps react react-dom react-scripts"
+					sh "npm install --legacy-peer-deps react react-dom react-scripts typescript"
 				}
 				echo "FE : Install End"
 			}
@@ -199,7 +199,7 @@ pipeline {
 
 		stage("FE : Container") {
 			steps {
-				sh "docker run --name ${FRONT_NAME} --env-file ${DOCKER_ENV} --detach --publish ${FRONT_PORT}:${DOCKER_FRONT_PORT} --volume ${FRONT_VOLUEM} ${FRONT_NAME} -e TZ=Asia/Seoul"
+				sh "docker run --name ${FRONT_NAME} --env-file ${DOCKER_ENV} --detach --publish ${FRONT_PORT}:${DOCKER_FRONT_PORT} --volume ${FRONT_VOLUEM} ${FRONT_NAME}"
 			}
 		}
 
