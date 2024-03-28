@@ -18,7 +18,6 @@ const CafeListPage = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [showTagCheckbox, setShowTagCheckbox] = useState(false);
   const [cafeList, setCafeList] = useState<Cafe[] | undefined>([]);
-  const hasSearched = useRef(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [endPage, setEndPage] = useState<number>(1);
   const isSearch = useRef(false);
@@ -33,15 +32,7 @@ const CafeListPage = () => {
 
   const getCafeList = async () => {
     const currentUrl = window.location.href;
-
-    // URL을 URLSearchParams 객체로 변환
-    const urlParams = new URLSearchParams(currentUrl);
-
-    // 'cafes' 뒤의 키워드 추출
-    const keyword = urlParams.get('cafes');
-
-    // 추출된 키워드 사용
-    console.log(keyword);
+    const keyword = currentUrl.split("?")[1];
 
     if (keyword != null) {
       isSearch.current = true;
@@ -49,7 +40,7 @@ const CafeListPage = () => {
       try {
         const response = await cafeAPI.getCafeSearchList(1, keyword);
         const data: CafeListApiResponse = response.data;
-        setEndPage(data.result.totalCount);
+        setEndPage(data.result.totalPages);
         setCafeList(data.result.list);
       }
       catch (error) {
@@ -58,11 +49,10 @@ const CafeListPage = () => {
 
     }
     else {
-      console.log(1)
       try {
         const response = await cafeAPI.getCafeList(1);
         const data: CafeListApiResponse = response.data;
-        setEndPage(data.result.totalCount);
+        setEndPage(data.result.totalPages);
         setCafeList(data.result.list);
       }
       catch (error) {
@@ -116,7 +106,6 @@ const CafeListPage = () => {
   };
 
   const submitFilter = () => {
-    hasSearched.current = true;
     setCafeList(cafeDummyData);
     setCafeList((prevCafeList) =>
       CafeFilterAndSort(
@@ -224,8 +213,8 @@ const CafeListPage = () => {
         <div className="w-fit mx-auto">
           <div className="flex flex-col">
             
-            {!cafeList && !hasSearched && <CafeLoading />}
-            {!cafeList && hasSearched && <CafeNotFound />}
+            {!cafeList && <CafeLoading />}
+            {cafeList && cafeList.length == 0 && <CafeNotFound />}
 
             {cafeList &&
               cafeList.map((cafe) => (
@@ -236,7 +225,11 @@ const CafeListPage = () => {
           </div>
         </div>
       </div>
-      <Pagination currentPage={currentPage} endPage={endPage} onPageChange={handlePageChange} />
+      {
+        (endPage > 0) && (
+          <Pagination currentPage={currentPage} endPage={endPage} onPageChange={handlePageChange} />
+        )
+      }
     </>
   );
 };

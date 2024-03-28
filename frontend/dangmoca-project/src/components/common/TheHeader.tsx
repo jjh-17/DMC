@@ -7,10 +7,12 @@ const TheHeader = () => {
   const [headerClass, setHeaderClass] = useState("fixed top-3 w-full bg-transparent");
   const [headerText, setHeaderText] = useState("당모카");
   const location = useLocation();
-  const history = window.history;
 
   const findText = (path:string) => {
     switch (path) {
+      case '/':
+        setHeaderText("");
+        break;
       case '/bookmark':
         setHeaderText("내 북마크");
         break;
@@ -34,6 +36,7 @@ const TheHeader = () => {
   useEffect(() => {
     const path = location.pathname;
     findText(path);
+    window.scrollTo(0,0);
   }, [location]);
   
   useEffect(() => {
@@ -56,11 +59,9 @@ const TheHeader = () => {
 
   return (
     <header className={headerClass}>
-      {history.length > 3 && (
-        <button onClick={() => navigate(-1)} className="absolute left-2 top-1">
-          <PrevArrow className="m-1 p-[2px] w-7 h-7" />
-        </button>
-      )}
+      <button onClick={() => navigate(-1)} className="absolute left-2 top-1">
+        <PrevArrow className="m-1 p-[2px] w-7 h-7" />
+      </button>
       <h1 id="test" className="text-center mx-auto mt-2 text-3xl md:text-4xl">
         {headerText}
       </h1>
