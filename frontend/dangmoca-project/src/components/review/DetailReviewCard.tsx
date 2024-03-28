@@ -42,7 +42,7 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
         <div className="w-24 h-24 bg-brown-500 rounded-full overflow-hidden mr-4">
           <ImageWithFallback
             src={review.profileImage}
-            fallbackSrc="/src/assets/icons/dummyUserImg.png"
+            fallbackSrc="/src/assets/testpic/1.jpg"
             alt="프로필 이미지"
             className="w-full h-full object-cover"
           />

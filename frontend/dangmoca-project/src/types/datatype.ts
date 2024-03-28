@@ -18,7 +18,7 @@ export interface CafeDetail {
     imageUrl: string;
     homepageUrl: string;
     rating: number;
-    isBookmarked: boolean;
+    bookmarked: boolean;
     updatedDate: string;
     openingHour: string;
 }

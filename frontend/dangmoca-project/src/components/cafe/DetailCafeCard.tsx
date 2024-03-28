@@ -1,7 +1,7 @@
 import LocationPin from '../../assets/icons/pin.svg?react';
 import { useNavigate } from "react-router-dom";
-import { tagMapper } from '../../utils/tag';
-import { useEffect, useState } from 'react';
+// import { tagMapper } from '../../utils/tag';
+import { useEffect} from 'react';
 import { Cafe } from '../../types/datatype';
 import useCafeStore from '../../stores/cafeStore';
 
