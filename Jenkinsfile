@@ -194,7 +194,7 @@ pipeline {
 
 		stage("FE : Container") {
 			steps {
-				sh "docker run ${FRONT_NAME}" --name ${FRONT_NAME} --env-file ${DOCKER_ENV} --detach -p ${FRONT_PORT}:${DOCKER_FRONT_PORT}
+				sh "docker run ${FRONT_NAME} --name ${FRONT_NAME} --env-file ${DOCKER_ENV} --detach -p ${FRONT_PORT}:${DOCKER_FRONT_PORT}"
 			}
 		}
 
