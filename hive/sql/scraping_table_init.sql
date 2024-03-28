@@ -49,8 +49,7 @@ CREATE TABLE IF NOT EXISTS kakao_platform_review  (
     content STRING,
     profile VARCHAR(255),
     created_date VARCHAR(15),
-    collected_date VARCHAR(15),
-    platform STRING DEFAULT 'K'
+    collected_date VARCHAR(15)
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
@@ -104,8 +103,7 @@ CREATE TABLE IF NOT EXISTS naver_platform_review  (
     content STRING,
     profile VARCHAR(255),
     created_date VARCHAR(15),
-    collected_date VARCHAR(15),
-    platform STRING DEFAULT 'N'
+    collected_date VARCHAR(15)
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
