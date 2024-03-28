@@ -1,3 +1,6 @@
+-- hdfs dfs -put /home/jjh/hive_code/data/* /hive/input/
+-- hive -f /home/jjh/hive_code/sql/scraping_table_init.sql
+
 use hive_db;
 
 -- 스크래핑한 카카오 카페 정보 테이블
@@ -10,7 +13,7 @@ CREATE TABLE IF NOT EXISTS kakao_cafe_info  (
     longitude DOUBLE,
     address VARCHAR(255),
     tel VARCHAR(25),
-    opening_hour VARCHAR(255),
+    opening_hour STRING,
     homepage_url VARCHAR(255)
 )
 ROW FORMAT DELIMITED
@@ -28,7 +31,7 @@ CREATE TABLE IF NOT EXISTS kakao_cafe_menu  (
     name VARCHAR(100),
     dessert_tag VARCHAR(255),
     price VARCHAR(50),
-    image_url VARCHAR(255),
+    image_url VARCHAR(255)
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
@@ -60,13 +63,13 @@ LOAD DATA INPATH '/hive/input/kakao_review.csv' INTO TABLE kakao_platform_review
 DROP TABLE IF EXISTS naver_cafe_info;
 CREATE TABLE IF NOT EXISTS naver_cafe_info  (
     cafe_name VARCHAR(100),
+    image_url VARCHAR(255),
+    rating FLOAT,
     latitude DOUBLE,
     longitude DOUBLE,
-    image_url VARCHAR(255),
     address VARCHAR(255),
     tel VARCHAR(25),
-    rating FLOAT,
-    opening_hour VARCHAR(255),
+    opening_hour STRING,
     homepage_url VARCHAR(255)
 )
 ROW FORMAT DELIMITED
@@ -83,7 +86,7 @@ CREATE TABLE IF NOT EXISTS naver_cafe_menu  (
     name VARCHAR(100),
     dessert_tag VARCHAR(255),
     price VARCHAR(50),
-    image_url VARCHAR(255),
+    image_url VARCHAR(255)
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY '\t'
