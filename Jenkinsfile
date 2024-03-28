@@ -124,7 +124,7 @@ pipeline {
 
 		stage("BE : Container") {
 			steps {
-				sh "docker run --env-file ${DOCKER_ENV} --name ${BACK_NAME} -d -p ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME} -e TZ=Asia/Seoul"
+				sh "docker ${BACK_NAME} run --env-file ${DOCKER_ENV} --name ${BACK_NAME} --detach --publish ${BACK_PORT}:${DOCKER_BACK_PORT} -e TZ=Asia/Seoul"
 			}
 		}
 
@@ -194,10 +194,24 @@ pipeline {
 
 		stage("FE : Container") {
 			steps {
-				sh "docker run --env-file ${DOCKER_ENV} --name ${FRONT_NAME} -d -p ${FRONT_PORT}:${DOCKER_FRONT_PORT} ${FRONT_NAME}"
+				sh "docker run ${FRONT_NAME}" --name ${FRONT_NAME} --env-file ${DOCKER_ENV} --detach -p ${FRONT_PORT}:${DOCKER_FRONT_PORT}
 			}
 		}
 
+
+
+
+////// Server
+		stage("Server") {
+			steps {
+				echo "Server Start"
+
+				sh '''
+				'''
+
+				echo "Server End"
+			}
+		}
 
 
 
