@@ -17,6 +17,7 @@ public class ViewReviewVo {
     private String nickname;
     private String profileImageUrl;
     private String content;
+    private String title;
     private List<String> tag;
     private Integer rating;
     private Integer likeCount;
