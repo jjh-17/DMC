@@ -21,7 +21,7 @@ pipeline {
 		BACK_DIR = "./backend/"
 
 		FRONT_NAME = "dmc_fe"
-		FRONT_PORT = "80"
+		FRONT_PORT = "3000"
 		FRONT_DIR = "./frontend/dangmoca-project"
 
 		DOCKER_BACK_PORT = "8082"
