@@ -4,7 +4,7 @@ import ReviewRating from "../../components/review/ReviewRating";
 import { useDragScroll } from "../../utils/useDragScroll";
 import { reviewAPI } from "../../api/reviewAPI";
 import useCafeStore from "../../stores/cafeStore";
-import { tagMapper, tags } from "../../utils/tag";
+import { tags } from "../../utils/tag";
 
 interface Review {
   reviewImages: File[];
@@ -51,7 +51,7 @@ export default function ReviewWrite() {
       content: event.target.value,
     }));
 
-    console.log("리뷰 내용 변경");
+    console.log("리뷰 내용 임시 저장");
   };
 
   // 이미지 관련
@@ -72,16 +72,24 @@ export default function ReviewWrite() {
   const selectedTags = useRef<string[]>([]);
 
   const handleSelectTags = (key: string) => {
-    if (! selectedTags.current.includes(key)) {
+    if (!selectedTags.current.includes(key)) {
       selectedTags.current.push(key);
     } else {
       selectedTags.current = selectedTags.current.filter((tag) => tag !== key);
     }
+
+    // 한글 태그 영어로 변환
+    const mappedTag = selectedTags.current.map((koreanTag) => {
+      const tagObject = tags.find((tag) => Object.keys(tag)[0] === koreanTag);
+      return tagObject ? String(tagObject[koreanTag]) : "";
+    });
+
     setReview((prevReview) => ({
       ...prevReview,
-      tag: [...selectedTags.current],
+      tag: mappedTag,
     }));
     console.log(selectedTags.current);
+    console.log(mappedTag);
   };
 
   // 리뷰 작성
