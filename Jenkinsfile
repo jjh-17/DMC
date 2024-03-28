@@ -21,7 +21,7 @@ pipeline {
 		BACK_DIR = "./backend/"
 
 		FRONT_NAME = "dmc_fe"
-		FRONT_PORT = "3000"
+		FRONT_PORT = "80"
 		FRONT_DIR = "./frontend/dangmoca-project"
 
 		DOCKER_BACK_PORT = "8082"
@@ -136,7 +136,7 @@ pipeline {
 			steps {
 				echo "FE : Install Start"
 				dir("${FRONT_DIR}") {
-					sh "npm install --save --legacy-peer-deps react react-dom react-scripts"
+					sh "npm install react react-dom react-scripts"
 				}
 				echo "FE : Install End"
 			}
