@@ -54,7 +54,7 @@ public class ReviewController {
     @GetMapping("/member/myreview")
     public BaseResponse<?> viewMyReview() {
         // Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 2L;
+        Long memberSeq = 1L;
         List<ViewReviewVo> reviews = reviewFacade.viewMemberReview(memberSeq);
         return new BaseResponse<>(reviews);
     }
@@ -65,7 +65,7 @@ public class ReviewController {
     @GetMapping("/member/like")
     public BaseResponse<?> viewLikeReview() {
         // Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 2L;
+        Long memberSeq = 1L;
         List<ViewReviewVo> reviews = reviewFacade.viewLikeReview(memberSeq);
         return new BaseResponse<>(reviews);
     }
@@ -76,7 +76,7 @@ public class ReviewController {
     @PostMapping("/cafe/like")
     public BaseResponse<?> likeReview(@RequestParam(value = "reviewid") Long reviewSeq) {
         // Long membersSeq = (Long) request.getAttribute("seq");
-        Long membersSeq = 2L;
+        Long membersSeq = 1L;
         reviewService.likeReview(new LikeReivewDto(membersSeq, reviewSeq));
         return new BaseResponse<>(SUCCESS);
     }
@@ -87,7 +87,7 @@ public class ReviewController {
     @DeleteMapping("/cafe/like")
     public BaseResponse<?> dislikeReview(@RequestParam(value = "reviewid") Long reviewSeq) {
         // Long membersSeq = (Long) request.getAttribute("seq");
-        Long membersSeq = 2L;
+        Long membersSeq = 1L;
         reviewService.dislikeReview(new LikeReivewDto(membersSeq, reviewSeq));
         return new BaseResponse<>(SUCCESS);
     }
@@ -98,7 +98,7 @@ public class ReviewController {
     @PostMapping("/cafe/{cafeid}")
     public BaseResponse<?> addReview(@PathVariable("cafeid") Long cafeSeq, ReviewRequestDto reviewRequestDto) {
         // Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 2L;
+        Long memberSeq = 1L;
         List<String> list = reviewFacade.addReview(new AddReviewDto(reviewRequestDto.getReviewImages(), memberSeq, cafeSeq, reviewRequestDto.getContent(), reviewRequestDto.getTag(), reviewRequestDto.getRating()));
         return new BaseResponse<>(SUCCESS, list);
     }
@@ -109,7 +109,7 @@ public class ReviewController {
     @PatchMapping("/cafe/{reviewid}")
     public BaseResponse<?> updateReview(@PathVariable("reviewid") Long reviewSeq, ReviewRequestDto reviewRequestDto) {
         // Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 2L;
+        Long memberSeq = 1L;
         reviewFacade.updateReview(new UpdateReviewDto(reviewRequestDto.getReviewImages(), reviewSeq, memberSeq, reviewRequestDto.getContent(), reviewRequestDto.getTag(), reviewRequestDto.getRating()));
         return new BaseResponse<>(SUCCESS);
     }

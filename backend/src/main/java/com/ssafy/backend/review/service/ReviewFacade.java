@@ -34,10 +34,10 @@ public class ReviewFacade {
     @Autowired
     MemberFacade memberFacade;
     @Autowired
-    private CafeService cafeService;
+    CafeService cafeService;
 
     public List<ViewReviewVo> viewCafeReview(Long cafeSeq, Long memberSeq) {
-        List<ViewReviewVo> reviews = reviewService.viewCafeReview(cafeSeq);
+        List<ViewReviewVo> reviews = reviewService.viewDmcReview(cafeSeq);
         for (ViewReviewVo viewReviewVo : reviews) {
             viewReviewVo.setImageUrl(reviewService.getImageUrl(viewReviewVo.getReviewSeq()));
             Member member = memberService.getMemberInformation(memberSeq);
@@ -46,6 +46,7 @@ public class ReviewFacade {
             viewReviewVo.setLiked(reviewService.isLikedReview(viewReviewVo.getReviewSeq(), memberSeq));
             viewReviewVo.setLikeCount(reviewService.getLikeCount(viewReviewVo.getReviewSeq()));
         }
+        reviews.addAll(reviewService.viewPlatformReview(cafeSeq));
         return reviews;
     }
 

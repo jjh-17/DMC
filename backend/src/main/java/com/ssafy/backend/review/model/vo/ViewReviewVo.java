@@ -26,4 +26,5 @@ public class ViewReviewVo {
     private String updatedDate;
     private String createdDate;
     private List<String> imageUrl;
+    private char platform;
 }
