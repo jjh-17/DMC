@@ -1,5 +1,5 @@
 server:
-  port: ${BACK_PORT}
+  port: 8082
 
 spring:
   datasource:
