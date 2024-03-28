@@ -17,11 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_EXIST_USER;
 import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_VALID_CAFE;
@@ -122,7 +120,7 @@ public class CafeFacade {
             List<String> dessertTag = cafeService.getDessertTag(cafeBookmarkListMapping.getCafeSeq());
 
             String openingHour = cafeBookmarkListMapping.getOpeningHour();
-            Boolean isOpen = isBusinessOpen(openingHour);
+            Boolean isOpen = isOpenNow(openingHour);
 
             CafeBookmarkListVo cafeBookmarkListVo = new CafeBookmarkListVo(cafeBookmarkListMapping.getCafeSeq(), cafeBookmarkListMapping.getName(), cafeBookmarkListMapping.getAddress(), cafeBookmarkListMapping.getImageUrl(), cafeBookmarkListMapping.getTopTag(), dessertTag, isOpen);
             list.add(cafeBookmarkListVo);
@@ -210,150 +208,98 @@ public class CafeFacade {
         List<String> dessertTag = cafeService.getDessertTag(cafeListMapping.getCafe_seq());
 
         String openingHour = cafeListMapping.getOpening_hour();
-        Boolean isOpen = isBusinessOpen(openingHour);
+        Boolean isOpen = isOpenNow(openingHour);
 
         return new CafeListVo(cafeListMapping.getCafe_seq(), cafeListMapping.getName(), cafeListMapping.getAddress(), cafeListMapping.getImage_url(), cafeListMapping.getDistance(), cafeListMapping.getTop_tag(), dessertTag, isOpen);
     }
 
-    private boolean containsTag(CafeListVo cafeListVo, List<String> tagList) {
-        for (String tag : tagList) {
-            // 필터링 기준인 태그 돌면서 해당 태그를 포함하고 있을 때
-            if (cafeListVo.getTag().contains(tag)) {
-                return true;
-            }
-        }
-        return false;
+
+
+
+
+
+
+    public static Boolean isOpenNow(String businessHoursString) {
+        return null;
+//        if(businessHoursString == null || businessHoursString.isBlank()){
+//            return null;
+//        }
+//        System.out.println("businessHoursString = " + businessHoursString);
+//        LocalDateTime now = LocalDateTime.now();
+//        LocalTime currentTime = now.toLocalTime();
+//        DayOfWeek currentDay = now.getDayOfWeek();
+//
+//        String[] hoursArray = businessHoursString.split(",");
+//        for (String hours : hoursArray) {
+//            String[] parts = hours.trim().split("\\s+");
+//            System.out.println("parts = " + Arrays.toString(parts));
+//
+//            // 요일 범위와 시간 범위를 구분하여 처리
+//            if (parts.length == 1) { // 라벨인 경우
+//                continue;
+//            }
+//
+//            String dayRange = parts[0];
+//            System.out.println("dayRange = " + dayRange);
+//            String[] timeRange = new String[]{parts[1], parts[3]};
+//            System.out.println("timeRange = " + Arrays.toString(timeRange));
+//            String startTimeString = timeRange[0];
+//            String endTimeString = timeRange[1];
+//
+//            // 요일 범위가 있는 경우 처리
+//            if (dayRange.contains("~")) {
+//                String[] days = dayRange.split("~");
+//                DayOfWeek startDay = parseDayOfWeek(days[0]);
+//                DayOfWeek endDay = parseDayOfWeek(days[1]);
+//                if (currentDay.compareTo(startDay) >= 0 && currentDay.compareTo(endDay) <= 0) {
+//                    LocalTime startTime = parseTime(startTimeString);
+//                    LocalTime endTime = parseTime(endTimeString);
+//                    if (currentTime.isAfter(startTime) && currentTime.isBefore(endTime)) {
+//                        return true;
+//                    }
+//                }
+//            } else { // 단일 요일인 경우 처리
+//                DayOfWeek dayOfWeek = parseDayOfWeek(dayRange);
+//                if (dayOfWeek == currentDay) {
+//                    LocalTime startTime = parseTime(startTimeString);
+//                    LocalTime endTime = parseTime(endTimeString);
+//                    if (currentTime.isAfter(startTime) && currentTime.isBefore(endTime)) {
+//                        return true;
+//                    }
+//                }
+//            }
+//        }
+//        return false;
     }
 
-    // 영업중 판단 method
-    private Boolean isBusinessOpen(String openingHour) {
-        if (openingHour == null) {
-            return null;
+    private static DayOfWeek parseDayOfWeek(String dayOfWeekString) {
+        switch (dayOfWeekString) {
+            case "월":
+                return DayOfWeek.MONDAY;
+            case "화":
+                return DayOfWeek.TUESDAY;
+            case "수":
+                return DayOfWeek.WEDNESDAY;
+            case "목":
+                return DayOfWeek.THURSDAY;
+            case "금":
+                return DayOfWeek.FRIDAY;
+            case "토":
+                return DayOfWeek.SATURDAY;
+            case "일":
+                return DayOfWeek.SUNDAY;
+            default:
+                throw new IllegalArgumentException("Invalid day of week: " + dayOfWeekString);
         }
-
-        List<String> businessHoursList = parseOpeningHours(openingHour);
-        LocalTime currentTime = LocalTime.now().withSecond(0).withNano(0);
-        DayOfWeek currentDay = LocalDate.now().getDayOfWeek();
-
-        for (String businessHours : businessHoursList) {
-            if (isOpen(businessHours, currentTime, currentDay)) {
-                return true;
-            }
-        }
-        return false;
     }
 
-    // 텍스트 파싱하여 BusinessHours 문자열 리스트로 반환하는 메소드
-    private List<String> parseOpeningHours(String openingHour) {
-        List<String> businessHoursList = new ArrayList<>();
-
-        String[] lines = openingHour.split("\n");
-        for (String line : lines) {
-            if (line.contains("영업시간:")) {
-                String businessHours = line.replace("영업시간:", "").trim();
-                businessHoursList.add(businessHours);
-            } else {
-                businessHoursList.add(line.replace(", ", ""));
-            }
-        }
-        return businessHoursList;
+    private static LocalTime parseTime(String timeString) {
+        String[] parts = timeString.split(":");
+        int hour = Integer.parseInt(parts[0]);
+        int minute = Integer.parseInt(parts[1].replace("시", "").replace("분", ""));
+        return LocalTime.of(hour, minute);
     }
 
-    // 현재 시간이 영업 중인지 아닌지를 판단하는 메소드
-    private boolean isOpen(String businessHours, LocalTime currentTime, DayOfWeek currentDay) {
-        String[] parts = businessHours.replace(" ~ ", " ").split(" ");
-        if (parts.length >= 2) {
-            String dayInfo = parts[0];
-            String[] timeParts = Arrays.copyOfRange(parts, 1, parts.length);
-
-            if (timeParts.length >= 2) {
-                LocalTime startTime = LocalTime.parse(timeParts[0].trim());
-                LocalTime endTime = LocalTime.parse(timeParts[1].trim());
-
-                if (dayInfo.contains("~")) {
-                    if (isTodayBetweenGivenDays(dayInfo)) {
-                        // 현재 시간이 영업시간 내에 있는지 확인
-                        return currentTime.isAfter(startTime) && currentTime.isBefore(endTime.plusSeconds(1)); // endTime에 1초를 더해 endTime을 포함하도록 함
-                    }
-                }
-                if (dayInfo.equals("매일")) {
-                    // 현재 시간이 영업시간 내에 있는지 확인
-                    return currentTime.isAfter(startTime) && currentTime.isBefore(endTime.plusSeconds(1)); // endTime에 1초를 더해 endTime을 포함하도록 함
-                }
-
-                if (dayInfo.contains(",")) {
-                    if (isTodayIncluded(dayInfo)) {
-                        // 현재 시간이 영업시간 내에 있는지 확인
-                        return currentTime.isAfter(startTime) && currentTime.isBefore(endTime.plusSeconds(1)); // endTime에 1초를 더해 endTime을 포함하도록 함
-                    }
-                }
-
-            }
-        }
-        return false;
-    }
-
-    private boolean isTodayBetweenGivenDays(String daysOfWeek) {
-        LocalDate today = LocalDate.now();
-        DayOfWeek currentDay = today.getDayOfWeek();
-
-        // 요일 이름을 한글에서 영어로 변환
-        String[] dayNames = {"월", "화", "수", "목", "금", "토", "일"};
-        String[] englishDayNames = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"};
-        for (int i = 0; i < dayNames.length; i++) {
-            daysOfWeek = daysOfWeek.replaceAll(dayNames[i], englishDayNames[i]);
-        }
-
-        // 주어진 문자열에서 '~'를 기준으로 요일 범위를 구분
-        String[] range = daysOfWeek.split("~");
-        if (range.length == 2) {
-            DayOfWeek startDay = DayOfWeek.valueOf(range[0]);
-            DayOfWeek endDay = DayOfWeek.valueOf(range[1]);
-
-            // 오늘이 시작 요일보다 같거나 크고, 끝 요일보다 작거나 같으면 true 반환
-            return (currentDay.compareTo(startDay) >= 0 && currentDay.compareTo(endDay) <= 0);
-        }
-
-        return false;
-    }
-
-    private boolean isTodayIncluded(String dayString) {
-        // 현재 요일 가져오기
-        DayOfWeek today = LocalDate.now().getDayOfWeek();
-
-        // 요일 문자열을 세트로 변환
-        Set<DayOfWeek> daySet = new HashSet<>();
-        Pattern pattern = Pattern.compile("[월화수목금토일]");
-        Matcher matcher = pattern.matcher(dayString);
-        while (matcher.find()) {
-            switch (matcher.group()) {
-                case "월":
-                    daySet.add(DayOfWeek.MONDAY);
-                    break;
-                case "화":
-                    daySet.add(DayOfWeek.TUESDAY);
-                    break;
-                case "수":
-                    daySet.add(DayOfWeek.WEDNESDAY);
-                    break;
-                case "목":
-                    daySet.add(DayOfWeek.THURSDAY);
-                    break;
-                case "금":
-                    daySet.add(DayOfWeek.FRIDAY);
-                    break;
-                case "토":
-                    daySet.add(DayOfWeek.SATURDAY);
-                    break;
-                case "일":
-                    daySet.add(DayOfWeek.SUNDAY);
-                    break;
-            }
-        }
-
-        // 현재 요일이 세트에 포함되어 있는지 확인
-        return daySet.contains(today);
-    }
 
     //////////////////////////////////////////////////////////////////////////
 }
