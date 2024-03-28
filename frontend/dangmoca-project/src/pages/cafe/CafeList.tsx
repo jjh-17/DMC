@@ -8,20 +8,20 @@ import RightArrowIcon from "../../assets/icons/rightarrow.svg?react";
 import DownArrowIcon from "../../assets/icons/downarrow.svg?react";
 import CafeFilterAndSort from "../../utils/CafeFilterAndSort";
 
-import { sort, tags, desserts } from "../../utils/tag";
+import { sort, tags } from "../../utils/tag";
 import { useState, useEffect, useRef } from "react";
 import { Cafe } from "../../types/datatype";
-
-import {cafeAPI } from '../../api/cafe'
+import { cafeAPI } from '../../api/cafe'
 
 const CafeListPage = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [showTagCheckbox, setShowTagCheckbox] = useState(false);
-  const [showDessertCheckbox, setShowDessertCheckbox] = useState(false);
   const [cafeList, setCafeList] = useState<Cafe[]>([]);
   const hasSearched = useRef(false);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [endPage, setEndPage] = useState<number>(1);  
+  const [endPage, setEndPage] = useState<number>(1);
+  const isSearch = useRef(false);
+  const searchKeyword = useRef("");
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   }
@@ -30,18 +30,37 @@ const CafeListPage = () => {
     setCafeList(cafeDummyData);
   }, []);
 
+
   useEffect(() => {
-    cafeAPI.getCafeList(1).then((response) => {
-      setEndPage(response.data.result.totalCount);
-      setCafeList(response.data.result.list);
-    })
-   }, []);
-   
-   useEffect(() => {
-    cafeAPI.getCafeList(currentPage).then((response) => {
-      setCafeList(response.data.result.list);
-    })
-   }, [currentPage]);
+    const params = new URL(document.location.toString()).searchParams;
+    if (params != null) {
+      isSearch.current = true;
+      searchKeyword.current = params.get("keyword") || "";
+      cafeAPI.getCafeSearchList(1, params.get("keyword") || "").then((response) => {
+        setEndPage(response.data.result.totalCount);
+        setCafeList(response.data.result.list);
+      })
+    }
+    else {
+      cafeAPI.getCafeList(1).then((response) => {
+        setEndPage(response.data.result.totalCount);
+        setCafeList(response.data.result.list);
+      })
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isSearch.current) {
+      cafeAPI.getCafeSearchList(currentPage, searchKeyword.current).then((response) => {
+        setCafeList(response.data.result.list);
+      })
+    }
+    else{
+      cafeAPI.getCafeList(currentPage).then((response) => {
+        setCafeList(response.data.result.list);
+      })
+    }
+  }, [currentPage]);
 
   const selectedSorts = useRef<string[]>([]);
   const selectedTags = useRef<string[]>([]);
@@ -70,17 +89,6 @@ const CafeListPage = () => {
     }
   };
 
-  const handleSelectDesserts = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = event.target;
-    if (checked) {
-      selectedDesserts.current.push(value);
-    } else {
-      selectedDesserts.current = selectedDesserts.current.filter(
-        (sort) => sort !== value
-      );
-    }
-  };
-
   const submitFilter = () => {
     hasSearched.current = true;
     setCafeList(cafeDummyData);
@@ -93,10 +101,8 @@ const CafeListPage = () => {
       )
     );
   };
-
   const toggleFilter = () => setShowFilter(!showFilter);
   const toggleTag = () => setShowTagCheckbox(!showTagCheckbox);
-  const toggleDessert = () => setShowDessertCheckbox(!showDessertCheckbox);
 
   return (
     <>
@@ -178,47 +184,6 @@ const CafeListPage = () => {
                   </>
                 )}
               </div>
-              <div>
-                <span className="font-medium m-2" onClick={toggleDessert}>
-                  디저트 선택하기
-                </span>
-                {!showDessertCheckbox && (
-                  <RightArrowIcon id="svgIcon" onClick={toggleDessert} />
-                )}
-                {showDessertCheckbox && (
-                  <>
-                    <DownArrowIcon id="svgIcon" onClick={toggleDessert} />
-
-                    <div className="bg-slate-50">
-                      {desserts.map((item, index) => {
-                        const label = Object.keys(item)[0];
-                        const value = Object.values(item)[0];
-                        const inputId = (index + 1000).toString();
-
-                        return (
-                          <span
-                            className="whitespace-nowrap ml-2 hover:text-primary3"
-                            key={label}
-                          >
-                            <label
-                              className="whitespace-nowrap"
-                              htmlFor={inputId}
-                            >
-                              {label}
-                            </label>
-                            <input
-                              type="checkbox"
-                              value={value}
-                              id={inputId}
-                              onChange={handleSelectDesserts}
-                            />
-                          </span>
-                        );
-                      })}
-                    </div>
-                  </>
-                )}
-              </div>
               <div className="">
                 <button
                   onClick={submitFilter}
@@ -244,7 +209,7 @@ const CafeListPage = () => {
           </div>
         </div>
       </div>
-      <Pagination currentPage={currentPage} endPage={endPage} onPageChange={handlePageChange}/>
+      <Pagination currentPage={currentPage} endPage={endPage} onPageChange={handlePageChange} />
     </>
   );
 };

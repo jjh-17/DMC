@@ -20,6 +20,14 @@ export const cafeAPI = {
         })
     },
 
+    getCafeSearchList(curPage: number, keyword: string):Promise<AxiosResponse> {
+        getLocation(); 
+        return authAxios({
+            method: 'GET',
+            url: END_POINT + `?keyword=${keyword}&longitude=${longitude}&latitude=${latitude}&page=${curPage}`
+        })
+    },
+
     getCafeRecommendList():Promise<AxiosResponse> {
         getLocation();
         return authAxios({
