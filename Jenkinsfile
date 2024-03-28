@@ -56,7 +56,7 @@ pipeline {
 
 
 
-/*
+
 ////// BE
 		stage("BE : Build") {
 			steps {
@@ -128,7 +128,7 @@ pipeline {
 				sh "docker run ${BACK_NAME} --env-file ${DOCKER_ENV} --name ${BACK_NAME} --detach --publish ${BACK_PORT}:${DOCKER_BACK_PORT} -e TZ=Asia/Seoul"
 			}
 		}
-*/
+
 
 
 
