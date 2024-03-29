@@ -14,7 +14,7 @@ import { useDragScroll } from '../../utils/useDragScroll';
 //   createdDate: string;
 // }
 
-const SimpleReviewCard = (review: any) => {
+const SimpleReviewCard = ({refreshReviews, ...review}: any) => {
   const [setRef] = useDragScroll();
 
   const handleRef = (node: HTMLElement | null) => {
@@ -23,12 +23,16 @@ const SimpleReviewCard = (review: any) => {
     }
   };
 
+  if (review.deleted){
+    return null;
+  };
+
   const deletReview = async () => {
     try {
-      await reviewAPI.deleteReview(review.reviewSeq);
-      console.log("리뷰 삭제 성공!")
+      const respronse = await reviewAPI.deleteReview(review.reviewSeq);
+      console.log("리뷰 삭제 성공!", respronse.data)
       alert("흑역사 삭제!");
-      // 이동 새로고침 로직 넣어야 함..
+      refreshReviews();
     } catch (error) {
       alert("너 뭐야!");
       console.log(error);
@@ -44,9 +48,9 @@ const SimpleReviewCard = (review: any) => {
       <h2 className="text-2xl whitespace-nowrap">{review.name}</h2>
       <p className="mr-0 font-light text-sm text-slate-600 whitespace-nowrap">{review.createdDate}</p>
       {/* 이미지 리스트 */}
-      {review.image.length > 0 && (
+      {review.imageUrl?.length > 0 && (
         <div ref={handleRef} className="flex overflow-x-auto my-2 no-scroll px-3 py-4 w-full">
-          {review.image.map((img, index) => (
+          {review.imageUrl.map((img, index) => (
             <img key={index} src={img} alt={`Review ${review.reviewSeq} Image ${index}`}
               className="w-32 h-32 mr-2 object-cover" />
           ))}
@@ -56,16 +60,16 @@ const SimpleReviewCard = (review: any) => {
         <p className='whitespace-pre-wrap mb-2'>
           {review.content}
         </p>
-        {review.tag.map((tag, index) => (
+        {review.tag?.map((tag, index) => (
           <span className="text-sm font-light text-primary mx-1" key={index}>
             #{tag}{" "}
           </span>
         ))}
       </div>
       <div className="flex justify-between py-2">
-        <button onClick={() => console.log('좋아요')}>
+        <button onClick={() => alert("공정한 리뷰 문화!")}>
           <ThumbUp id="svgIcon" className='mr-2' />
-          <span className='font-semibold text-slate-500'>50</span>
+          <span className='font-semibold text-slate-500'>{review.likeCount}</span>
         </button>
         <div className=' text-slate-500'>
           <button onClick={modifyReview} className="hover:text-blue-700 mx-2">수정</button>

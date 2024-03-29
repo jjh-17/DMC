@@ -7,11 +7,28 @@ import { memberAPI } from "../../api/memberAPI";
 import { useEffect, useState } from "react";
 import { reviewAPI } from "../../api/reviewAPI";
 import { cafeAPI } from "../../api/cafe";
+import { Review } from "../../types/datatype";
+import { useDragScroll } from "../../utils/useDragScroll";
+import ScrollToTop from "../../components/common/ScrollToTop";
 
 export default function MyPage() {
   const { loginUser, setLoginUser } = useLoginUserStore();
-  const [ myBookMarks, setMyBookMarks ] = useState<object[] | undefined>();
-  const [ myReviews, setMyReviews ] = useState<object[] | undefined>();
+  const [myBookMarks, setMyBookMarks] = useState<object[]>([]);
+  const [myReviews, setMyReviews] = useState<Review[]>([]);
+
+  const [showAllReviews, setShowAllReveiws] = useState(false);
+
+  const toggleReviewDisplay = () => {
+    setShowAllReveiws(() => !showAllReviews);
+  };
+
+  const [setRef] = useDragScroll();
+
+  const handleRef = (node: HTMLElement | null) => {
+    if (node) {
+      setRef(node);
+    }
+  };
 
   const getMyInfo = async () => {
     try {
@@ -26,21 +43,24 @@ export default function MyPage() {
   if (loginUser === null) {
     alert("로그인 유저 정보 없음");
     console.log("사용자 정보가 없습니다.");
-    return;
+    return null;
   }
 
   const getMyBookMarks = async () => {
     try {
       const response = await cafeAPI.getBookmark(1);
-      setMyBookMarks(response.data.result);
-      console.log(response.data.result);
+      setMyBookMarks(response.data.result.list);
+      console.log(response.data.result.list);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const firstNotDeletedReview = myReviews.find((review) => !review.deleted);
+
   const getMyReviews = async () => {
     try {
+      // console.log(loginUser);
       const response = await reviewAPI.getMyReview(loginUser?.memberSeq);
       setMyReviews(response.data.result);
       console.log(response.data.result);
@@ -50,9 +70,11 @@ export default function MyPage() {
   };
 
   useEffect(() => {
-    getMyInfo();
-    getMyBookMarks();
-    getMyReviews();
+    if (loginUser) {
+      getMyInfo();
+      getMyBookMarks();
+      getMyReviews();
+    }
   }, []);
 
   const divClass = "min-w-[80%] m-10";
@@ -68,28 +90,57 @@ export default function MyPage() {
           <span className={spanClass} id="test">
             북마크한 카페
           </span>
-          <a href="/??" className={buttonClass} id="test">
+          <a href="/bookmark" className={buttonClass} id="test">
             전체보기
             <RightArrow id="svgIcon" />
           </a>
         </div>
-        {myBookMarks?.map((myBookMark) => (
-          <SimpleCafeCard {...myBookMark} />
-        ))}
+        <div className="mx-auto whitespace-nowrap">
+          <div
+            ref={handleRef}
+            className="flex flex-row overflow-x-scroll no-scroll"
+          >
+            {myBookMarks?.map((myBookMark, index) => (
+              <div key={index}>
+                <SimpleCafeCard {...myBookMark} />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
       <div className={divClass}>
         <div className="flex items-center">
           <span className={spanClass} id="test">
             작성한 리뷰
           </span>
-          <a href="/??" className={buttonClass} id="test">
+          <button
+            onClick={toggleReviewDisplay}
+            className={buttonClass}
+            id="test"
+          >
             전체보기
             <RightArrow id="svgIcon" />
-          </a>
+          </button>
         </div>
-        {myReviews?.map((myReview) => (
-          <SimpleReviewCard {...myReview} />
-        ))}
+        {showAllReviews ? (
+          <>
+            {myReviews?.map((myReview, index) => (
+              <div key={index}>
+                <SimpleReviewCard {...myReview} refreshReviews={getMyReviews} />
+              </div>
+            ))}
+            <ScrollToTop/>
+          </>
+        ) : (
+          firstNotDeletedReview && (
+            <div>
+              <SimpleReviewCard
+                {...firstNotDeletedReview}
+                refreshReviews={getMyReviews}
+              />
+            </div>
+          )
+        )}
       </div>
     </div>
   );
