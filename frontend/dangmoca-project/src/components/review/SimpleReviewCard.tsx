@@ -1,3 +1,4 @@
+import { reviewAPI } from '../../api/reviewAPI';
 import ThumbUp from '../../assets/icons/thumbup.svg?react'
 import { useDragScroll } from '../../utils/useDragScroll';
 
@@ -20,6 +21,22 @@ const SimpleReviewCard = (review: Review) => {
     if (node) {
       setRef(node);
     }
+  };
+
+  const deletReview = async () => {
+    try {
+      await reviewAPI.deleteReview(review.reviewSeq);
+      console.log("리뷰 삭제 성공!")
+      alert("흑역사 삭제!");
+      // 이동 새로고침 로직 넣어야 함..
+    } catch (error) {
+      alert("너 뭐야!");
+      console.log(error);
+    }
+  };
+
+  const modifyReview = () => {
+    console.log("더미");
   };
   
   return (
@@ -51,8 +68,8 @@ const SimpleReviewCard = (review: Review) => {
           <span className='font-semibold text-slate-500'>50</span>
         </button>
         <div className=' text-slate-500'>
-          <button className="hover:text-blue-700 mx-2">수정</button>
-          <button className='hover:text-red-700'>삭제</button>
+          <button onClick={modifyReview} className="hover:text-blue-700 mx-2">수정</button>
+          <button onClick={deletReview} className='hover:text-red-700'>삭제</button>
         </div>
       </div>
     </div>
