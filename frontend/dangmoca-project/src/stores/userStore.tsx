@@ -18,9 +18,16 @@ interface LoginUserState {
 }
 
 const useLoginUserStore = create<LoginUserState>((set) => ({
-  loginUser: null,
-  setLoginUser: (loginUser) => set({ loginUser }), 
-  logout: () => set({ loginUser : null }),
+  loginUser: localStorage.getItem("loginUser")
+    ? JSON.parse(localStorage.getItem("loginUser")!)
+    : null,
+  setLoginUser: (loginUser) => {
+    localStorage.setItem("loginUser", JSON.stringify(loginUser));
+    set({ loginUser });
+  },
+  logout: () => {
+    localStorage.removeItem("loginUser");
+    set({ loginUser: null })},
 }));
 
 
