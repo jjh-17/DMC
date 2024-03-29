@@ -11,11 +11,30 @@ FROM
     naver_cafe_menu AS N
     LEFT JOIN
     cafe_info AS C
-    ON N.cafe_name = C.CA
+    ON N.cafe_name = C.naver_name
 
+
+
+
+
+
+SELECT
+    C.cafe_seq, N.cafe_name, C.name, C.naver_name, N.name
+FROM
+    naver_cafe_menu AS N
+    INNER JOIN cafe_info AS C ON N.cafe_name = C.naver_name
+    WHERE C.naver_name IS NOT NULL;
 
 
 -- 카카오 메뉴
 
 
 -- 
+
+
+
+
+SELECT name, COUNT(*)
+FROM CAFE_INFO
+GROUP BY name
+HAVING COUNT(*) > 1;
