@@ -12,7 +12,7 @@ const longitude = 127.03960465624748;
 const END_POINT = '/cafes'
 
 export const cafeAPI = {
-    getCafeList(curPage: number):Promise<AxiosResponse> {
+    getCafeList(curPage: number): Promise<AxiosResponse> {
         // getLocation(); 
         return defaultAxios({
             method: 'GET',
@@ -20,7 +20,7 @@ export const cafeAPI = {
         })
     },
 
-    getCafeSearchList(curPage: number, keyword: string):Promise<AxiosResponse> {
+    getCafeSearchList(curPage: number, keyword: string): Promise<AxiosResponse> {
         // getLocation(); 
         return defaultAxios({
             method: 'GET',
@@ -28,7 +28,7 @@ export const cafeAPI = {
         })
     },
 
-    getCafeRecommendList():Promise<AxiosResponse> {
+    getCafeRecommendList(): Promise<AxiosResponse> {
         // getLocation();
         return defaultAxios({
             method: 'GET',
@@ -36,59 +36,59 @@ export const cafeAPI = {
         })
     },
 
-    getCafeDetail(id: number):Promise<AxiosResponse> {
+    getCafeDetail(id: number): Promise<AxiosResponse> {
         return defaultAxios({
             method: 'GET',
             url: END_POINT + "/" + id
         })
     },
 
-    getCafeMenu(id: number):Promise<AxiosResponse> {
+    getCafeMenu(id: number): Promise<AxiosResponse> {
         return defaultAxios({
             method: 'GET',
             url: END_POINT + "/" + id + '/menus'
         })
     },
 
-    doBookmark(cafeId: number):Promise<AxiosResponse> {
+    doBookmark(cafeId: number): Promise<AxiosResponse> {
         return defaultAxios({
             method: 'POST',
             url: END_POINT + "/" + cafeId + '/bookmark'
         })
     },
 
-    deleteBookmark(cafeId: number):Promise<AxiosResponse> {
+    deleteBookmark(cafeId: number): Promise<AxiosResponse> {
         return defaultAxios({
             method: 'DELETE',
             url: END_POINT + "/" + cafeId + '/bookmark'
         })
     },
 
-    getBookmark(page: number):Promise<AxiosResponse> {
+    getBookmark(page: number): Promise<AxiosResponse> {
         return defaultAxios({
             method: 'POST',
             url: `bookmark?page=${page}`
         })
     },
 
-    getCafeByTag():Promise<AxiosResponse> {
+    getCafeByTag(): Promise<AxiosResponse> {
         return defaultAxios({
             method: 'GET',
-            url: 'mytag'
-        })
+            url: `${END_POINT}/mytag?latitude=${latitude}&longitude=${longitude}`
+        });
     },
 
-    getCafeByInfo():Promise<AxiosResponse> {
+    getCafeByInfo(): Promise<AxiosResponse> {
         return defaultAxios({
             method: 'GET',
-            url: 'myinfo'
-        })
+            url: `${END_POINT}/myinfo?latitude=${latitude}&longitude=${longitude}`
+        });
     },
     
-    getCafeByRating():Promise<AxiosResponse> {
+    getCafeByRating(): Promise<AxiosResponse> {
         return defaultAxios({
             method: 'GET',
-            url: 'myrating'
-        })
+            url: `${END_POINT}/myrating?latitude=${latitude}&longitude=${longitude}`
+        });
     },
 }

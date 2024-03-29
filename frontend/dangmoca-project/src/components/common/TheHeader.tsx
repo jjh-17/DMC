@@ -26,7 +26,7 @@ const TheHeader = () => {
         setHeaderText("정보 수정하기");
         break;
       case '/myCafe':
-        setHeaderText("내 추천 카페");
+        setHeaderText("");
         break;
       default:
         setHeaderText("당모카");

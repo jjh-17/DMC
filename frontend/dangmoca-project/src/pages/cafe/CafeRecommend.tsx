@@ -30,7 +30,7 @@ const CafeRecommend = () => {
 
     return (
         <div className="m-15 mx-auto w-[80lvw] md:w-[40lvw] lg:w-[40lvw]">
-            <h1 className="text-4xl lg:text-5xl text-center mt-12 text-primary2 p-2 align-middle border-x-4 rounded-lg border-black" id='test'>당신의 카페 추천</h1>
+            <h1 className="text-4xl lg:text-5xl text-center text-primary2 p-2 align-middle border-x-4 rounded-lg border-black hover:underline" id='test'>당신의 카페 추천</h1>
             <CafeRecommendDiv title="내 성향과 맞는 카페" CafeList={tagCafe} />
             <CafeRecommendDiv title="나와 비슷한 사용자들이 찾는 카페 " CafeList={similarCafe} />
             <CafeRecommendDiv title={myFavoriteCafe + "와 비슷한 카페"}CafeList={rateCafe} />

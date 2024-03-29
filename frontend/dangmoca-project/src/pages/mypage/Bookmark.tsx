@@ -1,6 +1,6 @@
 import DetailCafeCard from "../../components/cafe/DetailCafeCard";
 import cafeDummyData from "../../assets/testData/cafeDummyData";
-import { cafeAPI } from "../../api/cafe";
+// import { cafeAPI } from "../../api/cafe";
 
 export default function Bookmark() {
 
