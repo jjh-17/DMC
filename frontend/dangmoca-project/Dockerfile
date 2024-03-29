@@ -3,5 +3,5 @@ ARG VOLUME=/app
 WORKDIR ${VOLUME}
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
-COPY . .
-ENTRYPOINT npm run build
+RUN npm run build
+COPY ./dist ./dist
