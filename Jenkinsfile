@@ -25,7 +25,7 @@ pipeline {
 		FRONT_NAME = "dmc_fe"
 		FRONT_PORT = "3000"
 		FRONT_DIR = "./frontend/dangmoca-project"
-		FRONT_VOLUEM = "/app"
+		FRONT_VOLUME = "/app"
 
 		DOCKER_FRONT_PORT = "3000"
 
@@ -149,7 +149,7 @@ pipeline {
 				echo "FE : rm Start"
 /*
 				echo "Volume"
-				sh "sudo rm -rf ${FRONT_VOLUEM}/*"
+				sh "sudo rm -rf ${FRONT_VOLUME}/*"
 */
 
 				echo "Container"
@@ -201,10 +201,7 @@ pipeline {
 		stage("FE : Container") {
 			steps {
 				sh '''
-					docker run --name ${FRONT_NAME} --env-file ${DOCKER_ENV} --detach --publish ${FRONT_PORT}:${DOCKER_FRONT_PORT} --volume ${FRONT_VOLUEM} ${FRONT_NAME}
-					echo ---------------
-					echo "$pwd"
-					echo ---------------
+					docker run --name ${FRONT_NAME} --env-file ${DOCKER_ENV} --detach --publish ${FRONT_PORT}:${DOCKER_FRONT_PORT} --volume ${FRONT_VOLUEM}:${FRONT_VOLUEM} ${FRONT_NAME}
 				'''
 				
 			}
