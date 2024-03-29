@@ -27,5 +27,6 @@
 
   },
   "include": ["src", "App.tsx", "custom.d.ts", "images.d.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "extends": "@tsconfig/vite-react/tsconfig.json"
 }

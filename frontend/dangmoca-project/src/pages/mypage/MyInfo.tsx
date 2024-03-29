@@ -50,11 +50,11 @@ export default function MyInfo() {
       <div className="whitespace-nowrap font-light">프로필 사진</div>
       <div className="w-full">
       <div className="w-full md:w-[30lvw] lg:w-[20lvw]">
-          <img
+          {/* <img
             src={user.profileImageUrl}
             alt="프로필 이미지"
             className="w-[40lvw] h-[40lvw] md:w-[30lvw] md:h-[30lvw] lg:w-[20lvw] lg:h-[20lvw] p-2 m-2 rounded-full object-contain border-2 border-primary "
-          />
+          /> */}
         </div>
       </div>
 
