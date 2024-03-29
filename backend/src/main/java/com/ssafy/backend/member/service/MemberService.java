@@ -41,4 +41,6 @@ public interface MemberService {
     String getRatingAchievement(Long memberSeq, int rating, int count);
 
     void addAdCount(Long memberSeq);
+
+    void updateAchievement(Long memberSeq, int totalReviewCount, boolean isBalanced);
 }

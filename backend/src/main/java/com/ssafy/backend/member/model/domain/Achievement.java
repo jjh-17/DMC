@@ -2,10 +2,12 @@ package com.ssafy.backend.member.model.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.ToString;
 
 @Entity
 @Table(name = "achievement")
 @Builder
+@ToString
 public class Achievement {
 
     @Id

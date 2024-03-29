@@ -247,6 +247,34 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
     }
 
+    @Override
+    public void updateAchievement(Long memberSeq, int totalReviewCount, boolean isBalanced) {
+        Optional<Member> memberOptional = memberRepository.findById(memberSeq);
+
+        if (memberOptional.isEmpty()) {
+            throw new BaseException(NOT_EXIST_USER);
+        }
+
+        Long adCount = memberOptional.get().getAdCount();
+
+        Achievement achievement = achievementRepository.findByMemberSeqAndTitle(memberSeq, "안심리뷰어");
+
+        if (adCount < 10 && totalReviewCount >= 50 && isBalanced) {
+            if(achievement == null){
+                achievementRepository.save(Achievement.builder()
+                        .title("안심리뷰어")
+                        .memberSeq(memberSeq)
+                        .created_date(String.valueOf(LocalDate.now()))
+                        .build());
+            }
+        }else {
+            if(achievement != null){
+                achievementRepository.delete(achievement);
+            }
+        }
+
+    }
+
     private Map<Integer, String> getRatingAchievement() {
         if (ratingAchievement == null) {
             ratingAchievement = new HashMap<>();

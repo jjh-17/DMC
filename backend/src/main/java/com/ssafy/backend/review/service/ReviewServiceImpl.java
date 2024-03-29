@@ -226,7 +226,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public int getTotalRatingCount(Long memberSeq) {
+    public int getTotalReviewCount(Long memberSeq) {
         return Math.toIntExact(dangmocaReviewRepository.countByMemberSeqAndIsDeletedFalse(memberSeq));
     }
 
@@ -287,6 +287,35 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         return positive > negative;
+    }
+
+    @Override
+    public boolean isRatingBalanced(Long memberSeq) {
+        Map<Integer, Long> ratingMap = new HashMap<>();
+
+        for (int i = 1; i <= 5; i++) {
+            ratingMap.put(i, dangmocaReviewRepository.countByMemberSeqAndRatingAndIsDeletedFalse(memberSeq, i));
+        }
+
+        // 별점이 총 몇 개인지 계산
+        long totalRatings = ratingMap.values().stream().mapToLong(Long::longValue).sum();
+        if (totalRatings == 0) {
+            return false;
+        }
+
+        for (int star = 1; star <= 5; star++) {
+            // 특정 별점의 개수
+            Long specificRatingCount = ratingMap.get(star);
+
+            // 특정 별점의 비율 계산
+            double ratio = (double) specificRatingCount / totalRatings;
+
+            if (ratio >= 0.9) { // 한 별점에 9할 이상 남겼으면
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private JsonObject convertToJsonObject(String content) {

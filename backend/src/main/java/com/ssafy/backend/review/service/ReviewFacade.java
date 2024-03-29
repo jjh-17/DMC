@@ -95,15 +95,17 @@ public class ReviewFacade {
             }
         }
 
-        if((Double)analyzeResult.get("완좋") >= 90){
+        if ((Double) analyzeResult.get("완좋") >= 90) {
             memberService.addAdCount(addReviewDto.getMemberSeq());
         }
+
+        memberFacade.updateAchievement(addReviewDto.getMemberSeq());
 
         memberService.addMileage(new AddMileageDto(addReviewDto.getMemberSeq(), mileage));
         cafeService.addTagCount(new AddTagCountDto(addReviewDto.getCafeSeq(), true, addReviewDto.getTag()));
 
         HashMap<String, Integer> ratingMap = new HashMap<>();
-        ratingMap.put("total", reviewService.getTotalRatingCount(addReviewDto.getMemberSeq()));
+        ratingMap.put("total", reviewService.getTotalReviewCount(addReviewDto.getMemberSeq()));
         ratingMap.put("1", reviewService.getRatingCount(addReviewDto.getMemberSeq(), 1));
         ratingMap.put("3", reviewService.getRatingCount(addReviewDto.getMemberSeq(), 3));
         ratingMap.put("5", reviewService.getRatingCount(addReviewDto.getMemberSeq(), 5));

@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface AchievementRepository extends JpaRepository<Achievement, Long> {
     List<Achievement> findByMemberSeq(Long memberSeq);
+
+    Achievement findByMemberSeqAndTitle(Long memberSeq, String title);
 }
