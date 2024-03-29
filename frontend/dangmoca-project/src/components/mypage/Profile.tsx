@@ -7,8 +7,13 @@ import { useState } from 'react';
 import { UserInfo } from "../../types/datatype";
 import RightArrowIcon from '../../assets/icons/rightarrow.svg?react';
 
-const Profile = (user: UserInfo) => {
+const Profile = (user: UserInfo | null) => {
   const navigate = useNavigate();
+
+  if (user === null) {
+    console.log("사용자 정보가 없습니다.");
+    return;
+  }
 
   // // 태그 크기를 랜덤으로 설정하는 함수
   // // 초기 워드클라우드

@@ -2,19 +2,26 @@ import SimpleCafeCard from "../../components/cafe/SimpleCafeCard";
 import SimpleReviewCard from "../../components/review/SimpleReviewCard";
 import Profile from "../../components/mypage/Profile";
 import RightArrow from '../../assets/icons/rightarrow.svg?react'
-import { UserInfo } from "../../types/datatype";
+import { useLoginUserStore } from "../../stores/userStore";
 
 export default function MyPage() {
-  const dummyUser: UserInfo = {
-    memberSeq: 1,
-    profileImageUrl: "src/assets/icons/dummyUserImg.png",
-    nickname: "당모카",
-    title: "행복한 커피원두",
-    preferenceTag: ["조용한", "커피"],
-    deleted: false,
-    mileage: 1215,
-    titleList: ["깐깐한 커피콩","행복한 커피원두","무덤덤한 커피열매", "리뷰의 첫걸음"]
-  };
+  const loginUser = useLoginUserStore(state => (state.loginUser));
+  // const dummyUser: UserInfo = {
+  //   memberSeq: 1,
+  //   profileImageUrl: "src/assets/icons/dummyUserImg.png",
+  //   nickname: "당모카",
+  //   title: "행복한 커피원두",
+  //   preferenceTag: ["조용한", "커피"],
+  //   deleted: false,
+  //   mileage: 1215,
+  //   titleList: ["깐깐한 커피콩","행복한 커피원두","무덤덤한 커피열매", "리뷰의 첫걸음"]
+  // };
+
+  if (loginUser === null) {
+    alert("로그인 유저 정보 없음");
+    console.log("사용자 정보가 없습니다.");
+    return;
+  }
 
   const dummyCafe = {
     cafeSeq: 1,
@@ -51,7 +58,7 @@ export default function MyPage() {
 
   return (
     <div className="min-w-full mx-auto flex flex-col items-center gap-4">
-      <Profile {...dummyUser} />
+      <Profile {...loginUser} />
       <div className={divClass}>
         <div className="flex items-center">
           <span className={spanClass} id="test">북마크한 카페</span>

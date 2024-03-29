@@ -45,7 +45,7 @@ export interface History {
 export interface UserInfo {
     memberSeq: number,
     nickname: string,
-    profileImageUrl: string,
+    profileImageUrl: string | null,
     title: string,
     titleList: string[],
     mileage: number,
