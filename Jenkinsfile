@@ -138,7 +138,7 @@ pipeline {
 			steps {
 				echo "FE : Install Start"
 				dir("${FRONT_DIR}") {
-					sh "npm install react react-dom react-scripts typescript vite"
+					sh "npm install"
 				}
 				echo "FE : Install End"
 			}
