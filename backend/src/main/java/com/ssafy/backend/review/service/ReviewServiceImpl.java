@@ -265,7 +265,7 @@ public class ReviewServiceImpl implements ReviewService {
 
             BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String resultLine;
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             while ((resultLine = br.readLine()) != null) {
                 sb.append(resultLine);
             }
@@ -279,6 +279,10 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Boolean isPositive(Map<String, Object> analyzeResult) {
+        if(analyzeResult == null){
+            return null;
+        }
+
         Double negative = (Double) analyzeResult.get("최악") + (Double) analyzeResult.get("별로");
         Double positive = (Double) analyzeResult.get("좋음") + (Double) analyzeResult.get("완좋");
 

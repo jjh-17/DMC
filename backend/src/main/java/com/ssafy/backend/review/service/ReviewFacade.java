@@ -95,7 +95,7 @@ public class ReviewFacade {
             }
         }
 
-        if ((Double) analyzeResult.get("완좋") >= 90) {
+        if (analyzeResult != null && (Double) analyzeResult.get("완좋") >= 90) {
             memberService.addAdCount(addReviewDto.getMemberSeq());
         }
 
@@ -111,9 +111,7 @@ public class ReviewFacade {
         ratingMap.put("5", reviewService.getRatingCount(addReviewDto.getMemberSeq(), 5));
 
         // 별점 목록 주고 그 중 해당하는 칭호 받아오기
-        List<String> list = memberFacade.getAchievement(addReviewDto.getMemberSeq(), ratingMap);
-
-        return list;
+        return memberFacade.getAchievement(addReviewDto.getMemberSeq(), ratingMap);
     }
 
     @Transactional
