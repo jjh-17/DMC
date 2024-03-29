@@ -12,22 +12,7 @@ import KakaoMap from '../../components/cafe/KakaoMap';
 import useCafeStore from '../../stores/cafeStore';
 import { cafeAPI } from "../../api/cafe";
 import { useEffect, useState } from "react";
-// import BottomSheet from "../../components/review/BottomSheet";
 import ScrollToTop from "../../components/common/ScrollToTop";
-
-// const testDetail: CafeDetail = {
-//   cafeSeq: 1,
-//   name: "바나프레소 테헤란로점",
-//   distance: "100m",
-//   address: "서울 강남구 테헤란로 208 바나프레소",
-//   tag: ["가성비", "테이크아웃", "분위기"],
-//   imageUrl: "/src/assets/testPic/bana.jpg",
-//   homepageUrl: "https://www.banapresso.com/",
-//   rating: 3.7,
-//   isBookmarked: false,
-//   updatedDate: "2024-03-14",
-//   openingHour: "월~금 07:00~20:00",
-// };
 
 const CafeDetailPage = () => {
   const location = useLocation();
@@ -50,11 +35,14 @@ const CafeDetailPage = () => {
     tag: ["default1", "d2", "d3"],
     updatedDate: "",
   });
+  
 
   const getCafeDetail = async () => {
     try {
       const response = await cafeAPI.getCafeDetail(cafeSeq);
+      if (response.data.result?.address)
       setCafeDetail(response.data.result);
+      
     }
     catch (error) {
       console.log(error)

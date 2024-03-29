@@ -79,7 +79,7 @@ export interface ApiResponse {
 
 export interface CafeListApiResponse {
     result: {
-        totalCount: number,
+        totalPages: number,
         list: Cafe[],
     },
 }
