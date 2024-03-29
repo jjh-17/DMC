@@ -6,6 +6,7 @@ import "tippy.js/animations/scale.css";
 import { useState } from 'react';
 import { UserInfo } from "../../types/datatype";
 import RightArrowIcon from '../../assets/icons/rightarrow.svg?react';
+import dummyUserImg from '/src/assets/icons/dummyUserImg.png';
 
 const Profile = (user: UserInfo | null) => {
   const navigate = useNavigate();
@@ -73,7 +74,8 @@ const Profile = (user: UserInfo | null) => {
     <div className="flex flex-col  p-4">
       <div className="flex flex-row justify-center gap-4 lg:gap-20 min-w-full my-10">
         <img
-          src={user.profileImageUrl}
+
+          src={user.profileImageUrl || dummyUserImg}
           alt="프로필 이미지"
           className="w-24 h-24 lg:w-48 lg:h-48 rounded-full object-contain border-2 border-primary"
         />

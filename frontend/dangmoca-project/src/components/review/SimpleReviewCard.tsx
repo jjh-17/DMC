@@ -2,19 +2,19 @@ import { reviewAPI } from '../../api/reviewAPI';
 import ThumbUp from '../../assets/icons/thumbup.svg?react'
 import { useDragScroll } from '../../utils/useDragScroll';
 
-interface Review {
-  reviewSeq: number;
-  memberSeq: number;
-  cafeSeq: number;
-  name: string;
-  image: string[];
-  content: string;
-  tag: string[];
-  rating: number;
-  createdDate: string;
-}
+// interface Review {
+//   reviewSeq: number;
+//   memberSeq: number;
+//   cafeSeq: number;
+//   name: string;
+//   image: string[];
+//   content: string;
+//   tag: string[];
+//   rating: number;
+//   createdDate: string;
+// }
 
-const SimpleReviewCard = (review: Review) => {
+const SimpleReviewCard = (review: any) => {
   const [setRef] = useDragScroll();
 
   const handleRef = (node: HTMLElement | null) => {

@@ -1,6 +1,6 @@
-import { Cafe } from "../../types/datatype";
+// import { Cafe } from "../../types/datatype";
 
-const SimpleCafeCard = (cafe : Cafe) => {
+const SimpleCafeCard = (cafe : any) => {
   return (
     <div className="w-44 p-3 flex flex-col m-4 items-center shadow-md">
       <img src={cafe.imageUrl} className="w-40 h-56 object-cover rounded-sm m-1 pointer-events-none" alt="Cafe" />
