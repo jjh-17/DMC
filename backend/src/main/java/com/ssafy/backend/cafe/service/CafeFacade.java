@@ -223,102 +223,114 @@ public class CafeFacade {
         LocalTime currentTime = now.toLocalTime();
         DayOfWeek currentDay = now.getDayOfWeek();
 
-        String[] hoursArray = businessHoursString.split(",");
-        for (String hours : hoursArray) {
-            String[] parts = hours.trim().split("\\s+");
+        String[] hoursArray = businessHoursString.split(" / ");
 
-            // 요일 범위와 시간 범위를 구분하여 처리
-            if (parts.length == 1) { // 라벨인 경우
-                continue;
-            }
+        try {
+            for (String hours : hoursArray) {
+                String[] parts = hours.trim().split("\\s+");
 
-            String dayRange = parts[0];
-            String[] timeRange = new String[]{parts[1], parts[3]};
-            String startTimeString = timeRange[0];
-            String endTimeString = timeRange[1];
-
-            if (!dayRange.matches(".*(월|화|수|목|금|토|일|매일|공휴일).*")) {
-                continue;
-            }
-
-            // "00:00 ~ 24:00" 시간 범위가 주어졌을 경우 "00:00 ~ 00:00"으로 변경
-            if (endTimeString.equals("24:00")) {
-                endTimeString = "00:00";
-            }
-
-            // "매일"인 경우 모든 요일을 나타냄
-            if (dayRange.equals("매일")) {
-                LocalTime startTime = parseTime(startTimeString);
-                LocalTime endTime = parseTime(endTimeString);
-                if (currentTime.isAfter(startTime) && currentTime.isBefore(endTime)) {
-                    return true;
-                }
-                continue; // 다음 영업시간 확인
-            }
-
-            // "공휴일"인 경우 주말을 나타냄
-            if (dayRange.equals("공휴일")) {
-                DayOfWeek startDay = parseDayOfWeek("토");
-                DayOfWeek endDay = parseDayOfWeek("일");
-                LocalTime startTime = parseTime(startTimeString);
-                LocalTime endTime = parseTime(endTimeString);
-                if (currentTime.isAfter(startTime) && currentTime.isBefore(endTime)) {
-                    return true;
-                }
-                continue; // 다음 영업시간 확인
-            }
-
-            // 요일 범위가 있는 경우 처리
-            if (dayRange.contains("~")) {
-                String[] days = dayRange.split("~");
-                DayOfWeek startDay = parseDayOfWeek(days[0]);
-                DayOfWeek endDay = parseDayOfWeek(days[1]);
-
-                if (startDay == null || endDay == null) {
-                    return null;
+                // 요일 범위와 시간 범위를 구분하여 처리
+                if (parts.length == 1) { // 라벨인 경우
+                    continue;
                 }
 
-                if (currentDay.compareTo(startDay) >= 0 && currentDay.compareTo(endDay) <= 0) {
+                String dayRange = parts[0];
+                String[] timeRange = new String[]{parts[1], parts[3]};
+                String startTimeString = timeRange[0];
+                String endTimeString = timeRange[1];
+
+                if (!dayRange.matches(".*(월|화|수|목|금|토|일|매일|공휴일).*")) {
+                    continue;
+                }
+
+                // "00:00 ~ 24:00" 시간 범위가 주어졌을 경우 "00:00 ~ 00:00"으로 변경
+                if (endTimeString.equals("24:00")) {
+                    endTimeString = "00:00";
+                }
+
+                // "매일"인 경우 모든 요일을 나타냄
+                if (dayRange.equals("매일")) {
                     LocalTime startTime = parseTime(startTimeString);
                     LocalTime endTime = parseTime(endTimeString);
                     if (currentTime.isAfter(startTime) && currentTime.isBefore(endTime)) {
                         return true;
                     }
+                    continue; // 다음 영업시간 확인
                 }
-            } else { // 단일 요일인 경우 처리
-                DayOfWeek dayOfWeek = parseDayOfWeek(dayRange);
-                if (dayOfWeek == currentDay) {
+
+                // "공휴일"인 경우 주말을 나타냄
+                if (dayRange.equals("공휴일")) {
+                    DayOfWeek startDay = parseDayOfWeek("토");
+                    DayOfWeek endDay = parseDayOfWeek("일");
                     LocalTime startTime = parseTime(startTimeString);
                     LocalTime endTime = parseTime(endTimeString);
                     if (currentTime.isAfter(startTime) && currentTime.isBefore(endTime)) {
                         return true;
                     }
+                    continue; // 다음 영업시간 확인
+                }
+
+                if (dayRange.contains("~")) { // 요일 범위가 있는 경우 처리
+                    String[] days = dayRange.split("~");
+                    DayOfWeek startDay = parseDayOfWeek(days[0]);
+                    DayOfWeek endDay = parseDayOfWeek(days[1]);
+
+                    if (startDay == null || endDay == null) {
+                        return null;
+                    }
+
+                    if (currentDay.compareTo(startDay) >= 0 && currentDay.compareTo(endDay) <= 0) {
+                        LocalTime startTime = parseTime(startTimeString);
+                        LocalTime endTime = parseTime(endTimeString);
+                        if (currentTime.isAfter(startTime) && currentTime.isBefore(endTime)) {
+                            return true;
+                        }
+                    }
+                } else if (dayRange.contains(",")) { // 쉼표로 나누어져있는 경우 처리
+                    String[] days = dayRange.split(",");
+                    for (String day : days) {
+                        if (day == null || day.isBlank()) {
+                            return null;
+                        }
+
+                        DayOfWeek dayOfWeek = parseDayOfWeek(day);
+                        if (dayOfWeek == currentDay) {
+                            LocalTime startTime = parseTime(startTimeString);
+                            LocalTime endTime = parseTime(endTimeString);
+                            if (currentTime.isAfter(startTime) && currentTime.isBefore(endTime)) {
+                                return true;
+                            }
+                        }
+                    }
+                } else { // 단일 요일인 경우 처리
+                    DayOfWeek dayOfWeek = parseDayOfWeek(dayRange);
+                    if (dayOfWeek == currentDay) {
+                        LocalTime startTime = parseTime(startTimeString);
+                        LocalTime endTime = parseTime(endTimeString);
+                        if (currentTime.isAfter(startTime) && currentTime.isBefore(endTime)) {
+                            return true;
+                        }
+                    }
                 }
             }
+        } catch (Exception e) { // 날짜 에러로 파싱 실패 시 null
+            return null;
         }
 
         return false;
     }
 
     private DayOfWeek parseDayOfWeek(String dayOfWeekString) {
-        switch (dayOfWeekString) {
-            case "월":
-                return DayOfWeek.MONDAY;
-            case "화":
-                return DayOfWeek.TUESDAY;
-            case "수":
-                return DayOfWeek.WEDNESDAY;
-            case "목":
-                return DayOfWeek.THURSDAY;
-            case "금":
-                return DayOfWeek.FRIDAY;
-            case "토":
-                return DayOfWeek.SATURDAY;
-            case "일":
-                return DayOfWeek.SUNDAY;
-            default:
-                return null;
-        }
+        return switch (dayOfWeekString) {
+            case "월" -> DayOfWeek.MONDAY;
+            case "화" -> DayOfWeek.TUESDAY;
+            case "수" -> DayOfWeek.WEDNESDAY;
+            case "목" -> DayOfWeek.THURSDAY;
+            case "금" -> DayOfWeek.FRIDAY;
+            case "토" -> DayOfWeek.SATURDAY;
+            case "일" -> DayOfWeek.SUNDAY;
+            default -> null;
+        };
     }
 
     private LocalTime parseTime(String timeString) {
