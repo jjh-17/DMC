@@ -1,26 +1,35 @@
 import { create } from "zustand";
 
 export type User = {
-  id: number;
-  name: string;
+  memberSeq: number;
+  nickname: string;
+  profileImageUrl: string | null;
+  title: string;
+  mileage: number;
+  titleList: string[];
+  preferenceTag: string[];
+  deleted: boolean;
 };
+
+interface LoginUserState {
+  loginUser: User | null;
+  setLoginUser: (loginUser: User) => void;
+  logout: () => void;
+}
+
+const useLoginUserStore = create<LoginUserState>((set) => ({
+  loginUser: null,
+  setLoginUser: (loginUser) => set({ loginUser }), 
+  logout: () => set({ loginUser : null }),
+}));
+
+
+
 
 export type Tokens = {
   accessToken: string;
   refreshToken: string;
 };
-
-interface UserState {
-  user: User | null;
-  setUser: (user: User) => void;
-  removeUser: () => void;
-}
-
-const useUserStore = create<UserState>((set) => ({
-  user: null,
-  setUser: (user) => set({ user }),
-  removeUser: () => set({ user: null }),
-}));
 
 interface TokenState {
   accessToken: string | null;
@@ -38,7 +47,7 @@ const useTokenStore = create<TokenState>((set) => ({
   removeTokens: () => set({ accessToken: null, refreshToken: null }),
 }));
 
-export { useUserStore, useTokenStore };
+export { useLoginUserStore, useTokenStore };
 
 // import { create } from "zustand";
 
