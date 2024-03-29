@@ -200,7 +200,13 @@ pipeline {
 
 		stage("FE : Container") {
 			steps {
-				sh "docker run --name ${FRONT_NAME} --env-file ${DOCKER_ENV} --detach --publish ${FRONT_PORT}:${DOCKER_FRONT_PORT} --volume ${FRONT_VOLUEM} ${FRONT_NAME}"
+				sh '''
+					docker run --name ${FRONT_NAME} --env-file ${DOCKER_ENV} --detach --publish ${FRONT_PORT}:${DOCKER_FRONT_PORT} --volume ${FRONT_VOLUEM} ${FRONT_NAME}
+					echo ---------------
+					echo "${pwd}"
+					echo ---------------
+				'''
+				
 			}
 		}
 
