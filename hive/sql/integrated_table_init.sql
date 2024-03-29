@@ -1,9 +1,11 @@
-use hive_db;
+-- hive -f /home/jjh/A607/sql/integrated_table_init.sql
 
--- 스크래핑한 카카오 카페 정보 테이블
+use A607;
+
+-- 카페 정보 테이블
 DROP TABLE IF EXISTS cafe_info;
 CREATE TABLE IF NOT EXISTS cafe_info  (
-    cafe_seq BIGINT,
+    cafe_seq BIGINT DEFAULT 0L,
     name VARCHAR(100),
     latitude DOUBLE,
     longitude DOUBLE,
@@ -24,11 +26,11 @@ ROW FORMAT DELIMITED
 STORED AS TEXTFILE;
 
 
--- 스크래핑한 카카오 카페 메뉴 테이블
+-- 카페 메뉴 테이블
 DROP TABLE IF EXISTS cafe_menu;
 CREATE TABLE IF NOT EXISTS cafe_menu  (
-    menu_seq BIGINT,
-    cafe_seq BIGINT,
+    menu_seq BIGINT DEFAULT 0L,
+    cafe_seq BIGINT DEFAULT 0L,
     name VARCHAR(100),
     price VARCHAR(50),
     image_url STRING,
@@ -37,11 +39,11 @@ CREATE TABLE IF NOT EXISTS cafe_menu  (
 ROW FORMAT DELIMITED
 STORED AS TEXTFILE;
 
--- 스크래핑한 카카오 리뷰 테이블
+-- 플랫폼 리뷰 테이블
 DROP TABLE IF EXISTS platform_review;
 CREATE TABLE IF NOT EXISTS platform_review  (
-    review_seq BIGINT,
-    cafe_seq BIGINT,
+    review_seq BIGINT DEFAULT 0L,
+    cafe_seq BIGINT DEFAULT 0L,
     nickname VARCHAR(50),
     content STRING,
     platform CHAR(1),
