@@ -56,7 +56,7 @@ const Pagination = ({currentPage, endPage, onPageChange}: Props) => {
           ref={input} />
         / {endPage}
       </span>
-      <button className="mx-2" onClick={handleInput}>이동</button>
+      <button className="ml-2 text-primary hover:underline" onClick={handleInput}>이동</button>
       <button onClick={handleNextPage} disabled={curPage == endPage}>
         <PrevArrowIcon className={nextIconClass} />
       </button>
