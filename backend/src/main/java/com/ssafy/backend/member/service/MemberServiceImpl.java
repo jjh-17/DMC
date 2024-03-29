@@ -188,12 +188,14 @@ public class MemberServiceImpl implements MemberService {
         // 작성 리뷰의 전체 개수로 칭호 주기
         for (Integer key : getTotalAchievement().keySet()) {
             if (key == totalCount) {
-                achievementRepository.save(Achievement.builder()
-                        .title(getTotalAchievement().get(key))
-                        .memberSeq(memberSeq)
-                        .created_date(String.valueOf(LocalDate.now()))
-                        .build());
-                return getTotalAchievement().get(key);
+                if (achievementRepository.findByMemberSeqAndTitle(memberSeq, getTotalAchievement().get(key)) != null) {
+                    achievementRepository.save(Achievement.builder()
+                            .title(getTotalAchievement().get(key))
+                            .memberSeq(memberSeq)
+                            .created_date(String.valueOf(LocalDate.now()))
+                            .build());
+                    return getTotalAchievement().get(key);
+                }
             }
         }
 
@@ -260,15 +262,15 @@ public class MemberServiceImpl implements MemberService {
         Achievement achievement = achievementRepository.findByMemberSeqAndTitle(memberSeq, "안심리뷰어");
 
         if (adCount < 10 && totalReviewCount >= 50 && isBalanced) {
-            if(achievement == null){
+            if (achievement == null) {
                 achievementRepository.save(Achievement.builder()
                         .title("안심리뷰어")
                         .memberSeq(memberSeq)
                         .created_date(String.valueOf(LocalDate.now()))
                         .build());
             }
-        }else {
-            if(achievement != null){
+        } else {
+            if (achievement != null) {
                 achievementRepository.delete(achievement);
             }
         }
