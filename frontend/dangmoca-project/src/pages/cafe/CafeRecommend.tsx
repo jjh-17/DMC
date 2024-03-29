@@ -13,18 +13,39 @@ const CafeRecommend = () => {
 
     useEffect(() => {
         setTagCafe(cafeDummyData);
-        setSimilarCafe(cafeDummyData);
-        setRateCafe(cafeDummyData);
-        //
-        cafeAPI.getCafeByTag().then((response) => {
-            setTagCafe(response.data.list);
-        })
+        // setSimilarCafe(cafeDummyData);
+        // setRateCafe(cafeDummyData);
+
+        // cafeAPI.getCafeByTag().then((response) => {
+        //     if (response.data?.list) {
+        //         setTagCafe(response.data.list);
+        //     }
+        //     else {
+        //         setTagCafe([]);
+        //         // 백엔드 완료 후 에러 처리
+        //         // if (response.data.message == "5점을 준 리뷰가 없습니다") {
+        //         // }
+        //     }
+        // })
         cafeAPI.getCafeByInfo().then((response) => {
-            setSimilarCafe(response.data.list);
+            if (response.data?.list) {
+                setSimilarCafe(response.data.list);
+            }
+            else {
+                setSimilarCafe([]);
+                // if (response.data.message == "5점을 준 리뷰가 없습니다") {
+                // }
+            }
         })
         cafeAPI.getCafeByRating().then((response) => {
-            setRateCafe(response.data.list);
-            setMyFavoriteCafe(response.data.name);
+            if (response.data?.list) {
+                setMyFavoriteCafe(response.data.name);
+                setRateCafe(response.data.list);
+            }
+            else {
+                setMyFavoriteCafe("");
+                setRateCafe([]);
+            }
         })
     }, [])
 

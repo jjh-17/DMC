@@ -66,8 +66,8 @@ export const cafeAPI = {
 
     getBookmark(page: number): Promise<AxiosResponse> {
         return defaultAxios({
-            method: 'POST',
-            url: `bookmark?page=${page}`
+            method: 'GET',
+            url: END_POINT + `/bookmark?page=${page}`
         })
     },
 

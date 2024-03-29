@@ -45,7 +45,7 @@ const TheHeader = () => {
       const newHeaderClass =
         window.scrollY > limitHeight
           ? "pointer-events-none opacity-0 duration-500"
-          : "opacity-100 duration-500";
+          : "pointer-events-auto opacity-100 duration-500";
       setHeaderClass(prevClass => prevClass.includes(newHeaderClass) ? prevClass : prevClass + " " + newHeaderClass);
     };
     window.addEventListener("scroll", handleScroll);

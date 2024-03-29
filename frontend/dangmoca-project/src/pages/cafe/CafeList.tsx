@@ -212,10 +212,8 @@ const CafeListPage = () => {
         </div>
         <div className="w-fit mx-auto">
           <div className="flex flex-col">
-            
-            {!cafeList && <CafeLoading />}
-            {cafeList && cafeList.length == 0 && <CafeNotFound />}
-
+            {!cafeList && <CafeNotFound />}
+            {cafeList && cafeList.length == 0 && <CafeLoading />}
             {cafeList &&
               cafeList.map((cafe) => (
                 <div className="cursor-pointer" key={cafe.cafeSeq}>
@@ -226,7 +224,7 @@ const CafeListPage = () => {
         </div>
       </div>
       {
-        (endPage > 0) && (
+        (endPage > 1) && (
           <Pagination currentPage={currentPage} endPage={endPage} onPageChange={handlePageChange} />
         )
       }
