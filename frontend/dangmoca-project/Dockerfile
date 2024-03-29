@@ -3,5 +3,5 @@ ARG VOLUME=/app
 WORKDIR ${VOLUME}
 COPY package*.json ./
 RUN npm install
-RUN yarn build
+RUN yarn run build
 COPY ./dist ./dist
