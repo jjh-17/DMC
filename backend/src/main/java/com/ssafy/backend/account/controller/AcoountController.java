@@ -1,6 +1,7 @@
 package com.ssafy.backend.account.controller;
 
 import com.ssafy.backend.account.model.domain.vo.TokenVo;
+import com.ssafy.backend.account.service.AccountFacade;
 import com.ssafy.backend.account.service.AccountService;
 import com.ssafy.backend.account.service.OAuthService;
 import com.ssafy.backend.global.response.BaseResponse;
@@ -10,6 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.SUCCESS;
 
@@ -29,6 +32,9 @@ public class AcoountController {
     AccountService accountService;
 
     @Autowired
+    AccountFacade accountFacade;
+
+    @Autowired
     RedisDao redisDao;
 
     /*
@@ -39,12 +45,14 @@ public class AcoountController {
         String access_Token = kakaoOAuthService.getToken(code);
         String memberCode = kakaoOAuthService.getUser(access_Token);
 
-        TokenVo tokenVo = accountService.OAuthLogin(memberCode, 'K');
+        Map<String, Object> resultMap = accountFacade.OAuthLogin(memberCode, 'K');
+
+        TokenVo tokenVo = (TokenVo) resultMap.get("tokenVo");
 
         response.setHeader("accessToken", tokenVo.getAccessToken());
         response.setHeader("refreshToken", tokenVo.getRefreshToken());
 
-        return new BaseResponse<>(SUCCESS);
+        return new BaseResponse<>(SUCCESS, resultMap.get("memberInformation"));
     }
 
     /*
@@ -55,18 +63,20 @@ public class AcoountController {
         String accessToken = naverOAuthService.getToken(code);
         String memberCode = naverOAuthService.getUser(accessToken);
 
-        TokenVo tokenVo = accountService.OAuthLogin(memberCode, 'N');
+        Map<String, Object> resultMap = accountFacade.OAuthLogin(memberCode, 'N');
+
+        TokenVo tokenVo = (TokenVo) resultMap.get("tokenVo");
 
         response.setHeader("accessToken", tokenVo.getAccessToken());
         response.setHeader("refreshToken", tokenVo.getRefreshToken());
 
-        return new BaseResponse<>(SUCCESS);
+        return new BaseResponse<>(SUCCESS, resultMap.get("memberInformation"));
     }
 
     @GetMapping("logout")
     public BaseResponse<?> logout(HttpServletRequest request) {
 //      Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 2L;
+        Long memberSeq = 1L;
         redisDao.deleteFromRedis("accessToken:" + memberSeq);
         redisDao.deleteFromRedis("refreshToken:" + memberSeq);
         return new BaseResponse<>(SUCCESS);
@@ -78,7 +88,7 @@ public class AcoountController {
     @DeleteMapping("signout")
     public BaseResponse<?> deleteMember(HttpServletRequest request) {
 //      Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 3L;
+        Long memberSeq = 1L;
         accountService.deleteMember(memberSeq);
         return new BaseResponse<>(SUCCESS);
     }
