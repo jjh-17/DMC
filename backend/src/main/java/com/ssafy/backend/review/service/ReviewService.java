@@ -13,7 +13,9 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ReviewService {
-    List<ViewReviewVo> viewCafeReview(Long cafeSeq);
+    List<ViewReviewVo> viewDmcReview(Long cafeSeq);
+
+    List<ViewReviewVo> viewPlatformReview(Long cafeSeq);
 
     List<ViewReviewVo> viewMemberReview(Long memberSeq);
 
