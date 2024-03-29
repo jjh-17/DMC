@@ -50,11 +50,19 @@ INSERT INTO
         url, updated_date, top_tag, is_deleted
     )
 SELECT
-    T.cafe_name AS new_name, T.latitude, T.longitude, NULL AS kakao_name, T.cafe_name AS naver_name,
-    T.image_url, T.address, T.tel, NULL AS rating, NULL AS kakao_rating, T.opening_hour,
-    T.homepage_url AS url, date_format(current_date(), 'yyyy-MM-dd'), NULL AS top_tag, 0 AS is_deleted
+    T.naver_name, T.latitude, T.longitude, NULL, T.naver_name,
+    T.image_url, T.address, T.tel, NULL, NULL, T.opening_hour,
+    T.url, date_format(current_date(), 'yyyy-MM-dd'), NULL, 0
 FROM(
-    SELECT *
+    SELECT
+        N.cafe_name AS naver_name, 
+        N.image_url AS image_url,
+        N.latitude AS latitude, 
+        N.longitude AS longitude, 
+        N.address AS address, 
+        N.tel AS tel, 
+        N.opening_hour AS opening_hour, 
+        N.homepage_url AS url
     FROM naver_cafe_info AS N
     LEFT JOIN cafe_info AS C ON N.cafe_name = C.naver_name
     WHERE C.naver_name IS NULL
@@ -68,11 +76,20 @@ INSERT INTO
         url, updated_date, top_tag, is_deleted
     )
 SELECT
-    T.cafe_name AS new_name, T.latitude, T.longitude, T.cafe_name AS kakao_name, NULL AS naver_name,
-    T.image_url, T.address, T.tel, NULL AS rating, T.rating AS kakao_rating, T.opening_hour,
-    T.homepage_url AS url, date_format(current_date(), 'yyyy-MM-dd'), NULL AS top_tag, 0 AS is_deleted
+    T.kakao_name, T.latitude, T.longitude, T.kakao_name, NULL,
+    T.image_url, T.address, T.tel, NULL, T.kakao_rating, T.opening_hour,
+    T.url, date_format(current_date(), 'yyyy-MM-dd'), NULL, 0
 FROM(
-    SELECT *
+    SELECT 
+        K.cafe_name AS kakao_name,
+        K.image_url AS image_url, 
+        K.rating AS kakao_rating, 
+        K.latitude AS latitude, 
+        K.longitude AS longitude, 
+        K.address AS address, 
+        K.tel AS tel, 
+        K.opening_hour AS opening_hour, 
+        K.homepage_url AS url
     FROM kakao_cafe_info AS K
     LEFT JOIN cafe_info AS C ON K.cafe_name = C.kakao_name
     WHERE C.kakao_name IS NULL
@@ -103,13 +120,3 @@ INSERT OVERWRITE TABLE cafe_info
 SELECT * FROM new_cafe_info;
 
 DROP TABLE new_cafe_info;
-
-
----- 카페 메뉴
--- 네이버 메뉴
-
-
--- 카카오 메뉴
-
-
--- 
