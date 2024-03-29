@@ -20,12 +20,13 @@ pipeline {
 		BACK_PORT = "8082"
 		BACK_DIR = "./backend/"
 
+		DOCKER_BACK_PORT = "8082"
+
 		FRONT_NAME = "dmc_fe"
 		FRONT_PORT = "3000"
 		FRONT_DIR = "./frontend/dangmoca-project"
 		FRONT_VOLUEM = "/app"
 
-		DOCKER_BACK_PORT = "8082"
 		DOCKER_FRONT_PORT = "3000"
 
 		MATTERMOST_ENDPOINT = "https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh"
@@ -212,7 +213,7 @@ pipeline {
 				echo "Server Start"
 
 				sh '''
-					
+					nginx -g daemon off
 				'''
 
 				echo "Server End"

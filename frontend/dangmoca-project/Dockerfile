@@ -4,4 +4,3 @@ WORKDIR ${VOLUME}
 COPY ./ ./
 RUN npm install --legacy-peer-deps
 RUN npm run build
-ENTRYPOINT nginx -g daemon off
