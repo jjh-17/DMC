@@ -1,7 +1,9 @@
--- hdfs dfs -put /home/jjh/hive_code/data/* /hive/input/
--- hive -f /home/jjh/hive_code/sql/scraping_table_init.sql
+-- $HADOOP_HOME/sbin/start-all.sh
+-- hdfs dfs -put /home/jjh/A607/data/* /A607/input/
+-- hive -f /home/jjh/A607/sql/scraping_table_init.sql
 
-use hive_db;
+CREATE DATABASE IF NOT EXISTS A607;
+use A607;
 
 -- 스크래핑한 카카오 카페 정보 테이블
 DROP TABLE IF EXISTS kakao_cafe_info;
@@ -21,7 +23,7 @@ FIELDS TERMINATED BY '\t'
 LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
 TBLPROPERTIES ('skip.header.line.count'='1');
-LOAD DATA INPATH '/hive/input/kakao_cafe.csv' INTO TABLE kakao_cafe_info;
+LOAD DATA INPATH '/A607/input/kakao_cafe.csv' INTO TABLE kakao_cafe_info;
 
 
 -- 스크래핑한 카카오 카페 메뉴 테이블
@@ -38,7 +40,7 @@ FIELDS TERMINATED BY '\t'
 LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
 TBLPROPERTIES ('skip.header.line.count'='1');
-LOAD DATA INPATH '/hive/input/kakao_menu.csv' INTO TABLE kakao_cafe_menu;
+LOAD DATA INPATH '/A607/input/kakao_menu.csv' INTO TABLE kakao_cafe_menu;
 
 -- 스크래핑한 카카오 리뷰 테이블
 DROP TABLE IF EXISTS kakao_platform_review;
@@ -56,7 +58,7 @@ FIELDS TERMINATED BY '\t'
 LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
 TBLPROPERTIES ('skip.header.line.count'='1');
-LOAD DATA INPATH '/hive/input/kakao_review.csv' INTO TABLE kakao_platform_review;
+LOAD DATA INPATH '/A607/input/kakao_review.csv' INTO TABLE kakao_platform_review;
 
 -- 스크래핑한 네이버 카페 정보 테이블
 DROP TABLE IF EXISTS naver_cafe_info;
@@ -76,7 +78,7 @@ FIELDS TERMINATED BY '\t'
 LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
 TBLPROPERTIES ('skip.header.line.count'='1');
-LOAD DATA INPATH '/hive/input/naver_cafe.csv' INTO TABLE naver_cafe_info;
+LOAD DATA INPATH '/A607/input/naver_cafe.csv' INTO TABLE naver_cafe_info;
 
 -- 스크래핑한 네이버 카페 메뉴 테이블
 DROP TABLE IF EXISTS naver_cafe_menu;
@@ -92,7 +94,7 @@ FIELDS TERMINATED BY '\t'
 LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
 TBLPROPERTIES ('skip.header.line.count'='1');
-LOAD DATA INPATH '/hive/input/naver_menu.csv' INTO TABLE naver_cafe_menu;
+LOAD DATA INPATH '/A607/input/naver_menu.csv' INTO TABLE naver_cafe_menu;
 
 -- 스크래핑한 네이버 리뷰 테이블
 DROP TABLE IF EXISTS naver_platform_review;
@@ -110,4 +112,4 @@ FIELDS TERMINATED BY '\t'
 LINES TERMINATED BY '\n'
 STORED AS TEXTFILE
 TBLPROPERTIES ('skip.header.line.count'='1');
-LOAD DATA INPATH '/hive/input/naver_review.csv' INTO TABLE naver_platform_review;
+LOAD DATA INPATH '/A607/input/naver_review.csv' INTO TABLE naver_platform_review;
