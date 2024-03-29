@@ -1,5 +1,5 @@
 FROM node:20.11.1-alpine
-VAR VOLUME=/app
+ARG VOLUME=/app
 WORKDIR ${VOLUME}
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
