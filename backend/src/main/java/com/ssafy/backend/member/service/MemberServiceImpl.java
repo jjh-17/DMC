@@ -232,6 +232,21 @@ public class MemberServiceImpl implements MemberService {
         return null;
     }
 
+    @Override
+    public void addAdCount(Long memberSeq) {
+        Optional<Member> memberOptional = memberRepository.findById(memberSeq);
+
+        if (memberOptional.isEmpty()) {
+            throw new BaseException(NOT_EXIST_USER);
+        }
+
+        Member member = memberOptional.get();
+
+        member.addAdCount();
+
+        memberRepository.save(member);
+    }
+
     private Map<Integer, String> getRatingAchievement() {
         if (ratingAchievement == null) {
             ratingAchievement = new HashMap<>();

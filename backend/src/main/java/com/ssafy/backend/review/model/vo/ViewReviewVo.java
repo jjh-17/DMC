@@ -21,6 +21,7 @@ public class ViewReviewVo {
     private List<String> tag;
     private Integer rating;
     private Integer likeCount;
+    private Boolean isPositive;
     private boolean isDeleted;
     private boolean isLiked;
     private String updatedDate;

@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.OOPS;
 
@@ -80,9 +81,11 @@ public class ReviewFacade {
 
     @Transactional
     public List<String> addReview(AddReviewDto addReviewDto) {
+        Map<String, Object> analyzeResult = reviewService.analyzeReview(addReviewDto.getContent());
+        Boolean isPositive = reviewService.isPositive(analyzeResult);
 
         int mileage = 100;
-        Long reviewSeq = reviewService.addReview(addReviewDto);
+        Long reviewSeq = reviewService.addReview(addReviewDto, isPositive);
         if (addReviewDto.getReviewImages() != null) {
             mileage += 50;
             try {
@@ -90,6 +93,10 @@ public class ReviewFacade {
             } catch (IOException e) {
                 throw new BaseException(OOPS);
             }
+        }
+
+        if((Double)analyzeResult.get("완좋") >= 90){
+            memberService.addAdCount(addReviewDto.getMemberSeq());
         }
 
         memberService.addMileage(new AddMileageDto(addReviewDto.getMemberSeq(), mileage));

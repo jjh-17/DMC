@@ -39,4 +39,6 @@ public interface MemberService {
     String getTotalCountAchievement(Long memberSeq, int totalCount);
 
     String getRatingAchievement(Long memberSeq, int rating, int count);
+
+    void addAdCount(Long memberSeq);
 }
