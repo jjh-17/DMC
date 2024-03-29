@@ -137,7 +137,7 @@ pipeline {
 			steps {
 				echo "FE : Install Start"
 				dir("${FRONT_DIR}") {
-					sh "npm install --legacy-peer-deps react react-dom react-scripts typescript"
+					sh "npm install --legacy-peer-deps react react-dom react-scripts typescript vite"
 				}
 				echo "FE : Install End"
 			}
