@@ -12,6 +12,7 @@ export default function MainPage() {
   const [isLogin, setIsLogin] = useState(false); 
   
   useEffect(() => {
+    console.log(store.loginUser)
     setIsLogin(store.loginUser !== null);
   }, [])
 

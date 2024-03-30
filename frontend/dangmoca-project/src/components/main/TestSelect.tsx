@@ -5,7 +5,7 @@ interface Props {
 }
 
 export default function TestSelect(props: Props) {
-    let divClass = "cursor-pointer mx-auto m-5 flex flex-col whitespace-pre-wrap h-[45lvh] w-[35lvw] md:w-[20lvw] items-center gap-3 text-center justify-center border-2 border-primary";
+    let divClass = "cursor-pointer mx-auto m-5 flex flex-col whitespace-pre-wrap h-[45lvh] w-[80lvw] md:w-[25lvh] lg:w-[35lvh] items-center gap-3 text-center justify-center border-2 border-primary";
     if (props.isActive) divClass += " bg-primary";
     return (
         <div className={divClass}>

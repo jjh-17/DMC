@@ -53,7 +53,7 @@ function Map(Props: Props) {
         window.kakao.maps.load(() => initMap());
     }, [mapRef]);
 
-    return <div id="map" className='w-[80lvw] h-[80lvw] md:w-[60lvw] md:h-[60lvw] mx-auto my-10'></div>;
+    return <div id="map" className='w-[80lvw] h-[80lvw] md:w-[60lvw] md:h-[60lvw] lg:w-[40lvw] lg:h-[40lvw] mx-auto my-10'></div>;
 }
 
 export default Map;

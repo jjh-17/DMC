@@ -7,7 +7,7 @@ import MyPageIcon from '../../assets/icons/mypage.svg?react';
 import CoffeeIcon from '../../assets/icons/empty-coffee-bean.svg?react'
 import LogoutIcon from '../../assets/icons/logout.svg?react';
 import { useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLoginUserStore } from '../../stores/userStore';
 import Swal from "sweetalert2";
 
@@ -15,7 +15,10 @@ export default function TheFooter() {
   const navigate = useNavigate();
   const store = useLoginUserStore();
   const [showDropdown, setShowDropdown] = useState(false);
-  const isLogin = store.loginUser !== undefined;
+  const [isLogin, setIsLogin] = useState(false); 
+  useEffect(() => {
+    setIsLogin(store.loginUser !== null);
+  }, [])
 
   const footerStyle = "fixed w-full bg-white inset-x-0 bottom-0 text-center flex flex-row justify-around z-10 bg-zinc-50";
   const footerButtonStyle = "inline-block m-2 p-1 flex flex-col items-center hover:mb-2 hover:-mt-0 hover:text-primary duration-300 hover:border-b-2 hover:border-primary";

@@ -46,7 +46,7 @@ export default function MyPage() {
       <div className={divClass}>
         <div className="flex items-center">
           <span className={spanClass} id="test">북마크한 카페</span>
-          <a href="/??" className={buttonClass} id="test">
+          <a href="/bookmark" className={buttonClass} id="test">
             전체보기
             <RightArrow id="svgIcon" />
           </a>
