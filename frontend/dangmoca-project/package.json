@@ -17,7 +17,7 @@
     "react-router-dom": "^6.22.3",
     "react-use-measure": "^2.1.1",
     "react-wordcloud": "^1.2.7",
-    "sweetalert2-react-content": "^5.0.7",
+    "sweetalert2": "^11.10.7",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

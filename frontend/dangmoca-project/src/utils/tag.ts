@@ -19,20 +19,20 @@ export const tags: { [key: string]: string | number }[] = [
 ];
 
 export const questionForTags: { [key: string]: string | number }[] = [
-    { "공부하기 좋은 한적한 카페": "cagong" },
-    { "데이트하기 좋은 식당": "date" },
-    { "SNS에서 인기 많은 장소": "snspick" },
-    { "가성비 좋은 음식점": "reasonable" },
-    { "대규모 모임에 적합한 장소": "large" },
-    { "아늑하고 독특한 분위기의 카페": "petit" },
-    { "퀄리티 높은 커피 제공": "coffee" },
-    { "다양하고 맛있는 디저트": "dessert" },
-    { "조용하고 평화로운 분위기": "calm" },
-    { "분위기 있는 장소": "mood" },
-    { "야외에서 즐길 수 있는 장소": "outdoor" },
-    { "귀여운 분위기의 장소": "cute" },
-    { "편안하고 아늑한 분위기": "cozy" },
-    { "환상적인 전망을 감상할 수 있는 장소": "view" },
+    { "공부하기 좋은 카페": "cagong" },
+    { "데이트하고 싶은 카페": "date" },
+    { "SNS픽 카페": "snspick" },
+    { "가성비 좋은 카페": "reasonable" },
+    { "넓고 큰 카페": "large" },
+    { "작은 개인 카페": "petit" },
+    { "커피가 맛있는 카페": "coffee" },
+    { "디저트가 맛있는 카페": "dessert" },
+    { "조용한 카페": "calm" },
+    { "분위기 있는 카페": "mood" },
+    { "야외가 있는 카페": "outdoor" },
+    { "귀여운 분위기의 카페": "cute" },
+    { "편안한 동네 카페": "cozy" },
+    { "전망이 멋진 카페": "view" },
 ];
 
 

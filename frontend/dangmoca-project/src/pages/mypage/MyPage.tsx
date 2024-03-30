@@ -6,23 +6,7 @@ import { useLoginUserStore } from "../../stores/userStore";
 
 export default function MyPage() {
   const loginUser = useLoginUserStore(state => (state.loginUser));
-  // const dummyUser: UserInfo = {
-  //   memberSeq: 1,
-  //   profileImageUrl: "src/assets/icons/dummyUserImg.png",
-  //   nickname: "당모카",
-  //   title: "행복한 커피원두",
-  //   preferenceTag: ["조용한", "커피"],
-  //   deleted: false,
-  //   mileage: 1215,
-  //   titleList: ["깐깐한 커피콩","행복한 커피원두","무덤덤한 커피열매", "리뷰의 첫걸음"]
-  // };
-
-  if (loginUser === null) {
-    alert("로그인 유저 정보 없음");
-    console.log("사용자 정보가 없습니다.");
-    return;
-  }
-
+  
   const dummyCafe = {
     cafeSeq: 1,
     name: "식빵카페",

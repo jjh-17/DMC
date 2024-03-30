@@ -2,6 +2,9 @@ import TestProgress from "../../components/main/TestProgress";
 import TestSelect from "../../components/main/TestSelect";
 import { questionForTags } from "../../utils/tag";
 import { useRef, useState } from "react";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { memberAPI } from "../../api/memberAPI";
 
 export default function CafeTestPage() {
   const [isFirstSelected, setIsFirstSelected] = useState(false);
@@ -9,6 +12,7 @@ export default function CafeTestPage() {
   const selectedTags = useRef<string[]>([]);
   const questionLength: number = questionForTags.length;
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const navigate = useNavigate();
 
   const selectedTagsArray = (idx: number) => {
     return Object.values(Object.values(questionForTags)[currentQuestion * 2 + idx]);
@@ -26,13 +30,24 @@ export default function CafeTestPage() {
       setIsFirstSelected(false);
       setIsSecondSelected(false);
     } else {
-      // submit 후 취향 결과 페이지 보여줌
-      console.log(selectedTags.current);
+      memberAPI.submitTestResult(selectedTags.current);
+      Swal.fire({
+        didOpen: () => {
+          Swal.showLoading()
+          setTimeout(() => Swal.fire({
+            title: "취향 테스트가 끝났습니다",
+            text: "테스트를 반영한 카페 추천 페이지로 이동합니다.",
+            confirmButtonText: '좋아요!',
+          }), 1000)
+        }
+      }).then(() => {
+        navigate('/myCafe');
+      })
     }
   };
 
   return (
-    <div className="my-10 mx-auto flex flex-col w-[80lvw] md:w-[40lvw] lg:w-[40lvw] text-center">
+    <div className="mt-10 mx-auto flex flex-col w-[80lvw] md:w-[40lvw] lg:w-[40lvw] text-center">
       <ol className="flex items-center ml-[4lvw] my-4">
         {[...Array(7).keys()].map((i) => (
           <TestProgress
@@ -45,7 +60,7 @@ export default function CafeTestPage() {
       </ol>
       <p>마음에 드는 카페를 고르세요 (중복 가능) </p>
       {/* 2중택1 컴포넌트 */}
-      <div className="flex flex-col mx-auto mt-12 mb-4">
+      <div className="flex flex-row gap-2 mx-auto mt-12 mb-4">
         <div onClick={() =>
           setIsFirstSelected(!isFirstSelected)
         }>
@@ -69,7 +84,7 @@ export default function CafeTestPage() {
         </div>
       </div>
       <button onClick={handleNextQuestion} className="text-xl ">
-        {currentQuestion !== 6 ? "다음" : "테스트 결과 확인하기"}
+        {currentQuestion !== 6 ? "다음" : "카페 추천 받기!"}
       </button>
     </div>
   );
