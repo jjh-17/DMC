@@ -129,7 +129,7 @@ export default function MyPage() {
                 <SimpleReviewCard {...myReview} refreshReviews={getMyReviews} />
               </div>
             ))}
-            <ScrollToTop/>
+            <ScrollToTop />
           </>
         ) : (
           firstNotDeletedReview && (
