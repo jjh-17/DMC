@@ -35,14 +35,12 @@ const CafeDetailPage = () => {
     tag: ["default1", "d2", "d3"],
     updatedDate: "",
   });
-  
 
   const getCafeDetail = async () => {
     try {
       const response = await cafeAPI.getCafeDetail(cafeSeq);
       if (response.data.result?.address)
-      setCafeDetail(response.data.result);
-      
+        setCafeDetail(response.data.result);
     }
     catch (error) {
       console.log(error)
@@ -51,10 +49,11 @@ const CafeDetailPage = () => {
 
   useEffect(() => {
     getCafeDetail();
-    console.log(cafeDetail.tag)
   }, []);
 
-  const cafeAddress: string[] = cafeDetail.address != null? cafeDetail.address.split(" "): ["", ""];
+  const [showKakaoMap, setShowKakaoMap] = useState(false);
+
+  const cafeAddress: string[] = cafeDetail.address != null ? cafeDetail.address.split(" ") : ["", ""];
   const simpleAddress = cafeAddress[0] + ", " + cafeAddress[1];
   const svgClass = "w-6 h-6 inline-block mr-1";
   const textClass = "font-light text-lg my-2 mx-4";
@@ -86,7 +85,6 @@ const CafeDetailPage = () => {
       </h1>
       <p className="absolute top-[80lvh] ml-4 font-light bg-white bg-opacity-20">
         {simpleAddress}
-        {/* {testDetail.address} */}
       </p>
       {!isReviewPage && !isWritePage && (
         <>
@@ -103,7 +101,7 @@ const CafeDetailPage = () => {
               <CoffeeBeanIcon className={svgClass + " fill-primary"} />
               {(Math.round(cafeDetail.rating * 100) / 100).toFixed(2)}
               <BookMarkIcon
-                className={svgClass + " cursor-pointer mx-2 " + (cafeDetail.bookmarked? " fill-primary": "")}
+                className={svgClass + " cursor-pointer mx-2 " + (cafeDetail.bookmarked ? " fill-primary" : "")}
                 onClick={bookmarkCafe}
               />
               <a
@@ -122,10 +120,13 @@ const CafeDetailPage = () => {
               <ClockIcon className={svgClass} />
               {cafeDetail.openingHour}
             </div>
-          </div>
-          {cafeDetail.address.length > 0 &&
-            <KakaoMap address={cafeDetail.address} name={cafeDetail.name} />
+          {cafeDetail.address.length > 0 && !showKakaoMap && <button className="ml-10" onClick={() => setShowKakaoMap(!showKakaoMap)}>위치 보기 </button>
           }
+          {
+            showKakaoMap && <KakaoMap address={cafeDetail.address} name={cafeDetail.name} />
+          }
+          </div>
+
           <CafeMenuList />
           <div className="text-center">
             <Button label="리뷰 보러가기" onClick={() => navigate("review")} />
