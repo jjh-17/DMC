@@ -1,8 +1,8 @@
-import { Cafe } from "../../types/datatype";
+// import { Cafe } from "../../types/datatype";
 import RightArrowIcon from '../../assets/icons/rightarrow.svg?react'
 import { useNavigate } from "react-router-dom";
 
-const SimpleCafeCard = (cafe : Cafe) => {
+const SimpleCafeCard = (cafe : any) => {
   const navigate = useNavigate();
   return (
     <div className="w-44 p-3 flex flex-col m-4 items-center shadow-md">

@@ -4,7 +4,8 @@ import FullBean from "../../assets/icons/full-coffee-bean.svg?react";
 import EmptyHeart from "../../assets/icons/empty-heart.svg?react";
 import FullHeart from "../../assets/icons/full-heart.svg?react";
 import { tagMapper } from "../../utils/tag";
-import ImageWithFallback from "../../utils/ImageWithFallback";
+import dummyUserImg from '/src/assets/icons/dummyUserImg.png';
+
 
 // 타입 다 임시 any임 나중에 다고쳐야함.
 
@@ -40,9 +41,8 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
     <div className="min-w-screen max-w-[600px] flex flex-col gap-4 border-b-[1px] border-slate-500 mx-auto p-6">
       <div className="flex flex-row items-center">
         <div className="w-24 h-24 bg-brown-500 rounded-full overflow-hidden mr-4">
-          <ImageWithFallback
-            src={review.profileImage}
-            fallbackSrc="/src/assets/testpic/1.jpg"
+          <img
+            src={review.profileImage || dummyUserImg}
             alt="프로필 이미지"
             className="w-full h-full object-cover"
           />
