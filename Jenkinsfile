@@ -4,7 +4,7 @@ pipeline {
 	tools {
 		jdk "zulu_jdk17.0.10"
 		gradle "Gradle 8.6"
-		nodejs "NodeJS 20.11.1"
+		nodejs "NodeJS 20.12.0"
 		dockerTool "DockerDefault"
 	}
 
