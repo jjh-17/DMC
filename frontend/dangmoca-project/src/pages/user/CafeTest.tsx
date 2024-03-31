@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { memberAPI } from "../../api/memberAPI";
+import { motion } from "framer-motion";
 
 export default function CafeTestPage() {
   const [isFirstSelected, setIsFirstSelected] = useState(false);
@@ -12,10 +13,16 @@ export default function CafeTestPage() {
   const selectedTags = useRef<string[]>([]);
   const questionLength: number = questionForTags.length;
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [startedTest, setStartedTest] = useState(false);
+
   const navigate = useNavigate();
 
   const selectedTagsArray = (idx: number) => {
     return Object.values(Object.values(questionForTags)[currentQuestion * 2 + idx]);
+  };
+
+  const handleStartTest = () => {
+    setStartedTest(true);
   };
 
   const handleNextQuestion = () => {
@@ -45,6 +52,25 @@ export default function CafeTestPage() {
       })
     }
   };
+  const buttonClass = "border-4 border-primary hover:bg-primary w-40 h-40 hover:text-white py-2 px-4 rounded whitespace-no-wrap text-xl md:text-2xl";
+
+  if (!startedTest) {
+    return (
+      <div className="h-fit mt-[20lvh] my-auto mx-auto flex flex-col w-[80lvw] md:w-[40lvw] lg:w-[40lvw] text-center whitespace-pre-wrap">
+        <h1 className="text-4xl font-bold mb-10 text-primary">취향 테스트에 오신걸 환영합니다!</h1>
+        <p>두 개의 카페 중 마음에 드는 카페를 고르세요.</p>
+        <p> 둘 다 고르실 수도 있고, 하나도 고르지 않으실 수도 있습니다.</p>
+        <div className="flex flex-row justify-center gap-5 mt-[5lvh]">
+          <motion.button onClick={handleStartTest} className={buttonClass} whileHover={{scale: 1.2}}>
+            네!
+          </motion.button>
+          <motion.button onClick={handleStartTest} className={buttonClass} whileHover={{scale: 1.2}}>
+            알겠어요!
+          </motion.button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mt-10 mx-auto flex flex-col w-[80lvw] md:w-[40lvw] lg:w-[40lvw] text-center">
@@ -58,7 +84,7 @@ export default function CafeTestPage() {
           />
         ))}
       </ol>
-      <p className="text-xl">마음에 드는 카페를 고르세요 (중복 가능) </p>
+      <p className="text-xl">마음에 드는 카페를 고르세요.</p>
       {/* 2중택1 컴포넌트 */}
       <div className="flex flex-col md:flex-row lg:flex-row gap-6 mx-auto mt-12 mb-4">
         <div onClick={() =>
@@ -83,7 +109,7 @@ export default function CafeTestPage() {
           />
         </div>
       </div>
-      <button className="text-2xl" onClick={handleNextQuestion} >
+      <button className="text-xl lg:text-2xl" onClick={handleNextQuestion} >
         {currentQuestion !== 6 ? "다음" : "카페 추천 받기!"}
       </button>
     </div>

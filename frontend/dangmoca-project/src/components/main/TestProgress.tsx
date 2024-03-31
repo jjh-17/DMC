@@ -1,3 +1,5 @@
+import { motion } from "framer-motion"
+
 interface Props {
     isLast : boolean,
     isActive : boolean,
@@ -13,11 +15,16 @@ export default function TestProgress(Props: Props) {
         if (Props.isDone) defaultSpanClass += " bg-primary"
         else defaultSpanClass += " bg-opacity-70";
     }
-    if (Props.isActive) defaultSpanClass += " animate-pulse ";
+    if (Props.isActive) defaultSpanClass += " bg-primary bg-opacity-80 ";
 
     return (
         <li className={defaultClass}>
-            <span className={defaultSpanClass} />
+            <motion.div
+            animate={{
+                scale: Props.isActive? [1, 1.2, 1.3, 1.2, 1]: [1],
+            }}
+            transition={{repeat: Infinity}}
+            className={defaultSpanClass} />
         </li>
     )
 }

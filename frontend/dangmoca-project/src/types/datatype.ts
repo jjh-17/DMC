@@ -30,8 +30,6 @@ export interface CafeMenu {
 }
 
 export interface infoProps {
-    imgUrl: string,
-    imgAlt: string,
     title: string,
     description: string
 }
