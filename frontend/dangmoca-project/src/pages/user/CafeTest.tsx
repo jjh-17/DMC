@@ -58,9 +58,9 @@ export default function CafeTestPage() {
           />
         ))}
       </ol>
-      <p>마음에 드는 카페를 고르세요 (중복 가능) </p>
+      <p className="text-xl">마음에 드는 카페를 고르세요 (중복 가능) </p>
       {/* 2중택1 컴포넌트 */}
-      <div className="flex flex-col md:flex-row lg:flex-row gap-2 mx-auto mt-12 mb-4">
+      <div className="flex flex-col md:flex-row lg:flex-row gap-6 mx-auto mt-12 mb-4">
         <div onClick={() =>
           setIsFirstSelected(!isFirstSelected)
         }>
@@ -83,7 +83,7 @@ export default function CafeTestPage() {
           />
         </div>
       </div>
-      <button onClick={handleNextQuestion} >
+      <button className="text-2xl" onClick={handleNextQuestion} >
         {currentQuestion !== 6 ? "다음" : "카페 추천 받기!"}
       </button>
     </div>
