@@ -9,9 +9,12 @@ pipeline {
 	}
 
 	environment {
-		GIT_BRANCH = "infra"
+		HOST_VOLUME = "/jenkins/workspace"
+		JENKINS_VOLUME = "/var/jenkins_home/workspace"
+		
+		DOCKER_ENV = "/var/jenkins_home/workspace/env"
 
-		DOCKER_ENV = "/docker/env"
+		GIT_BRANCH = "infra"
 
 		SSH_CONNECTION = "ubuntu@j10a607.p.ssafy.io"
 		SSH_CONNECTION_SUB = "ubuntu@j10a607a.p.ssafy.io"
@@ -23,11 +26,12 @@ pipeline {
 		DOCKER_BACK_PORT = "8082"
 
 		FRONT_NAME = "dmc_fe"
-		FRONT_PORT = "3000"
 		FRONT_DIR = "./frontend/dangmoca-project"
+		FRONT_PORT = "3000"
 		FRONT_VOLUME = "/app"
 
 		DOCKER_FRONT_PORT = "3000"
+		DOCKER_FRONT_VOLUME = "/app"
 
 		MATTERMOST_ENDPOINT = "https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh"
 		MATTERMOST_CHANNEL = "A607-Jenkins"
@@ -126,7 +130,7 @@ pipeline {
 
 		stage("BE : Container") {
 			steps {
-				sh "docker run --env-file ${DOCKER_ENV} --name ${BACK_NAME} --detach --publish ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}"
+				sh "docker run --name ${BACK_NAME} --env-file ${DOCKER_ENV} --detach --publish ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}"
 			}
 		}
 
@@ -147,10 +151,6 @@ pipeline {
 		stage("FE : rm") {
 			steps {
 				echo "FE : rm Start"
-/*
-				echo "Volume"
-				sh "sudo rm -rf ${FRONT_VOLUME}/*"
-*/
 
 				echo "Container"
 				script {
@@ -200,32 +200,9 @@ pipeline {
 
 		stage("FE : Container") {
 			steps {
-				sh '''
-					docker run --name ${FRONT_NAME} --env-file ${DOCKER_ENV} --detach --publish ${FRONT_PORT}:${DOCKER_FRONT_PORT} --volume ${FRONT_VOLUME}:${FRONT_VOLUME} ${FRONT_NAME}
-				'''
-				
+				sh "docker run --name ${FRONT_NAME} --env-file ${DOCKER_ENV} --detach --publish ${FRONT_PORT}:${DOCKER_FRONT_PORT} --volume ${FRONT_VOLUME}:${DOCKER_FRONT_VOLUME} ${FRONT_NAME}"
 			}
 		}
-
-
-
-
-////// Server
-		stage("Server") {
-			steps {
-				echo "Server Start"
-
-				sh '''
-					
-				'''
-
-				echo "Server End"
-			}
-		}
-
-
-
-
 	}
 
 
