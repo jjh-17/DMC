@@ -53,7 +53,7 @@ pipeline {
 
 				sh '''
 					echo Print env
-					cat /docker/env
+					cat ${DOCKER_ENV}
 				'''
 
 			}
