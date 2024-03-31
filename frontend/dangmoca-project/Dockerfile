@@ -1,0 +1,8 @@
+FROM node:20.12.0-alpine3.18
+ARG DEFAULT_ARG
+ENV DOCKER_FRONT_VOLUME=${DEFAULT_ARG:-/app}
+WORKDIR ${DOCKER_FRONT_VOLUME}
+COPY ./ ./
+RUN npm install
+RUN npm run build
+COPY ./ ./
