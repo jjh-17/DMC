@@ -6,4 +6,6 @@ COPY ./ ./
 RUN npm install
 RUN npm run build
 COPY ./ ./
-COPY ./dist /app
+CMD pwd
+CMD ls -al
+CMD ls -al /app
