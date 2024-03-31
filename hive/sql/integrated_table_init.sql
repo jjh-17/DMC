@@ -1,5 +1,3 @@
--- hive -f /home/jjh/A607/sql/integrated_table_init.sql
-
 use A607;
 
 -- 카페 정보 테이블
@@ -15,14 +13,16 @@ CREATE TABLE IF NOT EXISTS cafe_info  (
     address VARCHAR(255),
     tel VARCHAR(50),
     rating FLOAT,
-    kakao_rating float,
+    kakao_rating FLOAT,
     opening_hour STRING,
-    url varchar(255),
-    updated_date varchar(255),
+    url VARCHAR(255),
+    updated_date VARCHAR(255),
     top_tag TINYINT,
     is_deleted TINYINT
 )
 ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
 STORED AS TEXTFILE;
 
 
@@ -37,7 +37,10 @@ CREATE TABLE IF NOT EXISTS cafe_menu  (
     dessert_tag VARCHAR(255)
 )
 ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
 STORED AS TEXTFILE;
+
 
 -- 플랫폼 리뷰 테이블
 DROP TABLE IF EXISTS platform_review;
@@ -51,4 +54,6 @@ CREATE TABLE IF NOT EXISTS platform_review  (
     collected_date VARCHAR(15)
 )
 ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
 STORED AS TEXTFILE;

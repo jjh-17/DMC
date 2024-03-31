@@ -1,7 +1,3 @@
--- $HADOOP_HOME/sbin/start-all.sh
--- hdfs dfs -put /home/jjh/A607/data/* /A607/input/
--- hive -f /home/jjh/A607/sql/scraping_table_init.sql
-
 CREATE DATABASE IF NOT EXISTS A607;
 use A607;
 
