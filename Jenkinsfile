@@ -139,78 +139,20 @@ pipeline {
 
 
 ////// FE
-		stage("FE : Install") {
+		stage("FE") {
 			steps {
-				echo "FE : Install Start"
-				dir("${FRONT_DIR}") {
-					sh "npm install"
-				}
-				echo "FE : Install End"
-			}
-		}
-
-		stage("FE : rm") {
-			steps {
-				echo "FE : rm Start"
-
-				echo "Container"
-				script {
-					def running = sh(script: "docker ps -aqf name=${FRONT_NAME}", returnStdout: true).trim()
-					sh "echo ${running}"
-
-					if(running) {
-						sh '''
-							docker stop ${FRONT_NAME}
-							echo stop
-
-							docker rm ${FRONT_NAME}
-							echo rm
-						'''
-					}else {
-						sh "echo no running"
-					}
-				}
-
-				echo "Image"
-				script {
-					def image = sh(script: "docker images -aqf reference=${FRONT_NAME}", returnStdout: true).trim()
-					sh "echo ${image}"
-
-					if(image) {
-						sh "docker rmi ${image}"
-					}else {
-						sh "echo no image"
-					}
-				}
-
-				echo "FE : rm End"
-			}
-		}
-
-		stage("FE : Docker") {
-			steps {
-				echo "FE : Docker Build Start"
+				echo "FE : NodeJS build"
 				dir("${FRONT_DIR}") {
 					script {
-						sh "docker build -t ${FRONT_NAME}:latest ./"
+						sh '''
+							npm install
+							npm run build
+						'''
 					}
 				}
-				echo "FE : Docker Build End"
+				echo "FE : NodeJS Build End"
 			}
 		}
-
-		stage("FE : Container") {
-			steps {
-				sh '''
-					ls -al /var/jenkins_home/workspace/DMC/frontend/dangmoca-project
-					ls -al /app
-					docker run --name ${FRONT_NAME} --env-file ${DOCKER_ENV} --detach --publish ${FRONT_PORT}:${DOCKER_FRONT_PORT} --volume --volume ${JENKINS_VOLUME}:${JENKINS_VOLUME} ${FRONT_NAME}
-					ls -al /var/jenkins_home/workspace/DMC/frontend/dangmoca-project
-					ls -al /app
-				'''
-			}
-		}
-	}
 
 
 
