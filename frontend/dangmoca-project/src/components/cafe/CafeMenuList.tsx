@@ -40,7 +40,7 @@ const CafeMenuList = () => {
     };
 
     return (
-        <div className='text-center mx-auto px-4 pt-4 md:w-[80lvw] lg:w-[50lvw]'>
+        <div className='text-center mx-auto px-4 pt-4 w-[80lvw] md:w-[60lvw] lg:w-[50lvw]'>
             <label className='text-2xl'>메뉴</label>
 
             {MenuTest.slice(0, showAll ? MenuTest.length : 2).map((menu, index) => (
