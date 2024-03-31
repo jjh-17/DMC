@@ -4,16 +4,17 @@ pipeline {
 	tools {
 		jdk "zulu_jdk17.0.10"
 		gradle "Gradle 8.6"
-		nodejs "NodeJS 20.12.0"
+		nodejs "NodeJS 20.11.1"
 		dockerTool "DockerDefault"
 	}
 
 	environment {
+		GIT_BRANCH = "infra"
+		CREDENTIAL = "A607"
+
 		HOST_VOLUME = "/jenkins/workspace"
 		JENKINS_VOLUME = "/var/jenkins_home/workspace"
 		DOCKER_ENV = "/var/jenkins_home/workspace/env"
-
-		GIT_BRANCH = "infra"
 
 		SSH_CONNECTION = "ubuntu@j10a607.p.ssafy.io"
 		SSH_CONNECTION_SUB = "ubuntu@j10a607a.p.ssafy.io"
@@ -46,7 +47,7 @@ pipeline {
 			steps {
 				echo "Git Clone Start"
 
-				git branch : "${GIT_BRANCH}", credentialsId: "GitLab", url: "https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git"
+				git branch : "${GIT_BRANCH}", credentialsId: "${CREDENTIAL}", url: "https://lab.ssafy.com/s10-bigdata-dist-sub2/S10P22A607.git"
 
 				echo "Git Clone End"
 
