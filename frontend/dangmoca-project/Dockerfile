@@ -8,7 +8,7 @@ WORKDIR ${DOCKER_FRONT_VOLUME}
 COPY ./ ./
 RUN npm install
 RUN npm run build
-CMD ls -al ./dist
+CMD ls -al dist
 COPY ./dist /app
 
 FROM nginx

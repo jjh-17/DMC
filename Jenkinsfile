@@ -14,6 +14,7 @@ pipeline {
 
 		HOST_VOLUME = "/jenkins/workspace"
 		JENKINS_VOLUME = "/var/jenkins_home/workspace"
+		HOST_ENV = "/jenkins/workspace/env"
 		DOCKER_ENV = "/var/jenkins_home/workspace/env"
 
 		SSH_CONNECTION = "ubuntu@j10a607.p.ssafy.io"
@@ -130,7 +131,7 @@ pipeline {
 
 		stage("BE : Container") {
 			steps {
-				sh "docker run --name ${BACK_NAME} --env-file ${DOCKER_ENV} --detach --publish ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}"
+				sh "docker run --name ${BACK_NAME} --env-file ${HOST_ENV} --detach --publish ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}"
 			}
 		}
 
