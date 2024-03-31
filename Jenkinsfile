@@ -200,7 +200,13 @@ pipeline {
 
 		stage("FE : Container") {
 			steps {
-				sh "docker run --name ${FRONT_NAME} --env-file ${DOCKER_ENV} --detach --publish ${FRONT_PORT}:${DOCKER_FRONT_PORT} --volume ${FRONT_VOLUME}:${DOCKER_FRONT_VOLUME} ${FRONT_NAME}"
+				sh '''
+					ls -al /var/jenkins_home/workspace/DMC/frontend/dangmoca-project
+					ls -al /app
+					docker run --name ${FRONT_NAME} --env-file ${DOCKER_ENV} --detach --publish ${FRONT_PORT}:${DOCKER_FRONT_PORT} --volume ${FRONT_VOLUME}:${DOCKER_FRONT_VOLUME} ${FRONT_NAME}
+					ls -al /var/jenkins_home/workspace/DMC/frontend/dangmoca-project
+					ls -al /app
+				'''
 			}
 		}
 	}
