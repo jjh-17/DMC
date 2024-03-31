@@ -1,9 +1,8 @@
--- hive -f /home/jjh/A607/sql/cafe_info_init_data.sql
-
 use A607;
 
----- 카페 정보
+
 -- 네이버와 카카오 카페에서 겹치는 것 INSERT
+TRUNCATE TABLE cafe_info;
 INSERT INTO
     cafe_info(
         name, latitude, longitude, kakao_name, naver_name, 
@@ -11,7 +10,7 @@ INSERT INTO
         url, updated_date, top_tag, is_deleted
     )
 SELECT
-    T.naver_name, T.latitude, T.longitude, T.kakao_name, T.naver_name,
+    T.naver_name AS name, T.latitude, T.longitude, T.kakao_name, T.naver_name,
     T.image_url, T.address, T.tel, NULL, T.kakao_rating, T.opening_hour,
     T.url, date_format(current_date(), 'yyyy-MM-dd'), NULL AS top_tag, 0 AS is_deleted
 FROM(
@@ -42,6 +41,7 @@ FROM(
         )
 ) AS T;
 
+
 -- 통합 카페 정보에 없으면서 네이버 카페에 있는 것 INSERT
 INSERT INTO
     cafe_info(
@@ -50,7 +50,7 @@ INSERT INTO
         url, updated_date, top_tag, is_deleted
     )
 SELECT
-    T.naver_name, T.latitude, T.longitude, NULL, T.naver_name,
+    T.naver_name AS name, T.latitude, T.longitude, NULL, T.naver_name,
     T.image_url, T.address, T.tel, NULL, NULL, T.opening_hour,
     T.url, date_format(current_date(), 'yyyy-MM-dd'), NULL, 0
 FROM(
@@ -68,6 +68,7 @@ FROM(
     WHERE C.naver_name IS NULL
 ) AS T;
 
+
 -- 통합 카페 정보에 없으면서 카카오 카페에 있는 것 INSERT
 INSERT INTO
     cafe_info(
@@ -76,7 +77,7 @@ INSERT INTO
         url, updated_date, top_tag, is_deleted
     )
 SELECT
-    T.kakao_name, T.latitude, T.longitude, T.kakao_name, NULL,
+    T.kakao_name AS name, T.latitude, T.longitude, T.kakao_name, NULL,
     T.image_url, T.address, T.tel, NULL, T.kakao_rating, T.opening_hour,
     T.url, date_format(current_date(), 'yyyy-MM-dd'), NULL, 0
 FROM(
@@ -94,6 +95,7 @@ FROM(
     LEFT JOIN cafe_info AS C ON K.cafe_name = C.kakao_name
     WHERE C.kakao_name IS NULL
 ) AS T;
+
 
 -- cafe_info에 cafe_seq를 Overwrite
 CREATE TABLE new_cafe_info AS
@@ -119,4 +121,13 @@ FROM cafe_info;
 INSERT OVERWRITE TABLE cafe_info
 SELECT * FROM new_cafe_info;
 
+
+-- overwrite 하기 위한 임시 테이블 제거
 DROP TABLE new_cafe_info;
+
+
+-- export csv
+INSERT OVERWRITE LOCAL DIRECTORY '/home/jjh/A607/data/output/cafe_info/'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+SELECT * FROM cafe_info;
