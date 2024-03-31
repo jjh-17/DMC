@@ -6,10 +6,6 @@ import FullHeart from "../../assets/icons/full-heart.svg?react";
 import { tagMapper } from "../../utils/tag";
 import dummyUserImg from '/src/assets/icons/dummyUserImg.png';
 
-
-// 타입 다 임시 any임 나중에 다고쳐야함.
-
-// review
 const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
   const [setRef] = useDragScroll();
 
@@ -38,17 +34,17 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
   };
 
   return (
-    <div className="min-w-screen max-w-[600px] flex flex-col gap-4 border-b-[1px] border-slate-500 mx-auto p-6">
+    <div className="min-w-screen max-w-[600px] flex flex-col gap-4 border-t-2 border-primary2 mx-auto p-8 my-6">
       <div className="flex flex-row items-center">
         <div className="w-24 h-24 bg-brown-500 rounded-full overflow-hidden mr-4">
           <img
             src={review.profileImage || dummyUserImg}
             alt="프로필 이미지"
-            className="w-full h-full object-cover"
+            className="rounded-full w-24 h-24 p-1 object-cover border-2 border-primary"
           />
         </div>
         <div className="flex flex-col justify-center">
-          <div className="text-lg ml-3">{review.nickname}</div>
+          <div className="text-xl md:text-2xl ml-3" id="test">{review.nickname}</div>
           <div className="text-lg">{review.userTitle}</div>
           <button />
         </div>
@@ -67,18 +63,17 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
           ))}
         </div>
       )}
-      <div className="flex flex-col w-auto h-52 justify-around border-primary border-2 rounded-2xl shadow-lg">
+      <div className="flex flex-col w-auto h-52 my-4 justify-around border-primary2 border-2 rounded-2xl bg-primary bg-opacity-5 shadow-lg">
         {/* 리뷰 별점 & 리뷰 날짜 */}
         <div className="flex justify-between items-center px-4 py-2">
           <div className="flex flex-row space-x-1">
             {renderBeans(review.rating)}
           </div>
-
-          <p>{review.createdDate}</p>
+          <p className="font-light text-slate-700">{review.createdDate}</p>
         </div>
 
         {/* 리뷰 내용 */}
-        <p className="px-5 py-2">{review.content}</p>
+        <p className="px-5 py-2 ">{review.content}</p>
 
         <div className="flex justify-between items-center px-4">
           {/* 좋아요 */}
@@ -86,12 +81,12 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
             {review.liked ? (
               <>
                 <FullHeart id="svgIcon" className="mr-2" />
-                <span className="font-semibold text-red-500">{review.likeCount}</span>
+                <span className="font-semibold text-lg text-red-500">{review.likeCount}</span>
               </>
             ) : (
               <>
                 <EmptyHeart id="svgIcon" className="mr-2" />
-                <span className="font-semibold text-slate-500">{review.likeCount}</span>
+                <span className="font-semibold text-lg text-slate-500">{review.likeCount}</span>
               </>
             )}
           </button>
@@ -100,7 +95,7 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
           {Array.isArray(review.tag) && review.tag.length > 0 && (
             <div className="flex overflow-x-auto p-4">
               {review.tag.map((tag:any, index:any) => (
-                <span key={index} className="mr-2">
+                <span key={index} className="mx-1 text-rose-800">
                   #{tagMapper.get(tag)}
                 </span>
               ))}

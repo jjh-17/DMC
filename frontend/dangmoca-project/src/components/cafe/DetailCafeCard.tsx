@@ -29,11 +29,11 @@ const DetailCafeCard = (cafe: Cafe) => {
         alt="Cafe"
       />
       <h1 className="text-2xl font-medium m-2">{cafe.name}</h1>
-      <p className="text-[12px] font-light text-slate-700">{cafe.address}</p>
+      <p className="text-[12px]  text-zinc-500">{cafe.address}</p>
       <p className="w-68 my-2 flex justify-end items-center">
         {cafe.distance && <span className="text-[12px] mx-4 ml-0 left-0">
           < LocationPin className="w-3 h-3 mx-1 inline-flex" />
-          Math.round(parseFloat(cafe.distance)) + 'm')
+          {Math.round(parseFloat(cafe.distance)) + 'm'}
         </span>}
         {!cafe.distance && <span className='text-white text-[12px]'>  ss  </span>}
         {/* {mappedTags.map((tag, index) => (
