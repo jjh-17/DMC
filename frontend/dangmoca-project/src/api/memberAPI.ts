@@ -14,13 +14,13 @@ export const memberAPI = {
     getMyInfo(): Promise<AxiosResponse> {
         return authAxios({
             method: "GET",
-            url: END_POINT + 'mypage',
+            url: `${END_POINT}/mypage`,
         });
     },
     checkMyNickname(nickname: string): Promise<AxiosResponse> {
         return authAxios({
             method: "POST",
-            url: END_POINT + 'nickname',
+            url: `${END_POINT}/nickname`,
             params: {
                 "nickname": nickname
             }
@@ -29,7 +29,7 @@ export const memberAPI = {
     modifyMyNickname(nickname: string): Promise<AxiosResponse> {
         return authAxios({
             method: "GET",
-            url: END_POINT + 'mypage',
+            url: `${END_POINT}/mypage`,
             params: {
                 "nickname": nickname,
                 "able": true,
@@ -39,7 +39,7 @@ export const memberAPI = {
     submitTestResult(tags: string[]): Promise<AxiosResponse> {
         return authAxios({
             method: "POST",
-            url: END_POINT + 'test',
+            url: `${END_POINT}/test`,
             data: {
                 "resultTag": tags,
             }
