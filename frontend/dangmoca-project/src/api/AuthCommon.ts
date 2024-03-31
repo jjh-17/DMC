@@ -6,9 +6,6 @@ const SERVER = import.meta.env.VITE_SERVER;
 
 const refreshToken = useTokenStore;
 
-const setAccessToken = useTokenStore((state) => state.setAccessToken);
-const setRefreshToken = useTokenStore((state) => state.setRefreshToken);
-
 export const defaultAxios: AxiosInstance = axios.create({
   baseURL: SERVER,
 });
@@ -35,6 +32,9 @@ authAxios.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
+        const setAccessToken = useTokenStore((state) => state.setAccessToken);
+        const setRefreshToken = useTokenStore((state) => state.setRefreshToken);
+        
         const reissueResponse = await axios({
           method: "get",
           url: `${SERVER}/account/reissue`,
