@@ -1,16 +1,29 @@
 import { infoProps } from "../../types/datatype"
+import { motion } from "framer-motion";
 
 const InfoDiv = (props: infoProps) => {
-
-    return (
-    <div 
-    className="bg-primary flex flex-row justify-around bg-opacity-30 h-[30lvh] min-w-[40lvw] mt-[5lvh] items-center text-center shadow-md">
-        <img src={props.imgUrl} className="" alt={props.imgAlt}/>
-        <div>
-          <h1>{props.title}</h1> 
-          <span>{props.description}</span>
-        </div>
+  return (
+    <motion.div
+      initial={{
+        x: 100,
+        opacity: 0,
+      }}
+      whileInView={{
+        x: 0,
+        opacity: 100,
+      }}
+      viewport={{ once: true, amount: 0.8 }}
+      transition={{
+        duration: 1.2,
+        delay: 0.3,
+      }}
+      className="flex flex-row justify-around bg-opacity-30 h-fit
+        w-[80lvw] md:w-[60lvw] lg:w-[50lvw] mx-auto mt-[10lvh] items-center text-center">
+      <div>
+        <h1 className="text-3xl mb-4">{props.title}</h1>
+        <p className="whitespace-nowrap text-2xl">{props.description}</p>
       </div>
+    </motion.div>
   )
 }
 
