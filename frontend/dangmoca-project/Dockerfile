@@ -1,12 +1,15 @@
 FROM node:20.12.0-alpine3.18 as build
 ARG DEFAULT_ARG
 ENV DOCKER_FRONT_VOLUME=${DEFAULT_ARG:-/app}
+
+CMD pwd
+CMD ls
 WORKDIR ${DOCKER_FRONT_VOLUME}
 COPY ./ ./
 RUN npm install
 RUN npm run build
-CMD ls -al
-COPY ./ /app
+CMD ls -al ./dist
+COPY ./dist /app
 
 FROM nginx
 ARG DEFAULT_ARG
