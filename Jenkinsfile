@@ -11,7 +11,6 @@ pipeline {
 	environment {
 		HOST_VOLUME = "/jenkins/workspace"
 		JENKINS_VOLUME = "/var/jenkins_home/workspace"
-		
 		DOCKER_ENV = "/var/jenkins_home/workspace/env"
 
 		GIT_BRANCH = "infra"
