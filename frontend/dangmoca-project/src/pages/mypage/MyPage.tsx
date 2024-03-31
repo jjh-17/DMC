@@ -83,7 +83,8 @@ export default function MyPage() {
   const buttonClass = "ml-[10lvw] text-sm lg:text-base whitespace-nowrap";
 
   return (
-    <div className="min-w-full mx-auto flex flex-col items-center gap-4">
+    // <div className="min-w-full mx-auto flex flex-col items-center gap-4">
+    <div className="m-15 mx-auto w-[80lvw] md:w-[40lvw] lg:w-[40lvw] flex flex-col items-center">
       <Profile {...loginUser} />
       <div className={divClass}>
         <div className="flex items-center">
@@ -95,7 +96,8 @@ export default function MyPage() {
             <RightArrow id="svgIcon" />
           </a>
         </div>
-        <div className="mx-auto whitespace-nowrap">
+      </div>
+        <div className=" whitespace-nowrap">
           <div
             ref={handleRef}
             className="flex flex-row overflow-x-scroll no-scroll"
@@ -107,7 +109,6 @@ export default function MyPage() {
             ))}
           </div>
         </div>
-      </div>
       <div className={divClass}>
         <div className="flex items-center">
           <span className={spanClass} id="test">
