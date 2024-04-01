@@ -7,7 +7,6 @@ import Button from "../../components/common/Button";
 import CafeMenuList from "../../components/cafe/CafeMenuList";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { CafeDetail } from "../../types/datatype";
-// import { useState, useEffect } from "react";
 import KakaoMap from '../../components/cafe/KakaoMap';
 import useCafeStore from '../../stores/cafeStore';
 import { cafeAPI } from "../../api/cafe";
@@ -19,6 +18,7 @@ const CafeDetailPage = () => {
   const navigate = useNavigate();
   const [isReviewPage, setIsReviewPage] = useState(false);
   const [isWritePage, setIsWritePage] = useState(false);
+
   useEffect(() => {
     setIsReviewPage(location.pathname.includes("/review"));
     setIsWritePage(location.pathname.includes("/write"));
@@ -51,10 +51,22 @@ const CafeDetailPage = () => {
       console.log(error)
     }
   }
+  const [cafeMenuList, setCafeMenuList] = useState([]);
+
+  const getCafeMenu = async () => {
+    try {
+      const response = await cafeAPI.getCafeMenu(cafeSeq);
+      if (response.data.result.length > 0) setCafeMenuList(response.data.result);
+      console.log(response);
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
 
   useEffect(() => {
     getCafeDetail();
-
+    getCafeMenu();
   }, []);
 
   const [showKakaoMap, setShowKakaoMap] = useState(false);
@@ -86,12 +98,14 @@ const CafeDetailPage = () => {
         src={cafeDetail.imageUrl}
         className="opacity-80 h-[80lvh] w-screen object-cover -z-10"
       />
-      <h1 className="absolute top-[75lvh] ml-4 text-3xl bg-white bg-opacity-20">
-        {cafeDetail.name}
-      </h1>
-      <p className="absolute top-[80lvh] ml-4 font-light bg-white bg-opacity-20">
-        {simpleAddress}
-      </p>
+      <div className="absolute top-[65lvh] ml-10 text-white bg-slate-50 bg-opacity-20">
+        <h1 className="text-6xl mb-2">
+          {cafeDetail.name}
+        </h1>
+        <p className="text-2xl font-light">
+          {simpleAddress}
+        </p>
+      </div>
       {!isReviewPage && !isWritePage && (
         <>
           {Array.isArray(cafeDetail.tag) && cafeDetail.tag.length > 0 && cafeDetail.tag.map((text: string, idx: number) => (
@@ -126,14 +140,17 @@ const CafeDetailPage = () => {
               <ClockIcon className={svgClass} />
               {cafeDetail.openingHour}
             </div>
-          {cafeDetail.address.length > 0 && !showKakaoMap && <button className="ml-10" onClick={() => setShowKakaoMap(!showKakaoMap)}>위치 보기 </button>
-          }
-          {
-            showKakaoMap && <KakaoMap address={cafeDetail.address} name={cafeDetail.name} />
-          }
+            {cafeDetail.address.length > 0 && !showKakaoMap && <button className="ml-10" onClick={() => setShowKakaoMap(!showKakaoMap)}>위치 보기 </button>
+            }
+            {
+              showKakaoMap && <KakaoMap address={cafeDetail.address} name={cafeDetail.name} />
+            }
           </div>
+          {
+            CafeMenuList.length > 1 &&
+            <CafeMenuList cafeMenu={cafeMenuList} />
+          }
 
-          <CafeMenuList />
           <div className="text-center">
             <Button label="리뷰 보러가기" onClick={() => navigate("review")} />
           </div>

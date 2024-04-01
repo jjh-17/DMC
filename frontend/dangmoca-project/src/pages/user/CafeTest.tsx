@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { memberAPI } from "../../api/memberAPI";
 import { motion } from "framer-motion";
+import Button from "../../components/common/Button";
 
 export default function CafeTestPage() {
   const [isFirstSelected, setIsFirstSelected] = useState(false);
@@ -61,10 +62,10 @@ export default function CafeTestPage() {
         <p>두 개의 카페 중 마음에 드는 카페를 고르세요.</p>
         <p> 둘 다 고르실 수도 있고, 하나도 고르지 않으실 수도 있습니다.</p>
         <div className="flex flex-row justify-center gap-5 mt-[5lvh]">
-          <motion.button onClick={handleStartTest} className={buttonClass} whileHover={{scale: 1.2}}>
+          <motion.button onClick={handleStartTest} className={buttonClass} whileHover={{ scale: 1.2 }}>
             네!
           </motion.button>
-          <motion.button onClick={handleStartTest} className={buttonClass} whileHover={{scale: 1.2}}>
+          <motion.button onClick={handleStartTest} className={buttonClass} whileHover={{ scale: 1.2 }}>
             알겠어요!
           </motion.button>
         </div>
@@ -109,9 +110,8 @@ export default function CafeTestPage() {
           />
         </div>
       </div>
-      <button className="text-xl lg:text-2xl" onClick={handleNextQuestion} >
-        {currentQuestion !== 6 ? "다음" : "카페 추천 받기!"}
-      </button>
+      <Button addClass="text-xl lg:text-2xl mb-20 mx-auto" onClick={handleNextQuestion}
+        label={currentQuestion !== 6 ? "다음" : "카페 추천 받기!"} />
     </div>
   );
 }

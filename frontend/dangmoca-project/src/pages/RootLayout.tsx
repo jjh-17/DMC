@@ -11,6 +11,7 @@ export default function RootLayout() {
   const noRequireAuth = ["/", "/login", "/kakaoLogin", "/naverLogin"];
 
   useEffect(() => {
+    window.scrollTo(0,0);
     if (location.pathname === "/login") {
       setShowHeader(false);
     } else {

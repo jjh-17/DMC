@@ -41,11 +41,11 @@ const Pagination = ({currentPage, endPage, onPageChange}: Props) => {
   }, [curPage, endPage, onPageChange]);
 
   const defaultIconClass = "w-6 h-4 mx-2 inline-block";
-  const prevIconClass = defaultIconClass + (curPage == 1 ? " rotate-180 fill-slate-300" : " rotate-180 cursor-pointer");
-  const nextIconClass = defaultIconClass + (curPage == endPage ? " fill-slate-300" : " cursor-pointer");
+  const prevIconClass = defaultIconClass + (curPage == 1 ? " rotate-180 fill-slate-300 mx-4" : " rotate-180 cursor-pointer mx-4");
+  const nextIconClass = defaultIconClass + (curPage == endPage ? " fill-slate-300 mx-4" : " cursor-pointer mx-4");
 
   return (
-    <div className="mx-auto w-fit align-middle ">
+    <div className="mx-auto w-fit align-middle mb-20">
       <button onClick={handlePrevPage} disabled={curPage == 1}>
         <PrevArrowIcon className={prevIconClass} />
       </button>
