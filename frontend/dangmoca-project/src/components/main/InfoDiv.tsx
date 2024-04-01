@@ -3,17 +3,16 @@ import { motion } from "framer-motion";
 
 const InfoDiv = (props: infoProps) => {
   const initial = {
-    x: 100,
+    y: 100,
     opacity: 0,
   }
 
   const whileInView = {
-    x: 0,
+    y: 0,
     opacity: 100,
   }
 
-  const viewport = { once: true, amount: 0.8 }
-
+  const viewport = { once: true, amount: 0.5 }
 
   return (
     <div

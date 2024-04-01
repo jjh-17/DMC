@@ -29,7 +29,7 @@ export default function MainPage() {
 
   const handleClick = () => {
     if (!isLogin) navigate('/login')
-    else navigate('/myCafe')
+    else navigate('/mycafe')
   };
 
   return (
@@ -45,7 +45,7 @@ export default function MainPage() {
         <InfoDiv title="카페를 추천받으세요" description="취향에 따른 카페 추천 해줌" delay={[0.3, 0.5]}/>
         <InfoDiv title="카페를 찾아서 북마크하세요" description="이제 내까페임 ㅎ" delay={[0.6, 0.7]}/>
         <InfoDiv title="리뷰 결과를 보고 판단하세요" description="카페 리뷰를 분석해서 결과 보여줌" delay={[0.8, 0.9]}/>
-        <Button label={!isLogin ? "시작하기" : "내 카페 찾기"} onClick={handleClick} addClass="whitespace-nowrap text-2xl lg:text-3xl lg:p-4 my-20 lg:rounded-2xl" />
+        <Button label={!isLogin ? "시작하기" : "내 카페 찾기"} onClick={handleClick} addClass="whitespace-nowrap text-3xlz lg:p-4 my-20 lg:rounded-2xl p-4" />
       </div>
     </>
   )

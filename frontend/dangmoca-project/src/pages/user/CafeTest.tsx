@@ -48,7 +48,7 @@ export default function CafeTestPage() {
           }), 1000)
         }
       }).then(() => {
-        navigate('/myCafe');
+        navigate('/mycafe');
       })
     }
   };

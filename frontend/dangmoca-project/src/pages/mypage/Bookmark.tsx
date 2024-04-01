@@ -27,7 +27,9 @@ export default function Bookmark() {
     }
   }
 
-  useEffect(() => {getBookmarkList();}, []);
+  useEffect(() => {
+    getBookmarkList();
+  }, []);
 
   useEffect(() => {
     cafeAPI.getBookmark(currentPage).then((response) => {
@@ -40,20 +42,19 @@ export default function Bookmark() {
   return (
     <div className="w-fit mx-auto pt-10">
       <div className="flex flex-col">
-        {bookmarkList && bookmarkList.map((cafe) => (
+        {bookmarkList.length > 0 && bookmarkList.map((cafe) => (
           <div key={cafe.cafeSeq}>
             <DetailCafeCard {...cafe} />
           </div>
         ))}
         {
-          bookmarkList && bookmarkList.length == 0 && <BookmarkNotFound />
+          bookmarkList.length == 0 && <BookmarkNotFound />
         }
       </div>
         {
           endPage > 1 && 
           <Pagination currentPage={currentPage} endPage={endPage} onPageChange={handlePageChange}/>
         }
-
     </div>
   );
 }

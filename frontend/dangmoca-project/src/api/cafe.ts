@@ -1,19 +1,12 @@
 import { AxiosResponse } from "axios";
 import { defaultAxios } from "./AuthCommon";
 
-const latitude = 37.501271677039064;
-const longitude = 127.03960465624748;
-// TODO : getLocation 뺀뒤에 store로 관리
-// const getLocation = () => navigator.geolocation.getCurrentPosition((position) => {
-//     latitude = position.coords.latitude;
-//     longitude = position.coords.longitude;
-// });
-
+const latitude = localStorage.getItem('latitude') || 37.501271677039064;
+const longitude = localStorage.getItem('longitude') || 127.03960465624748;
 const END_POINT = '/cafes'
 
 export const cafeAPI = {
     getCafeList(curPage: number): Promise<AxiosResponse> {
-        // getLocation(); 
         return defaultAxios({
             method: 'GET',
             url: END_POINT + `?latitude=${latitude}&longitude=${longitude}&page=${curPage}`
@@ -21,7 +14,6 @@ export const cafeAPI = {
     },
 
     getCafeSearchList(curPage: number, keyword: string): Promise<AxiosResponse> {
-        // getLocation(); 
         return defaultAxios({
             method: 'GET',
             url: END_POINT + `?keyword=${keyword}&longitude=${longitude}&latitude=${latitude}&page=${curPage}`
@@ -29,7 +21,6 @@ export const cafeAPI = {
     },
 
     getCafeRecommendList(): Promise<AxiosResponse> {
-        // getLocation();
         return defaultAxios({
             method: 'GET',
             url: END_POINT + `?longitude=${longitude}&latitude=${latitude}`

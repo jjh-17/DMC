@@ -164,7 +164,7 @@ export default function MyPage() {
 //   titleList: ["깐깐한 커피콩","행복한 커피원두","무덤덤한 커피열매", "리뷰의 첫걸음"]
 // };
 
-// const dummyCafe = {
+// const dummycafe = {
 //   cafeSeq: 1,
 //   name: "식빵카페",
 //   distance: "555",

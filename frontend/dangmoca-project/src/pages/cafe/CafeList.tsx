@@ -25,10 +25,6 @@ const CafeListPage = () => {
     setCurrentPage(newPage);
   }
 
-  // useEffect(() => {
-  //   setCafeList(cafeDummyData);
-  // }, []);
-
   const getCafeList = async () => {
     const currentUrl = window.location.href;
     const keyword = currentUrl.split("?")[1];
@@ -39,8 +35,10 @@ const CafeListPage = () => {
       try {
         const response = await cafeAPI.getCafeSearchList(1, keyword);
         const data: CafeListApiResponse = response.data;
-        setEndPage(data.result.totalPages);
-        setCafeList(data.result.list);
+        if (data?.result) {
+          setEndPage(data.result.totalPages);
+          setCafeList(data.result.list);
+        }
       }
       catch (error) {
         console.log(error);
@@ -66,6 +64,7 @@ const CafeListPage = () => {
 
   useEffect(() => {
     if (isSearch.current) {
+      // API 성공 후 페이지 이동을 전제
       cafeAPI.getCafeSearchList(currentPage, searchKeyword.current).then((response) => {
         setCafeList(response.data.result.list);
       })

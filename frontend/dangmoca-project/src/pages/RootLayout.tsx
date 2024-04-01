@@ -20,11 +20,15 @@ export default function RootLayout() {
     if (!noRequireAuth.includes(location.pathname)) {
       if (localStorage.getItem("loginUser") === undefined || localStorage.getItem("loginUser") === null) {
         // navigate(-1);
+        // Swal.enableButtons();
         Swal.fire({
           title: "로그인이 필요합니다",
           text: "로그인 페이지로 이동합니다.",
           confirmButtonText: "네",
-          denyButtonText: "뒤로가기"
+          showDenyButton: true,
+          icon: "info",
+          denyButtonText: "뒤로가기",
+          denyButtonAriaLabel: "#3e2c1e"
         })
         .then((result) => {
           if (result.isConfirmed) {
