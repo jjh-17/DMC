@@ -60,9 +60,6 @@ public class CafeDetailVo {
     }
 
     public void setImageUrl(String imageUrl) {
-        if (imageUrl == null || imageUrl.isBlank()) {
-            throw new BaseException(NOT_VALID_CAFE_IMAGE);
-        }
         this.imageUrl = imageUrl;
     }
 
