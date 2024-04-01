@@ -2,6 +2,7 @@ package com.ssafy.backend.review.model.dto;
 
 import com.ssafy.backend.global.exception.BaseException;
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import static com.ssafy.backend.global.response.BaseResponseStatus.*;
 import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_VALID_RATING;
 
 @Getter
+@ToString
 public class UpdateReviewDto {
 
     private List<MultipartFile> reviewImages;
@@ -76,18 +78,5 @@ public class UpdateReviewDto {
 
     public void setUpdatedDate() {
         this.updatedDate = LocalDate.now().toString();
-    }
-
-    @Override
-    public String toString() {
-        return "UpdateReviewDto{" +
-                "reviewSeq=" + reviewSeq +
-                ", memberSeq=" + memberSeq +
-                ", content='" + content + '\'' +
-                ", tag=" + tag +
-                ", rating=" + rating +
-                ", updatedDate='" + updatedDate + '\'' +
-                ", isDeleted=" + isDeleted +
-                '}';
     }
 }
