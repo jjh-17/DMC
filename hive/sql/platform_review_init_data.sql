@@ -54,13 +54,13 @@ FROM
 -- platform_review에 cafe_seq를 Overwrite
 CREATE TABLE new_platform_review AS
 SELECT
-    row_number() OVER () + 100 AS menu_seq,
+    platform, 
     cafe_seq, 
+    row_number() OVER () + 100 AS menu_seq,
     collected_date,
     content, 
     created_date, 
     nickname, 
-    platform, 
     tag
 FROM platform_review;
 
