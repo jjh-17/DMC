@@ -33,7 +33,7 @@ pipeline {
 		FRONT_DIR = "./frontend/dangmoca-project/"
 
 		NGINX_DIR = "/nginx/"
-		NGINX_DOCKER_DIR = "/usr/share/nginx/html/"
+		NGINX_DOCKER_DIR = "/usr/share/nginx/"
 
 		MATTERMOST_ENDPOINT = "https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh"
 		MATTERMOST_CHANNEL = "A607-Jenkins"
@@ -184,6 +184,15 @@ pipeline {
 		stage("FE : Node") {
 			steps {
 				echo "FE : NodeJS Start"
+				dir("${FRONT_DIR}") {
+					script {
+						sh '''
+							npm install
+							npm run build
+						'''
+					}
+				}
+
 				dir("${FRONT_DIR}") {
 					script {
 						sh '''
