@@ -66,11 +66,13 @@ const CafeListPage = () => {
     if (isSearch.current) {
       // API 성공 후 페이지 이동을 전제
       cafeAPI.getCafeSearchList(currentPage, searchKeyword.current).then((response) => {
+        window.scrollTo(0,0);
         setCafeList(response.data.result.list);
       })
     }
     else {
       cafeAPI.getCafeList(currentPage).then((response) => {
+        window.scrollTo(0,0);
         setCafeList(response.data.result.list);
       })
     }
@@ -222,7 +224,7 @@ const CafeListPage = () => {
         </div>
       </div>
       {
-        (endPage > 1) && (
+        (endPage > 0) && (
           <Pagination currentPage={currentPage} endPage={endPage} onPageChange={handlePageChange} />
         )
       }

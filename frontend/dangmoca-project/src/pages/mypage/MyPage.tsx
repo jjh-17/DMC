@@ -11,13 +11,15 @@ import { Review } from "../../types/datatype";
 import { useDragScroll } from "../../utils/useDragScroll";
 import ScrollToTop from "../../components/common/ScrollToTop";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 export default function MyPage() {
   const { loginUser, setLoginUser } = useLoginUserStore();
   const [myBookMarks, setMyBookMarks] = useState<object[]>([]);
   const [myReviews, setMyReviews] = useState<Review[]>([]);
-
   const [showAllReviews, setShowAllReveiws] = useState(false);
+
+  const navigate = useNavigate();
 
   const toggleReviewDisplay = () => {
     setShowAllReveiws(() => !showAllReviews);
@@ -43,11 +45,14 @@ export default function MyPage() {
 
   if (loginUser === null) {
     Swal.fire({
-      title: "로그인 정보 없음.",
+      title: "로그인 정보가 없습니다.",
       icon: "error",
-    })
-    console.log("사용자 정보가 없습니다.");
-    return null;
+      confirmButtonText: "돌아가기",
+    }).then((response) => {
+        if (response.isConfirmed) {
+          navigate(-1);
+        }
+      })
   }
 
   const getMyBookMarks = async () => {
@@ -101,18 +106,18 @@ export default function MyPage() {
           </a>
         </div>
       </div>
-        <div className=" whitespace-nowrap">
-          <div
-            ref={handleRef}
-            className="flex flex-row overflow-x-scroll no-scroll"
-          >
-            {myBookMarks?.map((myBookMark, index) => (
-              <div key={index}>
-                <SimpleCafeCard {...myBookMark} />
-              </div>
-            ))}
-          </div>
+      <div className=" whitespace-nowrap">
+        <div
+          ref={handleRef}
+          className="flex flex-row overflow-x-scroll no-scroll"
+        >
+          {myBookMarks?.map((myBookMark, index) => (
+            <div key={index}>
+              <SimpleCafeCard {...myBookMark} />
+            </div>
+          ))}
         </div>
+      </div>
       <div className={divClass}>
         <div className="flex items-center">
           <span className={spanClass} id="test">

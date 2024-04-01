@@ -29,7 +29,7 @@ const DetailCafeCard = (cafe: Cafe) => {
         className="w-72 h-72 object-cover rounded-sm m-1 border-[1px] border-slate-200"
         alt="Cafe"
       />
-      <h1 className="text-2xl font-medium m-2">{cafe.name}</h1>
+      <h1 className="text-2xl font-medium m-2 max-w-64 whitespace-pre-wrap">{cafe.name}</h1>
       <p className="text-[12px]  text-zinc-500">{cafe.address}</p>
       <p className="w-68 my-2 flex justify-end items-center">
         {cafe.distance && <span className="text-[12px] mx-4 ml-0 left-0">
