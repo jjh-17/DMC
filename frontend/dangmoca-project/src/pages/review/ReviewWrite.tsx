@@ -5,6 +5,7 @@ import { useDragScroll } from "../../utils/useDragScroll";
 import { reviewAPI } from "../../api/reviewAPI";
 import useCafeStore from "../../stores/cafeStore";
 import { tags } from "../../utils/tag";
+import { motion } from "framer-motion";
 
 interface Review {
   reviewImages: File[];
@@ -51,7 +52,6 @@ export default function ReviewWrite() {
       content: event.target.value,
     }));
 
-    console.log("리뷰 내용 임시 저장");
   };
 
   // 이미지 관련
@@ -88,8 +88,6 @@ export default function ReviewWrite() {
       ...prevReview,
       tag: mappedTag,
     }));
-    console.log(selectedTags.current);
-    console.log(mappedTag);
   };
 
   // 리뷰 작성
@@ -110,7 +108,7 @@ export default function ReviewWrite() {
     } catch (error) {
       console.error("리뷰 작성 에러: ", error);
     }
-    console.log("업로드", review); // 백 연결 후 review 출력해보기
+    // console.log("업로드", review); // 백 연결 후 review 출력해보기
   };
 
   const labelClass = "lg:text-2xl";
@@ -158,25 +156,26 @@ export default function ReviewWrite() {
           추가해야 함
         </p> */}
         {/* <div className="flex rounded-lg overflow-x-auto my-5 w-full h-[28lvh] border-2 border-primary bg-slate-100"> */}
-        <div className="my-5 flex flex-wrap -m-1">
+        <div className="my-5 flex flex-wrap whitespace-pre-wrap basis-- -m-1">
           {tagKeys.map((key, index) => (
             <div key={index} className="flex-auto w-1/7 p-1">
-              <div
+              <motion.div
                 onClick={() => handleSelectTags(key)}
-                className={`text-center border border-gray-300 p-2 rounded-lg cursor-pointer ${
-                  selectedTags.current.includes(key)
+                whileHover={!selectedTags.current.includes(key)? {scale: 1.1} : {}}
+                transition={{delay: 0.1, duration: 0.1}}
+                className={`text-center border-2 border-primary2 p-[7px] rounded-lg cursor-pointer ${selectedTags.current.includes(key)
                     ? "bg-primary text-white hover:bg-primary"
                     : "hover:bg-gray-200"
-                }`}
+                  }`}
               >
                 {key}
-              </div>
+              </motion.div>
             </div>
           ))}
         </div>
 
         <Button
-          label="업로드"
+          label="작성하기"
           onClick={writeReviewData}
           addClass="mx-auto"
         ></Button>

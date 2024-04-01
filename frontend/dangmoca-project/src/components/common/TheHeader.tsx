@@ -25,7 +25,7 @@ const TheHeader = () => {
       case '/myinfo':
         setHeaderText("정보 수정하기");
         break;
-      case '/myCafe':
+      case '/mycafe':
         setHeaderText("");
         break;
       default:

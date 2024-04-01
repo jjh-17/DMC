@@ -17,8 +17,13 @@ import ScrollToTop from "../../components/common/ScrollToTop";
 const CafeDetailPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const isReviewPage = location.pathname.includes("/review");
-  const isWritePage = location.pathname.includes("/write");
+  const [isReviewPage, setIsReviewPage] = useState(false);
+  const [isWritePage, setIsWritePage] = useState(false);
+  useEffect(() => {
+    setIsReviewPage(location.pathname.includes("/review"));
+    setIsWritePage(location.pathname.includes("/write"));
+  }, [location])
+
   const store = useCafeStore();
   const cafeSeq = store.selectedCafeSeq;
 
@@ -49,6 +54,7 @@ const CafeDetailPage = () => {
 
   useEffect(() => {
     getCafeDetail();
+
   }, []);
 
   const [showKakaoMap, setShowKakaoMap] = useState(false);
