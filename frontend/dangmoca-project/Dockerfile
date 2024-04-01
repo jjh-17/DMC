@@ -5,4 +5,4 @@ ARG DEFAULT_NGINX
 ENV DIST_NGINX=${DEFAULT_NGINX:/usr/share/nginx/html}
 COPY DIST_DIR DIST_NGINX
 EXPOSE 3000
-CMD [ "nginx","-g","daemon off;" ]
+ENTRYPOINT nginx -g daemon off;
