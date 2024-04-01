@@ -147,15 +147,15 @@ pipeline {
 
 				echo "Container"
 				script {
-					def running = sh(script: "docker ps -aqf name=nginx", returnStdout: true).trim()
+					def running = sh(script: "docker ps -aqf name=${FRONT_NAME}", returnStdout: true).trim()
 					sh "echo ${running}"
 
 					if(running) {
 						sh '''
-							docker stop nginx
+							docker stop ${FRONT_NAME}
 							echo stop
 
-							docker rm nginx
+							docker rm ${FRONT_NAME}
 							echo rm
 						'''
 					}else {
@@ -165,7 +165,7 @@ pipeline {
 
 				echo "Image"
 				script {
-					def image = sh(script: "docker images -aqf reference=nginx", returnStdout: true).trim()
+					def image = sh(script: "docker images -aqf reference=${FRONT_NAME}", returnStdout: true).trim()
 					sh "echo ${image}"
 
 					if(image) {
