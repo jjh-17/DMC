@@ -32,8 +32,8 @@ pipeline {
 		FRONT_DOCKER_PORT = "3000"
 		FRONT_DIR = "./frontend/dangmoca-project/"
 
-		NGINX_DIR = "/nginx"
-		NGINX_DOCKER_DIR = "/usr/share/nginx"
+		NGINX_DIR = "/nginx/"
+		NGINX_DOCKER_DIR = "/usr/share/nginx/"
 
 		MATTERMOST_ENDPOINT = "https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh"
 		MATTERMOST_CHANNEL = "A607-Jenkins"
@@ -204,9 +204,9 @@ pipeline {
 					script {
 						sh '''
 							pwd
-							ls -al /nginx
-							ls -al ${FRONT_DIR}dist
-							cp ./dist /nginx/html
+							ls -al /usr/share/nginx
+							ls -al ${NGINX_DOCKER_DIR}dist
+							cp ./dist ${NGINX_DOCKER_DIR}html
 							docker run --name ${FRONT_NAME} --env-file ${ENV_DIR}${FRONT_ENV} --detach --volume ${NGINX_DIR}:${NGINX_DOCKER_DIR} --publish ${FRONT_PORT}:${FRONT_DOCKER_PORT} --publish 80:80 --publish 443:443 nginx
 						'''
 					}
