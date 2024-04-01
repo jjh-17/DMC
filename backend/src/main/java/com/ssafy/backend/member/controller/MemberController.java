@@ -6,6 +6,7 @@ import com.ssafy.backend.global.response.BaseResponse;
 import com.ssafy.backend.member.model.vo.GetMemberInformationVo;
 import com.ssafy.backend.member.service.MemberFacade;
 import com.ssafy.backend.member.service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,10 +41,9 @@ public class MemberController {
      * 닉네임 변경
      */
     @PatchMapping("/nickname")
-    public BaseResponse<?> updateNickname(@RequestBody Map<String, Object> body){
-        // Long membersSeq = (Long) request.getAttribute("seq");
+    public BaseResponse<?> updateNickname(HttpServletRequest request, @RequestBody Map<String, Object> body) {
+        Long memberSeq = (Long) request.getAttribute("seq");
         boolean able = (boolean) body.get("able");
-        Long memberSeq = 2L;
         if (able) {
             memberService.updateNickname(memberSeq, (String) body.get("nickname"));
             return new BaseResponse<>(SUCCESS);
@@ -56,9 +56,8 @@ public class MemberController {
      * 프로필 사진 변경
      */
     @PatchMapping("/profile")
-    public BaseResponse<?> updateProfileImage(@RequestBody MultipartFile profileImage) {
-        // Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 2L;
+    public BaseResponse<?> updateProfileImage(HttpServletRequest request, @RequestBody MultipartFile profileImage) {
+        Long memberSeq = (Long) request.getAttribute("seq");
         memberFacade.updateProfileImage(memberSeq, profileImage);
         return new BaseResponse<>(SUCCESS);
     }
@@ -76,9 +75,8 @@ public class MemberController {
      * 내 정보 조회
      */
     @GetMapping("/mypage")
-    public BaseResponse<?> getMyPageInformation() {
-        // Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 2L;
+    public BaseResponse<?> getMyPageInformation(HttpServletRequest request) {
+        Long memberSeq = (Long) request.getAttribute("seq");
         GetMemberInformationVo getMemberInformationVo = memberFacade.getMemberInformation(memberSeq);
         return new BaseResponse<>(getMemberInformationVo);
     }
@@ -88,9 +86,8 @@ public class MemberController {
      * 회원 선호 태그 반영
      */
     @PostMapping("/test")
-    public BaseResponse<?> updatePreferenceTag(@RequestBody Map<String, List<String>> body) {
-//      Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 2L;
+    public BaseResponse<?> updatePreferenceTag(HttpServletRequest request, @RequestBody Map<String, List<String>> body) {
+        Long memberSeq = (Long) request.getAttribute("seq");
         memberService.updatePreferenceTag(memberSeq, body.get("resultTag"));
         return new BaseResponse<>(SUCCESS);
     }

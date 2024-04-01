@@ -6,4 +6,6 @@ public interface AccountService {
     TokenVo OAuthLogin(String memberCode, char loginType);
 
     void deleteMember(Long memberSeq);
+
+    TokenVo reissue(String headerToken);
 }
