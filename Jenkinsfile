@@ -9,30 +9,28 @@ pipeline {
 	}
 
 	environment {
-		GIT_BRANCH = "infra"
-		CREDENTIAL = "A607"
-
-		HOST_VOLUME = "/jenkins/workspace"
-		JENKINS_VOLUME = "/var/jenkins_home/workspace"
-		HOST_ENV = "/jenkins/workspace/env"
-		DOCKER_ENV = "/var/jenkins_home/workspace/env"
-
+		// for info, not necessary
+		HOST_VOLUME = "/jenkins/workspace/"
+		JENKINS_VOLUME = "/var/jenkins_home/workspace/"
 		SSH_CONNECTION = "ubuntu@j10a607.p.ssafy.io"
 		SSH_CONNECTION_SUB = "ubuntu@j10a607a.p.ssafy.io"
 
+		GIT_BRANCH = "infra"
+		CREDENTIAL = "A607"
+
+		ENV_DIR = "/var/jenkins_home/workspace/env/"
+		BACK_ENV = "back.env"
+		FRONT_ENV = "front.env"
+
 		BACK_NAME = "dmc_be"
 		BACK_PORT = "8082"
+		BACK_DOCKER_PORT = "8082"
 		BACK_DIR = "./backend/"
 
-		DOCKER_BACK_PORT = "8082"
-
 		FRONT_NAME = "dmc_fe"
-		FRONT_DIR = "./frontend/dangmoca-project"
 		FRONT_PORT = "3000"
-		FRONT_VOLUME = "/app"
-
-		DOCKER_FRONT_PORT = "3000"
-		DOCKER_FRONT_VOLUME = "/app"
+		FRONT_DOCKER_PORT = "3000"
+		FRONT_DIR = "./frontend/dangmoca-project/"
 
 		MATTERMOST_ENDPOINT = "https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh"
 		MATTERMOST_CHANNEL = "A607-Jenkins"
@@ -131,7 +129,7 @@ pipeline {
 
 		stage("BE : Container") {
 			steps {
-				sh "docker run --name ${BACK_NAME} --env-file ${DOCKER_ENV} --detach --publish ${BACK_PORT}:${DOCKER_BACK_PORT} ${BACK_NAME}"
+				sh "docker run --name ${BACK_NAME} --env-file ${ENV_DIR}${BACK_ENV} --detach --publish ${BACK_PORT}:${BACK_DOCKER_PORT} ${BACK_NAME}"
 			}
 		}
 
@@ -147,6 +145,7 @@ pipeline {
 						sh '''
 							npm install
 							npm run build
+							docker run --name ${FRONT_NAME} --env-file ${ENV_DIR}${FRONT_ENV} --detach --publish ${FRONT_PORT}:${FRONT_DOCKER_PORT} ${BACK_NAME}
 						'''
 					}
 				}
