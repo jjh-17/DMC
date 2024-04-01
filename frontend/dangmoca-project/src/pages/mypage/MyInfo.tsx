@@ -46,8 +46,8 @@ export default function MyInfo() {
   };
 
   return (
-    <div className="flex flex-col items-start w-[80lvw] md:w-[60lvw] lg:w-[40lvw] max-w-4xl mx-auto mt-5 p-4 space-y-4">
-      <div className="whitespace-nowrap font-light mx-auto">프로필 사진</div>
+    <div className="flex flex-col items-start w-[80lvw] md:w-[60lvw] lg:w-[40lvw] max-w-4xl mt-5 p-4 space-y-4">
+      <div className="whitespace-nowrap font-light">프로필 사진</div>
       <div className="mx-auto">
       <div className="w-full md:w-[30lvw] lg:w-[20lvw]">
           {/* <img

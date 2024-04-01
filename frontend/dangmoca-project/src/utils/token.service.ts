@@ -16,33 +16,44 @@
 
 class TokenService {
   static getLocalRefreshToken = () => {
-    return localStorage.getItem('user') ? localStorage.getItem('refresh-token') : null;
+    return localStorage.getItem("refreshToken")
+      ? localStorage.getItem("refreshToken")
+      : null;
   };
 
-  static getLocalAccessToken = () => {
-    return localStorage.getItem('user') ? localStorage.getItem('token') : null;
+  static getCookieAccessToken = () => {
+    let cookieArray = document.cookie.split(";");
+    for (let i = 0; i < cookieArray.length; i++) {
+      let cookiePair = cookieArray[i].split("=");
+      if ("accessToken" == cookiePair[0].trim()) {
+        return decodeURIComponent(cookiePair[1]);
+      }
+    }
+    return null;
+    // return localStorage.getItem("loginUser")
+    //   ? localStorage.getItem("token")
+    //   : null;
   };
 
   static setLocalRefreshToken = (token: string) => {
-    localStorage.setItem('refresh-token', token);
+    localStorage.setItem("refreshToken", token);
   };
 
   static setLocalAccessToken = (token: string) => {
-    localStorage.setItem('token', token);
+    localStorage.setItem("token", token);
   };
 
   static updateLocalAccessToken = (token: string) => {
-    localStorage.setItem('token', token);
+    localStorage.setItem("token", token);
   };
 
-  
   static removeUser = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     try {
-      localStorage.removeItem('refresh-token');
-    } catch(err) {
-        console.log(err)
-    } 
+      localStorage.removeItem("refresh-token");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // expiredToken = () => {

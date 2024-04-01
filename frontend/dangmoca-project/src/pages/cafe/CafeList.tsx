@@ -49,6 +49,7 @@ const CafeListPage = () => {
       try {
         const response = await cafeAPI.getCafeList(1);
         const data: CafeListApiResponse = response.data;
+        console.log(data);
         setEndPage(data.result.totalPages);
         setCafeList(data.result.list);
       }
