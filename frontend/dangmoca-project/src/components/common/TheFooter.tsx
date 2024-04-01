@@ -57,15 +57,12 @@ export default function TheFooter() {
           {showDropdown && (
             <div className={dropdownStyle}>
               <button className={footerButtonStyle} onClick={() => {
+                navigate('/');
                 store.logout();
                 Swal.fire({
                   title: "성공적으로 로그아웃 했습니다.",
                   icon: "success",
                 })
-                  .then((response) => {
-                    if (response.isConfirmed)
-                      navigate('/')
-                  })
               }}>
                 <LogoutIcon id='svgIcon2' />
                 <label className={labelStyle}>로그아웃</label>

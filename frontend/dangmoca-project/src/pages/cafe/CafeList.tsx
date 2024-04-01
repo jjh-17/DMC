@@ -19,13 +19,14 @@ const CafeListPage = () => {
   const [cafeList, setCafeList] = useState<Cafe[] | undefined>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [endPage, setEndPage] = useState<number>(1);
+  const [hasResult, setHasResult] = useState(false);
   const isSearch = useRef(false);
   const searchKeyword = useRef("");
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   }
 
-  const getCafeList = async () => {
+  const getCafeList = async (currentPage: number) => {
     const currentUrl = window.location.href;
     const keyword = currentUrl.split("?")[1];
 
@@ -33,9 +34,10 @@ const CafeListPage = () => {
       isSearch.current = true;
       searchKeyword.current = keyword || "";
       try {
-        const response = await cafeAPI.getCafeSearchList(1, keyword);
+        const response = await cafeAPI.getCafeSearchList(currentPage, keyword);
         const data: CafeListApiResponse = response.data;
         if (data?.result) {
+          setHasResult(true);
           setEndPage(data.result.totalPages);
           setCafeList(data.result.list);
         }
@@ -47,11 +49,14 @@ const CafeListPage = () => {
     }
     else {
       try {
-        const response = await cafeAPI.getCafeList(1);
+        const response = await cafeAPI.getCafeList(currentPage);
         const data: CafeListApiResponse = response.data;
-        console.log(data);
-        setEndPage(data.result.totalPages);
-        setCafeList(data.result.list);
+        if (data?.result) {
+          setHasResult(true);
+          setEndPage(data.result.totalPages);
+          setCafeList(data.result.list);
+        }
+
       }
       catch (error) {
         console.log(error);
@@ -59,25 +64,10 @@ const CafeListPage = () => {
     }
   }
 
-  useEffect(() => {
-    getCafeList();
-  }, []);
-
-  useEffect(() => {
-    if (isSearch.current) {
-      // API 성공 후 페이지 이동을 전제
-      cafeAPI.getCafeSearchList(currentPage, searchKeyword.current).then((response) => {
-        window.scrollTo(0,0);
-        setCafeList(response.data.result.list);
-      })
-    }
-    else {
-      cafeAPI.getCafeList(currentPage).then((response) => {
-        window.scrollTo(0,0);
-        setCafeList(response.data.result.list);
-      })
-    }
-  }, [currentPage]);
+  
+useEffect(() => {
+  getCafeList(currentPage);
+}, [currentPage]);
 
   // const selectedSorts = useRef<string[]>([]);
   // const selectedTags = useRef<string[]>([]);
@@ -213,9 +203,9 @@ const CafeListPage = () => {
         </div>
         <div className="w-fit mx-auto">
           <div className="flex flex-col">
-            {!cafeList && <CafeNotFound />}
-            {cafeList && cafeList.length == 0 && <CafeLoading />}
-            {cafeList &&
+            {!hasResult && <CafeLoading />}
+            {hasResult && cafeList && cafeList.length == 0 && <CafeNotFound/>}
+            {hasResult && cafeList && cafeList.length > 0 &&
               cafeList.map((cafe) => (
                 <div className="cursor-pointer" key={cafe.cafeSeq}>
                   <DetailCafeCard {...cafe} />

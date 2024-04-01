@@ -36,7 +36,13 @@ export default function CafeSearch() {
         };
         setKeyword(keyword.trim());
         if (keyword.length > 0) {
+            searchHistory.forEach((history) => {
+                if (history.keyword == newSearchItem.keyword) {
+                    searchHistory.splice(searchHistory.indexOf(history), 1);
+                }
+            })
             setSearchHistory([newSearchItem, ...searchHistory]);
+
             localStorage.setItem('searchHistory', JSON.stringify([newSearchItem, ...searchHistory]));
             navigate(`/cafes?${keyword}`); // query로 keyword 전달하기
         }
@@ -65,7 +71,7 @@ export default function CafeSearch() {
                     value={keyword}
                     onChange={handleInputChange}
                 />
-                <button type="submit" className='text-primary2 inline-block'>검색</button>
+                <button type="submit" className='bg-primary2 text-white p-2 hover:bg-primary rounded-sm inline-block'>검색</button>
             </form>
             <span className='text-primary3'>최근 검색 내역</span>
             <button onClick={deleteSearchHistoryAll} className='text-xs font-light float-end hover:text-red-500'>검색 내역 삭제</button>
