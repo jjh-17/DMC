@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 import { Cafe } from '../../types/datatype';
 import useCafeStore from '../../stores/cafeStore';
+import cafeAlt from "../../assets/icons/cafe-alt.png";
 
 const DetailCafeCard = (cafe: Cafe) => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const DetailCafeCard = (cafe: Cafe) => {
   return (
     <div className="p-1 flex flex-col m-4 shadow-xl rounded-sm items-center" onClick={handleCafeClick}>
       <img
-        src={cafe.imageUrl}
+        src={cafe.imageUrl || cafeAlt}
         className="w-72 h-72 object-cover rounded-sm m-1 border-[1px] border-slate-200"
         alt="Cafe"
       />
