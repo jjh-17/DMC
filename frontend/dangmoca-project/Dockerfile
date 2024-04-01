@@ -4,5 +4,5 @@ ENV DIST_DIR=${DEFAULT_ARG:-/dist}
 ARG DEFAULT_NGINX
 ENV DIST_NGINX=${DEFAULT_NGINX:/usr/share/nginx/html}
 COPY ./dist /usr/share/nginx/html
-EXPOSE 3000
+EXPOSE 80
 ENTRYPOINT nginx -g daemon off;
