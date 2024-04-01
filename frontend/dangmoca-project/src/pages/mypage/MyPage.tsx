@@ -53,6 +53,7 @@ export default function MyPage() {
           navigate("/");
         }
       })
+      return null;
   }
 
   const getMyBookMarks = async () => {

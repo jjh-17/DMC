@@ -16,7 +16,7 @@ const CafeRecommend = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (store.loginUser?.preferenceTag.length == 0) {
+        if (!store.loginUser?.preferenceTag || store.loginUser?.preferenceTag.length == 0) {
             Swal.fire({
                 title: "내 카페를 찾으려면 취향 테스트를 먼저 해주세요.",
                 confirmButtonText: "알겠어요"
