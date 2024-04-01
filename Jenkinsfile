@@ -33,7 +33,7 @@ pipeline {
 		FRONT_DIR = "./frontend/dangmoca-project/"
 
 		NGINX_DIR = "/nginx/"
-		NGINX_DOCKER_DIR = "/usr/share/nginx/"
+		NGINX_DOCKER_DIR = "/usr/share/nginx/html/"
 
 		MATTERMOST_ENDPOINT = "https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh"
 		MATTERMOST_CHANNEL = "A607-Jenkins"
