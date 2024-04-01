@@ -32,6 +32,9 @@ pipeline {
 		FRONT_DOCKER_PORT = "3000"
 		FRONT_DIR = "./frontend/dangmoca-project/"
 
+		NGINX_DIR = "/usr/share/nginx/html"
+		NGINX_DOCKER_DIR = "/usr/share/nginx/html"
+
 		MATTERMOST_ENDPOINT = "https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh"
 		MATTERMOST_CHANNEL = "A607-Jenkins"
 	}
@@ -187,7 +190,7 @@ pipeline {
 						sh '''
 							npm install
 							npm run build
-							docker run --name ${FRONT_NAME} --env-file ${ENV_DIR}${FRONT_ENV} --detach --publish ${FRONT_PORT}:${FRONT_DOCKER_PORT} --publish 80:80 --publish 443:443 nginx
+							docker run --name ${FRONT_NAME} --env-file ${ENV_DIR}${FRONT_ENV} --detach --volume ${NGINX_DIR}:${NGINX_DOCKER_DIR} --publish ${FRONT_PORT}:${FRONT_DOCKER_PORT} --publish 80:80 --publish 443:443 nginx
 						'''
 					}
 				}
