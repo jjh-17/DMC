@@ -143,6 +143,7 @@ pipeline {
 
 
 ////// FE
+
 		stage("FE : rm") {
 			steps {
 				echo "FE : rm Start"
@@ -181,39 +182,15 @@ pipeline {
 			}
 		}
 
-		stage("FE : Node") {
+		stage("FE : Docker") {
 			steps {
-				echo "FE : NodeJS Start"
-				dir("${FRONT_DIR}") {
-					script {
-						sh '''
-							npm install
-							npm run build
-						'''
-					}
-				}
-
-				dir("${FRONT_DIR}") {
-					script {
-						sh '''
-							npm install
-							npm run build
-						'''
-					}
-				}
-				echo "FE : NodeJS End"
-			}
-		}
-
-		stage("FE : Nginx") {
-			steps {
-				echo "FE : Nginx Start"
+				echo "FE : Start"
 				dir("${FRONT_DIR}") {
 					script {
 						sh " docker run --name ${FRONT_NAME} --env-file ${ENV_DIR}${FRONT_ENV} --detach --volume ${NGINX_DIR}:${NGINX_DOCKER_DIR} --publish ${FRONT_PORT}:${FRONT_DOCKER_PORT} --publish 80:80 --publish 443:443 nginx"
 					}
 				}
-				echo "FE : Nginx End"
+				echo "FE : End"
 			}
 		}
 
