@@ -7,10 +7,10 @@ import static com.ssafy.backend.global.response.BaseResponseStatus.*;
 public class CafeDetailVo {
     private Long cafeSeq;
     private String name, address, imageUrl, tag, openingHour, homepageUrl, updatedDate;
-    private float rating;
+    private Float rating;
     private boolean isBookmarked;
 
-    public CafeDetailVo(Long cafeSeq, String name, String address, String imageUrl, String openingHour, String tag, String homepageUrl, String updatedDate, float rating) {
+    public CafeDetailVo(Long cafeSeq, String name, String address, String imageUrl, String openingHour, String tag, String homepageUrl, String updatedDate, Float rating) {
         setCafeSeq(cafeSeq);
         setName(name);
         setAddress(address);
@@ -98,11 +98,11 @@ public class CafeDetailVo {
         this.tag = tag;
     }
 
-    public float getRating() {
+    public Float getRating() {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 
