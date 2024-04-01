@@ -1,4 +1,5 @@
 import Logo from '../../assets/icons/logo1.svg?react'
+import { motion } from 'framer-motion';
 
 export default function Login() {
   const naverURL = import.meta.env.VITE_NAVER_LOGIN_URL;
@@ -8,26 +9,30 @@ export default function Login() {
   return (
     <div className="flex flex-col mx-auto w-fit">
       <Logo className='w-full mb-12' />
-      <a href={naverURL}
-        className={linkClassName}
-      >
-        <img
-          src="src/assets/icons/naver.png"
-          alt="Naver 로그인"
-          className='w-12 h-12 md:w-20 md:h-20'
-        />
-        <p id="test">네이버로 시작하기</p>
-      </a>
-      <a href={kakaoURL}
-        className={linkClassName}
-      >
-        <img
-          src="src/assets/icons/kakao.png"
-          alt="Kakao 로그인"
-          className='w-12 h-12 md:w-20 md:h-20'
-        />
-        <p id="test">카카오로 시작하기</p>
-      </a>
+      <motion.div whileHover={{scale:1.1}}>
+        <a href={naverURL}
+          className={linkClassName}
+        >
+          <img
+            src="src/assets/icons/naver.png"
+            alt="Naver 로그인"
+            className='w-12 h-12 md:w-20 md:h-20'
+          />
+          <p id="test">네이버로 시작하기</p>
+        </a>
+      </motion.div>
+      <motion.div whileHover={{scale:1.1}}>
+        <a href={kakaoURL}
+          className={linkClassName}
+        >
+          <img
+            src="src/assets/icons/kakao.png"
+            alt="Kakao 로그인"
+            className='w-12 h-12 md:w-20 md:h-20'
+          />
+          <p id="test">카카오로 시작하기</p>
+        </a>
+      </motion.div>
     </div>
   );
 }
