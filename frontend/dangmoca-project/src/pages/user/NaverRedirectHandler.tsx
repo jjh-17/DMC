@@ -1,15 +1,13 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useLoginUserStore, useTokenStore } from "../../stores/userStore"; 
+import { useLoginUserStore } from "../../stores/userStore"; 
 
 const NaverRedirectHandler = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
-  const setAccessToken = useTokenStore((state) => state.setAccessToken);
-  const setRefreshToken = useTokenStore((state) => state.setRefreshToken);
   const setLoginUser = useLoginUserStore((state) => state.setLoginUser);
 
   useEffect(() => {
@@ -24,8 +22,6 @@ const NaverRedirectHandler = () => {
         console.log(refreshToken);
         console.log(response.data);
 
-        setAccessToken(accessToken);
-        setRefreshToken(refreshToken);
         setLoginUser(response.data.result);
 
         document.cookie = `accessToken=${accessToken}; max-age=3600; path=/;`;
@@ -36,7 +32,7 @@ const NaverRedirectHandler = () => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [navigate, setAccessToken, setRefreshToken]);
+  }, [navigate]);
 
   return null;
 };
