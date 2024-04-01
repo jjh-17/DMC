@@ -15,7 +15,7 @@ export default function TheFooter() {
   const navigate = useNavigate();
   const store = useLoginUserStore();
   const [showDropdown, setShowDropdown] = useState(false);
-  const [isLogin, setIsLogin] = useState(false); 
+  const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
     setIsLogin(store.loginUser !== null);
   }, [store.loginUser])
@@ -62,9 +62,10 @@ export default function TheFooter() {
                   title: "성공적으로 로그아웃 했습니다.",
                   icon: "success",
                 })
-                  .then(() =>
-                    navigate('/')
-                  )
+                  .then((response) => {
+                    if (response.isConfirmed)
+                      navigate('/')
+                  })
               }}>
                 <LogoutIcon id='svgIcon2' />
                 <label className={labelStyle}>로그아웃</label>

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 
 const TheHeader = () => {
-  const [headerClass, setHeaderClass] = useState("");
+  const [headerClass, setHeaderClass] = useState("absolute top-0");
   const [headerText, setHeaderText] = useState("당모카");
   const location = useLocation();
 
