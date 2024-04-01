@@ -28,7 +28,7 @@ const useLoginUserStore = create<LoginUserState>((set) => ({
   logout: () => {
     localStorage.removeItem("loginUser");
     localStorage.removeItem("refreshToken");
-    
+    document.cookie = 'accessToken=; Max-Age=0; path=/;';
     set({ loginUser: null })},
 }));
 
