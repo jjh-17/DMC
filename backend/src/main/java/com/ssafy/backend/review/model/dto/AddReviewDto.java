@@ -6,6 +6,7 @@ import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.*;
@@ -74,7 +75,7 @@ public class AddReviewDto {
     }
 
     public void setCreatedDate() {
-        this.createdDate = LocalDate.now().toString();
+        this.createdDate = LocalDateTime.now().toString();
     }
 }
 
