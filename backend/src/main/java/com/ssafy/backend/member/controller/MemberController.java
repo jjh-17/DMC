@@ -43,7 +43,7 @@ public class MemberController {
     public BaseResponse<?> updateNickname(@RequestBody Map<String, Object> body){
         // Long membersSeq = (Long) request.getAttribute("seq");
         boolean able = (boolean) body.get("able");
-        Long memberSeq = 2L;
+        Long memberSeq = 1L;
         if (able) {
             memberService.updateNickname(memberSeq, (String) body.get("nickname"));
             return new BaseResponse<>(SUCCESS);
@@ -58,7 +58,7 @@ public class MemberController {
     @PatchMapping("/profile")
     public BaseResponse<?> updateProfileImage(@RequestBody MultipartFile profileImage) {
         // Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 2L;
+        Long memberSeq = 1L;
         memberFacade.updateProfileImage(memberSeq, profileImage);
         return new BaseResponse<>(SUCCESS);
     }
@@ -78,7 +78,7 @@ public class MemberController {
     @GetMapping("/mypage")
     public BaseResponse<?> getMyPageInformation() {
         // Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 2L;
+        Long memberSeq = 1L;
         GetMemberInformationVo getMemberInformationVo = memberFacade.getMemberInformation(memberSeq);
         return new BaseResponse<>(getMemberInformationVo);
     }
@@ -90,7 +90,7 @@ public class MemberController {
     @PostMapping("/test")
     public BaseResponse<?> updatePreferenceTag(@RequestBody Map<String, List<String>> body) {
 //      Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 2L;
+        Long memberSeq = 1L;
         memberService.updatePreferenceTag(memberSeq, body.get("resultTag"));
         return new BaseResponse<>(SUCCESS);
     }
