@@ -1,5 +1,6 @@
 import { reviewAPI } from '../../api/reviewAPI';
 import ThumbUp from '../../assets/icons/thumbup.svg?react'
+import { tagMapper } from '../../utils/tag';
 import { useDragScroll } from '../../utils/useDragScroll';
 
 // interface Review {
@@ -50,7 +51,7 @@ const SimpleReviewCard = ({refreshReviews, ...review}: any) => {
       {/* 이미지 리스트 */}
       {review.imageUrl?.length > 0 && (
         <div ref={handleRef} className="flex overflow-x-auto my-2 no-scroll px-3 py-4 w-full">
-          {review.imageUrl.map((img, index) => (
+          {review.imageUrl.map((img:any, index:any) => (
             <img key={index} src={img} alt={`Review ${review.reviewSeq} Image ${index}`}
               className="w-32 h-32 mr-2 object-cover" />
           ))}
@@ -60,9 +61,9 @@ const SimpleReviewCard = ({refreshReviews, ...review}: any) => {
         <p className='whitespace-pre-wrap mb-2'>
           {review.content}
         </p>
-        {review.tag?.map((tag, index) => (
+        {review.tag?.map((tag:any, index:any) => (
           <span className="text-sm font-light text-primary mx-1" key={index}>
-            #{tag}{" "}
+            #{tagMapper.get(tag)}{" "}
           </span>
         ))}
       </div>
