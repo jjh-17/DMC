@@ -199,10 +199,14 @@ pipeline {
 		stage("FE : Nginx") {
 			steps {
 				echo "FE : Nginx Start"
-				sh '''
-					cp ${FRONT_DIR}dist ${NGINX_DOCKER_DIR}html
-					docker run --name ${FRONT_NAME} --env-file ${ENV_DIR}${FRONT_ENV} --detach --volume ${NGINX_DIR}:${NGINX_DOCKER_DIR} --publish ${FRONT_PORT}:${FRONT_DOCKER_PORT} --publish 80:80 --publish 443:443 nginx
-				'''
+				dir("${FRONT_DIR}") {
+					script {
+						sh '''
+							cp ./dist/* ${NGINX_DOCKER_DIR}html/
+							docker run --name ${FRONT_NAME} --env-file ${ENV_DIR}${FRONT_ENV} --detach --volume ${NGINX_DIR}:${NGINX_DOCKER_DIR} --publish ${FRONT_PORT}:${FRONT_DOCKER_PORT} --publish 80:80 --publish 443:443 nginx
+						'''
+					}
+				}
 				echo "FE : Nginx End"
 			}
 		}
