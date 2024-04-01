@@ -51,7 +51,7 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
       </div>
 
       {/* 이미지 리스트 */}
-      {review.imageUrl.length > 0 && (
+      {review.imageUrl?.length > 0 && (
         <div ref={handleRef} className="flex overflow-x-auto p-4 no-scroll">
           {review.imageUrl.map((img:any, index:any) => (
             <img
@@ -69,7 +69,7 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
           <div className="flex flex-row space-x-1">
             {renderBeans(review.rating)}
           </div>
-          <p className="font-light text-slate-700">{review.createdDate}</p>
+          <p className="font-light text-slate-700">{review.createdDate.split("T")[0]}</p>
         </div>
 
         {/* 리뷰 내용 */}

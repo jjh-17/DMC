@@ -111,7 +111,7 @@ export default function ReviewWrite() {
       Swal.fire({
         title: "리뷰가 등록되었습니다!",
         icon: "success",
-      }).then(() => navigate("/review"))
+      }).then(() => navigate("/cafeDetail/review"))
       ;
     } catch (error) {
       console.error("리뷰 작성 에러: ", error);
