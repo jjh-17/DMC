@@ -38,14 +38,15 @@ FROM
         N.name IS NOT NULL AND N.name!='NULL';
 
 -- cafe_info에 cafe_seq를 Overwrite
+DROP TABLE IF EXISTS new_cafe_menu;
 CREATE TABLE new_cafe_menu AS
 SELECT
-    row_number() OVER () + 100 AS menu_seq,
     cafe_seq, 
-    CASE WHEN dessert_tag = 'NULL' THEN NULL ELSE dessert_tag END,
-    CASE WHEN image_url = 'NULL' THEN NULL ELSE image_url END,
+    row_number() OVER () + 100 AS menu_seq,
+    CASE WHEN price = 'NULL' THEN NULL ELSE price END,
     name, 
-    CASE WHEN price = 'NULL' THEN NULL ELSE price END
+    CASE WHEN dessert_tag = 'NULL' THEN NULL ELSE dessert_tag END,
+    CASE WHEN image_url = 'NULL' THEN NULL ELSE image_url END
 FROM cafe_menu;
 
 INSERT OVERWRITE TABLE cafe_menu

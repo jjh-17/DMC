@@ -155,21 +155,21 @@ FROM(
 -- cafe_info에 cafe_seq를 Overwrite
 CREATE TABLE new_cafe_info AS
 SELECT
-    row_number() OVER () + 100 AS cafe_seq,
-    address, 
-    CASE WHEN homepage_url = 'NULL' THEN NULL ELSE homepage_url END,
-    CASE WHEN image_url = 'NULL' THEN NULL ELSE image_url END,
     is_deleted,
-    CASE WHEN kakao_name = 'NULL' THEN NULL ELSE kakao_name END,
     CASE WHEN kakao_rating = 'NULL' THEN NULL ELSE kakao_rating END,
     latitude, 
     longitude, 
+    rating, 
+    row_number() OVER () + 100 AS cafe_seq,
+    CASE WHEN tel = 'NULL' THEN NULL ELSE tel END,
+    CASE WHEN kakao_name = 'NULL' THEN NULL ELSE kakao_name END,
     CASE WHEN name = 'NULL' THEN NULL ELSE name END,
     CASE WHEN naver_name = 'NULL' THEN NULL ELSE naver_name END,
     CASE WHEN opening_hour = 'NULL' THEN NULL ELSE opening_hour END,
-    rating, 
+    address, 
+    CASE WHEN homepage_url = 'NULL' THEN NULL ELSE homepage_url END,
+    CASE WHEN image_url = 'NULL' THEN NULL ELSE image_url END,
     region_code, 
-    CASE WHEN tel = 'NULL' THEN NULL ELSE tel END,
     top_tag,
     updated_date
 FROM cafe_info;
