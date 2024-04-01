@@ -190,9 +190,7 @@ pipeline {
 						sh '''
 							npm install
 							npm run build
-							ls -al
-							pwd
-							cp ./dist /nginx
+							cp dist /nginx
 						'''
 					}
 				}
