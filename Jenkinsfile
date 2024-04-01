@@ -32,7 +32,7 @@ pipeline {
 		FRONT_DOCKER_PORT = "3000"
 		FRONT_DIR = "./frontend/dangmoca-project/"
 
-		NGINX_DIR = "/usr/share/nginx"
+		NGINX_DIR = "/nginx"
 		NGINX_DOCKER_DIR = "/usr/share/nginx"
 
 		MATTERMOST_ENDPOINT = "https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh"
