@@ -203,7 +203,6 @@ pipeline {
 					script {
 						sh '''
 							rm -rf ./dist/*
-							mkdir ./dist/html
 							cp ./dist/* ${NGINX_DIR}html/
 							docker run --name ${FRONT_NAME} --env-file ${ENV_DIR}${FRONT_ENV} --detach --volume ${NGINX_DIR}:${NGINX_DOCKER_DIR} --publish ${FRONT_PORT}:${FRONT_DOCKER_PORT} --publish 80:80 --publish 443:443 nginx
 						'''
