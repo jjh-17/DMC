@@ -75,8 +75,7 @@ public class AcoountController {
 
     @GetMapping("logout")
     public BaseResponse<?> logout(HttpServletRequest request) {
-//      Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 1L;
+        Long memberSeq = (Long) request.getAttribute("seq");
         redisDao.deleteFromRedis("accessToken:" + memberSeq);
         redisDao.deleteFromRedis("refreshToken:" + memberSeq);
         return new BaseResponse<>(SUCCESS);
@@ -87,9 +86,21 @@ public class AcoountController {
      */
     @DeleteMapping("signout")
     public BaseResponse<?> deleteMember(HttpServletRequest request) {
-//      Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 1L;
+        Long memberSeq = (Long) request.getAttribute("seq");
         accountService.deleteMember(memberSeq);
+        return new BaseResponse<>(SUCCESS);
+    }
+
+    // jwt 재발급
+    @GetMapping("reissue")
+    public BaseResponse<?> reissue(HttpServletRequest request, HttpServletResponse response) {
+        String headerToken = request.getHeader("Authorization-refresh");
+
+        TokenVo tokenVo = accountService.reissue(headerToken);
+
+        response.setHeader("accessToken", tokenVo.getAccessToken());
+        response.setHeader("refreshToken", tokenVo.getRefreshToken());
+
         return new BaseResponse<>(SUCCESS);
     }
 }

@@ -12,10 +12,9 @@ import static com.ssafy.backend.global.response.BaseResponseStatus.JWT_ERROR;
 @Component
 public class JwtProvider {
 
+    private final String issuer = "dangmoca";
     @Value("${security.salt}")
     private String salt;
-
-    private final String issuer = "dangmoca";
 
     public String createAccessToken(Long memberSeq, Long tokenLive) {
         Date now = new Date();
@@ -60,16 +59,23 @@ public class JwtProvider {
                     .parseClaimsJws(token);
             return !(claims.getBody().getExpiration().before(new Date()) && issuer.equals(claims.getBody().getIssuer()));
         } catch (Exception e) {
-            throw new BaseException(JWT_ERROR);
+            throw new JwtException("유효하지 않은 토큰입니다.");
         }
     }
 
-    public Long getCode(String token) {
+    public Long getMemberSeq(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(salt)
                 .parseClaimsJws(token)
                 .getBody();
         return claims.get("memberSeq", Long.class);
+    }
+
+    public String getToken(String header) {
+        if (header != null && header.startsWith("Bearer")) {
+            return header.substring("Bearer ".length());
+        }
+        return null;
     }
 
 }

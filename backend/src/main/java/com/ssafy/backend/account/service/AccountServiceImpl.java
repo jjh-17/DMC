@@ -1,6 +1,7 @@
 package com.ssafy.backend.account.service;
 
 import com.ssafy.backend.account.model.domain.vo.TokenVo;
+import com.ssafy.backend.global.exception.BaseException;
 import com.ssafy.backend.global.util.JwtProvider;
 import com.ssafy.backend.global.util.RedisDao;
 import com.ssafy.backend.member.service.MemberFacade;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+
+import static com.ssafy.backend.global.response.BaseResponseStatus.REISSUE_ERROR;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -52,4 +55,32 @@ public class AccountServiceImpl implements AccountService {
     public void deleteMember(Long memberSeq) {
         memberService.deleteMember(memberSeq);
     }
+
+    @Override
+    public TokenVo reissue(String headerToken) {
+        String refreshToken = jwtProvider.getToken(headerToken);
+
+        Long memberSeq;
+
+        if (refreshToken != null && jwtProvider.validateToken(refreshToken)) {
+            memberSeq = jwtProvider.getMemberSeq(refreshToken);
+
+            String token = (String) redisDao.readFromRedis("refreshToken:" + memberSeq);
+
+            if (token == null) {
+                throw new BaseException(REISSUE_ERROR);
+            }
+        } else {
+            throw new BaseException(REISSUE_ERROR);
+        }
+
+        String newAccessToken = jwtProvider.createAccessToken(memberSeq, accessTokenExpire);
+        String newRefreshToken = jwtProvider.createRefreshToken(memberSeq, refreshTokenExpire);
+
+        redisDao.saveToRedis("accessToken:" + memberSeq, newAccessToken, Duration.ofMillis(accessTokenExpire));
+        redisDao.saveToRedis("refreshToken:" + memberSeq, newRefreshToken, Duration.ofMillis(refreshTokenExpire));
+
+        return new TokenVo(newAccessToken, newRefreshToken, memberSeq);
+    }
+
 }
