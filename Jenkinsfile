@@ -140,7 +140,46 @@ pipeline {
 
 
 ////// FE
-		stage("FE") {
+
+		stage("FE : rm") {
+			steps {
+				echo "FE : rm Start"
+
+				echo "Container"
+				script {
+					def running = sh(script: "docker ps -aqf name=${FRONT_NAME}", returnStdout: true).trim()
+					sh "echo ${running}"
+
+					if(running) {
+						sh '''
+							docker stop nginx
+							echo stop
+
+							docker rm nginx
+							echo rm
+						'''
+					}else {
+						sh "echo no running"
+					}
+				}
+
+				echo "Image"
+				script {
+					def image = sh(script: "docker images -aqf reference=nginx", returnStdout: true).trim()
+					sh "echo ${image}"
+
+					if(image) {
+						sh "docker rmi ${image}"
+					}else {
+						sh "echo no image"
+					}
+				}
+
+				echo "BE : rm End"
+			}
+		}
+
+		stage("FE : Nginx") {
 			steps {
 				echo "FE : NodeJS build"
 				dir("${FRONT_DIR}") {
