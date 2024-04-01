@@ -1,5 +1,6 @@
 package com.ssafy.backend.cafe.model.domain;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -34,6 +35,7 @@ public class CafeInfo {
     @Column(name = "tel", length = 50)
     private String tel;
 
+    @Nullable
     @Column(name = "rating")
     private Float rating;
 

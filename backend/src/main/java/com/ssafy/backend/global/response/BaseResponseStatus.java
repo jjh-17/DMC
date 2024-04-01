@@ -47,7 +47,7 @@ public enum BaseResponseStatus {
      */
     JWT_ERROR(false, 401, "인증 오류입니다."),
 
-    /*
+    /**
      * S3 에러
      */
     NOT_VALID_PHOTO(false, 400, "사진 업로드 오류입니다."),
