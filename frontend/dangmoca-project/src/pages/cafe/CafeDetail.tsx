@@ -98,11 +98,11 @@ const CafeDetailPage = () => {
         src={cafeDetail.imageUrl}
         className="opacity-80 h-[80lvh] w-screen object-cover -z-10"
       />
-      <div className="absolute top-[65lvh] ml-10 text-white bg-slate-50 bg-opacity-20">
-        <h1 className="text-6xl mb-2">
+      <div className="absolute top-[65lvh] max-h-[30lvh] w-screen md:w-[60lvw] lg:w-[40lvw] ml-10 text-white bg-slate-50 bg-opacity-20">
+        <h1 className="text-4xl md:text-5xl mb-2">
           {cafeDetail.name}
         </h1>
-        <p className="text-2xl font-light">
+        <p className="text-xl md:text-2xl font-light">
           {simpleAddress}
         </p>
       </div>

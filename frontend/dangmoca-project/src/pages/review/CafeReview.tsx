@@ -73,6 +73,11 @@ export default function CafeReview() {
           />
         </div>
       ))}
+      {
+        cafeReviews?.length == 0 && (
+          
+        )
+      }
     </>
   );
 }
