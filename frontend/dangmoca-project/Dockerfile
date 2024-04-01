@@ -3,6 +3,6 @@ ARG DEFAULT_DIST
 ENV DIST_DIR=${DEFAULT_ARG:-/dist}
 ARG DEFAULT_NGINX
 ENV DIST_NGINX=${DEFAULT_NGINX:/usr/share/nginx/html}
-COPY .${DIST_DIR} DIST_NGINX
+COPY ./dist /usr/share/nginx/html
 EXPOSE 3000
 ENTRYPOINT nginx -g daemon off;
