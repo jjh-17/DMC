@@ -75,7 +75,7 @@ export default function CafeReview() {
       ))}
       {
         cafeReviews?.length == 0 && (
-          
+          <p>작성된 리뷰가 없습니다</p>
         )
       }
     </>
