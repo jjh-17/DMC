@@ -52,7 +52,10 @@ pipeline {
 
 				sh '''
 					echo Print env
-					cat ${DOCKER_ENV}
+					echo Back
+					cat ${ENV_DIR}${BACK_ENV}
+					echo Front
+					cat ${ENV_DIR}${FRONT_ENV}
 				'''
 
 			}
