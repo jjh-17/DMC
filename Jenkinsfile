@@ -145,7 +145,7 @@ pipeline {
 						sh '''
 							npm install
 							npm run build
-							docker run --name ${FRONT_NAME} --env-file ${ENV_DIR}${FRONT_ENV} --detach --publish ${FRONT_PORT}:${FRONT_DOCKER_PORT} ${BACK_NAME}
+							docker run --name ${FRONT_NAME} --env-file ${ENV_DIR}${FRONT_ENV} --detach --publish ${FRONT_PORT}:${FRONT_DOCKER_PORT} nginx
 						'''
 					}
 				}
