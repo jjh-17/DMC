@@ -49,9 +49,9 @@ const routes = createBrowserRouter([
       },
       { path: "cafes/*", element: <CafeList />, children: [] },
       { path: "writereview", element: <ReviewWrite /> },
-      { path: "mycafe", element: <CafeRecommend />},
+      { path: "mycafe", element: <CafeRecommend /> },
+      { path: "/*", element: <ErrorPage /> },
     ],
   },
-  { path: "/*", element: <ErrorPage /> },
 ]);
 export default routes;

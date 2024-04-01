@@ -50,7 +50,7 @@ export default function MyPage() {
       confirmButtonText: "돌아가기",
     }).then((response) => {
         if (response.isConfirmed) {
-          navigate(-1);
+          navigate("/");
         }
       })
   }
