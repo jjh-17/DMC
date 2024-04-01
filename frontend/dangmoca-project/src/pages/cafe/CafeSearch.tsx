@@ -36,7 +36,13 @@ export default function CafeSearch() {
         };
         setKeyword(keyword.trim());
         if (keyword.length > 0) {
+            searchHistory.forEach((history) => {
+                if (history.keyword == newSearchItem.keyword) {
+                    searchHistory.splice(searchHistory.indexOf(history), 1);
+                }
+            })
             setSearchHistory([newSearchItem, ...searchHistory]);
+
             localStorage.setItem('searchHistory', JSON.stringify([newSearchItem, ...searchHistory]));
             navigate(`/cafes?${keyword}`); // query로 keyword 전달하기
         }
