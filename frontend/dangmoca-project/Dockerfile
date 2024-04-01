@@ -1,4 +1,4 @@
-FROM node:20.12.0-alpine3.18 as build
+FROM node:20.12.0-alpine3.18
 ARG DEFAULT_DIST
 ENV DIST_DIR=${DEFAULT_ARG:-./dist/}
 ARG DEFAULT_NGINX
