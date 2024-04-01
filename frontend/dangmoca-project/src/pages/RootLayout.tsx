@@ -18,7 +18,7 @@ export default function RootLayout() {
     }
 
     if (!noRequireAuth.includes(location.pathname)) {
-      if (localStorage.getItem("user") === undefined || localStorage.getItem("user") === null) {
+      if (localStorage.getItem("loginUser") === undefined || localStorage.getItem("loginUser") === null) {
         // navigate(-1);
         Swal.fire({
           title: "로그인이 필요합니다",

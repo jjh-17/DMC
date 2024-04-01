@@ -18,7 +18,6 @@ const END_POINT = "reviews";
 export const reviewAPI = {
   // 리뷰 기본 CRUD
   writeReview(cafeId: number, reviewFormData: any): Promise<AxiosResponse> {
-    alert(cafeId);
     return authAxios({
       method: "post",
       url: `${END_POINT}/cafe/${cafeId}`,
