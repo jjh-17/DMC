@@ -32,6 +32,7 @@ export interface CafeMenu {
 export interface infoProps {
     title: string,
     description: string
+    delay: number[],
 }
 
 export interface History {

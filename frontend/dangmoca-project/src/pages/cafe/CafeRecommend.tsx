@@ -40,7 +40,7 @@ const CafeRecommend = () => {
         //     }
         // })
         cafeAPI.getCafeByInfo().then((response) => {
-            if (response.data?.list) {
+            if (response.data?.list) if (response.data.list.length > 0) {
                 setSimilarCafe(response.data.list);
             }
             else {
@@ -51,7 +51,7 @@ const CafeRecommend = () => {
             }
         })
         cafeAPI.getCafeByRating().then((response) => {
-            if (response.data?.list) {
+            if (response.data?.list) if(response.data.list.length > 0) {
                 setMyFavoriteCafe(response.data.name);
                 setRateCafe(response.data.list);
             }

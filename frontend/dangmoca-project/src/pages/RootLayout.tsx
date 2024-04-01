@@ -18,16 +18,24 @@ export default function RootLayout() {
     }
 
     if (!noRequireAuth.includes(location.pathname)) {
-      if (localStorage.getItem("user") != undefined) {
-        navigate(-1);
+      if (localStorage.getItem("user") === undefined || localStorage.getItem("user") === null) {
+        // navigate(-1);
         Swal.fire({
-          title: "로그인이 필요합니다.",
-          icon: "error",
-        });
+          title: "로그인이 필요합니다",
+          text: "로그인 페이지로 이동합니다.",
+          confirmButtonText: "네",
+          denyButtonText: "뒤로가기"
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            navigate("/login")
+          }
+          else{
+            navigate("/")
+          }
+        })
       }
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
   return (
@@ -38,7 +46,6 @@ export default function RootLayout() {
         {/* header, footer 길이만큼 margin */}
         <Outlet />
       </div>
-      zz
       <TheFooter />
     </div>
   );
