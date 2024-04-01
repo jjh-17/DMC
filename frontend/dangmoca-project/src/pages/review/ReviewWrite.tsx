@@ -6,6 +6,8 @@ import { reviewAPI } from "../../api/reviewAPI";
 import useCafeStore from "../../stores/cafeStore";
 import { tags } from "../../utils/tag";
 import { motion } from "framer-motion";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 interface Review {
   reviewImages: File[];
@@ -18,6 +20,7 @@ interface Review {
 export default function ReviewWrite() {
   const selectCafeSeq = useCafeStore((state) => state.selectedCafeSeq);
   const [setRef] = useDragScroll();
+  const navigate = useNavigate();
 
   const handleRef = (node: HTMLElement | null) => {
     if (node) {
@@ -105,6 +108,11 @@ export default function ReviewWrite() {
 
     try {
       await reviewAPI.writeReview(selectCafeSeq, formData);
+      Swal.fire({
+        title: "리뷰가 등록되었습니다!",
+        icon: "success",
+      }).then(() => navigate("/review"))
+      ;
     } catch (error) {
       console.error("리뷰 작성 에러: ", error);
     }

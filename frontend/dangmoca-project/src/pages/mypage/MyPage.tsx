@@ -10,6 +10,7 @@ import { cafeAPI } from "../../api/cafe";
 import { Review } from "../../types/datatype";
 import { useDragScroll } from "../../utils/useDragScroll";
 import ScrollToTop from "../../components/common/ScrollToTop";
+import Swal from "sweetalert2";
 
 export default function MyPage() {
   const { loginUser, setLoginUser } = useLoginUserStore();
@@ -41,7 +42,10 @@ export default function MyPage() {
   };
 
   if (loginUser === null) {
-    alert("로그인 유저 정보 없음");
+    Swal.fire({
+      title: "로그인 정보 없음.",
+      icon: "error",
+    })
     console.log("사용자 정보가 없습니다.");
     return null;
   }
