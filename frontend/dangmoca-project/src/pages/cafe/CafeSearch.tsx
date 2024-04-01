@@ -65,7 +65,7 @@ export default function CafeSearch() {
                     value={keyword}
                     onChange={handleInputChange}
                 />
-                <button type="submit" className='text-primary2 inline-block'>검색</button>
+                <button type="submit" className='bg-primary2 text-white p-2 hover:bg-primary rounded-sm inline-block'>검색</button>
             </form>
             <span className='text-primary3'>최근 검색 내역</span>
             <button onClick={deleteSearchHistoryAll} className='text-xs font-light float-end hover:text-red-500'>검색 내역 삭제</button>
