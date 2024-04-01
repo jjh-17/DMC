@@ -33,7 +33,7 @@ export default function RootLayout() {
       {showHeader && <TheHeader />}
       <div className="mb-[52px] bg-white md:w-[60lvw] h-full min-h-screen pt-10 mx-auto"> {/* header, footer 길이만큼 margin */}
         <Outlet />
-      </div>zz
+      </div>
       <TheFooter />
     </div>
   );

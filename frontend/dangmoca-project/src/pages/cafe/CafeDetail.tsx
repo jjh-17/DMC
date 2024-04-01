@@ -75,7 +75,7 @@ const CafeDetailPage = () => {
   };
 
   return (
-    <div className="my-5">
+    <div className="mt-5 mb-20">
       <img
         src={cafeDetail.imageUrl}
         className="opacity-80 h-[80lvh] w-screen object-cover -z-10"
@@ -136,7 +136,7 @@ const CafeDetailPage = () => {
       {isReviewPage && (
         <>
           <Button
-            addClass="fixed right-0 bottom-0 mb-20 md:mr-[5lvw] text-lg md:text-2xl"
+            addClass="fixed right-0 bottom-0 md:mr-[5lvw] text-lg md:text-2xl"
             label="리뷰 작성하기"
             onClick={() => navigate("write")}
           />
