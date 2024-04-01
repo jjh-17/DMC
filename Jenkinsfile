@@ -184,22 +184,23 @@ pipeline {
 
 		stage("FE : Node") {
 			steps {
-				echo "FE : NodeJS build"
+				echo "FE : NodeJS Start"
 				dir("${FRONT_DIR}") {
 					script {
 						sh '''
 							npm install
 							npm run build
+							cp ./dist /nginx
 						'''
 					}
 				}
-				echo "FE : NodeJS Build End"
+				echo "FE : NodeJS End"
 			}
 		}
 
 		stage("FE : Nginx") {
 			steps {
-				echo "FE : NodeJS build"
+				echo "FE : Nginx Start"
 				dir("${FRONT_DIR}") {
 					script {
 						sh '''
@@ -209,7 +210,7 @@ pipeline {
 						'''
 					}
 				}
-				echo "FE : NodeJS Build End"
+				echo "FE : Nginx End"
 			}
 		}
 
