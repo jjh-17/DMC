@@ -1,10 +1,9 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import tokenService from "../utils/token.service";
-import { useTokenStore } from "../stores/userStore";
 
 const SERVER = import.meta.env.VITE_SERVER;
 
-const refreshToken = useTokenStore;
+const refreshToken = tokenService.getLocalRefreshToken();
 
 export const defaultAxios: AxiosInstance = axios.create({
   baseURL: SERVER,
@@ -13,7 +12,7 @@ export const defaultAxios: AxiosInstance = axios.create({
 export const authAxios: AxiosInstance = axios.create({
   baseURL: SERVER,
   headers: {
-    Authorization: `Bearer ${tokenService.getLocalAccessToken()}`,
+    Authorization: `Bearer ${tokenService.getCookieAccessToken()}`,
     // "Authorization-refresh": `Bearer ${refreshToken}`,
   },
 });
@@ -32,9 +31,6 @@ authAxios.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const setAccessToken = useTokenStore((state) => state.setAccessToken);
-        const setRefreshToken = useTokenStore((state) => state.setRefreshToken);
-        
         const reissueResponse = await axios({
           method: "get",
           url: `${SERVER}/account/reissue`,
@@ -43,11 +39,8 @@ authAxios.interceptors.response.use(
           },
         });
 
-        const newAccessToken = reissueResponse.headers.accesstoken;
-        const newRefreshToken = reissueResponse.headers.refreshtoken;
-
-        setAccessToken(newAccessToken);
-        setRefreshToken(newRefreshToken);
+        const newAccessToken = reissueResponse.headers.accessToken;
+        const newRefreshToken = reissueResponse.headers.refreshToken;
 
         document.cookie = `accessToken=${newAccessToken}; max-age=3600; path=/;`;
         localStorage.setItem("refreshToken", newRefreshToken);
@@ -56,7 +49,14 @@ authAxios.interceptors.response.use(
           "Bearer " + newAccessToken;
 
         return authAxios(originalRequest);
-      } catch (refreshError) {
+      } catch (refreshError:any) {
+        if (refreshError.response.status === 401){
+          localStorage.removeItem("loginUser");
+          localStorage.removeItem("refreshToken");
+          document.cookie = "accessToken=; Max-Age=0; path=/;";
+          window.location.href = "/";
+        }
+
         return Promise.reject(refreshError);
       }
     }
