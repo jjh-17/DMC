@@ -12,6 +12,7 @@ import useCafeStore from '../../stores/cafeStore';
 import { cafeAPI } from "../../api/cafe";
 import { useEffect, useState } from "react";
 import ScrollToTop from "../../components/common/ScrollToTop";
+import Swal from "sweetalert2";
 
 const CafeDetailPage = () => {
   const location = useLocation();
@@ -80,8 +81,18 @@ const CafeDetailPage = () => {
     try {
       if (cafeDetail.bookmarked) {
         await cafeAPI.deleteBookmark(cafeSeq);
+        Swal.fire({
+          title: "카페를 북마크 해제했습니다.",
+          icon: "info",
+          confirmButtonText: "확인"
+        })
       } else {
         await cafeAPI.doBookmark(cafeSeq);
+        Swal.fire({
+          title: "카페를 북마크했습니다.",
+          icon: "success",
+          confirmButtonText: "확인"
+        })
       }
       setCafeDetail(prevCafeDetail => ({
         ...prevCafeDetail,
@@ -95,10 +106,10 @@ const CafeDetailPage = () => {
   return (
     <div className="mt-5 mb-20">
       <img
-        src={cafeDetail.imageUrl}
+        src={cafeDetail.imageUrl || "/src/assets/icons/logo.svg"}
         className="opacity-80 h-[80lvh] w-screen object-cover -z-10"
       />
-      <div className="absolute top-[65lvh] max-h-[30lvh] w-screen md:w-[60lvw] lg:w-[40lvw] ml-10 text-white bg-slate-50 bg-opacity-20">
+      <div className="absolute top-[65lvh] max-h-[30lvh] md:w-[60lvw] lg:w-[40lvw] ml-10 text-white bg-slate-50 bg-opacity-20">
         <h1 className="text-4xl md:text-5xl mb-2">
           {cafeDetail.name}
         </h1>
@@ -117,21 +128,30 @@ const CafeDetailPage = () => {
             </span>
           ))}
           <div className="border-b-[1px] border-primary pb-2 mx-2 my-2 lg:mx-10">
-            <span className={textClass}>
+            <div className={textClass}>
               <CoffeeBeanIcon className={svgClass + " fill-primary"} />
-              {(Math.round(cafeDetail.rating * 100) / 100).toFixed(2)}
+              {cafeDetail.rating == 0.0 ? (Math.round(cafeDetail.rating * 100) / 100).toFixed(2) : "별점 없음"}
+            </div>
+            <div className={textClass}>
               <BookMarkIcon
-                className={svgClass + " cursor-pointer mx-2 " + (cafeDetail.bookmarked ? " fill-primary" : "")}
+                className={svgClass + " cursor-pointer mr-2 " + (cafeDetail.bookmarked ? " fill-primary" : " fill-zinc-500")}
                 onClick={bookmarkCafe}
-              />
-              <a
-                href={cafeDetail.homepageUrl}
-                className="cursor-pointer"
-                target="_blank"
-              >
-                <HomePageIcon className={svgClass} />
-              </a>
-            </span>
+              /> {cafeDetail.bookmarked ? "북마크 해제하기" : "북마크하기"}
+            </div>
+            {
+              cafeDetail.homepageUrl.length > 0 && (
+                <div className={textClass}>
+                  <a
+                    href={cafeDetail.homepageUrl}
+                    className="cursor-pointer"
+                    target="_blank"
+                  >
+                    <HomePageIcon className={svgClass + " fill-primary"} /> {cafeDetail.homepageUrl}
+                  </a>
+                </div>
+              )
+            }
+            <br></br>
             <div className={textClass}>
               <PinIcon className={svgClass} />
               {cafeDetail.address}
@@ -140,8 +160,8 @@ const CafeDetailPage = () => {
               <ClockIcon className={svgClass} />
               {cafeDetail.openingHour}
             </div>
-            {cafeDetail.address.length > 0 && !showKakaoMap && <button className="ml-10" onClick={() => setShowKakaoMap(!showKakaoMap)}>위치 보기 </button>
-            }
+            <img src="/src/assets/icons/kakaomap_basic.png" className="size-6 ml-4 inline-block" />
+            <button className={textClass} onClick={() => setShowKakaoMap(!showKakaoMap)}>위치 보기 </button>
             {
               showKakaoMap && <KakaoMap address={cafeDetail.address} name={cafeDetail.name} />
             }
