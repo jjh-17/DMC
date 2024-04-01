@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useTokenStore } from "../../stores/userStore"; 
+import { useLoginUserStore, useTokenStore } from "../../stores/userStore"; 
 
 const KakaoRedirectHandler = () => {
   const navigate = useNavigate();
@@ -10,16 +10,13 @@ const KakaoRedirectHandler = () => {
 
   const setAccessToken = useTokenStore((state) => state.setAccessToken);
   const setRefreshToken = useTokenStore((state) => state.setRefreshToken);
+  const setLoginUser = useLoginUserStore((state) => state.setLoginUser);
 
   useEffect(() => {
     const code = queryParams.get("code");
     axios
       .get("http://localhost:8082/api/account/kakao?code=" + code)
       .then((response) => {
-        // TODO : 억세스 토큰을 쿠키에 저장하고, 리프레시 토큰 로칼스토레지에 담으세요.
-        // 담은 다음에, 메인 페이지로 유저 정보 가지고 이동 바랍니다.
-        // const accessToken = response.headers.accesstoken;
-
         const accessToken = response.headers.accesstoken;
         const refreshToken = response.headers.refreshtoken;
 
@@ -29,6 +26,7 @@ const KakaoRedirectHandler = () => {
 
         setAccessToken(accessToken);
         setRefreshToken(refreshToken);
+        setLoginUser(response.data.result);
 
         document.cookie = `accessToken=${accessToken}; max-age=3600; path=/;`;
         localStorage.setItem("refreshToken", refreshToken);
@@ -38,7 +36,7 @@ const KakaoRedirectHandler = () => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, []);
+  }, [navigate, setAccessToken, setRefreshToken]);
 
   return null;
 }
