@@ -56,7 +56,7 @@ public class CafeServiceImpl implements CafeService {
     public List<String> getDessertTag(Long cafeSeq) {
         List<DessertTagMapping> dessertTagMappingList = cafeMenuRepository.findAllDistinctDessertTagByCafeSeq(cafeSeq);
 
-        if (dessertTagMappingList.isEmpty()) {
+        if (dessertTagMappingList == null || dessertTagMappingList.isEmpty() || dessertTagMappingList.contains(null)) {
             return null;
         }
 
