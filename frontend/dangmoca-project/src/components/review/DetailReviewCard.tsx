@@ -51,7 +51,7 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
       </div>
 
       {/* 이미지 리스트 */}
-      {review.imageUrl.length > 0 && (
+      {review.imageUrl?.length > 0 && (
         <div ref={handleRef} className="flex overflow-x-auto p-4 no-scroll">
           {review.imageUrl.map((img:any, index:any) => (
             <img
