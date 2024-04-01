@@ -75,8 +75,7 @@ public class AcoountController {
 
     @GetMapping("logout")
     public BaseResponse<?> logout(HttpServletRequest request) {
-//      Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 1L;
+        Long memberSeq = (Long) request.getAttribute("seq");
         redisDao.deleteFromRedis("accessToken:" + memberSeq);
         redisDao.deleteFromRedis("refreshToken:" + memberSeq);
         return new BaseResponse<>(SUCCESS);
@@ -87,8 +86,7 @@ public class AcoountController {
      */
     @DeleteMapping("signout")
     public BaseResponse<?> deleteMember(HttpServletRequest request) {
-//      Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 1L;
+        Long memberSeq = (Long) request.getAttribute("seq");
         accountService.deleteMember(memberSeq);
         return new BaseResponse<>(SUCCESS);
     }

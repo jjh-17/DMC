@@ -80,7 +80,7 @@ public class AccountServiceImpl implements AccountService {
         redisDao.saveToRedis("accessToken:" + memberSeq, newAccessToken, Duration.ofMillis(accessTokenExpire));
         redisDao.saveToRedis("refreshToken:" + memberSeq, newRefreshToken, Duration.ofMillis(refreshTokenExpire));
 
-        return new TokenVo(newAccessToken, newRefreshToken);
+        return new TokenVo(newAccessToken, newRefreshToken, memberSeq);
     }
 
 }

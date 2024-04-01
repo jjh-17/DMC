@@ -44,8 +44,7 @@ public class CafeController {
     // 카페 상세 페이지 들어갔을 때 보이는 카페 정보 조회
     @GetMapping("/{cafeSeq}")
     public BaseResponse<CafeDetailVo> cafeDetail(HttpServletRequest request, @PathVariable Long cafeSeq) {
-//        Long memberSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 1L;
+        Long memberSeq = (Long) request.getAttribute("seq");
         CafeDetailVo cafeDetailVo = cafeFacade.cafeDetail(cafeSeq, memberSeq);
 
         return new BaseResponse<>(SUCCESS, cafeDetailVo);
@@ -62,8 +61,7 @@ public class CafeController {
     // 카페 북마크 하기
     @PostMapping("{cafeSeq}/bookmark")
     public BaseResponse<?> cafeBookmark(HttpServletRequest request, @PathVariable Long cafeSeq) {
-//        Long memberSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 1L;
+        Long memberSeq = (Long) request.getAttribute("seq");
         cafeFacade.cafeBookmark(cafeSeq, memberSeq);
 
         return new BaseResponse<>(SUCCESS);
@@ -72,8 +70,7 @@ public class CafeController {
     // 카페 북마크 취소
     @DeleteMapping("{cafeSeq}/bookmark")
     public BaseResponse<?> cafeBookmarkCancel(HttpServletRequest request, @PathVariable Long cafeSeq) {
-//        Long memberSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 1L;
+        Long memberSeq = (Long) request.getAttribute("seq");
         cafeFacade.cafeBookmarkCancel(cafeSeq, memberSeq);
 
         return new BaseResponse<>(SUCCESS);
@@ -82,8 +79,7 @@ public class CafeController {
     // 카페 북마크 목록 조회
     @GetMapping("bookmark")
     public BaseResponse<?> cafeBookmarkList(HttpServletRequest request, @RequestParam(name = "page", defaultValue = "1") int page) {
-//        Long memberSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 1L;
+        Long memberSeq = (Long) request.getAttribute("seq");
         Pageable pageable = PageRequest.of(page - 1, 10);
 
         Map<String, Object> list = cafeFacade.cafeBookmarkList(memberSeq, pageable);
@@ -94,8 +90,7 @@ public class CafeController {
     // 사용자 선호 태그를 포함하고 있는 카페를 거리순 5개 반환
     @GetMapping("mytag")
     public BaseResponse<?> cafeTagRecommend(HttpServletRequest request, @RequestParam(name = "latitude") double latitude, @RequestParam(name = "longitude") double longitude) {
-//        Long memberSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 1L;
+        Long memberSeq = (Long) request.getAttribute("seq");
 
         CurrentLocationDto currentLocationDto = new CurrentLocationDto(latitude, longitude);
 
@@ -107,8 +102,7 @@ public class CafeController {
     // 나와 선호 태그가 같은 사용자가 5점을 준 카페 5개 반환
     @GetMapping("myinfo")
     public BaseResponse<?> cafeInfoRecommend(HttpServletRequest request, @RequestParam(name = "latitude") double latitude, @RequestParam(name = "longitude") double longitude) {
-//        Long memberSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 1L;
+        Long memberSeq = (Long) request.getAttribute("seq");
 
         CurrentLocationDto currentLocationDto = new CurrentLocationDto(latitude, longitude);
 
@@ -120,8 +114,7 @@ public class CafeController {
     // 내가 5점을 준 카페와 비슷한 카페 5개 반환
     @GetMapping("myrating")
     public BaseResponse<?> cafeRatingRecommend(HttpServletRequest request, @RequestParam(name = "latitude") double latitude, @RequestParam(name = "longitude") double longitude) {
-//        Long memberSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 1L;
+        Long memberSeq = (Long) request.getAttribute("seq");
 
         CurrentLocationDto currentLocationDto = new CurrentLocationDto(latitude, longitude);
 
