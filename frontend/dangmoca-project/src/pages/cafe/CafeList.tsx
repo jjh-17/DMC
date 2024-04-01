@@ -1,22 +1,21 @@
 import Pagination from "../../components/common/Pagination";
 import DetailCafeCard from "../../components/cafe/DetailCafeCard";
-import cafeDummyData from "../../assets/testData/cafeDummyData";
 import CafeLoading from "../../components/cafe/CafeLoading";
 import CafeNotFound from "../../components/cafe/CafeNotFound";
-import SortIcon from "../../assets/icons/sort.svg?react";
-import RightArrowIcon from "../../assets/icons/rightarrow.svg?react";
-import DownArrowIcon from "../../assets/icons/downarrow.svg?react";
-import CafeFilterAndSort from "../../utils/CafeFilterAndSort";
+// import SortIcon from "../../assets/icons/sort.svg?react";
+// import RightArrowIcon from "../../assets/icons/rightarrow.svg?react";
+// import DownArrowIcon from "../../assets/icons/downarrow.svg?react";
+// import CafeFilterAndSort from "../../utils/CafeFilterAndSort";
 
-import { sort, tags } from "../../utils/tag";
+// import { sort, tags } from "../../utils/tag";
 import { useState, useEffect, useRef } from "react";
 import { Cafe } from "../../types/datatype";
 import { cafeAPI } from '../../api/cafe'
 import { CafeListApiResponse } from "../../types/datatype";
 
 const CafeListPage = () => {
-  const [showFilter, setShowFilter] = useState(false);
-  const [showTagCheckbox, setShowTagCheckbox] = useState(false);
+  // const [showFilter, setShowFilter] = useState(false);
+  // const [showTagCheckbox, setShowTagCheckbox] = useState(false);
   const [cafeList, setCafeList] = useState<Cafe[] | undefined>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [endPage, setEndPage] = useState<number>(1);
@@ -78,59 +77,59 @@ const CafeListPage = () => {
     }
   }, [currentPage]);
 
-  const selectedSorts = useRef<string[]>([]);
-  const selectedTags = useRef<string[]>([]);
-  const selectedDesserts = useRef<string[]>([]);
+  // const selectedSorts = useRef<string[]>([]);
+  // const selectedTags = useRef<string[]>([]);
+  // const selectedDesserts = useRef<string[]>([]);
 
-  const handleSelectSort = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = event.target;
-    if (checked) {
-      selectedSorts.current.push(value);
-    } else {
-      selectedSorts.current = selectedSorts.current.filter(
-        (sort) => sort !== value
-      );
-    }
-  };
+  // const handleSelectSort = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { value, checked } = event.target;
+  //   if (checked) {
+  //     selectedSorts.current.push(value);
+  //   } else {
+  //     selectedSorts.current = selectedSorts.current.filter(
+  //       (sort) => sort !== value
+  //     );
+  //   }
+  // };
 
 
-  const handleSelectTags = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = event.target;
-    if (checked) {
-      selectedTags.current.push(value);
-    } else {
-      selectedTags.current = selectedTags.current.filter(
-        (sort) => sort !== value
-      );
-    }
-  };
+  // const handleSelectTags = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { value, checked } = event.target;
+  //   if (checked) {
+  //     selectedTags.current.push(value);
+  //   } else {
+  //     selectedTags.current = selectedTags.current.filter(
+  //       (sort) => sort !== value
+  //     );
+  //   }
+  // };
 
-  const submitFilter = () => {
-    setCafeList(cafeDummyData);
-    setCafeList((prevCafeList) =>
-      CafeFilterAndSort(
-        prevCafeList||[],
-        selectedSorts.current,
-        selectedTags.current,
-        selectedDesserts.current
-      )
-    );
-  };
-  const toggleFilter = () => setShowFilter(!showFilter);
-  const toggleTag = () => setShowTagCheckbox(!showTagCheckbox);
+  // const submitFilter = () => {
+  //   setCafeList(cafeDummyData);
+  //   setCafeList((prevCafeList) =>
+  //     CafeFilterAndSort(
+  //       prevCafeList||[],
+  //       selectedSorts.current,
+  //       selectedTags.current,
+  //       selectedDesserts.current
+  //     )
+  //   );
+  // };
+  // const toggleFilter = () => setShowFilter(!showFilter);
+  // const toggleTag = () => setShowTagCheckbox(!showTagCheckbox);
 
   return (
     <>
       <div className="mt-[5lvh] mx-[10lvw]">
         <div className="text-right">
-          <button
+          {/* <button
             className="relative right-0 font-light text-primary2 cursor-pointer"
             onClick={toggleFilter}
           >
             정렬
             <SortIcon className="w-7 h-7 rounded-full m-1 mx-2 p-1 shadow-md inline-block" />
-          </button>
-          {showFilter && (
+          </button> */}
+          {/* {showFilter && (
             <div className="flex flex-col accent-primary3  gap-1 font-light mr-4 my-2">
               <div className="align-middle whitespace-pre-wrap">
                 {sort.map((item, index) => {
@@ -208,7 +207,7 @@ const CafeListPage = () => {
                 </button>
               </div>
             </div>
-          )}
+          )} */}
         </div>
         <div className="w-fit mx-auto">
           <div className="flex flex-col">

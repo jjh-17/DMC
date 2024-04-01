@@ -2,6 +2,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import TheHeader from "../components/common/TheHeader";
 import TheFooter from "../components/common/TheFooter";
+import Swal from "sweetalert2";
 
 export default function RootLayout() {
   const [showHeader, setShowHeader] = useState(true);
@@ -17,13 +18,24 @@ export default function RootLayout() {
     }
 
     if (!noRequireAuth.includes(location.pathname)) {
-      if (localStorage.getItem("user") != undefined) {
-        navigate(-1);
-        alert("로그인이 필요합니다");
+      if (localStorage.getItem("user") === undefined || localStorage.getItem("user") === null) {
+        // navigate(-1);
+        Swal.fire({
+          title: "로그인이 필요합니다",
+          text: "로그인 페이지로 이동합니다.",
+          confirmButtonText: "네",
+          denyButtonText: "뒤로가기"
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            navigate("/login")
+          }
+          else{
+            navigate("/")
+          }
+        })
       }
     }
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
 
