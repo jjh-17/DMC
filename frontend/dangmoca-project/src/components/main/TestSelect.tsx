@@ -13,7 +13,7 @@ export default function TestSelect(props: Props) {
         <motion.div 
         whileHover={{scale:1.2}}
         className={divClass}>
-            <img src={`/src/assets/pictures/${props.icon}.jpg`} alt="Icon" className='inline-block max-h-[40lvh] pointer-events-none' />
+            <img src={`../../assets/pictures/${props.icon}.jpg`} alt="Icon" className='inline-block max-h-[40lvh] pointer-events-none' />
             <p className='w-[25lvh] text-xl whitespace-pre-wrap'>{props.text}</p>
         </motion.div>
     );
