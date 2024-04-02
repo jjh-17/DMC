@@ -15,6 +15,8 @@ const NaverRedirectHandler = () => {
     axios
       .get("http://localhost:8082/api/account/naver?code=" + code)
       .then((response) => {
+        console.log(response.headers);
+
         const accessToken = response.headers.accesstoken;
         const refreshToken = response.headers.refreshtoken;
 
