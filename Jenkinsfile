@@ -190,7 +190,7 @@ pipeline {
 						sh '''
 							npm install
 							npm run build
-							docker run --name ${FRONT_NAME} --env-file ${ENV_DIR}${FRONT_ENV} --detach --volume ${HOST_VOLUME}:${HOST_VOLUME} --volume ${NGINX_DIR}:${NGINX_DOCKER_DIR} --publish ${FRONT_PORT}:${FRONT_DOCKER_PORT} --publish 80:80 --publish 443:443 nginx
+							docker run --name ${FRONT_NAME} --env-file ${ENV_DIR}${FRONT_ENV} --detach --volume ${HOST_VOLUME}:${HOST_VOLUME} --publish ${FRONT_PORT}:${FRONT_DOCKER_PORT} --publish 80:80 --publish 443:443 nginx
 						'''
 					}
 				}
