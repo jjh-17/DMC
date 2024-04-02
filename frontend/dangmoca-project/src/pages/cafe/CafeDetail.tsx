@@ -58,7 +58,6 @@ const CafeDetailPage = () => {
     try {
       const response = await cafeAPI.getCafeMenu(cafeSeq);
       if (response.data.result.length > 0) setCafeMenuList(response.data.result);
-      console.log(response);
     }
     catch (error) {
       console.error(error);
@@ -132,10 +131,10 @@ const CafeDetailPage = () => {
               <CoffeeBeanIcon className={svgClass + " fill-primary"} />
               {cafeDetail.rating == 0.0 ? (Math.round(cafeDetail.rating * 100) / 100).toFixed(2) : "별점 없음"}
             </div>
-            <div className={textClass}>
+            <div className={textClass + " cursor-pointer"} onClick={bookmarkCafe}>
               <BookMarkIcon
                 className={svgClass + " cursor-pointer mr-2 " + (cafeDetail.bookmarked ? " fill-primary" : " fill-zinc-500")}
-                onClick={bookmarkCafe}
+
               /> {cafeDetail.bookmarked ? "북마크 해제하기" : "북마크하기"}
             </div>
             {

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 import { Cafe } from '../../types/datatype';
 import useCafeStore from '../../stores/cafeStore';
-import cafeAlt from "../../assets/icons/cafe-alt.png";
 
 const DetailCafeCard = (cafe: Cafe) => {
   const navigate = useNavigate();
@@ -25,15 +24,15 @@ const DetailCafeCard = (cafe: Cafe) => {
   return (
     <div className="p-1 flex flex-col m-4 shadow-xl rounded-sm items-center" onClick={handleCafeClick}>
       <img
-        src={cafe.imageUrl || cafeAlt}
-        className="w-72 h-72 object-cover rounded-sm m-1 border-[1px] border-slate-200"
+        src={cafe.imageUrl || "/src/assets/pictures/sadcoffee.png"}
+        className="w-72 h-72 object-cover rounded-sm m-2"
         alt="Cafe"
       />
-      <h1 className="text-2xl font-medium m-2 max-w-64 whitespace-pre-wrap">{cafe.name}</h1>
-      <p className="text-[12px]  text-zinc-500">{cafe.address}</p>
+      <h1 className="text-2xl font-medium m-3 max-w-64 my-2 whitespace-break-spaces">{cafe.name}</h1>
+      <p className="text-slate-500 text-[14px]">{cafe.address}</p>
       <p className="w-68 my-2 flex justify-end items-center">
-        {cafe.distance && <span className="text-[12px] mx-4 ml-0 left-0">
-          < LocationPin className="w-3 h-3 mx-1 inline-flex" />
+        {cafe.distance && <span className=" mx-4 ml-0 left-0 text-sm">
+          < LocationPin className="w-4 h-4 mx-1 inline-flex text-slate-500" />
           {Math.round(parseFloat(cafe.distance)) + 'm'}
         </span>}
         {!cafe.distance && <span className='text-white text-[12px]'>  ss  </span>}

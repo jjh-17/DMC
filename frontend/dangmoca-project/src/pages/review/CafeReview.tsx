@@ -33,7 +33,6 @@ export default function CafeReview() {
   );
   const selectCafeSeq = useCafeStore((state) => state.selectedCafeSeq);
   const [likeUpdateTrigger, setLikeUpdateTrigger] = useState(0);
-  console.log(likeUpdateTrigger)
 
   const getCafeReviewData = async () => {
     try {
@@ -41,7 +40,7 @@ export default function CafeReview() {
       const data: ApiResponse = response.data;
       setCafeReviews(data.result);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
