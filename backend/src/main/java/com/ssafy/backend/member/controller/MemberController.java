@@ -91,4 +91,14 @@ public class MemberController {
         memberService.updatePreferenceTag(memberSeq, body.get("resultTag"));
         return new BaseResponse<>(SUCCESS);
     }
+
+    /*
+     * 회원 대표 칭호 바꾸기
+     */
+    @PatchMapping("/achievement")
+    public BaseResponse<?> updateAchievementTitle(@RequestBody Map<String, String> body, HttpServletRequest request) {
+        Long memberSeq = (Long) request.getAttribute("seq");
+        memberFacade.updateTitleAchievement(memberSeq, body.get("title"));
+        return new BaseResponse<>(SUCCESS);
+    }
 }

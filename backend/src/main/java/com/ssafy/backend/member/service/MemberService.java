@@ -43,4 +43,8 @@ public interface MemberService {
     void addAdCount(Long memberSeq);
 
     void updateAchievement(Long memberSeq, int totalReviewCount, boolean isBalanced);
+
+    void isExistAchievement(Long memberSeq, String title);
+
+    void updateTitleAchievement(Long memberSeq, String title);
 }

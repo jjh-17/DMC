@@ -94,4 +94,10 @@ public class MemberFacade {
 
         memberService.updateAchievement(memberSeq, totalReviewCount, isBalanced);
     }
+
+    @Transactional
+    public void updateTitleAchievement(Long memberSeq, String title) {
+        memberService.isExistAchievement(memberSeq, title);
+        memberService.updateTitleAchievement(memberSeq, title);
+    }
 }

@@ -44,6 +44,7 @@ public class Member {
 
     @Column
     @Nullable
+    @Setter
     String title;
 
     @Column
