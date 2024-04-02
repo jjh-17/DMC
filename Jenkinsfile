@@ -190,6 +190,7 @@ pipeline {
 						sh '''
 							cp /var/jenkins_home/workspace/env/default.conf .
 							npm install -g yarn
+							yarn install
 							yarn build
 							docker build -t dmc_fe .
 							docker run --name ${FRONT_NAME} --env-file ${ENV_DIR}${FRONT_ENV} -d --publish ${FRONT_PORT}:${FRONT_DOCKER_PORT} --publish 80:80 --publish 443:443 dmc_fe
