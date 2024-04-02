@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface ReviewService {
     List<ViewReviewVo> viewDmcReview(Long cafeSeq);
@@ -33,7 +34,7 @@ public interface ReviewService {
 
     Integer getLikeCount(Long reviewSeq);
 
-    Long addReview(AddReviewDto addReviewDto);
+    Long addReview(AddReviewDto addReviewDto, Boolean isPositive);
 
     void addReviewImage(Long reviewSeq, List<MultipartFile> images) throws IOException;
 
@@ -47,7 +48,13 @@ public interface ReviewService {
 
     Long getFiveStarCafe(Long memberSeq);
 
-    int getTotalRatingCount(Long memberSeq);
+    int getTotalReviewCount(Long memberSeq);
 
     int getRatingCount(Long memberSeq, int rating);
+
+    Map<String, Object> analyzeReview(String content);
+
+    Boolean isPositive(Map<String, Object> analyzeResult);
+
+    boolean isRatingBalanced(Long memberSeq);
 }

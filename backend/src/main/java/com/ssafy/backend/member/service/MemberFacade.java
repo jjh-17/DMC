@@ -2,6 +2,7 @@ package com.ssafy.backend.member.service;
 
 import com.ssafy.backend.member.model.domain.Member;
 import com.ssafy.backend.member.model.vo.GetMemberInformationVo;
+import com.ssafy.backend.review.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,9 @@ public class MemberFacade {
 
     @Autowired
     MemberService memberService;
+
+    @Autowired
+    ReviewService reviewService;
 
     @Transactional
     public Long OAuthLogin(String memberCode, char loginType) {
@@ -81,5 +85,13 @@ public class MemberFacade {
         if (profileImage!=null){
             memberService.updateMemberProfileImage(memberSeq, profileImage);
         }
+    }
+
+    @Transactional
+    public void updateAchievement(Long memberSeq){
+        int totalReviewCount = reviewService.getTotalReviewCount(memberSeq);
+        boolean isBalanced = reviewService.isRatingBalanced(memberSeq);
+
+        memberService.updateAchievement(memberSeq, totalReviewCount, isBalanced);
     }
 }

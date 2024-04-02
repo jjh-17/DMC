@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.OOPS;
 
@@ -80,9 +81,11 @@ public class ReviewFacade {
 
     @Transactional
     public List<String> addReview(AddReviewDto addReviewDto) {
+        Map<String, Object> analyzeResult = reviewService.analyzeReview(addReviewDto.getContent());
+        Boolean isPositive = reviewService.isPositive(analyzeResult);
 
         int mileage = 100;
-        Long reviewSeq = reviewService.addReview(addReviewDto);
+        Long reviewSeq = reviewService.addReview(addReviewDto, isPositive);
         if (addReviewDto.getReviewImages() != null) {
             mileage += 50;
             try {
@@ -92,19 +95,23 @@ public class ReviewFacade {
             }
         }
 
+        if (analyzeResult != null && (Double) analyzeResult.get("완좋") >= 90 && addReviewDto.getRating() == 5) {
+            memberService.addAdCount(addReviewDto.getMemberSeq());
+        }
+
+        memberFacade.updateAchievement(addReviewDto.getMemberSeq());
+
         memberService.addMileage(new AddMileageDto(addReviewDto.getMemberSeq(), mileage));
         cafeService.addTagCount(new AddTagCountDto(addReviewDto.getCafeSeq(), true, addReviewDto.getTag()));
 
         HashMap<String, Integer> ratingMap = new HashMap<>();
-        ratingMap.put("total", reviewService.getTotalRatingCount(addReviewDto.getMemberSeq()));
+        ratingMap.put("total", reviewService.getTotalReviewCount(addReviewDto.getMemberSeq()));
         ratingMap.put("1", reviewService.getRatingCount(addReviewDto.getMemberSeq(), 1));
         ratingMap.put("3", reviewService.getRatingCount(addReviewDto.getMemberSeq(), 3));
         ratingMap.put("5", reviewService.getRatingCount(addReviewDto.getMemberSeq(), 5));
 
         // 별점 목록 주고 그 중 해당하는 칭호 받아오기
-        List<String> list = memberFacade.getAchievement(addReviewDto.getMemberSeq(), ratingMap);
-
-        return list;
+        return memberFacade.getAchievement(addReviewDto.getMemberSeq(), ratingMap);
     }
 
     @Transactional

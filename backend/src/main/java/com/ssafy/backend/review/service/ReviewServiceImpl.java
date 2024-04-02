@@ -1,5 +1,9 @@
 package com.ssafy.backend.review.service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.ssafy.backend.global.exception.BaseException;
 import com.ssafy.backend.global.util.GlobalUtil;
 import com.ssafy.backend.global.util.S3UploadUtil;
@@ -22,10 +26,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.*;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.*;
 
@@ -131,7 +138,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Long addReview(AddReviewDto addReviewDto) {
+    public Long addReview(AddReviewDto addReviewDto, Boolean isPositive) {
         return dangmocaReviewRepository.save(
                 DangmocaReview.builder()
                         .memberSeq(addReviewDto.getMemberSeq())
@@ -140,6 +147,7 @@ public class ReviewServiceImpl implements ReviewService {
                         .tag(GlobalUtil.tagsToString(addReviewDto.getTag()))
                         .createdDate(addReviewDto.getCreatedDate())
                         .rating(addReviewDto.getRating())
+                        .isPositive(isPositive)
                         .isDeleted(addReviewDto.isDeleted())
                         .updatedDate(addReviewDto.getCreatedDate())
                         .build()
@@ -218,13 +226,126 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public int getTotalRatingCount(Long memberSeq) {
+    public int getTotalReviewCount(Long memberSeq) {
         return Math.toIntExact(dangmocaReviewRepository.countByMemberSeqAndIsDeletedFalse(memberSeq));
     }
 
     @Override
     public int getRatingCount(Long memberSeq, int rating) {
         return Math.toIntExact(dangmocaReviewRepository.countByMemberSeqAndRatingAndIsDeletedFalse(memberSeq, rating));
+    }
+
+    @Override
+    public Map<String, Object> analyzeReview(String content) {
+        // Todo : 실제 url로 변경 필요
+        String requestUrl = "http://j10a607a.p.ssafy.io:8083/predict";
+
+        String jsonContent = String.valueOf(convertToJsonObject(content));
+
+        try {
+            URL url = new URL(requestUrl);
+
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            connection.setRequestMethod("POST");
+
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            connection.setDoOutput(true);
+            OutputStream os = connection.getOutputStream();
+            os.write(jsonContent.getBytes());
+            os.flush();
+            os.close();
+
+            int responseCode = connection.getResponseCode();
+
+            if (responseCode != 200) {
+                return null;
+            }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String resultLine;
+            StringBuilder sb = new StringBuilder();
+            while ((resultLine = br.readLine()) != null) {
+                sb.append(resultLine);
+            }
+            br.close();
+
+            return convertJsonToHashMap(sb.toString());
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Boolean isPositive(Map<String, Object> analyzeResult) {
+        if(analyzeResult == null){
+            return null;
+        }
+
+        Double negative = (Double) analyzeResult.get("최악") + (Double) analyzeResult.get("별로");
+        Double positive = (Double) analyzeResult.get("좋음") + (Double) analyzeResult.get("완좋");
+
+        if (Math.abs(negative - positive) <= 10) {
+            return null;
+        }
+
+        return positive > negative;
+    }
+
+    @Override
+    public boolean isRatingBalanced(Long memberSeq) {
+        Map<Integer, Long> ratingMap = new HashMap<>();
+
+        for (int i = 1; i <= 5; i++) {
+            ratingMap.put(i, dangmocaReviewRepository.countByMemberSeqAndRatingAndIsDeletedFalse(memberSeq, i));
+        }
+
+        // 별점이 총 몇 개인지 계산
+        long totalRatings = ratingMap.values().stream().mapToLong(Long::longValue).sum();
+        if (totalRatings == 0) {
+            return false;
+        }
+
+        for (int star = 1; star <= 5; star++) {
+            // 특정 별점의 개수
+            Long specificRatingCount = ratingMap.get(star);
+
+            // 특정 별점의 비율 계산
+            double ratio = (double) specificRatingCount / totalRatings;
+
+            if (ratio >= 0.9) { // 한 별점에 9할 이상 남겼으면
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private JsonObject convertToJsonObject(String content) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("review_sentence", content);
+        return jsonObject;
+    }
+
+    private Map<String, Object> convertJsonToHashMap(String jsonString) {
+        Gson gson = new Gson();
+        JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
+
+        Map<String, Object> resultMap = new HashMap<>();
+
+        JsonArray resultArray = jsonObject.getAsJsonArray("result");
+        for (JsonElement element : resultArray) {
+            JsonArray innerArray = element.getAsJsonArray();
+            String key = innerArray.get(0).getAsString();
+            Double value = innerArray.get(1).getAsDouble();
+            resultMap.put(key, value);
+            if(resultMap.size() == 6){
+                return resultMap;
+            }
+        }
+
+        return resultMap;
     }
 
 

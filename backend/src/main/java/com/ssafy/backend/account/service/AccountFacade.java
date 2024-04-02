@@ -5,6 +5,7 @@ import com.ssafy.backend.member.model.vo.GetMemberInformationVo;
 import com.ssafy.backend.member.service.MemberFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,7 @@ public class AccountFacade {
     @Autowired
     MemberFacade memberFacade;
 
+    @Transactional
     public Map<String, Object> OAuthLogin(String memberCode, char loginType){
         TokenVo tokenVo = accountService.OAuthLogin(memberCode, loginType);
 
