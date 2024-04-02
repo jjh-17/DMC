@@ -16,6 +16,7 @@ public enum BaseResponseStatus {
     NOT_EXIST_USER(false, 400, "존재하지 않는 사용자입니다."),
     NEED_LOGIN(false, 400, "로그인이 필요한 서비스입니다."),
     EXIST_NICKNAME(false, 400, "이미 존재하는 닉네임입니다."),
+    LOGIN_FAIL(false, 400, "로그인에 실패하였습니다."),
 
     /**
      * 카페 관련 에러
