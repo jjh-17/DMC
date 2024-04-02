@@ -112,7 +112,7 @@ export default function ReviewWrite() {
         title: "리뷰가 등록되었습니다!",
         icon: "success",
       }).then(() => navigate("/cafeDetail/review"))
-      ;
+        ;
     } catch (error) {
       console.error("리뷰 작성 에러: ", error);
     }
@@ -142,13 +142,44 @@ export default function ReviewWrite() {
           className="flex rounded-lg overflow-x-auto my-5 no-scroll w-full h-[28lvh] border-2 border-primary bg-slate-100"
         >
           {reviewImages.map((imageFile, index) => (
-            <img
-              key={index}
-              src={URL.createObjectURL(imageFile)}
-              alt="Uploaded"
-              className="w-[25lvh] h-[25lvh] object-cover m-2 border-[1px] border-slate-400 p-2"
-              onLoad={() => URL.revokeObjectURL(URL.createObjectURL(imageFile))}
-            />
+            <>
+              <img
+                key={index}
+                src={URL.createObjectURL(imageFile)}
+                alt="Uploaded"
+                className="w-[25lvh] h-[25lvh] object-cover m-2 border-[1px] border-slate-400 p-2 pointer-events-none"
+                onLoad={() => URL.revokeObjectURL(URL.createObjectURL(imageFile))}
+
+              />
+              <div
+                className="relative -ml-10 mt-3 z-10"
+                onClick={() => Swal.fire({
+                  title: "사진을 삭제하시겠습니까?",
+                  showDenyButton: true,
+                })
+                  .then((response) => {
+                    if (response.isConfirmed) {
+                      // 삭제
+
+                    }
+                  })}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 text-red-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </div>
+            </>
           ))}
         </div>
         <label className={labelClass}>리뷰 작성하기</label>
@@ -169,11 +200,11 @@ export default function ReviewWrite() {
             <div key={index} className="flex-auto w-1/7 p-1">
               <motion.div
                 onClick={() => handleSelectTags(key)}
-                whileHover={!selectedTags.current.includes(key)? {scale: 1.1} : {}}
-                transition={{delay: 0.1, duration: 0.1}}
+                whileHover={!selectedTags.current.includes(key) ? { scale: 1.1 } : {}}
+                transition={{ delay: 0.1, duration: 0.1 }}
                 className={`text-center border-2 border-primary2 p-[7px] rounded-lg cursor-pointer ${selectedTags.current.includes(key)
-                    ? "bg-primary text-white hover:bg-primary"
-                    : "hover:bg-gray-200"
+                  ? "bg-primary text-white hover:bg-primary"
+                  : "hover:bg-gray-200"
                   }`}
               >
                 {key}

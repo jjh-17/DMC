@@ -40,7 +40,7 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
           <img
             src={review.profileImage || defaultImg}
             alt="프로필 이미지"
-            className="rounded-full w-24 h-24 p-1 object-cover border-2 border-primary"
+            className="rounded-full w-24 h-24 p-1 object-cover border-4 border-primary"
           />
         </div>
         <div className="flex flex-col justify-center">

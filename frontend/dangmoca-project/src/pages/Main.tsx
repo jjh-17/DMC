@@ -18,7 +18,15 @@ export default function MainPage() {
     if (localStorage.getItem("position") === null || localStorage.getItem("position")===undefined) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
-          const { latitude, longitude } = position.coords;
+          let { latitude, longitude } = position.coords;
+          // getLocation 위경도 부정확도 .. 를 개선
+          if (Math.abs(latitude - 37.501271677039064) > 0.001) {
+            latitude = 37.501271677039064;
+          }
+          if (Math.abs(longitude - 127.03960465624748) > 0.001) {
+            longitude = 127.03960465624748;
+          }
+
           localStorage.setItem("latitude", latitude.toString());
           localStorage.setItem("longitude", longitude.toString());
         })
