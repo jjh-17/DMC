@@ -188,6 +188,7 @@ pipeline {
 				dir("${FRONT_DIR}") {
 					script {
 						sh '''
+							cp /var/jenkins_home/workspace/env/default.conf .
 							npm install
 							npm run build
 							docker build -t dmc_fe .
