@@ -67,7 +67,8 @@ authAxios.interceptors.response.use(
 
         return authAxios(originalRequest);
       } catch (refreshError:any) {
-        if (refreshError.response?.status === 403){
+        console.log(refreshError.data);
+        if (refreshError.response?.data.code === 403){
           localStorage.removeItem("loginUser");
           localStorage.removeItem("refreshToken");
           document.cookie = "accessToken=; Max-Age=0; path=/;";
