@@ -14,7 +14,7 @@ export default function Login() {
           className={linkClassName}
         >
           <img
-            src="../../src/assets/icons/naver.png"
+            src="../../assets/icons/naver.png"
             alt="Naver 로그인"
             className='w-12 h-12 md:w-20 md:h-20'
           />
@@ -26,7 +26,7 @@ export default function Login() {
           className={linkClassName}
         >
           <img
-            src="../../assets/assets/icons/kakao.png"
+            src="../../assets/icons/kakao.png"
             alt="Kakao 로그인"
             className='w-12 h-12 md:w-20 md:h-20'
           />
