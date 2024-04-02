@@ -43,5 +43,5 @@ cloud:
 
 security:
   salt: ${SECURITY_SALT}
-  access-token-expire: 1000000
-  refresh-token-expire: 10000000
+  access-token-expire: 1800000
+  refresh-token-expire: 604800000
