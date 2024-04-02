@@ -18,7 +18,7 @@ public interface CafeInfoRepository extends JpaRepository<CafeInfo, Long> {
                     "ST_DISTANCE_SPHERE(ST_GEOMFROMTEXT(CONCAT('POINT(', :latitude, ' ', :longitude, ')'), 4326), ST_GEOMFROMTEXT(CONCAT('POINT(', c.latitude, ' ', c.longitude, ')'), 4326)) as distance " +
                     "FROM cafe_info c ";
 
-    String whereQuery = "WHERE ST_DISTANCE_SPHERE(ST_GEOMFROMTEXT(CONCAT('POINT(', :latitude, ' ', :longitude, ')'), 4326), ST_GEOMFROMTEXT(CONCAT('POINT(', c.latitude, ' ', c.longitude, ')'), 4326)) <= 500 " +
+    String whereQuery = "WHERE ST_DISTANCE_SPHERE(ST_GEOMFROMTEXT(CONCAT('POINT(', :latitude, ' ', :longitude, ')'), 4326), ST_GEOMFROMTEXT(CONCAT('POINT(', c.latitude, ' ', c.longitude, ')'), 4326)) <= 1000 " +
             "AND c.is_deleted = false ";
 
     String searchQuery = "AND (c.name LIKE :keyword OR c.address LIKE :keyword) ";
