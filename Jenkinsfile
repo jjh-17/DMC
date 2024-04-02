@@ -9,8 +9,8 @@ pipeline {
 	}
 
 	environment {
-		// for info, not necessary
 		HOST_VOLUME = "/jenkins/workspace/"
+		// for info, not necessary
 		JENKINS_VOLUME = "/var/jenkins_home/workspace/"
 		SSH_CONNECTION = "ubuntu@j10a607.p.ssafy.io"
 		SSH_CONNECTION_SUB = "ubuntu@j10a607a.p.ssafy.io"
@@ -33,7 +33,7 @@ pipeline {
 		FRONT_DIR = "./frontend/dangmoca-project/"
 
 		NGINX_DIR = "/nginx/"
-		NGINX_DOCKER_DIR = "/etc/nginx/"
+		NGINX_DOCKER_DIR = "/nginx/"
 
 		MATTERMOST_ENDPOINT = "https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh"
 		MATTERMOST_CHANNEL = "A607-Jenkins"
@@ -190,8 +190,7 @@ pipeline {
 						sh '''
 							npm install
 							npm run build
-							// docker run --name ${FRONT_NAME} --env-file ${ENV_DIR}${FRONT_ENV} --detach --volume ${NGINX_DIR}:${NGINX_DOCKER_DIR} --publish ${FRONT_PORT}:${FRONT_DOCKER_PORT} --publish 80:80 --publish 443:443 nginx
-							docker run --name ${FRONT_NAME} --env-file ${ENV_DIR}${FRONT_ENV} --detach --volume ${NGINX_DIR}:${NGINX_DOCKER_DIR} --publish ${FRONT_PORT}:${FRONT_DOCKER_PORT} --publish 80:80 --publish 443:443 nginx
+							docker run --name ${FRONT_NAME} --env-file ${ENV_DIR}${FRONT_ENV} --detach --volume ${HOST_VOLUME}:${HOST_VOLUME} --volume ${NGINX_DIR}:${NGINX_DOCKER_DIR} --publish ${FRONT_PORT}:${FRONT_DOCKER_PORT} --publish 80:80 --publish 443:443 nginx
 						'''
 					}
 				}
