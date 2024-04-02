@@ -1,5 +1,7 @@
 import Logo from '../../assets/icons/logo1.svg?react'
 import { motion } from 'framer-motion';
+import NaverIconUrl from '../../assets/icons/naver.png'
+import KakaoIconUrl from '../../assets/icons/kakao.png'
 
 export default function Login() {
   const naverURL = import.meta.env.VITE_NAVER_LOGIN_URL;
@@ -14,7 +16,7 @@ export default function Login() {
           className={linkClassName}
         >
           <img
-            src="../../assets/icons/naver.png"
+            src={NaverIconUrl}
             alt="Naver 로그인"
             className='w-12 h-12 md:w-20 md:h-20'
           />
@@ -26,7 +28,7 @@ export default function Login() {
           className={linkClassName}
         >
           <img
-            src="../../assets/icons/kakao.png"
+            src={KakaoIconUrl}
             alt="Kakao 로그인"
             className='w-12 h-12 md:w-20 md:h-20'
           />
