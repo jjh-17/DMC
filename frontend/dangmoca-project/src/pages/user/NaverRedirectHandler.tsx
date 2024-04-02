@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLoginUserStore } from "../../stores/userStore";
 
+const SERVER = import.meta.env.VITE_SERVER;
+
 const NaverRedirectHandler = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -13,8 +15,8 @@ const NaverRedirectHandler = () => {
   useEffect(() => {
     const code = queryParams.get("code");
     axios
-      .get("http://localhost:8082/api/account/naver?code=" + code)
-      .then((response) => {
+    .get(SERVER + "/account/naver?code=" + code)
+    .then((response) => {
         console.log(response.headers);
 
         const accessToken = response.headers.accesstoken;
