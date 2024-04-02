@@ -122,7 +122,7 @@ export default function ReviewWrite() {
   const labelClass = "lg:text-2xl";
 
   return (
-    <div className="min-w-screen max-w-[600px] flex flex-col gap-4 border-b-[1px] border-slate-500 mx-auto p-6">
+    <div className="min-w-screen max-w-[600px] flex flex-col gap-4 border-t-2 border-primary2 mx-auto p-6">
       <label className="text-center text-2xl lg:text-3xl">별점 등록하기</label>
       <ReviewRating onRatingChange={handleRatingChange} />
       <div className="p-4 m-4 flex flex-col items-center">
