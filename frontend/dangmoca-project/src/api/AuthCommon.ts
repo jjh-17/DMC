@@ -3,8 +3,6 @@ import tokenService from "../utils/token.service";
 
 const SERVER = import.meta.env.VITE_SERVER;
 
-const refreshToken = tokenService.getLocalRefreshToken();
-
 export const defaultAxios: AxiosInstance = axios.create({
   baseURL: SERVER,
 });
@@ -21,12 +19,32 @@ interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   _retry?: boolean;
 }
 
+authAxios.interceptors.request.use(
+  function(config) {
+    const accessToken = tokenService.getCookieAccessToken();
+    if (accessToken) {
+      config.headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  function(error) {
+    return Promise.reject(error);
+  }
+);
+
 authAxios.interceptors.response.use(
   (response: AxiosResponse) => response,
   async (error: AxiosError) => {
     const originalRequest = error.config as CustomAxiosRequestConfig;
 
+    console.log(tokenService.getCookieAccessToken());
+    console.log(tokenService.getLocalRefreshToken());
+
     if (!originalRequest) return Promise.reject(error);
+
+    if (!originalRequest.headers) {
+      originalRequest.headers = {};
+    }
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
@@ -35,7 +53,7 @@ authAxios.interceptors.response.use(
           method: "get",
           url: `${SERVER}/account/reissue`,
           headers: {
-            "Authorization-refresh": `Bearer ${refreshToken}`,
+            "Authorization-refresh": `Bearer ${tokenService.getLocalRefreshToken()}`,
           },
         });
 
@@ -45,12 +63,11 @@ authAxios.interceptors.response.use(
         document.cookie = `accessToken=${newAccessToken}; max-age=3600; path=/;`;
         localStorage.setItem("refreshToken", newRefreshToken);
 
-        axios.defaults.headers.common["Authorization"] =
-          "Bearer " + newAccessToken;
+        originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
 
         return authAxios(originalRequest);
       } catch (refreshError:any) {
-        if (refreshError.response.status === 401){
+        if (refreshError.response?.status === 403){
           localStorage.removeItem("loginUser");
           localStorage.removeItem("refreshToken");
           document.cookie = "accessToken=; Max-Age=0; path=/;";
