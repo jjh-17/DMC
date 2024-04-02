@@ -20,8 +20,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_EXIST_USER;
-import static com.ssafy.backend.global.response.BaseResponseStatus.OOPS;
+import static com.ssafy.backend.global.response.BaseResponseStatus.*;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -274,6 +273,21 @@ public class MemberServiceImpl implements MemberService {
             }
         }
 
+    }
+
+    @Override
+    public void isExistAchievement(Long memberSeq, String title) {
+        if (achievementRepository.findByMemberSeqAndTitle(memberSeq, title) == null){
+            throw new BaseException(NOT_VALID_TITLE);
+        }
+
+    }
+
+    @Override
+    public void updateTitleAchievement(Long memberSeq, String title) {
+        Member member = memberRepository.findById(memberSeq).orElseThrow(()->new BaseException(NOT_EXIST_USER));
+        member.setTitle(title);
+        memberRepository.save(member);
     }
 
     private Map<Integer, String> getRatingAchievement() {

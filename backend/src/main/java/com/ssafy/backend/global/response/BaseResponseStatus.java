@@ -17,6 +17,7 @@ public enum BaseResponseStatus {
     NEED_LOGIN(false, 400, "로그인이 필요한 서비스입니다."),
     EXIST_NICKNAME(false, 400, "이미 존재하는 닉네임입니다."),
     LOGIN_FAIL(false, 400, "로그인에 실패하였습니다."),
+    NOT_VALID_TITLE(false, 400, "유효하지 않은 칭호입니다."),
 
     /**
      * 카페 관련 에러
