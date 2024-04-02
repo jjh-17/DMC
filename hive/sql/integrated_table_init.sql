@@ -3,7 +3,7 @@ use A607;
 -- 카페 정보 테이블
 DROP TABLE IF EXISTS cafe_info;
 CREATE TABLE IF NOT EXISTS cafe_info  (
-    is_deleted TINYINT,
+    is_deleted BOOLEAN,
     kakao_rating FLOAT,
     latitude DOUBLE,
     longitude DOUBLE,
