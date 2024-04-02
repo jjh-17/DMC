@@ -53,7 +53,7 @@ export default function CafeTestPage() {
       })
     }
   };
-  const buttonClass = "border-4 border-primary hover:bg-primary w-40 h-40 hover:text-white py-2 px-4 rounded whitespace-no-wrap text-xl md:text-2xl";
+  const buttonClass = "border-4 border-primary hover:bg-primary w-40 h-40 md:w-52 md:h-52 hover:text-white hover:text-4xl py-2 px-4 rounded whitespace-no-wrap text-2xl md:text-3xl font-bold";
 
   if (!startedTest) {
     return (
@@ -61,7 +61,7 @@ export default function CafeTestPage() {
         <h1 className="text-4xl font-bold mb-10 text-primary">취향 테스트에 오신걸 환영합니다!</h1>
         <p>두 개의 카페 중 마음에 드는 카페를 고르세요.</p>
         <p> 둘 다 고르실 수도 있고, 하나도 고르지 않으실 수도 있습니다.</p>
-        <div className="flex flex-row justify-center gap-5 mt-[5lvh]">
+        <div className="flex flex-row justify-center gap-10 mt-[5lvh]">
           <motion.button onClick={handleStartTest} className={buttonClass} whileHover={{ scale: 1.2 }}>
             네!
           </motion.button>

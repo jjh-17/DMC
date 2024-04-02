@@ -11,6 +11,7 @@ export default function RootLayout() {
   const noRequireAuth = ["/", "/login", "/kakaoLogin", "/naverLogin"];
 
   useEffect(() => {
+    console.log(localStorage.getItem('loginUser'))
     window.scrollTo(0,0);
     if (location.pathname === "/login") {
       setShowHeader(false);
@@ -19,7 +20,7 @@ export default function RootLayout() {
     }
 
     if (!noRequireAuth.includes(location.pathname)) {
-      if (localStorage.getItem("loginUser") === undefined || localStorage.getItem("loginUser") === null) {
+      if (localStorage.getItem("loginUser") == undefined || localStorage.getItem("loginUser") == null) {
         // navigate(-1);
         // Swal.enableButtons();
         Swal.fire({

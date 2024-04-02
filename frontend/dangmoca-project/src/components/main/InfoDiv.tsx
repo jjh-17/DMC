@@ -23,12 +23,16 @@ const InfoDiv = (props: infoProps) => {
           initial={initial} whileInView={whileInView} viewport={viewport} transition={{
             duration: 1.2, delay: props.delay[0]
           }}
-          className="text-3xl mb-4">{props.title}</motion.h1>
+          className="text-3xl md:text-4xl mb-4 whitespace-nowrap text-primary2"
+          id="test"
+          >{props.title}</motion.h1>
         <motion.p
           initial={initial} whileInView={whileInView} viewport={viewport} transition={{
             duration: 1.2, delay: props.delay[1]
           }}
-          className="whitespace-nowrap text-2xl">{props.description}</motion.p>
+          className="whitespace-nowrap text-2xl md:text-3xl"
+          id="test"
+          >{props.description}</motion.p>
       </div>
     </div>
   )
