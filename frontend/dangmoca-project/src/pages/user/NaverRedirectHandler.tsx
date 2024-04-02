@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useLoginUserStore } from "../../stores/userStore"; 
+import { useLoginUserStore } from "../../stores/userStore";
 
 const NaverRedirectHandler = () => {
   const navigate = useNavigate();
@@ -22,10 +22,12 @@ const NaverRedirectHandler = () => {
         console.log(refreshToken);
         console.log(response.data);
 
-        setLoginUser(response.data.result);
+        if (response.status === 200) {
+          setLoginUser(response.data.result);
 
-        document.cookie = `accessToken=${accessToken}; max-age=3600; path=/;`;
-        localStorage.setItem("refreshToken", refreshToken);
+          document.cookie = `accessToken=${accessToken}; max-age=3600; path=/;`;
+          localStorage.setItem("refreshToken", refreshToken);
+        }
 
         navigate("/");
       })
