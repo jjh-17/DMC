@@ -189,6 +189,7 @@ pipeline {
 					script {
 						sh '''
 							cp /var/jenkins_home/workspace/env/default.conf .
+							cp /var/jenkins_home/workspace/env/env.conf .
 							npm install -g yarn
 							yarn install
 							yarn build
