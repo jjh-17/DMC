@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const InfoDiv = (props: infoProps) => {
   const initial = {
-    y: 100,
+    y: 50,
     opacity: 0,
   }
 
@@ -16,8 +16,8 @@ const InfoDiv = (props: infoProps) => {
 
   return (
     <div
-      className="flex flex-row justify-around bg-opacity-30 h-fit
-        w-[80lvw] md:w-[60lvw] lg:w-[50lvw] mx-auto mt-[10lvh] items-center text-center">
+      className="flex flex-row justify-around bg-opacity-30
+        w-[70lvw] md:w-[60lvw] lg:w-[50lvw] mx-auto mt-[10lvh] items-center text-center">
       <div>
         <motion.h1
           initial={initial} whileInView={whileInView} viewport={viewport} transition={{

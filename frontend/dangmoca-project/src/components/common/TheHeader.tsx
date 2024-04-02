@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 
 const TheHeader = () => {
-  const [headerClass, setHeaderClass] = useState("absolute top-3 mx-auto ");
+  const [headerClass, setHeaderClass] = useState("fixed top-3");
   const [headerText, setHeaderText] = useState("당모카");
   const location = useLocation();
 
@@ -44,8 +44,8 @@ const TheHeader = () => {
       const limitHeight = 100;
       const newHeaderClass =
         window.scrollY > limitHeight
-          ? " fixed top-3 w-full top-3 bg-transparent pointer-events-none opacity-0 duration-500"
-          : " fixed top-3 w-full top-3 bg-transparent pointer-events-auto opacity-100 duration-500";
+          ? " fixed top-3 w-full bg-transparent pointer-events-none opacity-0 duration-500"
+          : " fixed top-3 w-full bg-transparent pointer-events-auto opacity-100 duration-500";
       setHeaderClass(newHeaderClass);
     };
     window.addEventListener("scroll", handleScroll);

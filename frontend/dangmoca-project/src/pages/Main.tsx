@@ -44,7 +44,7 @@ export default function MainPage() {
         </video>
         <InfoDiv title="카페를 추천받으세요" description="취향에 따른 카페를 찾아 드립니다" delay={[0.3, 0.5]}/>
         <InfoDiv title="카페를 찾아서 북마크하세요" description="좋아하는 카페를 한곳에 모아 보세요" delay={[0.6, 0.7]}/>
-        <InfoDiv title="리뷰 결과를 보고 판단하세요" description="리뷰 분석에 따른 신뢰도를 보여드립니다" delay={[0.8, 0.9]}/>
+        <InfoDiv title="리뷰 결과를 보고 판단하세요" description="리뷰 분석에 따른 신뢰도를 보여드립니다" delay={[0.7, 0.8]}/>
         <Button label={!isLogin ? "시작하기" : "내 카페 찾기"} onClick={handleClick} addClass="whitespace-nowrap text-3xl lg:p-4 my-20 lg:rounded-2xl p-4" />
       </div>
     </>
