@@ -29,7 +29,6 @@ public class ReviewFacade {
 
     @Autowired
     ReviewService reviewService;
-
     @Autowired
     MemberService memberService;
     @Autowired

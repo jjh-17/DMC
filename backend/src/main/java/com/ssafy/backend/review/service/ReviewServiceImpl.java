@@ -279,7 +279,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public Boolean isPositive(Map<String, Object> analyzeResult) {
-        if(analyzeResult == null){
+        if (analyzeResult == null) {
             return null;
         }
 
@@ -304,7 +304,7 @@ public class ReviewServiceImpl implements ReviewService {
         // 별점이 총 몇 개인지 계산
         long totalRatings = ratingMap.values().stream().mapToLong(Long::longValue).sum();
         if (totalRatings == 0) {
-            return false;
+            return true;
         }
 
         for (int star = 1; star <= 5; star++) {
@@ -340,7 +340,7 @@ public class ReviewServiceImpl implements ReviewService {
             String key = innerArray.get(0).getAsString();
             Double value = innerArray.get(1).getAsDouble();
             resultMap.put(key, value);
-            if(resultMap.size() == 6){
+            if (resultMap.size() == 6) {
                 return resultMap;
             }
         }
