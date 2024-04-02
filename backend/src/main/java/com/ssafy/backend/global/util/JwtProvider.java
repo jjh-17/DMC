@@ -1,13 +1,10 @@
 package com.ssafy.backend.global.util;
 
-import com.ssafy.backend.global.exception.BaseException;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-
-import static com.ssafy.backend.global.response.BaseResponseStatus.JWT_ERROR;
 
 @Component
 public class JwtProvider {
@@ -59,7 +56,7 @@ public class JwtProvider {
                     .parseClaimsJws(token);
             return !(claims.getBody().getExpiration().before(new Date()) && issuer.equals(claims.getBody().getIssuer()));
         } catch (Exception e) {
-            throw new JwtException("유효하지 않은 토큰입니다.");
+            return false;
         }
     }
 
