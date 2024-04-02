@@ -2,6 +2,7 @@ package com.ssafy.backend.account.service;
 
 import com.ssafy.backend.account.model.domain.vo.TokenVo;
 import com.ssafy.backend.global.exception.BaseException;
+import com.ssafy.backend.global.exception.JwtException;
 import com.ssafy.backend.global.util.JwtProvider;
 import com.ssafy.backend.global.util.RedisDao;
 import com.ssafy.backend.member.service.MemberFacade;
@@ -72,10 +73,10 @@ public class AccountServiceImpl implements AccountService {
             String token = (String) redisDao.readFromRedis("refreshToken:" + memberSeq);
 
             if (token == null) {
-                throw new BaseException(REISSUE_ERROR);
+                throw new JwtException("재발행 오류입니다.");
             }
         } else {
-            throw new BaseException(REISSUE_ERROR);
+            throw new JwtException("재발행 오류입니다.");
         }
 
         String newAccessToken = jwtProvider.createAccessToken(memberSeq, accessTokenExpire);

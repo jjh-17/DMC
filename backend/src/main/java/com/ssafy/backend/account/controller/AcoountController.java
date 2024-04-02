@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+import static com.ssafy.backend.global.response.BaseResponseStatus.REISSUE_ERROR;
 import static com.ssafy.backend.global.response.BaseResponseStatus.SUCCESS;
+import static org.apache.http.HttpStatus.SC_FORBIDDEN;
 
 @RestController
 @RequestMapping("/api/account")
@@ -95,10 +97,15 @@ public class AcoountController {
     public BaseResponse<?> reissue(HttpServletRequest request, HttpServletResponse response) {
         String headerToken = request.getHeader("Authorization-refresh");
 
-        TokenVo tokenVo = accountService.reissue(headerToken);
-
-        response.setHeader("accessToken", tokenVo.getAccessToken());
-        response.setHeader("refreshToken", tokenVo.getRefreshToken());
+        TokenVo tokenVo;
+        try {
+            tokenVo = accountService.reissue(headerToken);
+            response.setHeader("accessToken", tokenVo.getAccessToken());
+            response.setHeader("refreshToken", tokenVo.getRefreshToken());
+        } catch (Exception e) {
+            response.setStatus(SC_FORBIDDEN);
+            return new BaseResponse<>(REISSUE_ERROR);
+        }
 
         return new BaseResponse<>(SUCCESS);
     }
