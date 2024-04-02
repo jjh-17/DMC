@@ -12,6 +12,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:8080", "http://localhost:5173")
                 .allowedMethods("GET", "POST", "OPTIONS", "DELETE", "PATCH")
                 .allowCredentials(true) // 이 줄을 추가
-                .exposedHeaders("AccessToken", "RefreshToken");
+                .exposedHeaders("AccessToken", "RefreshToken", "accessToken", "refreshToken");
     }
 }
