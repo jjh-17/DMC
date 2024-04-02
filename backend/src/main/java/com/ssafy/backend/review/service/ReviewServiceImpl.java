@@ -238,7 +238,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Map<String, Object> analyzeReview(String content) {
         // Todo : 실제 url로 변경 필요
-        String requestUrl = "http://127.0.0.1:8000/hello";
+        String requestUrl = "http://j10a607a.p.ssafy.io:8083/predict";
 
         String jsonContent = String.valueOf(convertToJsonObject(content));
 
@@ -324,7 +324,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     private JsonObject convertToJsonObject(String content) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("content", content);
+        jsonObject.addProperty("review_sentence", content);
         return jsonObject;
     }
 
@@ -340,6 +340,9 @@ public class ReviewServiceImpl implements ReviewService {
             String key = innerArray.get(0).getAsString();
             Double value = innerArray.get(1).getAsDouble();
             resultMap.put(key, value);
+            if(resultMap.size() == 6){
+                return resultMap;
+            }
         }
 
         return resultMap;

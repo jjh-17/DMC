@@ -47,8 +47,8 @@ public class Member {
     String title;
 
     @Column
-    @ColumnDefault("0L")
-    Long adCount;
+    @ColumnDefault("0")
+    long adCount;
 
     @Column
     @Setter
@@ -57,7 +57,7 @@ public class Member {
     public Member() {
     }
 
-    public Member(Long memberSeq, String memberCode, Character type, @Nullable String imageUrl, String nickname, Integer mileage, @Nullable String preferenceTag, @Nullable String title, Long adCount, boolean isDeleted) {
+    public Member(Long memberSeq, String memberCode, Character type, @Nullable String imageUrl, String nickname, Integer mileage, @Nullable String preferenceTag, @Nullable String title, long adCount, boolean isDeleted) {
         this.memberSeq = memberSeq;
         this.memberCode = memberCode;
         this.type = type;

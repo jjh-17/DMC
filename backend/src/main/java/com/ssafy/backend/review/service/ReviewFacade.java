@@ -95,7 +95,7 @@ public class ReviewFacade {
             }
         }
 
-        if (analyzeResult != null && (Double) analyzeResult.get("완좋") >= 90) {
+        if (analyzeResult != null && (Double) analyzeResult.get("완좋") >= 90 && addReviewDto.getRating() == 5) {
             memberService.addAdCount(addReviewDto.getMemberSeq());
         }
 

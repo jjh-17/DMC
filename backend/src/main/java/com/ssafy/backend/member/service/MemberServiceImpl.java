@@ -188,7 +188,7 @@ public class MemberServiceImpl implements MemberService {
         // 작성 리뷰의 전체 개수로 칭호 주기
         for (Integer key : getTotalAchievement().keySet()) {
             if (key == totalCount) {
-                if (achievementRepository.findByMemberSeqAndTitle(memberSeq, getTotalAchievement().get(key)) != null) {
+                if (achievementRepository.findByMemberSeqAndTitle(memberSeq, getTotalAchievement().get(key)) == null) {
                     achievementRepository.save(Achievement.builder()
                             .title(getTotalAchievement().get(key))
                             .memberSeq(memberSeq)
@@ -215,8 +215,7 @@ public class MemberServiceImpl implements MemberService {
         }
 
         if (getRatingAchievement().containsKey(rating) && getCountAchievement().containsKey(count)) {
-            StringBuilder sb = new StringBuilder();
-            String title = sb.append(getRatingAchievement().get(rating)).append(getCountAchievement().get(count)).toString();
+            String title = getRatingAchievement().get(rating) + getCountAchievement().get(count);
 
             if (set.contains(title)) {
                 return null;
@@ -257,7 +256,7 @@ public class MemberServiceImpl implements MemberService {
             throw new BaseException(NOT_EXIST_USER);
         }
 
-        Long adCount = memberOptional.get().getAdCount();
+        long adCount = memberOptional.get().getAdCount();
 
         Achievement achievement = achievementRepository.findByMemberSeqAndTitle(memberSeq, "안심리뷰어");
 
