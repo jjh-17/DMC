@@ -35,8 +35,6 @@ public class AccountServiceImpl implements AccountService {
     @Value("${security.refresh-token-expire}")
     private long refreshTokenExpire;
 
-    @Value("${security.salt}")
-    private String salt;
 
     @Override
     public TokenVo OAuthLogin(String memberCode, char loginType) {
@@ -49,6 +47,12 @@ public class AccountServiceImpl implements AccountService {
         redisDao.saveToRedis("refreshToken:" + memberSeq, refreshToken, Duration.ofMillis(refreshTokenExpire));
 
         return new TokenVo(accessToken, refreshToken, memberSeq);
+    }
+
+    @Override
+    public void logout(Long memberSeq) {
+        redisDao.deleteFromRedis("accessToken:" + memberSeq);
+        redisDao.deleteFromRedis("refreshToken:" + memberSeq);
     }
 
     @Override
