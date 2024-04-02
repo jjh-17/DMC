@@ -139,7 +139,7 @@ const CafeDetailPage = () => {
               /> {cafeDetail.bookmarked ? "북마크 해제하기" : "북마크하기"}
             </div>
             {
-              cafeDetail.homepageUrl.length > 0 && (
+              cafeDetail.homepageUrl && cafeDetail.homepageUrl.length > 0 && (
                 <div className={textClass}>
                   <a
                     href={cafeDetail.homepageUrl}
