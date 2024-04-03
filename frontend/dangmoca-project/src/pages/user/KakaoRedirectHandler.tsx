@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLoginUserStore } from "../../stores/userStore"; 
 
+const SERVER = import.meta.env.VITE_SERVER;
+
 const KakaoRedirectHandler = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -13,7 +15,7 @@ const KakaoRedirectHandler = () => {
   useEffect(() => {
     const code = queryParams.get("code");
     axios
-      .get("http://localhost:8082/api/account/kakao?code=" + code)
+      .get(SERVER + "/account/kakao?code=" + code)
       .then((response) => {
         const accessToken = response.headers.accesstoken;
         const refreshToken = response.headers.refreshtoken;

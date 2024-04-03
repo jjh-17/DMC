@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 import { Cafe } from '../../types/datatype';
 import useCafeStore from '../../stores/cafeStore';
+import SadCoffeeUrl from '../../assets/pictures/sadcoffee.png'
 
 const DetailCafeCard = (cafe: Cafe) => {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const DetailCafeCard = (cafe: Cafe) => {
   return (
     <div className="p-1 flex flex-col m-4 shadow-xl rounded-sm items-center" onClick={handleCafeClick}>
       <img
-        src={cafe.imageUrl || "/src/assets/pictures/sadcoffee.png"}
+        src={cafe.imageUrl || SadCoffeeUrl}
         className="w-72 h-72 object-cover rounded-sm m-2"
         alt="Cafe"
       />

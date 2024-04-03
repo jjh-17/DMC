@@ -13,6 +13,7 @@ import { cafeAPI } from "../../api/cafe";
 import { useEffect, useState } from "react";
 import ScrollToTop from "../../components/common/ScrollToTop";
 import Swal from "sweetalert2";
+import KakaoMapIconUrl from '../../assets/icons/kakaomap_basic.png'
 
 const CafeDetailPage = () => {
   const location = useLocation();
@@ -103,12 +104,12 @@ const CafeDetailPage = () => {
   };
 
   return (
-    <div className="mt-5 mb-20">
+    <div className="mt-5 pb-20">
       <img
         src={cafeDetail.imageUrl || "/src/assets/icons/logo.svg"}
         className="opacity-80 h-[80lvh] w-screen object-cover -z-10"
       />
-      <div className="absolute top-[70lvh] max-h-[30lvh] md:w-[60lvw] lg:w-[40lvw] ml-10 bg-primary3 bg-opacity-20">
+      <div className="absolute top-[70lvh] max-h-[30lvh] w-fit ml-10 bg-white bg-opacity-50">
         <h1 className="text-4xl md:text-5xl mb-2">
           {cafeDetail.name}
         </h1>
@@ -159,7 +160,7 @@ const CafeDetailPage = () => {
               <ClockIcon className={svgClass} />
               {cafeDetail.openingHour}
             </div>
-            <img src="/src/assets/icons/kakaomap_basic.png" className="size-6 ml-4 inline-block" />
+            <img src={KakaoMapIconUrl} className="size-6 ml-4 inline-block" />
             <button className={textClass} onClick={() => setShowKakaoMap(!showKakaoMap)}>위치 보기 </button>
             {
               showKakaoMap && <KakaoMap address={cafeDetail.address} name={cafeDetail.name} />
@@ -178,7 +179,7 @@ const CafeDetailPage = () => {
       {isReviewPage && (
         <>
           <Button
-            addClass=" fixed right-20 bottom-20 md:right-32 text-lg md:text-2xl"
+            addClass=" fixed right-20 bottom-20 md:right-[30lvw] lg:right-[25lvw] text-lg md:text-2xl"
             label="리뷰 작성하기"
             onClick={() => navigate("write")}
           />

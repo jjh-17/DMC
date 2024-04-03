@@ -26,33 +26,40 @@ export default function CafeTestPage() {
     setStartedTest(true);
   };
 
-  const handleNextQuestion = () => {
+  const handleNextQuestion = async () => {
     if (currentQuestion !== questionLength / 2 - 1) {
       if (isFirstSelected) {
-        selectedTags.current.push(selectedTagsArray(0).toString() as string);
+        selectedTags.current.push(selectedTagsArray(0).toString());
       }
       if (isSecondSelected) {
-        selectedTags.current.push(selectedTagsArray(1).toString() as string);
+        selectedTags.current.push(selectedTagsArray(1).toString());
       }
       setCurrentQuestion(currentQuestion + 1);
       setIsFirstSelected(false);
       setIsSecondSelected(false);
     } else {
-      memberAPI.submitTestResult(selectedTags.current);
-      Swal.fire({
-        didOpen: () => {
-          Swal.showLoading()
-          setTimeout(() => Swal.fire({
-            title: "취향 테스트가 끝났습니다",
-            text: "테스트를 반영한 카페 추천 페이지로 이동합니다.",
-            confirmButtonText: '좋아요!',
-          }), 1000)
-        }
-      }).then(() => {
-        navigate('/mycafe');
-      })
+      try {
+        const response = await memberAPI.submitTestResult(selectedTags.current);
+        if (response.status === 200) {
+          Swal.fire({
+            didOpen: () => {
+              Swal.showLoading();
+              setTimeout(() => Swal.fire({
+                title: "취향 테스트가 끝났습니다",
+                text: "테스트를 반영한 카페 추천 페이지로 이동합니다.",
+                confirmButtonText: '좋아요!',
+              }), 1000);
+            }
+          }).then(() => {
+            navigate('/mycafe');
+          });
+        } 
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
+
   const buttonClass = "border-4 border-primary hover:bg-primary w-40 h-40 md:w-52 md:h-52 hover:text-white hover:text-4xl py-2 px-4 rounded whitespace-no-wrap text-2xl md:text-3xl font-bold";
 
   if (!startedTest) {
@@ -87,7 +94,7 @@ export default function CafeTestPage() {
       </ol>
       <p className="text-xl">마음에 드는 카페를 고르세요.</p>
       {/* 2중택1 컴포넌트 */}
-      <div className="flex flex-col md:flex-row lg:flex-row gap-6 mx-auto mt-12 mb-4">
+      <div className="flex flex-col md:flex-row lg:flex-row gap-10 mx-auto mt-12 mb-4">
         <div onClick={() =>
           setIsFirstSelected(!isFirstSelected)
         }>
