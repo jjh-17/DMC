@@ -37,11 +37,11 @@ const DetailCafeCard = (cafe: Cafe) => {
           {Math.round(parseFloat(cafe.distance)) + 'm'}
         </span>}
         {!cafe.distance && <span className='text-white text-[12px]'>  ss  </span>}
-        {/* {mappedTags.map((tag, index) => (
+        {mappedTags.map((tag, index) => (
           <span className="text-[10px] text-primary mx-1" key={index}>
             #{tag}{" "}
           </span>
-        ))} */}
+        ))}
       </p>
     </div>
   );

@@ -64,10 +64,15 @@ const CafeListPage = () => {
     }
   }
 
-useEffect(() => {
-  getCafeList(currentPage);
-  document.getElementById("root")?.scrollTop;
-}, [currentPage]);
+  useEffect(() => {
+    getCafeList(currentPage)
+      .then(() => {
+        window.scrollTo(0,0);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, [currentPage]);
 
   // const selectedSorts = useRef<string[]>([]);
   // const selectedTags = useRef<string[]>([]);
