@@ -3,12 +3,13 @@ import CoffeeBean from "../../assets/icons/coffeebean.svg?react";
 import ReactWordcloud from "react-wordcloud";
 import "tippy.js/dist/tippy.css";
 import "tippy.js/animations/scale.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UserInfo } from "../../types/datatype";
 import RightArrowIcon from "../../assets/icons/rightarrow.svg?react";
-import dummyUserImg from "/src/assets/icons/dummyUserImg.png";
+import dummyUserImg from "../../assets/icons/dummyUserImg.png";
+import { tagMapper } from "../../utils/tag";
 
-const Profile = (user: UserInfo | undefined) => {
+const Profile = (user: UserInfo | null) => {
   const navigate = useNavigate();
 
   if (user === null) {
@@ -26,28 +27,28 @@ const Profile = (user: UserInfo | undefined) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [words, setWords] = useState([
     {
-      text: "told",
+      text: "등록된",
       value: 64,
     },
     {
-      text: "mistake",
-      value: 11,
+      text: "성향",
+      value: 34,
     },
     {
-      text: "cake",
+      text: "정보가",
       value: 45,
     },
     {
-      text: "coffee",
-      value: 29,
+      text: "존재하지",
+      value: 41,
     },
     {
-      text: "cafe",
+      text: "않습니다.",
       value: 50,
     },
     {
-      text: "book",
-      value: 34,
+      text: ".",
+      value: 11,
     },
   ]);
 
@@ -68,14 +69,43 @@ const Profile = (user: UserInfo | undefined) => {
     transitionDuration: 1000,
   };
 
-  const handleCloudClick = () => {
-    setWords([...words]);
+  const updateCloud = () => {
+    const preferenceTag = Array.isArray(user?.preferenceTag)
+      ? user.preferenceTag
+      : [];
+    const titleList = Array.isArray(user?.titleList) ? user.titleList : [];
+
+    if (preferenceTag.length > 0 || titleList.length > 0) {
+      const getRandomValue = (min: number, max: number) =>
+        Math.floor(Math.random() * (max - min + 1)) + min;
+
+      const transformedPreferenceTags = preferenceTag.map((tag) => ({
+        text: tagMapper.get(tag),
+        value: getRandomValue(20, 60),
+      }));
+
+      const titleListTags = titleList.map((tag) => ({
+        text: tag,
+        value: getRandomValue(20, 60),
+      }));
+
+      const newWords = [...transformedPreferenceTags, ...titleListTags];
+      newWords.push({ text: ".", value: 1 });
+
+      setWords(newWords);
+    } else {
+      setWords([...words]);
+    }
   };
+
+  useEffect(() => {
+    updateCloud();
+  }, [user.preferenceTag, user.titleList]);
 
   return (
     <>
       {user != undefined && (
-        <div className="flex flex-col  p-4">
+        <div className="flex flex-col p-4 mb-20">
           <div className="flex flex-row justify-center gap-4 lg:gap-20 min-w-full my-10">
             <img
               src={user.profileImageUrl || dummyUserImg}
@@ -124,8 +154,8 @@ const Profile = (user: UserInfo | undefined) => {
       </div> */}
 
           <div
-            onClick={handleCloudClick}
-            className="mx-auto p-6 w-[80lvw] h-[40lvw] lg:w-[40lvw] lg:h-[20lvw] border-primary border-2 rounded-2xl shadow-lg whitespace-nowrap cursor-pointer"
+            onClick={updateCloud}
+            className="mx-auto p-6 w-[80lvw] h-[40lvw] md:w-[40lvw]  lg:w-[40lvw] lg:h-[20lvw] border-primary border-2 rounded-2xl shadow-lg whitespace-nowrap cursor-pointer"
           >
             <ReactWordcloud options={options} words={words} />
           </div>

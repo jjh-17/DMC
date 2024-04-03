@@ -1,10 +1,11 @@
 import DetailCafeCard from "../../components/cafe/DetailCafeCard";
-// import cafeDummyData from "../../assets/testData/cafeDummyData";
 import { cafeAPI } from "../../api/cafe";
 import { Cafe, CafeListApiResponse } from "../../types/datatype";
 import { useEffect, useState } from "react";
 import Pagination from "../../components/common/Pagination";
-import BookmarkNotFound from "../../components/cafe/BookmarkNotFound";
+import NotFound from "../../components/cafe/NotFound";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Bookmark() {
   const [bookmarkList, setBookmarkList] = useState<Cafe[]>([]);
@@ -13,6 +14,7 @@ export default function Bookmark() {
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
   }
+  const navigate = useNavigate();
   
   const getBookmarkList = async () => {
     try {
@@ -48,7 +50,7 @@ export default function Bookmark() {
           </div>
         ))}
         {
-          bookmarkList.length == 0 && <BookmarkNotFound />
+          bookmarkList.length == 0 && <NotFound maxHeight="h-[80lvw]" margin="mt-40 mb-20" mainText="아직 카페를 북마크하지 않았어요." labelname="카페 찾으러 가기" handleOnClick={() => navigate('/search')} />
         }
       </div>
         {

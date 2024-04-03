@@ -21,18 +21,18 @@ export const memberAPI = {
         return authAxios({
             method: "POST",
             url: `${END_POINT}/nickname`,
-            params: {
+            data: {
                 "nickname": nickname
             }
         });
     },
-    modifyMyNickname(nickname: string): Promise<AxiosResponse> {
+    modifyMyNickname(nickname: string, able:boolean): Promise<AxiosResponse> {
         return authAxios({
-            method: "GET",
-            url: `${END_POINT}/mypage`,
-            params: {
+            method: "PATCH",
+            url: `${END_POINT}/nickname`,
+            data: {
                 "nickname": nickname,
-                "able": true,
+                "able": able,
               },
         });
     },
@@ -45,11 +45,24 @@ export const memberAPI = {
             }
         });
     },
-    // changeMyProfilePic(ProfilePic:any): Promise<AxiosResponse> {
-    //     return authAxios({
-    //         method: "GET",
-    //         url: END_POINT + 'mypage',
-    //     });
-    // },
-
+    changeMyProfilePic(updatedFormdata:any): Promise<AxiosResponse> {
+        return authAxios({
+            method: "PATCH",
+            url: `${END_POINT}/profile`,
+            data: updatedFormdata,
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        });
+    },
+    changeMyTitle(title:string): Promise<AxiosResponse> {
+        return authAxios({
+            method: "PATCH",
+            url: `${END_POINT}/achievement`,
+            data: {
+                "title" : title
+            }
+            
+        });
+    },
 }
