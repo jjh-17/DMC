@@ -4,7 +4,10 @@ import FullBean from "../../assets/icons/full-coffee-bean.svg?react";
 import EmptyHeart from "../../assets/icons/empty-heart.svg?react";
 import FullHeart from "../../assets/icons/full-heart.svg?react";
 import { tagMapper } from "../../utils/tag";
-import defaultImg from '/src/assets/icons/profile.svg';
+import defaultImg from '../../assets/icons/profile.svg';
+import KakaoIconUrl from '../../assets/icons/kakao.png';
+import NaverIconUrl from '../../assets/icons/naver.png';
+import CoffeeBeanIconUrl from '../../assets/icons/coffeebean.svg';
 
 const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
   const [setRef] = useDragScroll();
@@ -46,7 +49,7 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
         <div className="flex flex-col justify-center">
           <span className="text-xl md:text-2xl mx-3 items-baseline">
             {review.nickname}
-            <img src={review.platform == "K" ? "/src/assets/icons/kakao.png" : review.platform == "N" ? "/src/assets/icons/naver.png" : "/src/assets/icons/coffeebean.svg"} className="inline-block w-6 h-6 mx-2" />
+            <img src={review.platform == "K" ? KakaoIconUrl : review.platform == "N" ? NaverIconUrl : CoffeeBeanIconUrl} className="inline-block w-6 h-6 mx-2" />
           </span>
           <div className="text-lg">{review.userTitle}
           </div>
