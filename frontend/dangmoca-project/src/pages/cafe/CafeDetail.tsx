@@ -43,6 +43,7 @@ const CafeDetailPage = () => {
     tag: ["default1", "d2", "d3"],
     updatedDate: "",
   });
+  localStorage.setItem("test", cafeDetail.tag.toString());
 
   const getCafeDetail = async () => {
     try {

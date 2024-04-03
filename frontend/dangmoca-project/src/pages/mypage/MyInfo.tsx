@@ -96,7 +96,7 @@ export default function MyInfo() {
         }
 
         if (selectedTitle && selectedTitle !== user.title) {
-          const titleResponse = await memberAPI.changeMyTitle(selectedTitle);
+          await memberAPI.changeMyTitle(selectedTitle);
         }
 
         Swal.fire({
