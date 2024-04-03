@@ -1,26 +1,27 @@
 import LocationPin from '../../assets/icons/pin.svg?react';
 import { useNavigate } from "react-router-dom";
-import { tagMapper } from '../../utils/tag';
-import { useEffect, useState } from 'react';
+// import { tagMapper } from '../../utils/tag';
+// import { useEffect } from 'react';
+import { useState } from 'react';
 import { Cafe } from '../../types/datatype';
 import useCafeStore from '../../stores/cafeStore';
 import SadCoffeeUrl from '../../assets/pictures/sadcoffee.png'
 
 const DetailCafeCard = (cafe: Cafe) => {
   const navigate = useNavigate();
-  const [mappedTags, setMappedTags] = useState<string[]>([]);
+  // const [mappedTags, setMappedTags] = useState<string[]>([]);
   const setSelectedCafeSeq = useCafeStore(state => state.setSelectedCafeSeq);
 
   const handleCafeClick = () => {
     setSelectedCafeSeq(cafe.cafeSeq);
     navigate(`/cafeDetail/${cafe.cafeSeq}`);
   };
-  useEffect(() => {
-    if (cafe.tag) {
-      const mappedTagsArray: string[] = cafe.tag.map(tag => tagMapper.get(tag));
-      setMappedTags(mappedTagsArray);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (cafe.tag) {
+  //     const mappedTagsArray: string[] = cafe.tag.map(tag => tagMapper.get(tag));
+  //     setMappedTags(mappedTagsArray);
+  //   }
+  // }, []);
 
   return (
     <div className="p-1 flex flex-col m-4 shadow-xl rounded-sm items-center" onClick={handleCafeClick}>
@@ -37,11 +38,11 @@ const DetailCafeCard = (cafe: Cafe) => {
           {Math.round(parseFloat(cafe.distance)) + 'm'}
         </span>}
         {!cafe.distance && <span className='text-white text-[12px]'>  빈칸  </span>}
-        {mappedTags && mappedTags.map((tag:string, index:number) => (
+        {/* {mappedTags && mappedTags.map((tag:string, index:number) => (
           <span className="text-[10px] text-primary mx-1" key={index}>
             #{tag}{" "}
           </span>
-        ))}
+        ))} */}
       </p>
     </div>
   );
