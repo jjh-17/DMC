@@ -1,5 +1,7 @@
 package com.ssafy.backend.account.service;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.ssafy.backend.global.exception.BaseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -8,9 +10,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-
+import static com.ssafy.backend.global.response.BaseResponseStatus.LOGIN_FAIL;
 import static com.ssafy.backend.global.response.BaseResponseStatus.OOPS;
 
 @Service
@@ -22,12 +22,12 @@ public class KakaoOAuthServiceImpl implements OAuthService {
     private String redirectURL;
 
     @Override
-    public String getToken(String code){
-        String access_Token="";
-        String refresh_Token ="";
+    public String getToken(String code) {
+        String access_Token = "";
+        String refresh_Token = "";
         String reqURL = "https://kauth.kakao.com/oauth/token";
 
-        try{
+        try {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -49,6 +49,11 @@ public class KakaoOAuthServiceImpl implements OAuthService {
 
             //결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
+
+            if (responseCode != 200) {
+                throw new BaseException(LOGIN_FAIL);
+            }
+
             //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
@@ -91,6 +96,10 @@ public class KakaoOAuthServiceImpl implements OAuthService {
             //결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
 
+            if (responseCode != 200) {
+                throw new BaseException(LOGIN_FAIL);
+            }
+
             //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
@@ -105,11 +114,6 @@ public class KakaoOAuthServiceImpl implements OAuthService {
             JsonElement element = parser.parse(result);
 
             String id = element.getAsJsonObject().get("id").getAsString();
-//            boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
-//            String email = "";
-//            if(hasEmail){
-//                email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
-//            }
 
             br.close();
 

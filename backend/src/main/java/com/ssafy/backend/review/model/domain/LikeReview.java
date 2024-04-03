@@ -3,10 +3,12 @@ package com.ssafy.backend.review.model.domain;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Entity
 @Builder
 @Getter
+@ToString
 public class LikeReview {
 
     @Id

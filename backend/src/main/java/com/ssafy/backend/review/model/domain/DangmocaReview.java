@@ -1,6 +1,7 @@
 package com.ssafy.backend.review.model.domain;
 
 
+import com.ssafy.backend.global.util.GlobalUtil;
 import com.ssafy.backend.review.model.vo.ViewReviewVo;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -38,6 +39,9 @@ public class DangmocaReview {
     private Integer rating;
 
     @Column
+    private Boolean isPositive;
+
+    @Column
     private boolean isDeleted;
 
     @Column
@@ -60,13 +64,14 @@ public class DangmocaReview {
         this.isDeleted = true;
     }
 
-    public DangmocaReview(Long reviewSeq, Long memberSeq, Long cafeSeq, String content, String tag, Integer rating, boolean isDeleted, String createdDate, String updatedDate) {
+    public DangmocaReview(Long reviewSeq, Long memberSeq, Long cafeSeq, String content, String tag, Integer rating, Boolean isPositive, boolean isDeleted, String createdDate, String updatedDate) {
         this.reviewSeq = reviewSeq;
         this.memberSeq = memberSeq;
         this.cafeSeq = cafeSeq;
         this.content = content;
         this.tag = tag;
         this.rating = rating;
+        this.isPositive = isPositive;
         this.isDeleted = isDeleted;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
@@ -78,8 +83,10 @@ public class DangmocaReview {
         viewReviewVo.setMemberSeq(this.memberSeq);
         viewReviewVo.setCafeSeq(this.cafeSeq);
         viewReviewVo.setContent(this.content);
-        viewReviewVo.setTag(this.tag);
+        viewReviewVo.setPlatform('D');
+        viewReviewVo.setTag(GlobalUtil.tagsToList(this.tag));
         viewReviewVo.setRating(this.rating);
+        viewReviewVo.setIsPositive(this.isPositive);
         viewReviewVo.setDeleted(this.isDeleted);
         viewReviewVo.setCreatedDate(this.createdDate);
         viewReviewVo.setUpdatedDate(this.updatedDate);
