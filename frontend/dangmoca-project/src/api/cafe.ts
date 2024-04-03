@@ -1,8 +1,10 @@
 import { AxiosResponse } from "axios";
 import { authAxios } from "./AuthCommon";
 
-const latitude = localStorage.getItem('latitude') || 37.501271677039064;
-const longitude = localStorage.getItem('longitude') || 127.03960465624748;
+// const latitude = localStorage.getItem('latitude') || 37.501271677039064;
+const latitude = 37.501271677039064;
+// const longitude = localStorage.getItem('longitude') || 127.03960465624748;
+const longitude = 127.03960465624748;
 const END_POINT = '/cafes'
 
 export const cafeAPI = {
