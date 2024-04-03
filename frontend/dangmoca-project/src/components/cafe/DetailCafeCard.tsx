@@ -11,17 +11,15 @@ const DetailCafeCard = (cafe: Cafe) => {
   const [mappedTags, setMappedTags] = useState<string[]>([]);
   const setSelectedCafeSeq = useCafeStore(state => state.setSelectedCafeSeq);
 
-  let tags:string[] = [];
+  let tags: string[] = [];
   useEffect(() => {
-    try {
+    if (Array.isArray(JSON.parse(cafe.tag))) {
       tags = JSON.parse(cafe.tag);
-    } catch (error) {
-      console.error(error);
     }
     const mappedTagsArray = tags.map(tag => tagMapper.get(tag) || tag);
     setMappedTags(mappedTagsArray);
   }, [cafe]);
-  
+
 
   const handleCafeClick = () => {
     setSelectedCafeSeq(cafe.cafeSeq);
@@ -43,7 +41,7 @@ const DetailCafeCard = (cafe: Cafe) => {
           {Math.round(parseFloat(cafe.distance)) + 'm'}
         </span>}
         {!cafe.distance && <span className='text-white text-[12px]'>  ss  </span>}
-        {mappedTags && mappedTags.map((tag:string, index:number) => (
+        {mappedTags && mappedTags.map((tag: string, index: number) => (
           <span className="text-[10px] text-primary mx-1" key={index}>
             #{tag}{" "}
           </span>
