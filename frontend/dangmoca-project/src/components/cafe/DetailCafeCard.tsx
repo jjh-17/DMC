@@ -1,20 +1,20 @@
 import LocationPin from '../../assets/icons/pin.svg?react';
 import { useNavigate } from "react-router-dom";
-// import { tagMapper } from '../../utils/tag';
-import { useEffect } from 'react';
+import { tagMapper } from '../../utils/tag';
+import { useEffect, useState } from 'react';
 import { Cafe } from '../../types/datatype';
 import useCafeStore from '../../stores/cafeStore';
 import SadCoffeeUrl from '../../assets/pictures/sadcoffee.png'
 
 const DetailCafeCard = (cafe: Cafe) => {
   const navigate = useNavigate();
-  // const [mappedTags, setMappedTags] = useState<string[]>([]);
+  const [mappedTags, setMappedTags] = useState<string[]>([]);
   const setSelectedCafeSeq = useCafeStore(state => state.setSelectedCafeSeq);
 
   useEffect(() => {
     // 태그 수정 후 확인
-    // const mappedTagsArray: string[] = cafe.tag.map(tag => tagMapper.get(tag));
-    // setMappedTags(mappedTagsArray);
+    const mappedTagsArray: string[] = cafe.tag.map(tag => tagMapper.get(tag));
+    setMappedTags(mappedTagsArray);
   }, [cafe])
 
   const handleCafeClick = () => {
@@ -37,7 +37,7 @@ const DetailCafeCard = (cafe: Cafe) => {
           {Math.round(parseFloat(cafe.distance)) + 'm'}
         </span>}
         {!cafe.distance && <span className='text-white text-[12px]'>  ss  </span>}
-        {mappedTags.map((tag, index) => (
+        {mappedTags.map((tag:string, index:number) => (
           <span className="text-[10px] text-primary mx-1" key={index}>
             #{tag}{" "}
           </span>
