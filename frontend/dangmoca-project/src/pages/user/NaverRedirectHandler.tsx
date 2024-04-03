@@ -14,6 +14,8 @@ const NaverRedirectHandler = () => {
 
   useEffect(() => {
     const code = queryParams.get("code");
+    console.log(code);
+    console.log(SERVER)
     axios
     .get(SERVER + "/account/naver?code=" + code)
     .then((response) => {
@@ -38,9 +40,9 @@ const NaverRedirectHandler = () => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [navigate]);
+  }, []);
 
-  return null;
+  return <p>네이버</p>;
 };
 
 export default NaverRedirectHandler;
