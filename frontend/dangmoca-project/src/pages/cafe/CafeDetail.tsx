@@ -43,7 +43,6 @@ const CafeDetailPage = () => {
     tag: "",
     updatedDate: "",
   });
-  localStorage.setItem("test2", typeof cafeDetail.tag);
 
   const getCafeDetail = async () => {
     try {
@@ -72,7 +71,9 @@ const CafeDetailPage = () => {
   useEffect(() => {
     getCafeDetail();
     getCafeMenu();
-    const tags = cafeDetail.tag.slice(1, -1).split(',').map(tag => tag.trim());
+    const tags = cafeDetail.tag.slice(1, -1).split(',');
+    localStorage.setItem("tags", tags.toString());
+
     setTagList(tags);
   }, []);
 
