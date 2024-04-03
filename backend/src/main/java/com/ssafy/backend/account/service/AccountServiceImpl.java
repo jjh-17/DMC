@@ -4,7 +4,7 @@ import com.ssafy.backend.account.model.domain.vo.TokenVo;
 import com.ssafy.backend.global.exception.BaseException;
 import com.ssafy.backend.global.exception.JwtException;
 import com.ssafy.backend.global.util.JwtProvider;
-// import com.ssafy.backend.global.util.RedisDao;
+import com.ssafy.backend.global.util.RedisDao;
 import com.ssafy.backend.member.service.MemberFacade;
 import com.ssafy.backend.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +27,8 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     JwtProvider jwtProvider;
 
-    // @Autowired
-    // RedisDao redisDao;
+    @Autowired
+    RedisDao redisDao;
 
     @Value("${security.access-token-expire}")
     private long accessTokenExpire;
