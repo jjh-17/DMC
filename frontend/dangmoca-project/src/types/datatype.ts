@@ -33,6 +33,7 @@ export interface infoProps {
     title: string,
     description: string[]
     delay: number[],
+    icon: string,
 }
 
 export interface History {
