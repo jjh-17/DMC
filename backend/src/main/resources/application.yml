@@ -20,7 +20,7 @@ spring:
 
 kakao:
   rest-api-key: ${KAKAO_KEY}
-  redirect.url: ${A607_URL}:${FRONT_PORT}/kakaoLogin
+  redirect.url: ${A607_URL}/kakaoLogin
 
 naver:
   client-id: ${NAVER_ID}
