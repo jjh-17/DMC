@@ -64,9 +64,9 @@ const CafeListPage = () => {
     }
   }
 
-  
 useEffect(() => {
   getCafeList(currentPage);
+  document.getElementById("root")?.scrollTop;
 }, [currentPage]);
 
   // const selectedSorts = useRef<string[]>([]);

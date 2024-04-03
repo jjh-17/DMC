@@ -8,7 +8,7 @@ export default function RootLayout() {
   const [showHeader, setShowHeader] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
-  const noRequireAuth = ["/", "/login", "/kakaoLogin", "/naverLogin", "/search", "/cafeTest", "/cafes"];
+  const noRequireAuth = ["/", "/login", "/kakaoLogin", "/naverLogin", "/search", "/cafetest", "/cafes"];
 
   useEffect(() => {
     window.scrollTo(0,0);

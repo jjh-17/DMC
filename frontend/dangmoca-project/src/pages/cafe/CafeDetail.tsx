@@ -130,7 +130,7 @@ const CafeDetailPage = () => {
           <div className="border-b-[1px] border-primary pb-2 mx-2 my-2 lg:mx-10">
             <div className={textClass}>
               <CoffeeBeanIcon className={svgClass + " fill-primary"} />
-              {cafeDetail.rating == 0.0 ? (Math.round(cafeDetail.rating * 100) / 100).toFixed(2) : "별점 없음"}
+              {cafeDetail.rating !== 0.0 ? (Math.round(cafeDetail.rating * 100) / 100).toFixed(2) : "별점 없음"}
             </div>
             <div className={textClass + " cursor-pointer"} onClick={bookmarkCafe}>
               <BookMarkIcon
