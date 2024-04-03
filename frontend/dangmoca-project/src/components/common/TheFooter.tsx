@@ -20,7 +20,7 @@ export default function TheFooter() {
     setIsLogin(store.loginUser !== null);
   }, [store.loginUser])
 
-  const footerStyle = "fixed w-full bg-white inset-x-0 bottom-0 text-center flex flex-row justify-around z-10 bg-zinc-50";
+  const footerStyle = "fixed w-full md:w-[60lvw] mx-auto  bg-white inset-x-0 bottom-0 text-center flex flex-row justify-around z-10 bg-zinc-50";
   const footerButtonStyle = "inline-block m-2 p-1 flex flex-col items-center hover:mb-2 hover:-mt-0 hover:text-primary duration-300 hover:border-b-2 hover:border-primary";
   const labelStyle = "text-sm font-light";
   const dropdownStyle = "fixed bg-white h-[84px] bottom-[76px] w-fit min-w-[20lvw] whitespace-no-wrap right-0 flex flex-row justify-around z-10 ";

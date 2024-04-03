@@ -8,10 +8,9 @@ export default function RootLayout() {
   const [showHeader, setShowHeader] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
-  const noRequireAuth = ["/", "/login", "/kakaoLogin", "/naverLogin"];
+  const noRequireAuth = ["/", "/login", "/kakaoLogin", "/naverLogin", "/search", "/cafeTest", "/cafes"];
 
   useEffect(() => {
-    console.log(localStorage.getItem('loginUser'))
     window.scrollTo(0,0);
     if (location.pathname === "/login") {
       setShowHeader(false);
@@ -47,7 +46,7 @@ export default function RootLayout() {
   return (
     <div className="bg-[#3e2c1e]">
       {showHeader && <TheHeader />}
-      <div className="mb-[52px] bg-white md:w-[60lvw] h-full min-h-screen pt-10 mx-auto">
+      <div className="bg-white md:w-[60lvw] h-full min-h-screen pt-10 mx-auto">
         {" "}
         {/* header, footer 길이만큼 margin */}
         <Outlet />

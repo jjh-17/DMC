@@ -8,6 +8,7 @@ import { tags } from "../../utils/tag";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import uploadImgUrl from '../../assets/pictures/upload.jpg'
 
 interface Review {
   reviewImages: File[];
@@ -16,7 +17,6 @@ interface Review {
   rating: number;
 }
 
-// TODO : 헤더명 리뷰 작성하기'
 export default function ReviewWrite() {
   const selectCafeSeq = useCafeStore((state) => state.selectedCafeSeq);
   const [setRef] = useDragScroll();
@@ -48,13 +48,24 @@ export default function ReviewWrite() {
   // 리뷰 내용 관련
   const reviewContentRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleBlur = (event: any) => {
-    // textarea의 현재 값을 content 상태에 저장
+  const handleDeletePicture = (index: number) => {
+    const updatedImages = [...reviewImages];
+    updatedImages.splice(index, 1);
     setReview((prevReview) => ({
       ...prevReview,
-      content: event.target.value,
+      reviewImages: updatedImages,
     }));
+  };
 
+  const handleBlur = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    let content = event.target.value;
+    if (content.length > 250) {
+      content = content.substring(0, 250);
+    }
+    setReview((prevReview) => ({
+      ...prevReview,
+      content: content,
+    }));
   };
 
   // 이미지 관련
@@ -116,18 +127,17 @@ export default function ReviewWrite() {
     } catch (error) {
       console.error("리뷰 작성 에러: ", error);
     }
-    // console.log("업로드", review); // 백 연결 후 review 출력해보기
   };
 
-  const labelClass = "lg:text-2xl";
+  const labelClass = "lg:text-2xl mt-4";
 
   return (
-    <div className="min-w-screen max-w-[600px] flex flex-col gap-4 border-t-2 border-primary2 mx-auto p-6">
+    <div className="min-w-screen max-w-[600px] flex flex-col gap-4 border-t-2 border-primary2 mx-auto p-6 pb-20">
       <label className="text-center text-2xl lg:text-3xl">별점 등록하기</label>
       <ReviewRating onRatingChange={handleRatingChange} />
       <div className="p-4 m-4 flex flex-col items-center">
         <div className="w-[25lvh] h-[25lvh] text-center padding-1 relative cursor-pointer border-2 border-dashed mb-5 mx-auto">
-          <img src="/src/assets/pictures/upload.jpg" alt="upload" />
+          <img src={uploadImgUrl} alt="upload" />
           <h3>사진을 업로드하세요</h3>
           <input
             id="uploadInput"
@@ -139,7 +149,7 @@ export default function ReviewWrite() {
         <label className={labelClass}>등록한 사진</label>
         <div
           ref={handleRef}
-          className="flex rounded-lg overflow-x-auto my-5 no-scroll w-full h-[28lvh] border-2 border-primary bg-slate-100"
+          className="flex rounded-lg overflow-x-auto my-5 no-scroll w-full h-[28lvh] border-4 border-primary bg-slate-100"
         >
           {reviewImages.map((imageFile, index) => (
             <>
@@ -159,8 +169,7 @@ export default function ReviewWrite() {
                 })
                   .then((response) => {
                     if (response.isConfirmed) {
-                      // 삭제
-
+                      handleDeletePicture(index);
                     }
                   })}
               >
@@ -182,19 +191,14 @@ export default function ReviewWrite() {
             </>
           ))}
         </div>
-        <label className={labelClass}>리뷰 작성하기</label>
+        <label className={labelClass}>작성하기</label>
         <textarea
-          className="my-5 w-full h-48 outline-none border-2 border-primary focus:border-2 rounded-lg p-5 bg-slate-100"
+          className="my-5 w-full h-48 outline-none border-4 border-primary focus:border-primary3 rounded-lg p-5"
           ref={reviewContentRef}
           placeholder="리뷰를 작성하세요"
           onBlur={handleBlur}
         />
         <label className={labelClass}>태그 추가</label>
-        {/* <p className="whitespace-pre-wrap">
-          입력한 태그 나열, 누르면 태그 입력받을 + 동그라미 태그 정해지면
-          추가해야 함
-        </p> */}
-        {/* <div className="flex rounded-lg overflow-x-auto my-5 w-full h-[28lvh] border-2 border-primary bg-slate-100"> */}
         <div className="my-5 flex flex-wrap whitespace-pre-wrap basis-- -m-1">
           {tagKeys.map((key, index) => (
             <div key={index} className="flex-auto w-1/7 p-1">
@@ -214,9 +218,9 @@ export default function ReviewWrite() {
         </div>
 
         <Button
-          label="작성하기"
+          label="등록하기"
           onClick={writeReviewData}
-          addClass="mx-auto"
+          addClass="mx-auto text-2xl my-5"
         ></Button>
       </div>
     </div>
