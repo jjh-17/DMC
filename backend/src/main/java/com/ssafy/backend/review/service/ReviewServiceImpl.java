@@ -150,6 +150,7 @@ public class ReviewServiceImpl implements ReviewService {
                         .isPositive(isPositive)
                         .isDeleted(addReviewDto.isDeleted())
                         .updatedDate(addReviewDto.getCreatedDate())
+                        .isAd(addReviewDto.isAd())
                         .build()
         ).getReviewSeq();
     }
