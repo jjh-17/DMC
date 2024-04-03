@@ -126,12 +126,11 @@ const CafeDetailPage = () => {
       </div>
       {!isReviewPage && !isWritePage && (
         <>
-          {tagList.length > 0 && tagList.map((text: string, idx: number) => (
+          {tagList.length > 0 && tagList.map((text) => (
             <span
-              key={idx}
               className="ml-2 my-2 text-base whitespace-nowrap underline"
             >
-              #{text}{" "}
+              #{text}
             </span>
           ))}
           <div className="border-b-[1px] border-primary pb-2 mx-2 my-2 lg:mx-10">
