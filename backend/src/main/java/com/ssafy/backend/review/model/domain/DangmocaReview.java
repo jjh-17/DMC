@@ -51,6 +51,9 @@ public class DangmocaReview {
     @Nullable
     private String updatedDate;
 
+    @Column
+    private Boolean isAd;
+
     public DangmocaReview() {}
 
     public void updateReview(String content, String tag, Integer rating, String updateDate) {
