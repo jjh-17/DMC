@@ -8,6 +8,8 @@ import com.ssafy.backend.global.response.BaseResponse;
 import com.ssafy.backend.global.util.RedisDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ import static com.ssafy.backend.global.response.BaseResponseStatus.SUCCESS;
 import static org.apache.http.HttpStatus.SC_FORBIDDEN;
 
 @RestController
+@Slf4j
 @RequestMapping("/api/account")
 public class AcoountController {
 
@@ -44,6 +47,8 @@ public class AcoountController {
      */
     @GetMapping("kakao")
     public BaseResponse<?> kakaoLogin(@RequestParam String code, HttpServletResponse response) {
+        log.info("1 Account Controller 들어옴");
+
         String access_Token = kakaoOAuthService.getToken(code);
         String memberCode = kakaoOAuthService.getUser(access_Token);
 
