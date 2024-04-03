@@ -1,4 +1,4 @@
-import { createHashRouter } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Main from "../pages/Main";
 import Login from "../pages/user/Login";
 import MyPage from "../pages/mypage/MyPage";
@@ -18,7 +18,7 @@ import KakaoRedirectHandler from "../pages/user/KakaoRedirectHandler";
 import CafeRecommend from "../pages/cafe/CafeRecommend";
 
 
-const routes = createHashRouter([
+const routes = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />, // 헤더, 푸터 틀
