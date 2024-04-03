@@ -11,15 +11,17 @@
   },
   "dependencies": {
     "axios": "^1.6.8",
-    "framer-motion": "^11.0.18",
+    "framer-motion": "^11.0.24",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
     "react-use-measure": "^2.1.1",
     "react-wordcloud": "^1.2.7",
+    "sweetalert2": "^11.10.7",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@tsconfig/vite-react": "^3.0.2",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
@@ -29,6 +31,7 @@
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "kakao.maps.d.ts": "^0.1.39",
     "postcss": "^8.4.35",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",

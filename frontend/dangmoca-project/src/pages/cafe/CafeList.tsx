@@ -1,153 +1,226 @@
+import Pagination from "../../components/common/Pagination";
 import DetailCafeCard from "../../components/cafe/DetailCafeCard";
-import cafeDummyData from "../../assets/testData/cafeDummyData";
-import SortIcon from '../../assets/icons/sort.svg?react';
-import RightArrowIcon from '../../assets/icons/rightarrow.svg?react'
-import DownArrowIcon from '../../assets/icons/downarrow.svg?react'
-import CafeFilterAndSort from "../../utils/CafeFilterAndSort";
+import CafeLoading from "../../components/cafe/CafeLoading";
+import CafeNotFound from "../../components/cafe/CafeNotFound";
+// import SortIcon from "../../assets/icons/sort.svg?react";
+// import RightArrowIcon from "../../assets/icons/rightarrow.svg?react";
+// import DownArrowIcon from "../../assets/icons/downarrow.svg?react";
+// import CafeFilterAndSort from "../../utils/CafeFilterAndSort";
 
-import { sort, tags, desserts } from '../../assets/data/tag'
+// import { sort, tags } from "../../utils/tag";
 import { useState, useEffect, useRef } from "react";
 import { Cafe } from "../../types/datatype";
+import { cafeAPI } from '../../api/cafe'
+import { CafeListApiResponse } from "../../types/datatype";
 
 const CafeListPage = () => {
-  const [showFilter, setShowFilter] = useState(false);
-  const [showTagCheckbox, setShowTagCheckbox] = useState(false);
-  const [showDessertCheckbox, setShowDessertCheckbox] = useState(false);
-  const [cafeList, setCafeList] = useState<Cafe[]>([]);
+  // const [showFilter, setShowFilter] = useState(false);
+  // const [showTagCheckbox, setShowTagCheckbox] = useState(false);
+  const [cafeList, setCafeList] = useState<Cafe[] | undefined>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [endPage, setEndPage] = useState<number>(1);
+  const [hasResult, setHasResult] = useState(false);
+  const isSearch = useRef(false);
+  const searchKeyword = useRef("");
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  }
 
-  useEffect(() => {
-    setCafeList(cafeDummyData);
-  }, [])
+  const getCafeList = async (currentPage: number) => {
+    const currentUrl = window.location.href;
+    const keyword = currentUrl.split("?")[1];
 
-  const selectedSorts = useRef<string[]>([]);
-  const selectedTags = useRef<string[]>([]);
-  const selectedDesserts = useRef<string[]>([]);
+    if (keyword != null) {
+      isSearch.current = true;
+      searchKeyword.current = keyword || "";
+      try {
+        const response = await cafeAPI.getCafeSearchList(currentPage, keyword);
+        const data: CafeListApiResponse = response.data;
+        if (data?.result) {
+          setHasResult(true);
+          setEndPage(data.result.totalPages);
+          setCafeList(data.result.list);
+        }
+      }
+      catch (error) {
+        console.log(error);
+      }
 
-  const handleSelectSort = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = event.target;
-    if (checked) {
-      selectedSorts.current.push(value);
-    } else {
-      selectedSorts.current = selectedSorts.current.filter(sort => sort !== value);
     }
-  };
+    else {
+      try {
+        const response = await cafeAPI.getCafeList(currentPage);
+        const data: CafeListApiResponse = response.data;
+        if (data?.result) {
+          setHasResult(true);
+          setEndPage(data.result.totalPages);
+          setCafeList(data.result.list);
+        }
 
-  const handleSelectTags = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = event.target;
-    if (checked) {
-      selectedTags.current.push(value);
-    } else {
-      selectedTags.current = selectedTags.current.filter(sort => sort !== value);
+      }
+      catch (error) {
+        console.log(error);
+      }
     }
-  };
+  }
 
-  const handleSelectDesserts = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = event.target;
-    if (checked) {
-      selectedDesserts.current.push(value);
-    } else {
-      selectedDesserts.current = selectedDesserts.current.filter(sort => sort !== value);
-    }
-  };
+  
+useEffect(() => {
+  getCafeList(currentPage);
+}, [currentPage]);
 
-  const submitFilter = () => {
-    setCafeList(cafeDummyData);
-    setCafeList(prevCafeList => CafeFilterAndSort(prevCafeList, selectedSorts.current, selectedTags.current, selectedDesserts.current));
-  };
+  // const selectedSorts = useRef<string[]>([]);
+  // const selectedTags = useRef<string[]>([]);
+  // const selectedDesserts = useRef<string[]>([]);
+
+  // const handleSelectSort = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { value, checked } = event.target;
+  //   if (checked) {
+  //     selectedSorts.current.push(value);
+  //   } else {
+  //     selectedSorts.current = selectedSorts.current.filter(
+  //       (sort) => sort !== value
+  //     );
+  //   }
+  // };
+
+
+  // const handleSelectTags = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { value, checked } = event.target;
+  //   if (checked) {
+  //     selectedTags.current.push(value);
+  //   } else {
+  //     selectedTags.current = selectedTags.current.filter(
+  //       (sort) => sort !== value
+  //     );
+  //   }
+  // };
+
+  // const submitFilter = () => {
+  //   setCafeList(cafeDummyData);
+  //   setCafeList((prevCafeList) =>
+  //     CafeFilterAndSort(
+  //       prevCafeList||[],
+  //       selectedSorts.current,
+  //       selectedTags.current,
+  //       selectedDesserts.current
+  //     )
+  //   );
+  // };
+  // const toggleFilter = () => setShowFilter(!showFilter);
+  // const toggleTag = () => setShowTagCheckbox(!showTagCheckbox);
 
   return (
     <>
-      <div className="mt-[5lvh] mx-[20lvw]">
+      <div className="mt-[5lvh] mx-[10lvw]">
         <div className="text-right">
-          <button className="relative right-0 font-light text-primary2" onClick={() => setShowFilter(!showFilter)}>
+          {/* <button
+            className="relative right-0 font-light text-primary2 cursor-pointer"
+            onClick={toggleFilter}
+          >
             정렬
             <SortIcon className="w-7 h-7 rounded-full m-1 mx-2 p-1 shadow-md inline-block" />
-          </button>
-          {showFilter && (
-            <div className="flex flex-col accent-primary3  gap-1 font-light">
+          </button> */}
+          {/* {showFilter && (
+            <div className="flex flex-col accent-primary3  gap-1 font-light mr-4 my-2">
               <div className="align-middle whitespace-pre-wrap">
-                {sort.map((item) => {
-                  const label = Object.keys(item);
-                  const value = Object.values(item);
+                {sort.map((item, index) => {
+                  const label = Object.keys(item)[0];
+                  const value = Object.values(item)[0];
+                  const inputId = index.toString();
+
                   return (
-                    <span className="whitespace-nowrap ml-2" key={label[0]}>
-                      <label className="whitespace-nowrap">{label}</label>
-                      <input type="checkbox" value={value} onChange={handleSelectSort}/>
-                    </span>);
+                    <span
+                      className="whitespace-nowrap ml-2 hover:text-primary2"
+                      key={label}
+                    >
+                      <label htmlFor={inputId} className="whitespace-nowrap">
+                        {label}
+                      </label>
+                      <input
+                        id={inputId}
+                        type="checkbox"
+                        value={value}
+                        onChange={handleSelectSort}
+                      />
+                    </span>
+                  );
                 })}
               </div>
               <div>
-                태그 선택하기
-                {!showTagCheckbox && <RightArrowIcon id="svgIcon" onClick={() => setShowTagCheckbox(true)} />}
+                <span
+                  className="font-medium m-2 cursor-pointer"
+                  onClick={toggleTag}
+                >
+                  태그 선택하기
+                </span>
+                {!showTagCheckbox && (
+                  <RightArrowIcon id="svgIcon" onClick={toggleTag} />
+                )}
                 {showTagCheckbox && (
                   <>
-                    <DownArrowIcon id="svgIcon" onClick={() => setShowTagCheckbox(false)}/>
-                    <div className="align-middle whitespace-pre-wrap ">
-                      {tags.map((item) => {
+                    <DownArrowIcon id="svgIcon" onClick={toggleTag} />
+                    <div className="align-middle whitespace-pre-wrap mt-2 bg-slate-50">
+                      {tags.map((item, index) => {
                         const label = Object.keys(item)[0];
                         const value = Object.values(item)[0];
+                        const inputId = (index + 100).toString();
+
                         return (
-                          <span className="whitespace-nowrap ml-2" key={label[0]}>
-                            <label className="whitespace-nowrap mx-1">#{label}</label>
-                            <input type="checkbox" value={value} onChange={handleSelectTags} />
-                          </span>);
+                          <span
+                            className="whitespace-nowrap ml-2 hover:text-primary"
+                            key={label}
+                          >
+                            <label
+                              className="whitespace-nowrap mx-1"
+                              htmlFor={inputId}
+                            >
+                              #{label}
+                            </label>
+                            <input
+                              type="checkbox"
+                              value={value}
+                              id={inputId}
+                              onChange={handleSelectTags}
+                            />
+                          </span>
+                        );
                       })}
                     </div>
                   </>
                 )}
               </div>
-              <div>
-                디저트 선택하기
-                {!showDessertCheckbox &&
-                  <RightArrowIcon id="svgIcon" onClick={() => setShowDessertCheckbox(true)} />}
-                {showDessertCheckbox && (
-                  <>
-                  <DownArrowIcon id="svgIcon" onClick={() => setShowDessertCheckbox(false)} />
-
-                  <div>
-                    {desserts.map((item) => {
-                      const label = Object.keys(item)[0];
-                      const value = Object.values(item)[0];
-                      return (
-                        <span className="whitespace-nowrap ml-2" key={label[0]}>
-                          <label className="whitespace-nowrap">{label}</label>
-                          <input type="checkbox" value={value} onChange={handleSelectDesserts} />
-                        </span>);
-                    })}
-                  </div>
-                  </>
-                )}
-              </div>
               <div className="">
-                <button onClick={submitFilter} className="text-xl text-primary2">검색</button>
+                <button
+                  onClick={submitFilter}
+                  className="text-primary2 font-medium hover:font-bold"
+                >
+                  필터 적용하기
+                </button>
               </div>
             </div>
-
-          )}
+          )} */}
         </div>
         <div className="w-fit mx-auto">
           <div className="flex flex-col">
-            {cafeList.length == 0 && (
-              <div>
-                <p>해당하는 카페가 없습니다 TT ㅠㅠ 아이쿠</p>
-                <p>애니메이션 추가예정</p>
-              </div>
-            )}
-
-            {cafeList.length > 0 && cafeList.map((cafe) => (
-
-
-
-
-              <div className="cursor-pointer" key={cafe.cafeSeq}>
-                <DetailCafeCard {...cafe} />
-              </div>
-            ))}
+            {!hasResult && <CafeLoading />}
+            {hasResult && cafeList && cafeList.length == 0 && <CafeNotFound/>}
+            {hasResult && cafeList && cafeList.length > 0 &&
+              cafeList.map((cafe) => (
+                <div className="cursor-pointer" key={cafe.cafeSeq}>
+                  <DetailCafeCard {...cafe} />
+                </div>
+              ))}
           </div>
         </div>
       </div>
+      {
+        (endPage > 0) && (
+          <Pagination currentPage={currentPage} endPage={endPage} onPageChange={handlePageChange} />
+        )
+      }
     </>
   );
-}
+};
 
 export default CafeListPage;
