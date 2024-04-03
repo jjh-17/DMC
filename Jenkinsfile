@@ -137,7 +137,7 @@ pipeline {
 
 		stage("BE : Container") {
 			steps {
-				sh "docker run --name ${BACK_NAME} --env-file ${ENV_DIR}${BACK_ENV} --detach --network ${DOCKER_NETWORK} --publish ${BACK_PORT}:${BACK_DOCKER_PORT} ${BACK_NAME}"
+				sh "docker run --name ${BACK_NAME} --env-file ${ENV_DIR}${BACK_ENV} --detach --publish ${BACK_PORT}:${BACK_DOCKER_PORT} ${BACK_NAME}"
 			}
 		}
 
