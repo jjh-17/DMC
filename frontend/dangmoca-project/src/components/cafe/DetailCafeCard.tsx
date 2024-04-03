@@ -11,13 +11,12 @@ const DetailCafeCard = (cafe: Cafe) => {
   const [mappedTags, setMappedTags] = useState<string[]>([]);
   const setSelectedCafeSeq = useCafeStore(state => state.setSelectedCafeSeq);
 
-  let tags: string[] = [];
   useEffect(() => {
-    if (Array.isArray(JSON.parse(cafe.tag))) {
-      tags = JSON.parse(cafe.tag);
+    if (Array.isArray((cafe.tag))) {
+      const mappedTagsArray = tags.map(tag => tagMapper.get(tag) || tag);
+      setMappedTags(mappedTagsArray);
     }
-    const mappedTagsArray = tags.map(tag => tagMapper.get(tag) || tag);
-    setMappedTags(mappedTagsArray);
+  
   }, [cafe]);
 
 
