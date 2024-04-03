@@ -3,12 +3,12 @@ import CoffeeBean from "../../assets/icons/coffeebean.svg?react";
 import ReactWordcloud from "react-wordcloud";
 import "tippy.js/dist/tippy.css";
 import "tippy.js/animations/scale.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UserInfo } from "../../types/datatype";
 import RightArrowIcon from "../../assets/icons/rightarrow.svg?react";
 import dummyUserImg from "/src/assets/icons/dummyUserImg.png";
 
-const Profile = (user: UserInfo | undefined) => {
+const Profile = (user: UserInfo | null) => {
   const navigate = useNavigate();
 
   if (user === null) {
@@ -26,28 +26,28 @@ const Profile = (user: UserInfo | undefined) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [words, setWords] = useState([
     {
-      text: "told",
+      text: "등록된",
       value: 64,
     },
     {
-      text: "mistake",
-      value: 11,
+      text: "성향",
+      value: 34,
     },
     {
-      text: "cake",
+      text: "정보가",
       value: 45,
     },
     {
-      text: "coffee",
-      value: 29,
+      text: "존재하지",
+      value: 41,
     },
     {
-      text: "cafe",
+      text: "않습니다.",
       value: 50,
     },
     {
-      text: "book",
-      value: 34,
+      text: ".",
+      value: 11,
     },
   ]);
 
@@ -68,9 +68,29 @@ const Profile = (user: UserInfo | undefined) => {
     transitionDuration: 1000,
   };
 
-  const handleCloudClick = () => {
-    setWords([...words]);
+  const updateCloud = () => {
+    const preferenceTag = Array.isArray(user?.preferenceTag) ? user.preferenceTag  : [];
+    const titleList = Array.isArray(user?.titleList) ? user.titleList : [];
+
+    if (preferenceTag.length > 0 || titleList.length > 0) {
+      const getRandomValue = (min: number, max: number) =>
+        Math.floor(Math.random() * (max - min + 1)) + min;
+
+      const newWords = [...preferenceTag, ...titleList].map(
+        (tag) => ({
+          text: tag,
+          value: getRandomValue(20, 60),
+        })
+      );
+      setWords(newWords);
+    } else {
+      setWords([...words]);
+    }
   };
+
+  useEffect(() => {
+    updateCloud();
+  }, [user.preferenceTag, user.titleList]);
 
   return (
     <>
@@ -124,7 +144,7 @@ const Profile = (user: UserInfo | undefined) => {
       </div> */}
 
           <div
-            onClick={handleCloudClick}
+            onClick={updateCloud}
             className="mx-auto p-6 w-[80lvw] h-[40lvw] lg:w-[40lvw] lg:h-[20lvw] border-primary border-2 rounded-2xl shadow-lg whitespace-nowrap cursor-pointer"
           >
             <ReactWordcloud options={options} words={words} />
