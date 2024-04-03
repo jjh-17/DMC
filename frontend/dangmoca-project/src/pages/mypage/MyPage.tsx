@@ -12,6 +12,7 @@ import { useDragScroll } from "../../utils/useDragScroll";
 import ScrollToTop from "../../components/common/ScrollToTop";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import NotFound from "../../components/cafe/NotFound";
 
 export default function MyPage() {
   const { loginUser, setLoginUser } = useLoginUserStore();
@@ -49,11 +50,11 @@ export default function MyPage() {
       icon: "error",
       confirmButtonText: "돌아가기",
     }).then((response) => {
-        if (response.isConfirmed) {
-          navigate("/");
-        }
-      })
-      return null;
+      if (response.isConfirmed) {
+        navigate("/");
+      }
+    });
+    return null;
   }
 
   const getMyBookMarks = async () => {
@@ -89,7 +90,7 @@ export default function MyPage() {
 
   const divClass = "min-w-[80%] m-10";
   const spanClass =
-    "ml-[25lvw] transform -translate-x-[50%] text-3xl lg:text-4xl whitespace-nowrap text-center";
+    "text-3xl lg:text-4xl whitespace-nowrap text-center mt-10";
   const buttonClass = "ml-[10lvw] text-sm lg:text-base whitespace-nowrap";
 
   return (
@@ -107,6 +108,15 @@ export default function MyPage() {
           </a>
         </div>
       </div>
+      {myBookMarks.length === 0 && (
+        <NotFound
+          maxHeight="h-[30vw]"
+          margin="mt-10 mb-10"
+          mainText="아직 카페를 북마크하지 않았어요."
+          labelname="카페 찾으러 가기"
+          handleOnClick={() => navigate("/search")}
+        />
+      )}
       <div className=" whitespace-nowrap">
         <div
           ref={handleRef}
@@ -142,59 +152,25 @@ export default function MyPage() {
             ))}
             <ScrollToTop />
           </>
+        ) : firstNotDeletedReview ? (
+          <div>
+            <SimpleReviewCard
+              {...firstNotDeletedReview}
+              refreshReviews={getMyReviews}
+            />
+          </div>
         ) : (
-          firstNotDeletedReview && (
-            <div>
-              <SimpleReviewCard
-                {...firstNotDeletedReview}
-                refreshReviews={getMyReviews}
-              />
-            </div>
-          )
+          <div className="mx-auto">
+          <NotFound
+            maxHeight="h-[30vw]"
+            margin="mt-10 mb-10"
+            mainText="아직 리뷰를 작성하지 않았어요."
+            labelname="카페 찾으러 가기"
+            handleOnClick={() => navigate("/search")}
+          />
+          </div>
         )}
       </div>
     </div>
   );
 }
-
-// api 요청 전 더미데이터
-
-// const dummyUser: UserInfo = {
-//   memberSeq: 1,
-//   profileImageUrl: "src/assets/icons/dummyUserImg.png",
-//   nickname: "당모카",
-//   title: "행복한 커피원두",
-//   preferenceTag: ["조용한", "커피"],
-//   deleted: false,
-//   mileage: 1215,
-//   titleList: ["깐깐한 커피콩","행복한 커피원두","무덤덤한 커피열매", "리뷰의 첫걸음"]
-// };
-
-// const dummycafe = {
-//   cafeSeq: 1,
-//   name: "식빵카페",
-//   distance: "555",
-//   address: "서울 종로구 새문안로 85",
-//   tag: ["#테이크아웃", "#분위기", "#가성비"],
-//   isOpen: true, // 영업 중 여부
-//   dessertTag: ["#마카롱", "#매커롱", "#맥커롱"],
-//   imageUrl: "src/assets/testpic/1.jpg",
-// };
-
-// const dummyReview = {
-//   reviewSeq: 0,
-//   memberSeq: 0,
-//   cafeSeq: 0,
-//   name: "카페 남부",
-//   image: [
-//     "src/assets/testpic/1.jpg",
-//     "src/assets/testpic/2.jpg",
-//     "src/assets/testpic/3.jpg",
-//     "src/assets/testpic/4.jpg",
-//     "src/assets/testpic/5.jpg",
-//   ],
-//   content: "매우매우 맛있어요. 다시는 가고 싶어요",
-//   tag: ["조용한"],
-//   rating: 4,
-//   createdDate: "2024-01-02",
-// };
