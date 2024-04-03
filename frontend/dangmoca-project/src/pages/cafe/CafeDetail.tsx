@@ -66,15 +66,14 @@ const CafeDetailPage = () => {
       console.error(error);
     }
   }
-  
+
   const [tagList, setTagList] = useState<string[]>([]);
-  const tagsRegex = /\w+/g;
   
   useEffect(() => {
     getCafeDetail();
     getCafeMenu();
-    const extractedTags = cafeDetail.tag.match(tagsRegex) || [];
-    setTagList(extractedTags);
+    const tags = cafeDetail.tag.slice(1, -1).split(',').map(tag => tag.trim());
+    setTagList(tags);
   }, []);
 
   const [showKakaoMap, setShowKakaoMap] = useState(false);
