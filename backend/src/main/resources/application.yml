@@ -14,7 +14,7 @@ spring:
       ddl-auto: update
   data:
     redis:
-      host: ${A607_URL}
+      host: ${REDIS_URL}
       port: ${REDIS_PORT}
       #password: ${REDIS_PASSWORD}
 
