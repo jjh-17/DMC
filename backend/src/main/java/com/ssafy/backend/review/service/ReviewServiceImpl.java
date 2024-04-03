@@ -299,7 +299,7 @@ public class ReviewServiceImpl implements ReviewService {
             return false;
         }
         Double love = (Double) analyzeResult.get("완좋");
-        return love >= 90;
+        return love >= 90.0;
     }
 
     @Override

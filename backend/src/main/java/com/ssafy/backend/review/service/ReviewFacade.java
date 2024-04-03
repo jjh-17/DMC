@@ -84,7 +84,7 @@ public class ReviewFacade {
         Map<String, Object> analyzeResult = reviewService.analyzeReview(addReviewDto.getContent());
         Boolean isPositive = reviewService.isPositive(analyzeResult);
         Boolean isAd = false;
-        if (addReviewDto.getRating() == 5) {
+        if (addReviewDto.getRating() >= 5.0) {
             isAd = reviewService.isAd(analyzeResult);
         }
         addReviewDto.setPositive(isPositive);
