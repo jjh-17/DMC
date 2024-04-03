@@ -14,7 +14,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 @EnableRedisRepositories
 public class RedisConfig {
-/*
     @Value("${spring.data.redis.host}")
     private String host;
 
@@ -45,5 +44,5 @@ public class RedisConfig {
     @Bean
     public RedisDao redisDao() {
         return new RedisDao();
-    }*/
+    }
 }

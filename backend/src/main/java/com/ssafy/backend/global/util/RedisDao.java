@@ -6,8 +6,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import java.time.Duration;
 
 public class RedisDao {
-
-/*
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -26,7 +24,4 @@ public class RedisDao {
     public void deleteFromRedis(String key) {
         redisTemplate.delete(key);
     }
-*/
-
-
 }
