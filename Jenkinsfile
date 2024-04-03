@@ -27,6 +27,8 @@ pipeline {
 		BACK_DOCKER_PORT = "8082"
 		BACK_DIR = "./backend/"
 
+		DOCKER_NETWORK = "dmc"
+
 		FRONT_NAME = "dmc_fe"
 		FRONT_PORT = "3000"
 		FRONT_DOCKER_PORT = "3000"
@@ -135,7 +137,7 @@ pipeline {
 
 		stage("BE : Container") {
 			steps {
-				sh "docker run --name ${BACK_NAME} --env-file ${ENV_DIR}${BACK_ENV} --detach --network deploy --publish ${BACK_PORT}:${BACK_DOCKER_PORT} ${BACK_NAME}"
+				sh "docker run --name ${BACK_NAME} --env-file ${ENV_DIR}${BACK_ENV} --detach --publish ${BACK_PORT}:${BACK_DOCKER_PORT} ${BACK_NAME}"
 			}
 		}
 

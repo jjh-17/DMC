@@ -10,7 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class AccountFacade {
 
     @Autowired
@@ -21,6 +24,8 @@ public class AccountFacade {
 
     @Transactional
     public Map<String, Object> OAuthLogin(String memberCode, char loginType){
+        log.info("Acount facade 들어옴");
+
         TokenVo tokenVo = accountService.OAuthLogin(memberCode, loginType);
 
         GetMemberInformationVo getMemberInformation = memberFacade.getMemberInformation(tokenVo.getMemberSeq());
