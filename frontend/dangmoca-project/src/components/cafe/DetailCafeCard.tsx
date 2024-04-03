@@ -11,16 +11,16 @@ const DetailCafeCard = (cafe: Cafe) => {
   const [mappedTags, setMappedTags] = useState<string[]>([]);
   const setSelectedCafeSeq = useCafeStore(state => state.setSelectedCafeSeq);
 
-  useEffect(() => {
-    // 태그 수정 후 확인
-    const mappedTagsArray: string[] = cafe.tag.map(tag => tagMapper.get(tag));
-    setMappedTags(mappedTagsArray);
-  }, [cafe])
-
   const handleCafeClick = () => {
     setSelectedCafeSeq(cafe.cafeSeq);
     navigate(`/cafeDetail/${cafe.cafeSeq}`);
   };
+  useEffect(() => {
+    if (cafe.tag) {
+      const mappedTagsArray: string[] = cafe.tag.map(tag => tagMapper.get(tag));
+      setMappedTags(mappedTagsArray);
+    }
+  }, []);
 
   return (
     <div className="p-1 flex flex-col m-4 shadow-xl rounded-sm items-center" onClick={handleCafeClick}>
