@@ -20,7 +20,7 @@ public class CafeMenu {
     @Column(name = "price", length = 50)
     private String price;
 
-    @Column(name = "image_url", length = 255)
+    @Column(name = "image_url", columnDefinition = "TEXT")
     private String imageUrl;
 
     @Column(name = "dessert_tag", length = 255)

@@ -56,7 +56,7 @@ public class CafeServiceImpl implements CafeService {
     public List<String> getDessertTag(Long cafeSeq) {
         List<DessertTagMapping> dessertTagMappingList = cafeMenuRepository.findAllDistinctDessertTagByCafeSeq(cafeSeq);
 
-        if (dessertTagMappingList.isEmpty()) {
+        if (dessertTagMappingList == null || dessertTagMappingList.isEmpty() || dessertTagMappingList.contains(null)) {
             return null;
         }
 
@@ -171,6 +171,10 @@ public class CafeServiceImpl implements CafeService {
 
     @Override
     public List<CafeListMapping> cafeTagRecommendList(List<String> preferTag, CurrentLocationDto currentLocationDto) {
+        if (preferTag == null || preferTag.isEmpty()) {
+            throw new BaseException(NO_TAG);
+        }
+
         List<CafeListMapping> cafeListMappings = cafeInfoRepository.findAllIn500mOrderByDistance(currentLocationDto.getLatitude(), currentLocationDto.getLongitude());
 
         PriorityQueue<CafeListMapping> cafeTagQueue = new PriorityQueue<>(Comparator
@@ -236,7 +240,7 @@ public class CafeServiceImpl implements CafeService {
         }
         return count;
     }
-    
+
     public void addTagCount(AddTagCountDto addTagCountDto) {
         TagCountId id = new TagCountId(addTagCountDto.getCafeSeq(), addTagCountDto.isOwn());
         TagCount tagCount = tagCountRepository.findById(id).orElse(null);
@@ -256,15 +260,15 @@ public class CafeServiceImpl implements CafeService {
     @Override
     public void updateReviewTag(UpdateReviewVo updateReviewVo, List<String> newTagList) {
         TagCountId id = new TagCountId(updateReviewVo.getCafeSeq(), true);
-        TagCount tagCount = tagCountRepository.findById(id).orElseThrow(()->new BaseException(OOPS));
+        TagCount tagCount = tagCountRepository.findById(id).orElseThrow(() -> new BaseException(OOPS));
         List<String> originTagList = GlobalUtil.tagsToList(updateReviewVo.getOriginTag());
         if (originTagList != null) {
-            for (String tagName: originTagList) {
+            for (String tagName : originTagList) {
                 GlobalUtil.tagCountDownUtil(tagCount, tagName);
             }
         }
         if (newTagList != null) {
-            for (String tagName: newTagList) {
+            for (String tagName : newTagList) {
                 GlobalUtil.tagCountUpUtil(tagCount, tagName);
             }
         }
@@ -274,7 +278,7 @@ public class CafeServiceImpl implements CafeService {
     @Override
     public void deleteTagCount(Long cafeSeq, String tags) {
         TagCountId id = new TagCountId(cafeSeq, true);
-        TagCount tagCount = tagCountRepository.findById(id).orElseThrow(()->new BaseException(OOPS));
+        TagCount tagCount = tagCountRepository.findById(id).orElseThrow(() -> new BaseException(OOPS));
         List<String> tagList = GlobalUtil.tagsToList(tags);
         for (String tagName : tagList) {
             GlobalUtil.tagCountDownUtil(tagCount, tagName);

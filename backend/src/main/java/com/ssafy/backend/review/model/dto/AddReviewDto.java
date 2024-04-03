@@ -2,14 +2,19 @@ package com.ssafy.backend.review.model.dto;
 
 import com.ssafy.backend.global.exception.BaseException;
 import lombok.Getter;
+import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.*;
 
 @Getter
+@ToString
 public class AddReviewDto {
+    private List<MultipartFile> reviewImages;
     private Long memberSeq;
     private Long cafeSeq;
     private String content;
@@ -18,7 +23,8 @@ public class AddReviewDto {
     private String createdDate;
     private boolean isDeleted;
 
-    public AddReviewDto(Long memberSeq, Long cafeSeq, String content, List<String> tag, Integer rating) {
+    public AddReviewDto(List<MultipartFile> reviewImages, Long memberSeq, Long cafeSeq, String content, List<String> tag, Integer rating) {
+        setReviewImages(reviewImages);
         setMemberSeq(memberSeq);
         setCafeSeq(cafeSeq);
         setContent(content);
@@ -26,6 +32,10 @@ public class AddReviewDto {
         setRating(rating);
         setCreatedDate();
         setIsDeleted(false);
+    }
+
+    public void setReviewImages(List<MultipartFile> reviewImages) {
+        this.reviewImages = reviewImages;
     }
 
     public void setMemberSeq(Long memberSeq) {
@@ -65,20 +75,7 @@ public class AddReviewDto {
     }
 
     public void setCreatedDate() {
-        this.createdDate = LocalDate.now().toString();
-    }
-
-    @Override
-    public String toString() {
-        return "AddReviewDto{" +
-                "memberSeq=" + memberSeq +
-                ", cafeSeq=" + cafeSeq +
-                ", content='" + content + '\'' +
-                ", tag=" + tag +
-                ", rating=" + rating +
-                ", createdDate='" + createdDate + '\'' +
-                ", isDeleted=" + isDeleted +
-                '}';
+        this.createdDate = LocalDateTime.now().toString();
     }
 }
 
