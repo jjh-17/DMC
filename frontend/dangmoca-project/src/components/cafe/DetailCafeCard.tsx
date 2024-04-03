@@ -11,15 +11,17 @@ const DetailCafeCard = (cafe: Cafe) => {
   const [mappedTags, setMappedTags] = useState<string[]>([]);
   const setSelectedCafeSeq = useCafeStore(state => state.setSelectedCafeSeq);
 
+  let tags:string[] = [];
   useEffect(() => {
-    if (Array.isArray(cafe.tag)) {
-      const mappedTagsArray: string[] = cafe.tag.map(tag => tagMapper.get(tag));
-      setMappedTags(mappedTagsArray);
-    } else {
-      console.error("cafe.tag is not an array:", cafe.tag);
-      setMappedTags([]); // 예시로 빈 배열 설정
+    try {
+      tags = JSON.parse(cafe.tag);
+    } catch (error) {
+      console.error(error);
     }
+    const mappedTagsArray = tags.map(tag => tagMapper.get(tag) || tag);
+    setMappedTags(mappedTagsArray);
   }, [cafe]);
+  
 
   const handleCafeClick = () => {
     setSelectedCafeSeq(cafe.cafeSeq);

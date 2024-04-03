@@ -3,7 +3,7 @@ export interface Cafe {
     name: string;
     distance: string;
     address: string;
-    tag: string[];
+    tag: string;
     isOpen: boolean;
     dessertTag: string[];
     imageUrl: string;
