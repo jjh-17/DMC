@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import ScrollToTop from "../../components/common/ScrollToTop";
 import Swal from "sweetalert2";
 import KakaoMapIconUrl from '../../assets/icons/kakaomap_basic.png'
+import LogoUrl from '../../assets/pictures/sadcoffee.png';
 
 const CafeDetailPage = () => {
   const location = useLocation();
@@ -106,7 +107,7 @@ const CafeDetailPage = () => {
   return (
     <div className="mt-5 pb-20">
       <img
-        src={cafeDetail.imageUrl || "/src/assets/icons/logo.svg"}
+        src={cafeDetail.imageUrl || LogoUrl}
         className="opacity-80 h-[80lvh] w-screen object-cover -z-10"
       />
       <div className="absolute top-[70lvh] max-h-[30lvh] w-fit ml-10 bg-white bg-opacity-50">
