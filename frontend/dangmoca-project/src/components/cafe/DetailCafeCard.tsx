@@ -13,7 +13,7 @@ const DetailCafeCard = (cafe: Cafe) => {
 
   useEffect(() => {
     if (Array.isArray((cafe.tag))) {
-      const mappedTagsArray = tags.map(tag => tagMapper.get(tag) || tag);
+      const mappedTagsArray = cafe.tag.map(tag => tagMapper.get(tag) || tag);
       setMappedTags(mappedTagsArray);
     }
   
