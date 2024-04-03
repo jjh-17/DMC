@@ -9,9 +9,6 @@ const DetailCafeCard = (cafe: Cafe) => {
   const navigate = useNavigate();
   const setSelectedCafeSeq = useCafeStore(state => state.setSelectedCafeSeq);
 
-
-
-
   const handleCafeClick = () => {
     setSelectedCafeSeq(cafe.cafeSeq);
     navigate(`/cafeDetail/${cafe.cafeSeq}`);
