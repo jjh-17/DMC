@@ -14,6 +14,8 @@ const NaverRedirectHandler = () => {
 
   useEffect(() => {
     const code = queryParams.get("code");
+    console.log(code);
+    console.log(SERVER)
     axios
     .get(SERVER + "/account/naver?code=" + code)
     .then((response) => {
