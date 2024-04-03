@@ -43,7 +43,7 @@ const CafeDetailPage = () => {
     tag: ["default1", "d2", "d3"],
     updatedDate: "",
   });
-  localStorage.setItem("test", cafeDetail.tag.toString());
+  localStorage.setItem("test2", typeof cafeDetail.tag);
 
   const getCafeDetail = async () => {
     try {
@@ -129,7 +129,6 @@ const CafeDetailPage = () => {
               #{text}{" "}
             </span>
           ))}
-          <p>{cafeDetail.tag}</p>
           <div className="border-b-[1px] border-primary pb-2 mx-2 my-2 lg:mx-10">
             <div className={textClass}>
               <CoffeeBeanIcon className={svgClass + " fill-primary"} />
