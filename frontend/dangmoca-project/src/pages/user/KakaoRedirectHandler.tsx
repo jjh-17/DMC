@@ -20,17 +20,11 @@ const KakaoRedirectHandler = () => {
         const accessToken = response.headers.accesstoken;
         const refreshToken = response.headers.refreshtoken;
 
-        console.log(accessToken);
-        console.log(refreshToken);
-        console.log(response.data);
-
         if (response.status === 200) {
           setLoginUser(response.data.result);
-
           document.cookie = `accessToken=${accessToken}; max-age=3600; path=/;`;
           localStorage.setItem("refreshToken", refreshToken);
         }
-
 
         navigate("/");
       })

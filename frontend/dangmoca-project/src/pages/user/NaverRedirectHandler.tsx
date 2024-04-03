@@ -14,23 +14,14 @@ const NaverRedirectHandler = () => {
 
   useEffect(() => {
     const code = queryParams.get("code");
-    console.log(code);
-    console.log(SERVER)
     axios
     .get(SERVER + "/account/naver?code=" + code)
     .then((response) => {
-        console.log(response.headers);
-
         const accessToken = response.headers.accesstoken;
         const refreshToken = response.headers.refreshtoken;
 
-        console.log(accessToken);
-        console.log(refreshToken);
-        console.log(response.data);
-
         if (response.status === 200) {
           setLoginUser(response.data.result);
-
           document.cookie = `accessToken=${accessToken}; max-age=3600; path=/;`;
           localStorage.setItem("refreshToken", refreshToken);
         }
