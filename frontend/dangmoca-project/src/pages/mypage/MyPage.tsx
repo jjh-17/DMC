@@ -88,25 +88,26 @@ export default function MyPage() {
     }
   }, []);
 
-  const divClass = "min-w-[80%] m-10";
-  const spanClass =
-    "text-3xl lg:text-4xl whitespace-nowrap text-center mt-10";
+  const divClass = "w-fit mx-auto align-middle";
+  const spanClass = "text-3xl lg:text-4xl whitespace-nowrap text-center mt-10";
   const buttonClass = "ml-[10lvw] text-sm lg:text-base whitespace-nowrap";
 
   return (
     // <div className="min-w-full mx-auto flex flex-col items-center gap-4">
-    <div className="m-15 mx-auto w-[80lvw] md:w-[40lvw] lg:w-[40lvw] flex flex-col items-center">
+    <div className="m-15 mx-auto w-[80lvw] md:w-[40lvw] lg:w-[40lvw] flex flex-col items-center pb-20">
       <Profile {...loginUser} />
       <div className={divClass}>
-        <div className="flex items-center">
-          <span className={spanClass} id="test">
-            북마크한 카페
-          </span>
-          <a href="/bookmark" className={buttonClass} id="test">
-            전체보기
-            <RightArrow id="svgIcon" />
-          </a>
-        </div>
+        <span className={spanClass} id="test">
+          북마크한 카페
+        </span>
+        <button
+          onClick={() => navigate("/bookmark")}
+          className={buttonClass}
+          id="test"
+        >
+          전체보기
+          <RightArrow id="svgIcon" />
+        </button>
       </div>
       {myBookMarks.length === 0 && (
         <NotFound
@@ -117,7 +118,7 @@ export default function MyPage() {
           handleOnClick={() => navigate("/search")}
         />
       )}
-      <div className=" whitespace-nowrap">
+      <div className=" whitespace-nowrap w-[80lvw] md:w-[60lvw] lg:w-[40lvw] mb-20">
         <div
           ref={handleRef}
           className="flex flex-row overflow-x-scroll no-scroll"
@@ -130,19 +131,15 @@ export default function MyPage() {
         </div>
       </div>
       <div className={divClass}>
-        <div className="flex items-center">
-          <span className={spanClass} id="test">
-            작성한 리뷰
-          </span>
-          <button
-            onClick={toggleReviewDisplay}
-            className={buttonClass}
-            id="test"
-          >
-            전체보기
-            <RightArrow id="svgIcon" />
-          </button>
-        </div>
+        <span className={spanClass} id="test">
+          작성한 리뷰
+        </span>
+        <button onClick={toggleReviewDisplay} className={buttonClass} id="test">
+          전체보기
+          <RightArrow id="svgIcon" />
+        </button>
+      </div>
+      <div className="w-full">
         {showAllReviews ? (
           <>
             {myReviews?.map((myReview, index) => (
@@ -161,13 +158,13 @@ export default function MyPage() {
           </div>
         ) : (
           <div className="mx-auto">
-          <NotFound
-            maxHeight="h-[30vw]"
-            margin="mt-10 mb-10"
-            mainText="아직 리뷰를 작성하지 않았어요."
-            labelname="카페 찾으러 가기"
-            handleOnClick={() => navigate("/search")}
-          />
+            <NotFound
+              maxHeight="h-[30vw]"
+              margin="mt-10 mb-10"
+              mainText="아직 리뷰를 작성하지 않았어요."
+              labelname="카페 찾으러 가기"
+              handleOnClick={() => navigate("/search")}
+            />
           </div>
         )}
       </div>

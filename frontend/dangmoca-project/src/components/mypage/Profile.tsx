@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { UserInfo } from "../../types/datatype";
 import RightArrowIcon from "../../assets/icons/rightarrow.svg?react";
 import dummyUserImg from "/src/assets/icons/dummyUserImg.png";
+import { tagMapper } from "../../utils/tag";
 
 const Profile = (user: UserInfo | null) => {
   const navigate = useNavigate();
@@ -69,19 +70,28 @@ const Profile = (user: UserInfo | null) => {
   };
 
   const updateCloud = () => {
-    const preferenceTag = Array.isArray(user?.preferenceTag) ? user.preferenceTag  : [];
+    const preferenceTag = Array.isArray(user?.preferenceTag)
+      ? user.preferenceTag
+      : [];
     const titleList = Array.isArray(user?.titleList) ? user.titleList : [];
 
     if (preferenceTag.length > 0 || titleList.length > 0) {
       const getRandomValue = (min: number, max: number) =>
         Math.floor(Math.random() * (max - min + 1)) + min;
 
-      const newWords = [...preferenceTag, ...titleList].map(
-        (tag) => ({
-          text: tag,
-          value: getRandomValue(20, 60),
-        })
-      );
+      const transformedPreferenceTags = preferenceTag.map((tag) => ({
+        text: tagMapper.get(tag),
+        value: getRandomValue(20, 60),
+      }));
+
+      const titleListTags = titleList.map((tag) => ({
+        text: tag,
+        value: getRandomValue(20, 60),
+      }));
+
+      const newWords = [...transformedPreferenceTags, ...titleListTags];
+      newWords.push({ text: ".", value: 1 });
+
       setWords(newWords);
     } else {
       setWords([...words]);
@@ -95,7 +105,7 @@ const Profile = (user: UserInfo | null) => {
   return (
     <>
       {user != undefined && (
-        <div className="flex flex-col  p-4">
+        <div className="flex flex-col p-4 mb-20">
           <div className="flex flex-row justify-center gap-4 lg:gap-20 min-w-full my-10">
             <img
               src={user.profileImageUrl || dummyUserImg}
@@ -145,7 +155,7 @@ const Profile = (user: UserInfo | null) => {
 
           <div
             onClick={updateCloud}
-            className="mx-auto p-6 w-[80lvw] h-[40lvw] lg:w-[40lvw] lg:h-[20lvw] border-primary border-2 rounded-2xl shadow-lg whitespace-nowrap cursor-pointer"
+            className="mx-auto p-6 w-[80lvw] h-[40lvw] md:w-[40lvw]  lg:w-[40lvw] lg:h-[20lvw] border-primary border-2 rounded-2xl shadow-lg whitespace-nowrap cursor-pointer"
           >
             <ReactWordcloud options={options} words={words} />
           </div>
