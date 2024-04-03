@@ -40,7 +40,7 @@ const NaverRedirectHandler = () => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [navigate]);
+  }, []);
 
   return <p>네이버</p>;
 };
