@@ -3,6 +3,7 @@ import { reviewAPI } from "../../api/reviewAPI";
 import ThumbUp from "../../assets/icons/thumbup.svg?react";
 import { tagMapper } from "../../utils/tag";
 import { useDragScroll } from "../../utils/useDragScroll";
+import { memberAPI } from "../../api/memberAPI";
 
 // interface Review {
 //   reviewSeq: number;
@@ -30,24 +31,35 @@ const SimpleReviewCard = ({ refreshReviews, ...review }: any) => {
   }
 
   const deletReview = async () => {
-    try {
-      const respronse = await reviewAPI.deleteReview(review.reviewSeq);
-      console.log("리뷰 삭제 성공!", respronse.data);
+    const myResponse = await memberAPI.getMyInfo();
+    if (myResponse.data.result.memberSeq === review.memberSeq){
+      try {
+        const respronse = await reviewAPI.deleteReview(review.reviewSeq);
+        console.log("리뷰 삭제 성공!", respronse.data);
+        Swal.fire({
+          title: "삭제 성공!",
+          icon: "success",
+        }).then(() => refreshReviews());
+      } catch (error) {
+        Swal.fire({
+          title: "리뷰 삭제에 실패했습니다.",
+          icon: "error",
+        });
+        console.log(error);
+      }
+    } else {
       Swal.fire({
-        title: "삭제 성공!",
-        icon: "success",
-      }).then(() => refreshReviews());
-    } catch (error) {
-      Swal.fire({
-        title: "권한을 확인해 주세요",
+        title: "권한을 확인해 주세요.",
         icon: "error",
       });
-      console.log(error);
     }
   };
 
   const modifyReview = () => {
-    console.log("더미");
+    Swal.fire({
+      title: "공정한 리뷰 문화!",
+      icon: "error",
+    });
   };
 
   return (
@@ -82,12 +94,11 @@ const SimpleReviewCard = ({ refreshReviews, ...review }: any) => {
       </div>
       <div className="flex justify-between py-2">
         <button
-          onClick={
-            () =>
-              Swal.fire({
-                title: "공정한 리뷰 문화!",
-                icon: "error",
-              })
+          onClick={() =>
+            Swal.fire({
+              title: "공정한 리뷰 문화!",
+              icon: "error",
+            })
           }
         >
           <ThumbUp id="svgIcon" className="mr-2" />

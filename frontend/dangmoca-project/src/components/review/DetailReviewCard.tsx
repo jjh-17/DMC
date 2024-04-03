@@ -5,8 +5,14 @@ import EmptyHeart from "../../assets/icons/empty-heart.svg?react";
 import FullHeart from "../../assets/icons/full-heart.svg?react";
 import { tagMapper } from "../../utils/tag";
 import defaultImg from '/src/assets/icons/profile.svg';
+import { memberAPI } from "../../api/memberAPI";
+import { useLoginUserStore } from "../../stores/userStore";
+import { Navigate, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
+  const { setLoginUser } = useLoginUserStore();
+  const navigate = useNavigate();
   const [setRef] = useDragScroll();
 
   const handleRef = (node: HTMLElement | null) => {
@@ -33,18 +39,32 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
     return beans;
   };
 
+  const handleNickNameClick = async () => {
+    try {
+      const response = await memberAPI.getMemberInfo(review.memberSeq);
+      setLoginUser(response.data.result);
+      navigate("/mypage");
+    } catch (error) {
+      Swal.fire({
+        title: "당모카 회원 정보만 열람 가능합니다!",
+        icon: "error",
+      })
+      console.log(error);
+    }
+  }
+
   return (
     <div className="min-w-screen max-w-[600px] flex flex-col gap-4 border-t-2 border-primary2 mx-auto p-8 mb-6">
       <div className="flex flex-row items-center">
         <div className="w-24 h-24 bg-brown-500 rounded-full overflow-hidden mr-4">
           <img
-            src={review.profileImage || defaultImg}
+            src={review.profileImageUrl || defaultImg}
             alt="프로필 이미지"
             className="rounded-full w-24 h-24 p-1 object-cover border-2 border-primary"
           />
         </div>
         <div className="flex flex-col justify-center">
-          <span className="text-xl md:text-2xl mx-3 items-baseline">
+          <span className="text-xl md:text-2xl mx-3 items-baseline cursor-pointer" onClick={handleNickNameClick}>
             {review.nickname}
             <img src={review.platform == "K" ? "/src/assets/icons/kakao.png" : review.platform == "N" ? "/src/assets/icons/naver.png" : "/src/assets/icons/coffeebean.svg"} className="inline-block w-6 h-6 mx-2" />
           </span>
