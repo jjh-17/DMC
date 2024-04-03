@@ -22,6 +22,8 @@ public class AddReviewDto {
     private Integer rating;
     private String createdDate;
     private boolean isDeleted;
+    private boolean isAd;
+    private Boolean isPositive;
 
     public AddReviewDto(List<MultipartFile> reviewImages, Long memberSeq, Long cafeSeq, String content, List<String> tag, Integer rating) {
         setReviewImages(reviewImages);
@@ -32,6 +34,14 @@ public class AddReviewDto {
         setRating(rating);
         setCreatedDate();
         setIsDeleted(false);
+    }
+
+    public void setAd(boolean ad) {
+        isAd = ad;
+    }
+
+    public void setPositive(Boolean positive) {
+        isPositive = positive;
     }
 
     public void setReviewImages(List<MultipartFile> reviewImages) {
