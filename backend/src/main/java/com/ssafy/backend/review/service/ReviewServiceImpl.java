@@ -294,6 +294,15 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public Boolean isAd(Map<String, Object> analyzeResult) {
+        if (analyzeResult == null) {
+            return false;
+        }
+        Double love = (Double) analyzeResult.get("완좋");
+        return love >= 90;
+    }
+
+    @Override
     public boolean isRatingBalanced(Long memberSeq) {
         Map<Integer, Long> ratingMap = new HashMap<>();
 

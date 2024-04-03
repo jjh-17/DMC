@@ -56,5 +56,7 @@ public interface ReviewService {
 
     Boolean isPositive(Map<String, Object> analyzeResult);
 
+    Boolean isAd(Map<String, Object> analyzeResult);
+
     boolean isRatingBalanced(Long memberSeq);
 }
