@@ -1,5 +1,6 @@
 import { Cafe } from "../../types/datatype";
 import { useDragScroll } from "../../utils/useDragScroll";
+import LogoUrl from '../../assets/icons/logo1.svg'
 import SimpleCafeCard from "./SimpleCafeCard";
 import LoadingIcon from '../../assets/icons/loading.svg?react'
 
@@ -32,10 +33,9 @@ const CafeRecommendDiv = (Props: Props) => {
       {Props.CafeList.length == 0 &&
 
         <div className="pb-10">
-          {/* <img src='/src/assets/pictures/naver_map.png' /> */}
           <div className="h-[322px]  m-4 flex flex-col items-center justify-center">
             <div className="text-center animate-pulse">
-              <img src="/src/assets/icons/logo1.svg" className="mb-4"/> 
+              <img src={LogoUrl} className="mb-4"/> 
               <span id="test" className="text-lg lg:text-xl align-middle">카페를 불러오고 있어요  <LoadingIcon className="w-6 h-6 lg:w-10 lg:h-10 inline-block animate-spin" /> </span>
             </div>
           </div>

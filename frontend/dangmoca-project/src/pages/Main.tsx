@@ -3,10 +3,9 @@ import InfoDiv from "../components/main/InfoDiv";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useLoginUserStore } from "../stores/userStore";
-import videoUrl from '../assets/videos/coffee.mp4';
+import videoUrl from "../assets/videos/coffee.mp4";
 
 export default function MainPage() {
-
   const navigate = useNavigate();
   const store = useLoginUserStore();
   // 로그인 가정 조건부 렌더
@@ -44,7 +43,7 @@ export default function MainPage() {
   return (
     <>
       <div
-        className="mx-auto flex flex-col items-center text-center w-full min-w-[40lvw] relative mt-[5lvh] mb-[10lvh]"
+        className="mx-auto flex flex-col items-center text-center w-full min-w-[40lvw] relative mt-[5lvh]"
       >
         <span id="test" className="text-xl lg:text-2xl whitespace-nowrap mb-2"> 당신의 모든 카페 </span>
         <h1 id="test" className="text-6xl lg:text-8xl whitespace-pre-wrap text-primary2 mb-4 lg:mb-0">DANGMOCA</h1>

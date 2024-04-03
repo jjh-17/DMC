@@ -75,7 +75,7 @@ export default function CafeReview() {
       {
         cafeReviews?.length == 0 && (
           <div className="h-[30lvw] text-center">
-            <p className="text-2xl" id="test">아직 작성된 리뷰가 없어요.</p>
+            <p className="text-2xl py-28" id="test">아직 작성된 리뷰가 없어요.</p>
           </div>
         )
       }

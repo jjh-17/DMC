@@ -16,11 +16,18 @@ const CafeRecommend = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!store.loginUser?.preferenceTag || store.loginUser?.preferenceTag.length == 0) {
+        if (!store.loginUser) {
             Swal.fire({
-                title: "내 카페를 찾으려면 취향 테스트를 먼저 해주세요.",
+                title: "정상적으로 로그인이 되지 않았습니다.",
+                confirmButtonText: "로그인"
+            }).then(() => navigate("/login"))
+        }
+        else if (store.loginUser?.preferenceTag.length == 0) {
+            Swal.fire({
+                title: "취향 테스트를 해주세요",
+                text: "내 카페를 찾으려면 취향 테스트에서 하나 이상의 카페를 선택해 주세요.",
                 confirmButtonText: "알겠어요"
-            }).then(() => navigate("/cafetest"))
+            }).then(() => navigate("/login"))
         }
 
         cafeAPI.getCafeByTag().then((response) => {
@@ -31,6 +38,7 @@ const CafeRecommend = () => {
                 setTagCafe([]);
             }
         })
+
         cafeAPI.getCafeByInfo().then((response) => {
             if (response.data?.list) if (response.data.list.length > 0) {
                 setSimilarCafe(response.data.list);
