@@ -4,6 +4,7 @@ import ThumbUp from "../../assets/icons/thumbup.svg?react";
 import { tagMapper } from "../../utils/tag";
 import { useDragScroll } from "../../utils/useDragScroll";
 import { memberAPI } from "../../api/memberAPI";
+import NoNope from "../../assets/icons/nope-no.gif"
 
 // interface Review {
 //   reviewSeq: number;
@@ -97,7 +98,9 @@ const SimpleReviewCard = ({ refreshReviews, ...review }: any) => {
           onClick={() =>
             Swal.fire({
               title: "공정한 리뷰 문화!",
-              icon: "error",
+              imageUrl: `${NoNope}`,
+              imageHeight: 300,
+              imageWidth: 300
             })
           }
         >
