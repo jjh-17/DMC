@@ -40,7 +40,7 @@ public class ReviewFacade {
         List<ViewReviewVo> reviews = reviewService.viewDmcReview(cafeSeq);
         for (ViewReviewVo viewReviewVo : reviews) {
             viewReviewVo.setImageUrl(reviewService.getImageUrl(viewReviewVo.getReviewSeq()));
-            Member member = memberService.getMemberInformation(memberSeq);
+            Member member = memberService.getMemberInformation(viewReviewVo.getMemberSeq());
             viewReviewVo.setNickname(member.getNickname());
             viewReviewVo.setProfileImageUrl(member.getImageUrl());
             viewReviewVo.setLiked(reviewService.isLikedReview(viewReviewVo.getReviewSeq(), memberSeq));
