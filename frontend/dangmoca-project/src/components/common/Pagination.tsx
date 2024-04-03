@@ -45,7 +45,7 @@ const Pagination = ({currentPage, endPage, onPageChange}: Props) => {
   const nextIconClass = defaultIconClass + (curPage == endPage ? " fill-slate-300 mx-4" : " cursor-pointer mx-4");
 
   return (
-    <div className="mx-auto w-fit align-middle mb-20">
+    <div className="mx-auto w-fit align-middle pb-28">
       <button onClick={handlePrevPage} disabled={curPage == 1}>
         <PrevArrowIcon className={prevIconClass} />
       </button>
