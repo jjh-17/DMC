@@ -40,7 +40,7 @@ const CafeDetailPage = () => {
     name: "",
     openingHour: "",
     rating: 0,
-    tag: ["default1", "d2", "d3"],
+    tag: "",
     updatedDate: "",
   });
   localStorage.setItem("test2", typeof cafeDetail.tag);
@@ -56,7 +56,7 @@ const CafeDetailPage = () => {
     }
   }
   const [cafeMenuList, setCafeMenuList] = useState([]);
-
+  
   const getCafeMenu = async () => {
     try {
       const response = await cafeAPI.getCafeMenu(cafeSeq);
@@ -66,10 +66,15 @@ const CafeDetailPage = () => {
       console.error(error);
     }
   }
-
+  
+  const [tagList, setTagList] = useState<string[]>([]);
+  const tagsRegex = /\w+/g;
+  
   useEffect(() => {
     getCafeDetail();
     getCafeMenu();
+    const extractedTags = cafeDetail.tag.match(tagsRegex) || [];
+    setTagList(extractedTags);
   }, []);
 
   const [showKakaoMap, setShowKakaoMap] = useState(false);
@@ -121,7 +126,7 @@ const CafeDetailPage = () => {
       </div>
       {!isReviewPage && !isWritePage && (
         <>
-          {Array.isArray(cafeDetail.tag) && cafeDetail.tag.length > 0 && cafeDetail.tag.map((text: string, idx: number) => (
+          {tagList.length > 0 && tagList.map((text: string, idx: number) => (
             <span
               key={idx}
               className="ml-2 my-2 text-base whitespace-nowrap underline"

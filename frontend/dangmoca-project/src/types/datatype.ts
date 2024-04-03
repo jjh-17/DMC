@@ -14,7 +14,7 @@ export interface CafeDetail {
     name: string;
     distance: string;
     address: string;
-    tag: string[];
+    tag: string;
     imageUrl: string;
     homepageUrl: string;
     rating: number;
