@@ -54,7 +54,6 @@ export default function ReviewWrite() {
       ...prevReview,
       content: event.target.value,
     }));
-
   };
 
   // 이미지 관련
@@ -107,12 +106,29 @@ export default function ReviewWrite() {
     });
 
     try {
-      await reviewAPI.writeReview(selectCafeSeq, formData);
-      Swal.fire({
-        title: "리뷰가 등록되었습니다!",
-        icon: "success",
-      }).then(() => navigate("/cafeDetail/review"))
-      ;
+      const response = await reviewAPI.writeReview(selectCafeSeq, formData);
+      console.log(response.data);
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+      if (response.data.result && response.data.result.length > 0) {
+        const messageTitle = response.data.result[0];
+        Swal.fire({
+          title: "축하합니다!",
+          html: `<div class="tenor-gif-embed" data-postid="17542751" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/party-popper-joypixels-celebration-have-a-blast-congratulations-gif-17542751">Party Popper Joypixels Sticker</a>from <a href="https://tenor.com/search/party+popper-stickers">Party Popper Stickers</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>`,
+          text: `${messageTitle} 획득!`,
+        }).then(() => navigate("/cafeDetail/review"));
+      } else if (response.data.success) {
+        Swal.fire({
+          title: "리뷰가 등록되었습니다!",
+          icon: "success",
+        }).then(() => navigate("/cafeDetail/review"));
+      } else{
+        Swal.fire({
+          title: "리뷰 등록 실패!",
+          icon: "error",
+        })
+      }
     } catch (error) {
       console.error("리뷰 작성 에러: ", error);
     }
@@ -169,12 +185,15 @@ export default function ReviewWrite() {
             <div key={index} className="flex-auto w-1/7 p-1">
               <motion.div
                 onClick={() => handleSelectTags(key)}
-                whileHover={!selectedTags.current.includes(key)? {scale: 1.1} : {}}
-                transition={{delay: 0.1, duration: 0.1}}
-                className={`text-center border-2 border-primary2 p-[7px] rounded-lg cursor-pointer ${selectedTags.current.includes(key)
+                whileHover={
+                  !selectedTags.current.includes(key) ? { scale: 1.1 } : {}
+                }
+                transition={{ delay: 0.1, duration: 0.1 }}
+                className={`text-center border-2 border-primary2 p-[7px] rounded-lg cursor-pointer ${
+                  selectedTags.current.includes(key)
                     ? "bg-primary text-white hover:bg-primary"
                     : "hover:bg-gray-200"
-                  }`}
+                }`}
               >
                 {key}
               </motion.div>

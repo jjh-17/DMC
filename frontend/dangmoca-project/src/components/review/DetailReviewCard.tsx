@@ -34,7 +34,7 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
   };
 
   return (
-    <div className="min-w-screen max-w-[600px] flex flex-col gap-4 border-t-2 border-primary2 mx-auto p-8 my-6">
+    <div className="min-w-screen max-w-[600px] flex flex-col gap-4 border-t-2 border-primary2 mx-auto p-8 mb-6">
       <div className="flex flex-row items-center">
         <div className="w-24 h-24 bg-brown-500 rounded-full overflow-hidden mr-4">
           <img
@@ -48,7 +48,7 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
             {review.nickname}
             <img src={review.platform == "K" ? "/src/assets/icons/kakao.png" : review.platform == "N" ? "/src/assets/icons/naver.png" : "/src/assets/icons/coffeebean.svg"} className="inline-block w-6 h-6 mx-2" />
           </span>
-          <div className="text-lg">{review.userTitle}
+          <div className="text-lg">{review.title}
           </div>
           <button />
         </div>
