@@ -39,6 +39,7 @@ export default function CafeReview() {
       const response = await reviewAPI.getCafeReview(selectCafeSeq);
       const data: ApiResponse = response.data;
       setCafeReviews(data.result);
+      console.log(data.result);
     } catch (error) {
       console.error(error);
     }
@@ -52,7 +53,7 @@ export default function CafeReview() {
       } else {
         await reviewAPI.unlikeReview(reviewSeq);
       }
-      setLikeUpdateTrigger(prev => prev + 1);
+      setLikeUpdateTrigger((prev) => prev + 1);
     } catch (error) {
       console.error(error);
     }
@@ -72,13 +73,13 @@ export default function CafeReview() {
           />
         </div>
       ))}
-      {
-        cafeReviews?.length == 0 && (
-          <div className="h-[30lvw] text-center">
-            <p className="text-2xl py-28" id="test">아직 작성된 리뷰가 없어요.</p>
-          </div>
-        )
-      }
+      {cafeReviews?.length == 0 && (
+        <div className="h-[30lvw] text-center">
+          <p className="text-2xl" id="test">
+            아직 작성된 리뷰가 없어요.
+          </p>
+        </div>
+      )}
     </>
   );
 }
