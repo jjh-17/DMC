@@ -39,7 +39,7 @@ const KakaoRedirectHandler = () => {
       });
   }, [navigate]);
 
-  return null;
+  return <p>카카오</p>;
 }
 
 export default KakaoRedirectHandler;

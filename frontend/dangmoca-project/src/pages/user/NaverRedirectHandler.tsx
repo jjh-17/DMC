@@ -40,7 +40,7 @@ const NaverRedirectHandler = () => {
       });
   }, [navigate]);
 
-  return null;
+  return <p>네이버</p>;
 };
 
 export default NaverRedirectHandler;
