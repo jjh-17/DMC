@@ -38,9 +38,8 @@ export default function MyPage() {
     try {
       const response = await memberAPI.getMyInfo();
       setLoginUser(response.data.result);
-      console.log(response.data.result);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -61,9 +60,8 @@ export default function MyPage() {
     try {
       const response = await cafeAPI.getBookmark(1);
       setMyBookMarks(response.data.result.list);
-      console.log(response.data.result.list);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -74,9 +72,8 @@ export default function MyPage() {
       // console.log(loginUser);
       const response = await reviewAPI.getMyReview(loginUser?.memberSeq);
       setMyReviews(response.data.result);
-      console.log(response.data.result);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

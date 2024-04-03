@@ -8,6 +8,7 @@ import { tags } from "../../utils/tag";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import UploadIconUrl from '../../assets/pictures/upload.jpg'
 
 interface Review {
   reviewImages: File[];
@@ -139,7 +140,7 @@ export default function ReviewWrite() {
       <ReviewRating onRatingChange={handleRatingChange} />
       <div className="p-4 m-4 flex flex-col items-center">
         <div className="w-[25lvh] h-[25lvh] text-center padding-1 relative cursor-pointer border-2 border-dashed mb-5 mx-auto">
-          <img src="/src/assets/pictures/upload.jpg" alt="upload" />
+          <img src={UploadIconUrl} alt="upload" />
           <h3>사진을 업로드하세요</h3>
           <input
             id="uploadInput"
@@ -171,11 +172,6 @@ export default function ReviewWrite() {
           onBlur={handleBlur}
         />
         <label className={labelClass}>태그 추가</label>
-        {/* <p className="whitespace-pre-wrap">
-          입력한 태그 나열, 누르면 태그 입력받을 + 동그라미 태그 정해지면
-          추가해야 함
-        </p> */}
-        {/* <div className="flex rounded-lg overflow-x-auto my-5 w-full h-[28lvh] border-2 border-primary bg-slate-100"> */}
         <div className="my-5 flex flex-wrap whitespace-pre-wrap basis-- -m-1">
           {tagKeys.map((key, index) => (
             <div key={index} className="flex-auto w-1/7 p-1">

@@ -24,8 +24,7 @@ export default function Bookmark() {
       setBookmarkList(data.result.list);
     }
     catch (error) {
-      // 타입 별 에러 처리 예정
-      console.log(error)
+      console.error(error)
     }
   }
 

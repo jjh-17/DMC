@@ -31,8 +31,7 @@ const SimpleReviewCard = ({ refreshReviews, ...review }: any) => {
 
   const deletReview = async () => {
     try {
-      const respronse = await reviewAPI.deleteReview(review.reviewSeq);
-      console.log("리뷰 삭제 성공!", respronse.data);
+      await reviewAPI.deleteReview(review.reviewSeq);
       Swal.fire({
         title: "삭제 성공!",
         icon: "success",
@@ -42,7 +41,7 @@ const SimpleReviewCard = ({ refreshReviews, ...review }: any) => {
         title: "권한을 확인해 주세요",
         icon: "error",
       });
-      console.log(error);
+      console.error(error);
     }
   };
 

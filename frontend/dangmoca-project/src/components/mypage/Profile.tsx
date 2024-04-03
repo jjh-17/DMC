@@ -13,7 +13,6 @@ const Profile = (user: UserInfo | null) => {
   const navigate = useNavigate();
 
   if (user === null) {
-    console.log("사용자 정보가 없습니다.");
     return;
   }
 

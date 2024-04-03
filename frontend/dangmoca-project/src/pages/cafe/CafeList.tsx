@@ -43,7 +43,7 @@ const CafeListPage = () => {
         }
       }
       catch (error) {
-        console.log(error);
+        console.error(error);
       }
 
     }
@@ -59,7 +59,7 @@ const CafeListPage = () => {
 
       }
       catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
   }

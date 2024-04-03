@@ -14,7 +14,6 @@ export default function MainPage() {
   useEffect(() => {
     // 로그인 판단 로직
     setIsLogin(store.loginUser !== null);
-    // console.log(localStorage.getItem("position"))
     if (localStorage.getItem("position") === null || localStorage.getItem("position") === undefined) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
