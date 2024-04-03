@@ -1,5 +1,3 @@
-import { Component } from 'react';
-
 // 예시임 바꿔도됨
 // localstorage에 토큰 저장 및 관리
 // const parseJwt = (token: string) => {
@@ -16,35 +14,46 @@ import { Component } from 'react';
 //   return JSON.parse(jsonPayload);
 // };
 
-class TokenService extends Component {
-  getLocalRefreshToken = () => {
-    return localStorage.getItem('user') ? localStorage.getItem('refresh-token') : null;
+class TokenService {
+  static getLocalRefreshToken = () => {
+    return localStorage.getItem("refreshToken")
+      ? localStorage.getItem("refreshToken")
+      : null;
   };
 
-  getLocalAccessToken = () => {
-    return localStorage.getItem('user') ? localStorage.getItem('token') : null;
+  static getCookieAccessToken = () => {
+    let cookieArray = document.cookie.split(";");
+    for (let i = 0; i < cookieArray.length; i++) {
+      let cookiePair = cookieArray[i].split("=");
+      if ("accessToken" == cookiePair[0].trim()) {
+        return decodeURIComponent(cookiePair[1]);
+      }
+    }
+    return null;
+    // return localStorage.getItem("loginUser")
+    //   ? localStorage.getItem("token")
+    //   : null;
   };
 
-  setLocalRefreshToken = (token: string) => {
-    localStorage.setItem('refresh-token', token);
+  static setLocalRefreshToken = (token: string) => {
+    localStorage.setItem("refreshToken", token);
   };
 
-  setLocalAccessToken = (token: string) => {
-    localStorage.setItem('token', token);
+  static setLocalAccessToken = (token: string) => {
+    localStorage.setItem("token", token);
   };
 
-  updateLocalAccessToken = (token: string) => {
-    localStorage.setItem('token', token);
+  static updateLocalAccessToken = (token: string) => {
+    localStorage.setItem("token", token);
   };
 
-  
-  removeUser = () => {
-    localStorage.removeItem('token');
+  static removeUser = () => {
+    localStorage.removeItem("token");
     try {
-      localStorage.removeItem('refresh-token');
-    } catch(err) {
-        console.log(err)
-    } 
+      localStorage.removeItem("refresh-token");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // expiredToken = () => {

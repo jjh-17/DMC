@@ -7,106 +7,183 @@ import Button from "../../components/common/Button";
 import CafeMenuList from "../../components/cafe/CafeMenuList";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { CafeDetail } from "../../types/datatype";
-import BottomSheet from "../../components/review/BottomSheet";
-import CafeReview from "../review/CafeReview";
-// import { useState, useEffect } from "react";
-
-const testDetail: CafeDetail = {
-  cafeSeq: 1,
-  name: "바나프레소 테헤란로점",
-  distance: "100m",
-  address: "서울 강남구 역삼동",
-  tag: ["가성비", "테이크아웃", "분위기"],
-  imageUrl: "/src/assets/testPic/bana.jpg",
-  homepageUrl: "https://www.banapresso.com/",
-  rating: 3.7,
-  isBookmarked: false,
-  updatedDate: "2024-03-14",
-  openingHour: "월~금 07:00~20:00",
-};
+import KakaoMap from '../../components/cafe/KakaoMap';
+import useCafeStore from '../../stores/cafeStore';
+import { cafeAPI } from "../../api/cafe";
+import { useEffect, useState } from "react";
+import ScrollToTop from "../../components/common/ScrollToTop";
+import Swal from "sweetalert2";
+import KakaoMapIconUrl from '../../assets/icons/kakaomap_basic.png'
 
 const CafeDetailPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const isReviewPage = location.pathname.includes("/write");
+  const [isReviewPage, setIsReviewPage] = useState(false);
+  const [isWritePage, setIsWritePage] = useState(false);
 
-  // const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+  useEffect(() => {
+    setIsReviewPage(location.pathname.includes("/review"));
+    setIsWritePage(location.pathname.includes("/write"));
+  }, [location])
 
-  // useEffect(() => {
-  //   const handleResize = () => {
-  //     setViewportHeight(window.innerHeight);
-  //   };
+  const store = useCafeStore();
+  const cafeSeq = store.selectedCafeSeq;
 
-  //   window.addEventListener("resize", handleResize);
+  const [cafeDetail, setCafeDetail] = useState<CafeDetail>({
+    cafeSeq: 0,
+    address: "",
+    distance: "",
+    homepageUrl: "",
+    imageUrl: "",
+    bookmarked: false,
+    name: "",
+    openingHour: "",
+    rating: 0,
+    tag: ["default1", "d2", "d3"],
+    updatedDate: "",
+  });
 
-  //   // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
+  const getCafeDetail = async () => {
+    try {
+      const response = await cafeAPI.getCafeDetail(cafeSeq);
+      if (response.data.result?.address)
+        setCafeDetail(response.data.result);
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+  const [cafeMenuList, setCafeMenuList] = useState([]);
 
-  const cafeAddress: string[] = testDetail.address.split(" ");
+  const getCafeMenu = async () => {
+    try {
+      const response = await cafeAPI.getCafeMenu(cafeSeq);
+      if (response.data.result.length > 0) setCafeMenuList(response.data.result);
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    getCafeDetail();
+    getCafeMenu();
+  }, []);
+
+  const [showKakaoMap, setShowKakaoMap] = useState(false);
+
+  const cafeAddress: string[] = cafeDetail.address != null ? cafeDetail.address.split(" ") : ["", ""];
   const simpleAddress = cafeAddress[0] + ", " + cafeAddress[1];
-
   const svgClass = "w-6 h-6 inline-block mr-1";
   const textClass = "font-light text-lg my-2 mx-4";
 
-  const bookmarkCafe = () => {
-    console.log("bookmark");
+  const bookmarkCafe = async () => {
+    try {
+      if (cafeDetail.bookmarked) {
+        await cafeAPI.deleteBookmark(cafeSeq);
+        Swal.fire({
+          title: "카페를 북마크 해제했습니다.",
+          icon: "info",
+          confirmButtonText: "확인"
+        })
+      } else {
+        await cafeAPI.doBookmark(cafeSeq);
+        Swal.fire({
+          title: "카페를 북마크했습니다.",
+          icon: "success",
+          confirmButtonText: "확인"
+        })
+      }
+      setCafeDetail(prevCafeDetail => ({
+        ...prevCafeDetail,
+        bookmarked: !prevCafeDetail.bookmarked
+      }));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <div className="mt-0">
+    <div className="mt-5 pb-20">
       <img
-        src={testDetail.imageUrl}
+        src={cafeDetail.imageUrl || "/src/assets/icons/logo.svg"}
         className="opacity-80 h-[80lvh] w-screen object-cover -z-10"
       />
-      <h1 className="absolute top-[75lvh] ml-4 text-3xl text-white">
-        {testDetail.name}
-      </h1>
-      <p className="absolute top-[80lvh] ml-4 text-white font-light">
-        {simpleAddress}
-      </p>
-      {!isReviewPage && (
+      <div className="absolute top-[70lvh] max-h-[30lvh] w-fit ml-10 bg-white bg-opacity-50">
+        <h1 className="text-4xl md:text-5xl mb-2">
+          {cafeDetail.name}
+        </h1>
+        <p className="text-xl md:text-2xl font-light">
+          {simpleAddress}
+        </p>
+      </div>
+      {!isReviewPage && !isWritePage && (
         <>
-          {testDetail.tag.map((text, idx) => (
+          {Array.isArray(cafeDetail.tag) && cafeDetail.tag.length > 0 && cafeDetail.tag.map((text: string, idx: number) => (
             <span
               key={idx}
-              className="relative ml-2 text-base text-white -top-[5lvh]  left-[35lvw] whitespace-nowrap underline"
+              className="ml-2 my-2 text-base whitespace-nowrap underline"
             >
               #{text}{" "}
             </span>
           ))}
-          <div className="border-b-[1px] border-primary pb-2 mx-2 lg:mx-10">
-            <span className={textClass}>
+          <div className="border-b-[1px] border-primary pb-2 mx-2 my-2 lg:mx-10">
+            <div className={textClass}>
               <CoffeeBeanIcon className={svgClass + " fill-primary"} />
-              {testDetail.rating}
+              {cafeDetail.rating == 0.0 ? (Math.round(cafeDetail.rating * 100) / 100).toFixed(2) : "별점 없음"}
+            </div>
+            <div className={textClass + " cursor-pointer"} onClick={bookmarkCafe}>
               <BookMarkIcon
-                className={svgClass + " cursor-pointer mx-2 hover:fill-primary"}
-                onClick={bookmarkCafe}
-              />
-              <a
-                href={testDetail.homepageUrl}
-                className="cursor-pointer"
-                target="_blank"
-              >
-                <HomePageIcon className={svgClass} />
-              </a>
-            </span>
+                className={svgClass + " cursor-pointer mr-2 " + (cafeDetail.bookmarked ? " fill-primary" : " fill-zinc-500")}
+
+              /> {cafeDetail.bookmarked ? "북마크 해제하기" : "북마크하기"}
+            </div>
+            {
+              cafeDetail.homepageUrl && cafeDetail.homepageUrl.length > 0 && (
+                <div className={textClass}>
+                  <a
+                    href={cafeDetail.homepageUrl}
+                    className="cursor-pointer"
+                    target="_blank"
+                  >
+                    <HomePageIcon className={svgClass + " fill-primary"} /> {cafeDetail.homepageUrl}
+                  </a>
+                </div>
+              )
+            }
+            <br></br>
             <div className={textClass}>
               <PinIcon className={svgClass} />
-              {testDetail.address}
+              {cafeDetail.address}
             </div>
             <div className={textClass + " mb-4"}>
               <ClockIcon className={svgClass} />
-              {testDetail.openingHour}
+              {cafeDetail.openingHour}
             </div>
+            <img src={KakaoMapIconUrl} className="size-6 ml-4 inline-block" />
+            <button className={textClass} onClick={() => setShowKakaoMap(!showKakaoMap)}>위치 보기 </button>
+            {
+              showKakaoMap && <KakaoMap address={cafeDetail.address} name={cafeDetail.name} />
+            }
           </div>
-          <CafeMenuList />
+          {
+            CafeMenuList.length > 1 &&
+            <CafeMenuList cafeMenu={cafeMenuList} />
+          }
+
           <div className="text-center">
-            <Button label="리뷰 작성하기" onClick={() => navigate("write")} />
+            <Button label="리뷰 보러가기" onClick={() => navigate("review")} />
           </div>
-          <BottomSheet prop={<CafeReview />} />
+        </>
+      )}
+      {isReviewPage && (
+        <>
+          <Button
+            addClass=" fixed right-20 bottom-20 md:right-[30lvw] lg:right-[25lvw] text-lg md:text-2xl"
+            label="리뷰 작성하기"
+            onClick={() => navigate("write")}
+          />
+          <ScrollToTop />
         </>
       )}
       <Outlet />

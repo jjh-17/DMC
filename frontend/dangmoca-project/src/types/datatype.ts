@@ -18,7 +18,7 @@ export interface CafeDetail {
     imageUrl: string;
     homepageUrl: string;
     rating: number;
-    isBookmarked: boolean;
+    bookmarked: boolean;
     updatedDate: string;
     openingHour: string;
 }
@@ -30,14 +30,55 @@ export interface CafeMenu {
 }
 
 export interface infoProps {
-    imgUrl: string,
-    imgAlt: string,
     title: string,
     description: string
+    delay: number[],
 }
 
 export interface History {
     index: number;
     keyword: string;
     datetime: Date;
+}
+
+export interface UserInfo {
+    memberSeq: number,
+    nickname: string,
+    profileImageUrl: string | null,
+    title: string,
+    titleList: string[],
+    mileage: number,
+    preferenceTag: string[],
+    deleted: boolean,
+}
+
+export interface Review {
+    reviewSeq: number;
+    memberSeq: number;
+    cafeSeq: number;
+    nickname: string;
+    profileImageUrl: string;
+    content: string;
+    tag: string[];
+    rating: number;
+    updatedDate: string;
+    createdDate: string;
+    imageUrl: string[];
+    deleted: boolean;
+    likeCount: number;
+    liked: boolean;
+}
+
+export interface ApiResponse {
+    message: string;
+    code: number;
+    result: Review[];
+    success: boolean;
+}
+
+export interface CafeListApiResponse {
+    result: {
+        totalPages: number,
+        list: Cafe[],
+    },
 }

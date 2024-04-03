@@ -1,88 +1,87 @@
 import { AxiosResponse } from "axios";
-import { defaultAxios } from "./AuthCommon";
+import { authAxios } from "./AuthCommon";
 
-let latitude = 0;
-let longitude = 0;
-// TODO : getLocation 뺀뒤에 store로 관리
-const getLocation = () => navigator.geolocation.getCurrentPosition((position) => {
-    latitude = position.coords.latitude;
-    longitude = position.coords.longitude;
-});
-
+// const latitude = localStorage.getItem('latitude') || 37.501271677039064;
+const latitude = 37.501271677039064;
+// const longitude = localStorage.getItem('longitude') || 127.03960465624748;
+const longitude = 127.03960465624748;
 const END_POINT = '/cafes'
 
-const cafeAPI = {
-    getCafeList():Promise<AxiosResponse> {
-        getLocation(); 
-        return defaultAxios({
+export const cafeAPI = {
+    getCafeList(curPage: number): Promise<AxiosResponse> {
+        return authAxios({
+            method: 'GET',
+            url: END_POINT + `?latitude=${latitude}&longitude=${longitude}&page=${curPage}`
+        })
+    },
+
+    getCafeSearchList(curPage: number, keyword: string): Promise<AxiosResponse> {
+        return authAxios({
+            method: 'GET',
+            url: END_POINT + `?keyword=${keyword}&longitude=${longitude}&latitude=${latitude}&page=${curPage}`
+        })
+    },
+
+    getCafeRecommendList(): Promise<AxiosResponse> {
+        return authAxios({
             method: 'GET',
             url: END_POINT + `?longitude=${longitude}&latitude=${latitude}`
         })
     },
 
-    getCafeRecommendList():Promise<AxiosResponse> {
-        getLocation();
-        return defaultAxios({
+    getCafeDetail(id: number): Promise<AxiosResponse> {
+        return authAxios({
             method: 'GET',
-            url: END_POINT + `?longitude=${longitude}&latitude=${latitude}`
+            url: END_POINT + "/" + id
         })
     },
 
-    getCafeDetail(id: number):Promise<AxiosResponse> {
-        return defaultAxios({
+    getCafeMenu(id: number): Promise<AxiosResponse> {
+        return authAxios({
             method: 'GET',
-            url: END_POINT + id
+            url: END_POINT + "/" + id + '/menus'
         })
     },
 
-    getCafeMenu(id: number):Promise<AxiosResponse> {
-        return defaultAxios({
-            method: 'GET',
-            url: END_POINT + id + '/menus'
-        })
-    },
-
-    doBookmark(cafeId: number):Promise<AxiosResponse> {
-        return defaultAxios({
+    doBookmark(cafeId: number): Promise<AxiosResponse> {
+        return authAxios({
             method: 'POST',
-            url: END_POINT + cafeId + '/bookmarks'
+            url: END_POINT + "/" + cafeId + '/bookmark'
         })
     },
 
-    deleteBookmark(cafeId: number):Promise<AxiosResponse> {
-        return defaultAxios({
+    deleteBookmark(cafeId: number): Promise<AxiosResponse> {
+        return authAxios({
             method: 'DELETE',
-            url: END_POINT + cafeId + '/bookmarks'
+            url: END_POINT + "/" + cafeId + '/bookmark'
         })
     },
 
-    getBookmark(page: number):Promise<AxiosResponse> {
-        return defaultAxios({
-            method: 'POST',
-            url: `bookmark?page=${page}`
-        })
-    },
-
-    getCafeByTag():Promise<AxiosResponse> {
-        return defaultAxios({
+    getBookmark(page: number): Promise<AxiosResponse> {
+        return authAxios({
             method: 'GET',
-            url: 'mytag'
+            url: END_POINT + `/bookmark?page=${page}`
         })
     },
 
-    getCafeByInfo():Promise<AxiosResponse> {
-        return defaultAxios({
+    getCafeByTag(): Promise<AxiosResponse> {
+        return authAxios({
             method: 'GET',
-            url: 'myinfo'
-        })
+            url: `${END_POINT}/mytag?latitude=${latitude}&longitude=${longitude}`
+        });
+    },
+
+    getCafeByInfo(): Promise<AxiosResponse> {
+        return authAxios({
+            method: 'GET',
+            url: `${END_POINT}/myinfo?latitude=${latitude}&longitude=${longitude}`
+        });
     },
     
-    getCafeByRating():Promise<AxiosResponse> {
-        return defaultAxios({
+    getCafeByRating(): Promise<AxiosResponse> {
+        return authAxios({
             method: 'GET',
-            url: 'myrating'
-        })
+            url: `${END_POINT}/myrating?latitude=${latitude}&longitude=${longitude}`
+        });
     },
 }
-
-export default cafeAPI;

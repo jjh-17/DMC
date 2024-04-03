@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "types": ["vite-plugin-svgr/client"],
+    "types": [
+      "vite-plugin-svgr/client",    
+      "kakao.maps.d.ts"
+    ],
 
     "target": "ES2020",
     "useDefineForClassFields": true,
@@ -24,5 +27,6 @@
 
   },
   "include": ["src", "App.tsx", "custom.d.ts", "images.d.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "extends": "@tsconfig/vite-react/tsconfig.json"
 }

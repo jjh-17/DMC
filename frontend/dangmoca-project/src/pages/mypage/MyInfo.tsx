@@ -1,76 +1,199 @@
 import { useEffect, useRef, useState } from "react";
 import Button from "../../components/common/Button";
+import { useLocation } from "react-router-dom";
+import { memberAPI } from "../../api/memberAPI";
+import dummyUserImg from "/src/assets/icons/dummyUserImg.png";
+import Swal from "sweetalert2";
 
 export default function MyInfo() {
-  const user = {
-    memberSeq: 1,
-    profileImage: "src/assets/icons/dummyUserImg.png",
-    nickName: "DMC",
-    title: "커피에 미친 사람",
-    tag: ["#조용한 카페", "#분위기 좋은 카페"],
-  };
-
+  const { state: user } = useLocation();
   const [inputValue, setInputValue] = useState("");
-
-  const nickNameRef = useRef<HTMLInputElement>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(
+    user.profileImageUrl
+  );
+  const [selectedTitle, setSelectedTitle] = useState<string>("");
+  const [able, setAble] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setInputValue(user.nickName);
-  }, [user.nickName]);
+    console.log(user);
+    setInputValue(user.nickname);
+    setPreviewUrl(user.profileImageUrl);
+  }, [user.nickname, user.profileImageUrl]);
 
   const handleFocus = () => {
-    if (inputValue === user.nickName) {
+    if (inputValue === user.nickname) {
       setInputValue("");
     }
   };
 
   const handleBlur = () => {
     if (inputValue.trim() === "") {
-      setInputValue(user.nickName);
+      setInputValue(user.nickname);
     }
   };
 
-  const handleUpdateClick = () => {
-    if (nickNameRef.current) {
-      const updatedNickName = nickNameRef.current.value;
-      console.log("업데이트 될 닉네임:", updatedNickName);
-    } else {
-      console.log("닉네임값이 지정되지 않았습니다.");
+  const handleImageClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (event: any) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFile(file);
     }
   };
+
+  const checkMyNickName = async () => {
+    try {
+      const response = await memberAPI.checkMyNickname(inputValue);
+      setAble(true);
+      Swal.fire({
+        title: "닉네임 사용 가능합니다.",
+        icon: "success",
+      });
+      console.log(inputValue);
+      console.log(response.data);
+
+      if (!response.data.success) {
+        Swal.fire({
+          title: "중복 닉네임이 존재합니다.",
+          icon: "info",
+        });
+      }
+    } catch (error) {
+      console.log(inputValue);
+      console.log(error);
+    }
+  };
+
+  const handleTitleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedTitle(event.target.value);
+  };
+
+  const handleUpdateClick = async () => {
+    const isNickNameChanged = inputValue !== user.nickname;
+    if (isNickNameChanged && !able) {
+      Swal.fire({
+        title: "중복 닉네임을 체크해주세요.",
+        icon: "info",
+      });
+      return;
+    }
+
+    if (inputValue.trim() != "") {
+      const updatedNickName = inputValue;
+      console.log("업데이트 될 닉네임:", updatedNickName);
+
+      try {
+        if (isNickNameChanged) {
+          const nameResponse = await memberAPI.modifyMyNickname(
+            updatedNickName,
+            able
+          );
+          console.log(nameResponse);
+        }
+
+        if (selectedFile) {
+          const formData = new FormData();
+          formData.append("profileImage", selectedFile);
+          console.log(selectedFile);
+
+          const imageResponse = await memberAPI.changeMyProfilePic(formData);
+          console.log(imageResponse);
+        }
+
+        if (selectedTitle && selectedTitle !== user.title) {
+          const titleResponse = await memberAPI.changeMyTitle(selectedTitle);
+          console.log(titleResponse);
+        }
+
+        Swal.fire({
+          title: "수정 성공!.",
+          icon: "success",
+        });
+      } catch (error) {
+        console.log("업데이트 실패");
+        Swal.fire({
+          title: "수정 실패!.",
+          icon: "error",
+        });
+      }
+    } else {
+      console.log("닉네임이 지정되지 않았습니다.");
+      Swal.fire({
+        title: "닉네임이 지정되지 않았습니다.",
+        icon: "info",
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (selectedFile) {
+      const fileUrl = URL.createObjectURL(selectedFile);
+      setPreviewUrl(fileUrl);
+
+      return () => {
+        URL.revokeObjectURL(fileUrl);
+      };
+    }
+  }, [selectedFile]);
 
   return (
-    <div className="flex flex-col items-start w-full max-w-4xl mx-auto mt-5 p-4 space-y-4">
-      <p className="text-left w-full">내 프로필 사진</p>
-      <div className="w-full">
-        <div className="w-40 h-40 mx-auto bg-brown-500 rounded-full overflow-hidden">
+    <div className="flex flex-col w-[80lvw] md:w-[60lvw] lg:w-[40lvw] max-w-4xl mt-5 p-4 mx-auto space-y-4">
+      <div className="whitespace-nowrap font-light">프로필 사진</div>
+      <div className="mx-auto">
+        <div
+          className="w-full md:w-[30lvw] lg:w-[20lvw]"
+          onClick={handleImageClick}
+        >
           <img
-            src={user.profileImage}
+            src={previewUrl || dummyUserImg}
             alt="프로필 이미지"
-            className="w-full h-full object-cover"
+            className="w-[40lvw] h-[40lvw] md:w-[30lvw] md:h-[30lvw] lg:w-[20lvw] lg:h-[20lvw] p-2 m-2 rounded-full object-contain border-2 border-primary "
+          />
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            style={{ display: "none" }}
           />
         </div>
       </div>
 
       <p className="text-left w-full">닉네임</p>
       <input
-        className="w-full border-2 border-gray-300 rounded-lg p-2"
+        className="w-fit border-2 border-gray-300 rounded-lg p-2"
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         onFocus={handleFocus}
         onBlur={handleBlur}
       />
+      <button
+        onClick={checkMyNickName}
+        className="inline-block text-sm text-left ml-2"
+      >
+        중복확인
+      </button>
 
-      <p className="text-left w-full">대표 칭호 선택하기</p>
-      <select className="w-full border-2 border-gray-300 rounded-lg p-2">
-        <option>{user.title}</option>
-      </select>
+      <div className="flex flex-row items-center gap-4 md:gap-12 lg:gap-20">
+        <p className="whitespace-pre-wrap">대표 칭호 선택하기</p>
+        <select
+          className="border-2 border-primary p-2"
+          onChange={handleTitleChange}
+        >
+          {user.titleList.map((title:any, index:any) => {
+            return (
+              <option value={title} key={index} className="font-light">
+                {title}
+              </option>
+            );
+          })}
+        </select>
+      </div>
 
-      <Button
-        label="수정하기"
-        onClick={handleUpdateClick}
-        addClass="mx-auto"
-      />
+      <Button label="수정하기" onClick={handleUpdateClick} addClass="mx-auto" />
     </div>
   );
 }

@@ -27,16 +27,20 @@ const routes = createBrowserRouter([
       { path: "login", element: <Login /> },
       { path: "kakaoLogin", element: <KakaoRedirectHandler /> },
       { path: "naverLogin", element: <NaverRedirectHandler /> },
-      { path: "myPage", element: <MyPage /> },
-      { path: "myInfo", element: <MyInfo /> },
-      { path: "myReview", element: <MyReview /> },
+      { path: "mypage", element: <MyPage /> },
+      { path: "myinfo", element: <MyInfo /> },
+      { path: "myreview", element: <MyReview /> },
       { path: "bookmark", element: <Bookmark /> },
-      { path: "cafeTest", element: <CafeTest /> },
+      { path: "cafetest", element: <CafeTest /> },
       { path: "search", element: <CafeSearch /> },
       {
-        path: "cafeDetail/*",
+        path: "cafedetail/*",
         element: <CafeDetail />,
         children: [
+          {
+            path: "review",
+            element: <CafeReview />,
+          },
           {
             path: "write",
             element: <ReviewWrite />,
@@ -44,12 +48,10 @@ const routes = createBrowserRouter([
         ],
       },
       { path: "cafes/*", element: <CafeList />, children: [] },
-      { path: "my-reviews", element: <MyReview /> },
-      { path: "review-write", element: <ReviewWrite /> },
-      { path: "temp", element: <CafeReview /> },
-      { path: "myCafe", element: <CafeRecommend />},
+      { path: "writereview", element: <ReviewWrite /> },
+      { path: "mycafe", element: <CafeRecommend /> },
+      { path: "/*", element: <ErrorPage /> },
     ],
   },
-  { path: "/*", element: <ErrorPage /> },
 ]);
 export default routes;
