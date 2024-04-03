@@ -67,19 +67,19 @@ const CafeRecommend = () => {
                 tagCafe.length > 0 && (<CafeRecommendDiv title="내 성향과 맞는 카페" CafeList={tagCafe} />)
             }
             {
-                tagCafe.length === 0 && <p className="w-full text-center h-40">선택한 태그가 없습니다.</p>
+                tagCafe.length === 0 && <p className="w-full text-center mt-40">내 성향과 맞는 카페가 없습니다.</p>
             }
             {
                 similarCafe.length > 0 && (<CafeRecommendDiv title="내 성향과 맞는 카페" CafeList={similarCafe} />)
             }
             {
-                similarCafe.length === 0 && <p className="w-full text-center h-40">나와 비슷한 사용자가 없습니다.</p>
+                similarCafe.length === 0 && <p className="w-full text-center mt-40">나와 비슷한 사용자가 없습니다.</p>
             }
             {
                 rateCafe.length > 0 && (<CafeRecommendDiv title={myFavoriteCafe + "와 비슷한 카페"} CafeList={rateCafe} />)
             }
             {
-                rateCafe.length === 0 && <p className="w-full text-center h-40">아직 5점을 준 카페가 없습니다.</p>
+                rateCafe.length === 0 && <p className="w-full text-center mt-40">아직 5점을 준 카페가 없습니다.</p>
             }
         </div>
     )
