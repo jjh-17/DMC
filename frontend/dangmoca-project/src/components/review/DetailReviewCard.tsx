@@ -106,7 +106,7 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
           {/* 태그 리스트 */}
           {Array.isArray(review.tag) && review.tag.length > 0 && (
             <div className="flex overflow-x-auto p-4">
-              {review.tag.map((tag: any, index: any) => (
+              {review.tag.map((tag: string, index: number) => (
                 <span key={index} className="mx-1 text-rose-800">
                   #{tagMapper.get(tag)}
                 </span>

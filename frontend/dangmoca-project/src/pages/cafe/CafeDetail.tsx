@@ -168,7 +168,7 @@ const CafeDetailPage = () => {
             }
           </div>
           {
-            CafeMenuList.length > 1 &&
+            Array.isArray(cafeMenuList) && cafeMenuList.length > 1 &&
             <CafeMenuList cafeMenu={cafeMenuList} />
           }
 

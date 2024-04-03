@@ -1,23 +1,15 @@
 import LocationPin from '../../assets/icons/pin.svg?react';
 import { useNavigate } from "react-router-dom";
 import { tagMapper } from '../../utils/tag';
-import { useEffect, useState } from 'react';
 import { Cafe } from '../../types/datatype';
 import useCafeStore from '../../stores/cafeStore';
 import SadCoffeeUrl from '../../assets/pictures/sadcoffee.png'
 
 const DetailCafeCard = (cafe: Cafe) => {
   const navigate = useNavigate();
-  const [mappedTags, setMappedTags] = useState<string[]>([]);
   const setSelectedCafeSeq = useCafeStore(state => state.setSelectedCafeSeq);
 
-  useEffect(() => {
-    if (Array.isArray((cafe.tag))) {
-      const mappedTagsArray = cafe.tag.map(tag => tagMapper.get(tag) || tag);
-      setMappedTags(mappedTagsArray);
-    }
-  
-  }, [cafe]);
+
 
 
   const handleCafeClick = () => {
@@ -40,11 +32,17 @@ const DetailCafeCard = (cafe: Cafe) => {
           {Math.round(parseFloat(cafe.distance)) + 'm'}
         </span>}
         {!cafe.distance && <span className='text-white text-[12px]'>  ss  </span>}
-        {mappedTags && mappedTags.map((tag: string, index: number) => (
-          <span className="text-[10px] text-primary mx-1" key={index}>
-            #{tag}{" "}
-          </span>
-        ))}
+        {Array.isArray(cafe.tag) && cafe.tag.length > 0 && (
+          <div className="flex overflow-x-auto p-4">
+            {cafe.tag.map((tag: string, index: number) => (
+              <span key={index} className="mx-1 text-black">
+                #{tagMapper.get(tag)}
+              </span>
+            ))}
+          </div>
+        )
+
+        }
       </p>
     </div>
   );
