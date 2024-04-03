@@ -36,8 +36,8 @@ const DetailCafeCard = (cafe: Cafe) => {
           < LocationPin className="w-4 h-4 mx-1 inline-flex text-slate-500" />
           {Math.round(parseFloat(cafe.distance)) + 'm'}
         </span>}
-        {!cafe.distance && <span className='text-white text-[12px]'>  ss  </span>}
-        {mappedTags.map((tag:string, index:number) => (
+        {!cafe.distance && <span className='text-white text-[12px]'>  빈칸  </span>}
+        {mappedTags && mappedTags.map((tag:string, index:number) => (
           <span className="text-[10px] text-primary mx-1" key={index}>
             #{tag}{" "}
           </span>

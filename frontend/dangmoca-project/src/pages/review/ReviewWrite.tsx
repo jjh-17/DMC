@@ -8,7 +8,6 @@ import { tags } from "../../utils/tag";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import uploadImgUrl from '../../assets/pictures/upload.jpg'
 
 interface Review {
   reviewImages: File[];
@@ -17,6 +16,7 @@ interface Review {
   rating: number;
 }
 
+// TODO : 헤더명 리뷰 작성하기'
 export default function ReviewWrite() {
   const selectCafeSeq = useCafeStore((state) => state.selectedCafeSeq);
   const [setRef] = useDragScroll();
@@ -48,23 +48,11 @@ export default function ReviewWrite() {
   // 리뷰 내용 관련
   const reviewContentRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleDeletePicture = (index: number) => {
-    const updatedImages = [...reviewImages];
-    updatedImages.splice(index, 1);
+  const handleBlur = (event: any) => {
+    // textarea의 현재 값을 content 상태에 저장
     setReview((prevReview) => ({
       ...prevReview,
-      reviewImages: updatedImages,
-    }));
-  };
-
-  const handleBlur = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    let content = event.target.value;
-    if (content.length > 250) {
-      content = content.substring(0, 250);
-    }
-    setReview((prevReview) => ({
-      ...prevReview,
-      content: content,
+      content: event.target.value,
     }));
   };
 
@@ -118,26 +106,40 @@ export default function ReviewWrite() {
     });
 
     try {
-      await reviewAPI.writeReview(selectCafeSeq, formData);
-      Swal.fire({
-        title: "리뷰가 등록되었습니다!",
-        icon: "success",
-      }).then(() => navigate("/cafeDetail/review"))
-        ;
+      const response = await reviewAPI.writeReview(selectCafeSeq, formData);
+      if (response.data.result && response.data.result.length > 0) {
+        const messageTitle = response.data.result[0];
+        Swal.fire({
+          title: "축하합니다!",
+          html: `<div class="tenor-gif-embed" data-postid="17542751" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/party-popper-joypixels-celebration-have-a-blast-congratulations-gif-17542751">Party Popper Joypixels Sticker</a>from <a href="https://tenor.com/search/party+popper-stickers">Party Popper Stickers</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>`,
+          text: `${messageTitle} 획득!`,
+        }).then(() => navigate("/cafeDetail/review"));
+      } else if (response.data.success) {
+        Swal.fire({
+          title: "리뷰가 등록되었습니다!",
+          icon: "success",
+        }).then(() => navigate("/cafeDetail/review"));
+      } else{
+        Swal.fire({
+          title: "리뷰 등록 실패!",
+          icon: "error",
+        })
+      }
     } catch (error) {
       console.error("리뷰 작성 에러: ", error);
     }
+    // console.log("업로드", review); // 백 연결 후 review 출력해보기
   };
 
-  const labelClass = "lg:text-2xl mt-4";
+  const labelClass = "lg:text-2xl";
 
   return (
-    <div className="min-w-screen max-w-[600px] flex flex-col gap-4 border-t-2 border-primary2 mx-auto p-6 pb-20">
+    <div className="min-w-screen max-w-[600px] flex flex-col gap-4 border-t-2 border-primary2 mx-auto p-6">
       <label className="text-center text-2xl lg:text-3xl">별점 등록하기</label>
       <ReviewRating onRatingChange={handleRatingChange} />
       <div className="p-4 m-4 flex flex-col items-center">
         <div className="w-[25lvh] h-[25lvh] text-center padding-1 relative cursor-pointer border-2 border-dashed mb-5 mx-auto">
-          <img src={uploadImgUrl} alt="upload" />
+          <img src="/src/assets/pictures/upload.jpg" alt="upload" />
           <h3>사진을 업로드하세요</h3>
           <input
             id="uploadInput"
@@ -149,67 +151,45 @@ export default function ReviewWrite() {
         <label className={labelClass}>등록한 사진</label>
         <div
           ref={handleRef}
-          className="flex rounded-lg overflow-x-auto my-5 no-scroll w-full h-[28lvh] border-4 border-primary bg-slate-100"
+          className="flex rounded-lg overflow-x-auto my-5 no-scroll w-full h-[28lvh] border-2 border-primary bg-slate-100"
         >
           {reviewImages.map((imageFile, index) => (
-            <>
-              <img
-                key={index}
-                src={URL.createObjectURL(imageFile)}
-                alt="Uploaded"
-                className="w-[25lvh] h-[25lvh] object-cover m-2 border-[1px] border-slate-400 p-2 pointer-events-none"
-                onLoad={() => URL.revokeObjectURL(URL.createObjectURL(imageFile))}
-
-              />
-              <div
-                className="relative -ml-10 mt-3 z-10"
-                onClick={() => Swal.fire({
-                  title: "사진을 삭제하시겠습니까?",
-                  showDenyButton: true,
-                })
-                  .then((response) => {
-                    if (response.isConfirmed) {
-                      handleDeletePicture(index);
-                    }
-                  })}
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-red-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </div>
-            </>
+            <img
+              key={index}
+              src={URL.createObjectURL(imageFile)}
+              alt="Uploaded"
+              className="w-[25lvh] h-[25lvh] object-cover m-2 border-[1px] border-slate-400 p-2"
+              onLoad={() => URL.revokeObjectURL(URL.createObjectURL(imageFile))}
+            />
           ))}
         </div>
-        <label className={labelClass}>작성하기</label>
+        <label className={labelClass}>리뷰 작성하기</label>
         <textarea
-          className="my-5 w-full h-48 outline-none border-4 border-primary focus:border-primary3 rounded-lg p-5"
+          className="my-5 w-full h-48 outline-none border-2 border-primary focus:border-2 rounded-lg p-5 bg-slate-100"
           ref={reviewContentRef}
           placeholder="리뷰를 작성하세요"
           onBlur={handleBlur}
         />
         <label className={labelClass}>태그 추가</label>
+        {/* <p className="whitespace-pre-wrap">
+          입력한 태그 나열, 누르면 태그 입력받을 + 동그라미 태그 정해지면
+          추가해야 함
+        </p> */}
+        {/* <div className="flex rounded-lg overflow-x-auto my-5 w-full h-[28lvh] border-2 border-primary bg-slate-100"> */}
         <div className="my-5 flex flex-wrap whitespace-pre-wrap basis-- -m-1">
           {tagKeys.map((key, index) => (
             <div key={index} className="flex-auto w-1/7 p-1">
               <motion.div
                 onClick={() => handleSelectTags(key)}
-                whileHover={!selectedTags.current.includes(key) ? { scale: 1.1 } : {}}
+                whileHover={
+                  !selectedTags.current.includes(key) ? { scale: 1.1 } : {}
+                }
                 transition={{ delay: 0.1, duration: 0.1 }}
-                className={`text-center border-2 border-primary2 p-[7px] rounded-lg cursor-pointer ${selectedTags.current.includes(key)
-                  ? "bg-primary text-white hover:bg-primary"
-                  : "hover:bg-gray-200"
-                  }`}
+                className={`text-center border-2 border-primary2 p-[7px] rounded-lg cursor-pointer ${
+                  selectedTags.current.includes(key)
+                    ? "bg-primary text-white hover:bg-primary"
+                    : "hover:bg-gray-200"
+                }`}
               >
                 {key}
               </motion.div>
@@ -218,9 +198,9 @@ export default function ReviewWrite() {
         </div>
 
         <Button
-          label="등록하기"
+          label="작성하기"
           onClick={writeReviewData}
-          addClass="mx-auto text-2xl my-5"
+          addClass="mx-auto"
         ></Button>
       </div>
     </div>

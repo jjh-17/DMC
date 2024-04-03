@@ -79,7 +79,7 @@ const CafeRecommend = () => {
                 rateCafe.length > 0 && (<CafeRecommendDiv title={myFavoriteCafe + "와 비슷한 카페"} CafeList={rateCafe} />)
             }
             {
-                rateCafe.length === 0 && <p className="w-full text-center mt-40">아직 5점을 준 카페가 없습니다.</p>
+                rateCafe.length === 0 && <p className="w-full text-center mt-40 mb-32">아직 5점을 준 카페가 없습니다.</p>
             }
         </div>
     )

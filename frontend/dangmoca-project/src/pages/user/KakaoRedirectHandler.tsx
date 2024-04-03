@@ -29,11 +29,11 @@ const KakaoRedirectHandler = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        console.error(error);
       });
   }, [navigate]);
 
-  return <p>카카오</p>;
+  return null;
 }
 
 export default KakaoRedirectHandler;

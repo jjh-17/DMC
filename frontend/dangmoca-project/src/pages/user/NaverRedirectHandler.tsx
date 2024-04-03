@@ -29,11 +29,11 @@ const NaverRedirectHandler = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        console.error(error);
       });
   }, []);
 
-  return <p>네이버</p>;
+  return null;
 };
 
 export default NaverRedirectHandler;

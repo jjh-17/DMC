@@ -183,7 +183,8 @@ export default function MyInfo() {
           className="border-2 border-primary p-2"
           onChange={handleTitleChange}
         >
-          {user.titleList.map((title:any, index:any) => {
+          <option value="" className="font-light"> 선택 없음</option>
+          {user.titleList.map((title: any, index: any) => {
             return (
               <option value={title} key={index} className="font-light">
                 {title}
