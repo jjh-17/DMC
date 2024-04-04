@@ -11,7 +11,6 @@ const SimpleCafeCard = (cafe: any) => {
   if (cafe.name.length > 6) {
     name = cafe.name.substring(0, 6) + "..";
   } else name = cafe.name;
-  console.log(cafe);
 
   const handleCafeDetailClick = () => {
     setSelectedCafeSeq(cafe.cafeSeq);

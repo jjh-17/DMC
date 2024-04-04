@@ -13,7 +13,10 @@ import java.net.URL;
 import static com.ssafy.backend.global.response.BaseResponseStatus.LOGIN_FAIL;
 import static com.ssafy.backend.global.response.BaseResponseStatus.OOPS;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class KakaoOAuthServiceImpl implements OAuthService {
     @Value("${kakao.rest-api-key}")
     private String REST_API_KEY;
@@ -26,6 +29,7 @@ public class KakaoOAuthServiceImpl implements OAuthService {
         String access_Token = "";
         String refresh_Token = "";
         String reqURL = "https://kauth.kakao.com/oauth/token";
+        log.info("2 kakao oauth service 들어옴");
 
         try {
             URL url = new URL(reqURL);

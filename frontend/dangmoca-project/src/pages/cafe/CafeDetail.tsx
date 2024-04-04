@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import ScrollToTop from "../../components/common/ScrollToTop";
 import Swal from "sweetalert2";
 import KakaoMapIconUrl from '../../assets/icons/kakaomap_basic.png'
+import LogoUrl from '../../assets/pictures/sadcoffee.png';
 
 const CafeDetailPage = () => {
   const location = useLocation();
@@ -39,7 +40,7 @@ const CafeDetailPage = () => {
     name: "",
     openingHour: "",
     rating: 0,
-    tag: ["default1", "d2", "d3"],
+    tag: "",
     updatedDate: "",
   });
 
@@ -50,11 +51,11 @@ const CafeDetailPage = () => {
         setCafeDetail(response.data.result);
     }
     catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
   const [cafeMenuList, setCafeMenuList] = useState([]);
-
+  
   const getCafeMenu = async () => {
     try {
       const response = await cafeAPI.getCafeMenu(cafeSeq);
@@ -65,9 +66,15 @@ const CafeDetailPage = () => {
     }
   }
 
+  // const [tagList, setTagList] = useState<string[]>([]);
+  
   useEffect(() => {
     getCafeDetail();
     getCafeMenu();
+    // const tags = cafeDetail.tag.slice(1, -1).split(',');
+    // localStorage.setItem("tags", tags.toString());
+
+    // setTagList(tags);
   }, []);
 
   const [showKakaoMap, setShowKakaoMap] = useState(false);
@@ -99,14 +106,14 @@ const CafeDetailPage = () => {
         bookmarked: !prevCafeDetail.bookmarked
       }));
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   return (
     <div className="mt-5 pb-20">
       <img
-        src={cafeDetail.imageUrl || "/src/assets/icons/logo.svg"}
+        src={cafeDetail.imageUrl || LogoUrl}
         className="opacity-80 h-[80lvh] w-screen object-cover -z-10"
       />
       <div className="absolute top-[70lvh] max-h-[30lvh] w-fit ml-10 bg-white bg-opacity-50">
@@ -119,18 +126,17 @@ const CafeDetailPage = () => {
       </div>
       {!isReviewPage && !isWritePage && (
         <>
-          {Array.isArray(cafeDetail.tag) && cafeDetail.tag.length > 0 && cafeDetail.tag.map((text: string, idx: number) => (
+          {/* {tagList.length > 0 && tagList.map((text) => (
             <span
-              key={idx}
               className="ml-2 my-2 text-base whitespace-nowrap underline"
             >
-              #{text}{" "}
+              #{text}
             </span>
-          ))}
+          ))} */}
           <div className="border-b-[1px] border-primary pb-2 mx-2 my-2 lg:mx-10">
             <div className={textClass}>
               <CoffeeBeanIcon className={svgClass + " fill-primary"} />
-              {cafeDetail.rating == 0.0 ? (Math.round(cafeDetail.rating * 100) / 100).toFixed(2) : "별점 없음"}
+              {cafeDetail.rating > 0 ? (Math.round(cafeDetail.rating * 100) / 100).toFixed(2) : "별점 없음"}
             </div>
             <div className={textClass + " cursor-pointer"} onClick={bookmarkCafe}>
               <BookMarkIcon
@@ -167,7 +173,7 @@ const CafeDetailPage = () => {
             }
           </div>
           {
-            CafeMenuList.length > 1 &&
+            Array.isArray(cafeMenuList) && cafeMenuList.length > 1 &&
             <CafeMenuList cafeMenu={cafeMenuList} />
           }
 
@@ -179,7 +185,7 @@ const CafeDetailPage = () => {
       {isReviewPage && (
         <>
           <Button
-            addClass=" fixed right-20 bottom-20 md:right-[30lvw] lg:right-[25lvw] text-lg md:text-2xl"
+            addClass=" fixed right-20 bottom-20 md:right-32 text-lg md:text-2xl"
             label="리뷰 작성하기"
             onClick={() => navigate("write")}
           />

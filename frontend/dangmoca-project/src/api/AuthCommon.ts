@@ -42,10 +42,6 @@ authAxios.interceptors.response.use(
   (response: AxiosResponse) => response,
   async (error: AxiosError) => {
     const originalRequest = error.config as CustomAxiosRequestConfig;
-
-    console.log(tokenService.getCookieAccessToken());
-    console.log(tokenService.getLocalRefreshToken());
-
     if (!originalRequest) return Promise.reject(error);
 
     if (!originalRequest.headers) {
@@ -63,13 +59,8 @@ authAxios.interceptors.response.use(
           },
         });
 
-        console.log(reissueResponse);
-
         const newAccessToken = reissueResponse.headers.accesstoken;
         const newRefreshToken = reissueResponse.headers.refreshtoken;
-
-        console.log(newAccessToken);
-        console.log(newRefreshToken);
 
         document.cookie = `accessToken=${newAccessToken}; max-age=3600; path=/;`;
         localStorage.setItem("refreshToken", newRefreshToken);
@@ -83,8 +74,6 @@ authAxios.interceptors.response.use(
           icon: "error",
         }).then((result) => {
           if (result.isConfirmed) {
-            console.log(refreshError.response.data);
-
             localStorage.removeItem("loginUser");
             localStorage.removeItem("refreshToken");
             document.cookie = "accessToken=; Max-Age=0; path=/;";

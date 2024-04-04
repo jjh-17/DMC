@@ -6,14 +6,13 @@ import "tippy.js/animations/scale.css";
 import { useEffect, useState } from "react";
 import { UserInfo } from "../../types/datatype";
 import RightArrowIcon from "../../assets/icons/rightarrow.svg?react";
-import dummyUserImg from "/src/assets/icons/dummyUserImg.png";
+import dummyUserImg from "../../assets/icons/dummyUserImg.png";
 import { tagMapper } from "../../utils/tag";
 
 const Profile = (user: UserInfo | null) => {
   const navigate = useNavigate();
 
   if (user === null) {
-    console.log("사용자 정보가 없습니다.");
     return;
   }
 

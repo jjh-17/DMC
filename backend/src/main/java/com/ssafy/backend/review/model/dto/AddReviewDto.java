@@ -36,6 +36,7 @@ public class AddReviewDto {
         setIsDeleted(false);
     }
 
+
     public void setAd(boolean ad) {
         isAd = ad;
     }

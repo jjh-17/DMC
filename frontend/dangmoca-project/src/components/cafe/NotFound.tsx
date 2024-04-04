@@ -12,8 +12,3 @@ export default function NotFound({maxHeight, margin, mainText, labelname, handle
         </div>
     )
 }
-// h-[80lvw]
-// mt-40 mb-20
-// 아직 카페를 북마크하지 않았어요.
-// 카페 찾으러 가기
-// () => navigate('/search')
