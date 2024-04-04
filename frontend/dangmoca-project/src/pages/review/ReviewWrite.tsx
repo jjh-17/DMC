@@ -109,6 +109,14 @@ export default function ReviewWrite() {
 
     try {
       const response = await reviewAPI.writeReview(selectCafeSeq, formData);
+      Swal.fire({
+        didOpen: () => {
+          Swal.showLoading();
+          setTimeout(() => {
+            Swal.close();
+          }, 2000);
+        }
+      });
       if (response.data.result && response.data.result.length > 0) {
         const messageTitle = response.data.result[0];
         Swal.fire({
@@ -184,11 +192,10 @@ export default function ReviewWrite() {
                   !selectedTags.current.includes(key) ? { scale: 1.1 } : {}
                 }
                 transition={{ delay: 0.1, duration: 0.1 }}
-                className={`text-center border-2 border-primary2 p-[7px] rounded-lg cursor-pointer ${
-                  selectedTags.current.includes(key)
-                    ? "bg-primary text-white hover:bg-primary"
-                    : "hover:bg-gray-200"
-                }`}
+                className={`text-center border-2 border-primary2 p-[7px] rounded-lg cursor-pointer ${selectedTags.current.includes(key)
+                  ? "bg-primary text-white hover:bg-primary"
+                  : "hover:bg-gray-200"
+                  }`}
               >
                 {key}
               </motion.div>
