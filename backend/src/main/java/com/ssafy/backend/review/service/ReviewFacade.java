@@ -39,6 +39,7 @@ public class ReviewFacade {
     public List<ViewReviewVo> viewCafeReview(Long cafeSeq, Long memberSeq) {
         List<ViewReviewVo> reviews = reviewService.viewDmcReview(cafeSeq);
         for (ViewReviewVo viewReviewVo : reviews) {
+            viewReviewVo.setCafeName(cafeService.getCafeName(cafeSeq));
             viewReviewVo.setImageUrl(reviewService.getImageUrl(viewReviewVo.getReviewSeq()));
             Member member = memberService.getMemberInformation(viewReviewVo.getMemberSeq());
             viewReviewVo.setNickname(member.getNickname());
@@ -57,6 +58,7 @@ public class ReviewFacade {
     public List<ViewReviewVo> viewMemberReview(Long memberSeq) {
         List<ViewReviewVo> reviews = reviewService.viewMemberReview(memberSeq);
         for (ViewReviewVo viewReviewVo : reviews) {
+            viewReviewVo.setCafeName(cafeService.getCafeName(viewReviewVo.getCafeSeq()));
             viewReviewVo.setImageUrl(reviewService.getImageUrl(viewReviewVo.getReviewSeq()));
             Member member = memberService.getMemberInformation(memberSeq);
             viewReviewVo.setNickname(member.getNickname());
@@ -75,6 +77,7 @@ public class ReviewFacade {
         List<LikeReview> likeReviews = reviewService.getLikeReview(memberSeq);
         List<ViewReviewVo> reviewList = reviewService.getByReviewSeq(likeReviews);
         for (ViewReviewVo viewReviewVo : reviewList) {
+            viewReviewVo.setCafeName(cafeService.getCafeName(viewReviewVo.getCafeSeq()));
             viewReviewVo.setImageUrl(reviewService.getImageUrl(viewReviewVo.getReviewSeq()));
             Member member = memberService.getMemberInformation(memberSeq);
             viewReviewVo.setNickname(member.getNickname());
