@@ -1,0 +1,65 @@
+### BE ###
+# PORT
+BACK_PORT=8082
+FRONT_PORT=3000
+MYSQL_PORT=3306
+REDIS_PORT=6379
+# URL
+A607_URL=http://j10a607.p.ssafy.io
+MYSQL_URL=jdbc:mysql://j10a607.p.ssafy.io
+# DB
+MYSQL_USERNAME=root
+MYSQL_PASSWORD=!dmcA607?
+MYSQL_TABLE=dangmoca
+# openAPI
+KAKAO_KEY=891949d64302e510fe79f05131e7d972
+NAVER_ID=_hFvJyWNvh91dTTGbcmH
+NAVER_SECRET=Lc_rpdrjLz
+# SECURITY
+SECURITY_SALT=2ecb6640-2866-4245-b42f-43eb42c97664
+REDIS_URL=j10a607.p.ssafy.io
+REDIS_PASSWORD=ohyes
+AWS_ACCESSKEY=AKIA2UC3FYPCSV4VUAGB
+AWS_SECRETKEY=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
+AWS_S3_BUCKET=ssafy-dmc
+# SSO
+REDIS_URL=j10a607.p.ssafy.io
+REDIS_PASSWORD=ohyes
+### FE ###
+VITE_SERVER=http://j10a607.p.ssafy.io:8082/api
+VITE_KAKAO_LOGIN_URL=https://kauth.kakao.com/oauth/authorize?client_id=891949d64302e510fe79f05131e7d972&redirect_uri=http://j10a607.p.ssafy.io/kakaoLogin&response_type=code
+VITE_NAVER_LOGIN_URL=https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=_hFvJyWNvh91dTTGbcmH&state=test&redirect_uri=http://j10a607.p.ssafy.io/naverLogin
+VITE_KAKAOMAP_JAVASCRIPT_APP_KEY=2216ab6fef488b4920e0418dea7e115b
+
+
+# pipeline
+HOST_VOLUME="/jenkins/workspace/"
+JENKINS_VOLUME="/var/jenkins_home/workspace/"
+SSH_CONNECTION="ubuntu@j10a607.p.ssafy.io"
+SSH_CONNECTION_SUB="ubuntu@j10a607a.p.ssafy.io"
+
+GIT_BRANCH="infra"
+CREDENTIAL="A607"
+
+ENV_DIR="/jenkins/workspace/env/"
+ENV_DOCKER_DIR="/var/jenkins_home/workspace/env/"
+BACK_ENV="back.env"
+FRONT_ENV="front.env"
+
+BACK_NAME="dmc_be"
+BACK_PORT="8082"
+BACK_DOCKER_PORT="8082"
+BACK_DIR="./backend/"
+
+DOCKER_NETWORK = "dmc"
+
+FRONT_NAME="dmc_fe"
+FRONT_PORT="3000"
+FRONT_DOCKER_PORT="3000"
+FRONT_DIR="./frontend/dangmoca-project/"
+
+NGINX_DIR="/usr/share/nginx/html"
+NGINX_DOCKER_DIR="/usr/share/nginx/html"
+
+MATTERMOST_ENDPOINT="https://meeting.ssafy.com/hooks/i7bxozcspt8suj4ntdabter4eh"
+MATTERMOST_CHANNEL="A607-Jenkins"
