@@ -46,13 +46,17 @@ dependencies {
     //S3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.1.RELEASE'
 
+
     //logger
     implementation 'org.slf4j:slf4j-api:2.0.3'
-}
 
 tasks.named('test') {
     useJUnitPlatform()
+
+}
+
 }
 jar {
     enabled = false
 }
+

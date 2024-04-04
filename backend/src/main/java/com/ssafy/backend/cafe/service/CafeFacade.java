@@ -8,6 +8,7 @@ import com.ssafy.backend.cafe.model.vo.CafeBookmarkListVo;
 import com.ssafy.backend.cafe.model.vo.CafeDetailVo;
 import com.ssafy.backend.cafe.model.vo.CafeListVo;
 import com.ssafy.backend.global.exception.BaseException;
+import com.ssafy.backend.global.util.GlobalUtil;
 import com.ssafy.backend.member.service.MemberService;
 import com.ssafy.backend.review.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,7 +123,7 @@ public class CafeFacade {
             String openingHour = cafeBookmarkListMapping.getOpeningHour();
             Boolean isOpen = isOpenNow(openingHour);
 
-            CafeBookmarkListVo cafeBookmarkListVo = new CafeBookmarkListVo(cafeBookmarkListMapping.getCafeSeq(), cafeBookmarkListMapping.getName(), cafeBookmarkListMapping.getAddress(), cafeBookmarkListMapping.getImageUrl(), cafeBookmarkListMapping.getTopTag(), dessertTag, isOpen);
+            CafeBookmarkListVo cafeBookmarkListVo = new CafeBookmarkListVo(cafeBookmarkListMapping.getCafeSeq(), cafeBookmarkListMapping.getName(), cafeBookmarkListMapping.getAddress(), cafeBookmarkListMapping.getImageUrl(), GlobalUtil.tagsToList(cafeBookmarkListMapping.getTopTag()), dessertTag, isOpen);
             list.add(cafeBookmarkListVo);
         }
 
@@ -210,7 +211,7 @@ public class CafeFacade {
         String openingHour = cafeListMapping.getOpening_hour();
         Boolean isOpen = isOpenNow(openingHour);
 
-        return new CafeListVo(cafeListMapping.getCafe_seq(), cafeListMapping.getName(), cafeListMapping.getAddress(), cafeListMapping.getImage_url(), cafeListMapping.getDistance(), cafeListMapping.getTop_tag(), dessertTag, isOpen);
+        return new CafeListVo(cafeListMapping.getCafe_seq(), cafeListMapping.getName(), cafeListMapping.getAddress(), cafeListMapping.getImage_url(), cafeListMapping.getDistance(), GlobalUtil.tagsToList(cafeListMapping.getTop_tag()), dessertTag, isOpen);
     }
 
 

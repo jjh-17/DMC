@@ -150,6 +150,7 @@ public class ReviewServiceImpl implements ReviewService {
                         .isPositive(isPositive)
                         .isDeleted(addReviewDto.isDeleted())
                         .updatedDate(addReviewDto.getCreatedDate())
+                        .isAd(addReviewDto.isAd())
                         .build()
         ).getReviewSeq();
     }
@@ -291,6 +292,15 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         return positive > negative;
+    }
+
+    @Override
+    public Boolean isAd(Map<String, Object> analyzeResult) {
+        if (analyzeResult == null) {
+            return false;
+        }
+        Double love = (Double) analyzeResult.get("완좋");
+        return love >= 90.0;
     }
 
     @Override

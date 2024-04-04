@@ -24,8 +24,6 @@ public class AccountFacade {
 
     @Transactional
     public Map<String, Object> OAuthLogin(String memberCode, char loginType){
-        log.info("Acount facade 들어옴");
-
         TokenVo tokenVo = accountService.OAuthLogin(memberCode, loginType);
 
         GetMemberInformationVo getMemberInformation = memberFacade.getMemberInformation(tokenVo.getMemberSeq());

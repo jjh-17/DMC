@@ -9,7 +9,7 @@ import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_VALID_DIS
 public class CafeListVo extends CafeBookmarkListVo {
     private double distance;
 
-    public CafeListVo(Long cafeSeq, String name, String address, String imageUrl, double distance, String tag, List<String> dessertTag, Boolean isOpen) {
+    public CafeListVo(Long cafeSeq, String name, String address, String imageUrl, double distance, List<String> tag, List<String> dessertTag, Boolean isOpen) {
         super(cafeSeq, name, address, imageUrl, tag, dessertTag, isOpen);
         setDistance(distance);
     }

@@ -22,6 +22,7 @@ public class ViewReviewVo {
     private Integer rating;
     private Integer likeCount;
     private Boolean isPositive;
+    private boolean isAd;
     private boolean isDeleted;
     private boolean isLiked;
     private String updatedDate;

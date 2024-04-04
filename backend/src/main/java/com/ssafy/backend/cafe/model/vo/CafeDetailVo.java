@@ -2,10 +2,19 @@ package com.ssafy.backend.cafe.model.vo;
 
 import com.ssafy.backend.global.exception.BaseException;
 
+
+import java.util.List;
+
 import static com.ssafy.backend.global.response.BaseResponseStatus.*;
 
 public class CafeDetailVo {
     private Long cafeSeq;
+    private String name, address, imageUrl, openingHour, homepageUrl, updatedDate;
+    private List<String> tag;
+    private Float rating;
+    private boolean isBookmarked;
+
+    public CafeDetailVo(Long cafeSeq, String name, String address, String imageUrl, String openingHour, List<String> tag, String homepageUrl, String updatedDate, Float rating) {
     private String name, address, imageUrl, tag, openingHour, homepageUrl, updatedDate;
     private Float rating;
     private boolean isBookmarked;
@@ -87,11 +96,11 @@ public class CafeDetailVo {
         this.updatedDate = updatedDate;
     }
 
-    public String getTag() {
+    public List<String> getTag() {
         return tag;
     }
 
-    public void setTag(String tag) {
+    public void setTag(List<String> tag) {
         this.tag = tag;
     }
 

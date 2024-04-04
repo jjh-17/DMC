@@ -8,11 +8,11 @@ import static com.ssafy.backend.global.response.BaseResponseStatus.*;
 
 public class CafeBookmarkListVo {
     private Long cafeSeq;
-    private String name, tag, address, imageUrl;
-    private List<String> dessertTag;
+    private String name, address, imageUrl;
+    private List<String> dessertTag, tag;
     private Boolean isOpen;
 
-    public CafeBookmarkListVo(Long cafeSeq, String name, String address, String imageUrl, String tag, List<String> dessertTag, Boolean isOpen) {
+    public CafeBookmarkListVo(Long cafeSeq, String name, String address, String imageUrl, List<String> tag, List<String> dessertTag, Boolean isOpen) {
         setCafeSeq(cafeSeq);
         setName(name);
         setAddress(address);
@@ -60,11 +60,11 @@ public class CafeBookmarkListVo {
         this.imageUrl = imageUrl;
     }
 
-    public String getTag() {
+    public List<String> getTag() {
         return tag;
     }
 
-    public void setTag(String tag) {
+    public void setTag(List<String> tag) {
         this.tag = tag;
     }
 

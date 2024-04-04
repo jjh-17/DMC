@@ -51,6 +51,9 @@ public class DangmocaReview {
     @Nullable
     private String updatedDate;
 
+    @Column
+    private Boolean isAd;
+
     public DangmocaReview() {}
 
     public void updateReview(String content, String tag, Integer rating, String updateDate) {
@@ -64,7 +67,7 @@ public class DangmocaReview {
         this.isDeleted = true;
     }
 
-    public DangmocaReview(Long reviewSeq, Long memberSeq, Long cafeSeq, String content, String tag, Integer rating, Boolean isPositive, boolean isDeleted, String createdDate, String updatedDate) {
+    public DangmocaReview(Long reviewSeq, Long memberSeq, Long cafeSeq, String content, String tag, Integer rating, Boolean isPositive, boolean isDeleted, String createdDate, String updatedDate, boolean isAd) {
         this.reviewSeq = reviewSeq;
         this.memberSeq = memberSeq;
         this.cafeSeq = cafeSeq;
@@ -75,6 +78,7 @@ public class DangmocaReview {
         this.isDeleted = isDeleted;
         this.createdDate = createdDate;
         this.updatedDate = updatedDate;
+        this.isAd = isAd;
     }
 
     public ViewReviewVo toVo() {
@@ -90,6 +94,7 @@ public class DangmocaReview {
         viewReviewVo.setDeleted(this.isDeleted);
         viewReviewVo.setCreatedDate(this.createdDate);
         viewReviewVo.setUpdatedDate(this.updatedDate);
+        viewReviewVo.setAd(this.isAd);
         return viewReviewVo;
     }
 }

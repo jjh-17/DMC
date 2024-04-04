@@ -40,11 +40,15 @@ public class ReviewFacade {
         List<ViewReviewVo> reviews = reviewService.viewDmcReview(cafeSeq);
         for (ViewReviewVo viewReviewVo : reviews) {
             viewReviewVo.setImageUrl(reviewService.getImageUrl(viewReviewVo.getReviewSeq()));
-            Member member = memberService.getMemberInformation(memberSeq);
+            Member member = memberService.getMemberInformation(viewReviewVo.getMemberSeq());
             viewReviewVo.setNickname(member.getNickname());
+            if (member.getTitle()!=null){
+                viewReviewVo.setTitle(member.getTitle());
+            }
             viewReviewVo.setProfileImageUrl(member.getImageUrl());
             viewReviewVo.setLiked(reviewService.isLikedReview(viewReviewVo.getReviewSeq(), memberSeq));
             viewReviewVo.setLikeCount(reviewService.getLikeCount(viewReviewVo.getReviewSeq()));
+
         }
         reviews.addAll(reviewService.viewPlatformReview(cafeSeq));
         return reviews;
@@ -56,6 +60,9 @@ public class ReviewFacade {
             viewReviewVo.setImageUrl(reviewService.getImageUrl(viewReviewVo.getReviewSeq()));
             Member member = memberService.getMemberInformation(memberSeq);
             viewReviewVo.setNickname(member.getNickname());
+            if (member.getTitle()!=null){
+                viewReviewVo.setTitle(member.getTitle());
+            }
             viewReviewVo.setProfileImageUrl(member.getImageUrl());
             viewReviewVo.setTitle(member.getTitle());
             viewReviewVo.setLiked(reviewService.isLikedReview(viewReviewVo.getReviewSeq(), memberSeq));
@@ -71,6 +78,9 @@ public class ReviewFacade {
             viewReviewVo.setImageUrl(reviewService.getImageUrl(viewReviewVo.getReviewSeq()));
             Member member = memberService.getMemberInformation(memberSeq);
             viewReviewVo.setNickname(member.getNickname());
+            if (member.getTitle()!=null){
+                viewReviewVo.setTitle(member.getTitle());
+            }
             viewReviewVo.setProfileImageUrl(member.getImageUrl());
             viewReviewVo.setLiked(reviewService.isLikedReview(viewReviewVo.getReviewSeq(), memberSeq));
             viewReviewVo.setLikeCount(reviewService.getLikeCount(viewReviewVo.getReviewSeq()));
@@ -82,7 +92,12 @@ public class ReviewFacade {
     public List<String> addReview(AddReviewDto addReviewDto) {
         Map<String, Object> analyzeResult = reviewService.analyzeReview(addReviewDto.getContent());
         Boolean isPositive = reviewService.isPositive(analyzeResult);
-
+        Boolean isAd = false;
+        if (addReviewDto.getRating() == 5) {
+            isAd = reviewService.isAd(analyzeResult);
+        }
+        addReviewDto.setPositive(isPositive);
+        addReviewDto.setAd(isAd);
         int mileage = 100;
         Long reviewSeq = reviewService.addReview(addReviewDto, isPositive);
         if (addReviewDto.getReviewImages() != null) {
