@@ -133,7 +133,7 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
         {/* 리뷰 내용 */}
         <p className="px-5 py-2 ">{review.content}</p>
 
-        <div className="flex justify-between items-center px-4">
+        {(review.platform !== "K" && review.platform !== "N") && <div className="flex justify-between items-center px-4">
           {/* 좋아요 */}
           <button onClick={onLikeClick}>
             {review.liked ? (
@@ -163,7 +163,7 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
               ))}
             </div>
           )}
-        </div>
+        </div>}
       </div>
     </div>
   );
