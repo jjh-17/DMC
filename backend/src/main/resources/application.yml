@@ -1,0 +1,47 @@
+server:
+  port: ${BACK_PORT}
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${MYSQL_URL}:${MYSQL_PORT}/${MYSQL_TABLE}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+  data:
+    redis:
+      host: ${REDIS_URL}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+
+kakao:
+  rest-api-key: ${KAKAO_KEY}
+  redirect.url: ${A607_URL}/kakaoLogin
+
+naver:
+  client-id: ${NAVER_ID}
+  client-secret: ${NAVER_SECRET}
+  state: test
+  redirect.url: ${A607_URL}:${FRONT_PORT}/naverLogin
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESSKEY}
+      secret-key: ${AWS_SECRETKEY}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+    s3:
+      bucket: ${AWS_S3_BUCKET}
+
+security:
+  salt: ${SECURITY_SALT}
+  access-token-expire: 1800000
+  refresh-token-expire: 604800000
