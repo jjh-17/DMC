@@ -70,13 +70,13 @@ const CafeRecommend = () => {
                 tagCafe.length === 0 && <p className="w-full text-center mt-40">내 성향과 맞는 카페가 없습니다.</p>
             }
             {
-                similarCafe.length > 0 && (<CafeRecommendDiv title="내 성향과 맞는 카페" CafeList={similarCafe} />)
+                similarCafe.length > 0 && (<CafeRecommendDiv title="나와 비슷한 사용자들이 찾는 카페" CafeList={similarCafe} />)
             }
             {
                 similarCafe.length === 0 && <p className="w-full text-center mt-40">나와 비슷한 사용자가 없습니다.</p>
             }
             {
-                rateCafe.length > 0 && (<CafeRecommendDiv title={myFavoriteCafe + "와 비슷한 카페"} CafeList={rateCafe} />)
+                rateCafe.length > 0 && (<CafeRecommendDiv title={"내가 5점을 준 " + myFavoriteCafe + "와 비슷한 카페"} CafeList={rateCafe} />)
             }
             {
                 rateCafe.length === 0 && <p className="w-full text-center mt-40 mb-32">아직 5점을 준 카페가 없습니다.</p>
