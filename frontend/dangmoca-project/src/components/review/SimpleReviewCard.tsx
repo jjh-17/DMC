@@ -66,7 +66,7 @@ const SimpleReviewCard = ({ refreshReviews, ...review }: any) => {
 
   return (
     <div className="min-w-screen max-w-[60lvw] flex flex-col gap-2 mx-auto p-6 shadow-md">
-      <h2 className="text-2xl whitespace-nowrap">{review.name}</h2>
+      <h2 className="text-2xl whitespace-nowrap">{review.cafeName}</h2>
       <p className="mr-0 font-light text-sm text-slate-600 whitespace-nowrap">
         {review.createdDate.split("T")[0]}
       </p>
