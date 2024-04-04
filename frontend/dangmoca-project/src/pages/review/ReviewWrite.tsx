@@ -143,7 +143,7 @@ export default function ReviewWrite() {
       <ReviewRating onRatingChange={handleRatingChange} />
       <div className="p-4 m-4 flex flex-col items-center">
         <div className="w-[25lvh] h-[25lvh] text-center padding-1 relative cursor-pointer border-2 border-dashed mb-5 mx-auto">
-          <img src={UploadIconUrl} alt="upload" />
+          <img src={uploadImgUrl} alt="upload" />
           <h3>사진을 업로드하세요</h3>
           <input
             id="uploadInput"
