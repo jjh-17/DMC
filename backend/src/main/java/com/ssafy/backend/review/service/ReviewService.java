@@ -7,11 +7,16 @@ import com.ssafy.backend.review.model.dto.LikeReivewDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;
 import com.ssafy.backend.review.model.vo.UpdateReviewVo;
 import com.ssafy.backend.review.model.vo.ViewReviewVo;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface ReviewService {
-    List<ViewReviewVo> viewCafeReview(Long cafeSeq);
+    List<ViewReviewVo> viewDmcReview(Long cafeSeq);
+
+    List<ViewReviewVo> viewPlatformReview(Long cafeSeq);
 
     List<ViewReviewVo> viewMemberReview(Long memberSeq);
 
@@ -27,17 +32,29 @@ public interface ReviewService {
 
     List<String> getImageUrl(Long reviewSeq);
 
-    Long addReview(AddReviewDto addReviewDto);
+    Integer getLikeCount(Long reviewSeq);
 
-    void addReviewImage(Long reviewSeq, List<String> images);
+    Long addReview(AddReviewDto addReviewDto, Boolean isPositive);
+
+    void addReviewImage(Long reviewSeq, List<MultipartFile> images) throws IOException;
 
     UpdateReviewVo updateReview(UpdateReviewDto updateReviewDto);
 
-    void updateReviewImage(Long reviewSeq, List<String> imageUrls);
+    void deleteReviewImage(Long reviewSeq);
 
     DangmocaReview deleteReview(Long reviewSeq);
 
     List<Long> getFiveStarCafeList(List<Long> memberSeqList);
 
     Long getFiveStarCafe(Long memberSeq);
+
+    int getTotalReviewCount(Long memberSeq);
+
+    int getRatingCount(Long memberSeq, int rating);
+
+    Map<String, Object> analyzeReview(String content);
+
+    Boolean isPositive(Map<String, Object> analyzeResult);
+
+    boolean isRatingBalanced(Long memberSeq);
 }

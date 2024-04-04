@@ -52,7 +52,7 @@ class TokenService {
     try {
       localStorage.removeItem("refresh-token");
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 

@@ -53,29 +53,46 @@ export default function CafeTestPage() {
           }).then(() => {
             navigate('/mycafe');
           });
-        } 
+        }
       } catch (error) {
         console.error(error);
       }
     }
   };
 
-  const buttonClass = "border-4 border-primary hover:bg-primary w-40 h-40 md:w-52 md:h-52 hover:text-white hover:text-4xl py-2 px-4 rounded whitespace-no-wrap text-2xl md:text-3xl font-bold";
+  const [button1Active, setButton1Active] = useState(false);
+  const [button2Active, setButton2Active] = useState(false);
+
+  const handleButtonClick = (buttonNumber:number) => {
+    if (buttonNumber === 1) {
+      setButton1Active(!button1Active);
+    } else {
+      setButton2Active(!button2Active);
+    }
+  };
+
+  const buttonClass = (isActive:boolean) => {
+    return isActive
+      ? "border-4 border-primary bg-primary text-white hover:bg-primary w-40 h-40 md:w-52 md:h-52 hover:text-white py-2 px-4 rounded whitespace-no-wrap text-2xl md:text-3xl font-bold"
+      : "border-4 border-primary hover:bg-primary w-40 h-40 md:w-52 md:h-52 hover:text-white py-2 px-4 rounded whitespace-no-wrap text-2xl md:text-3xl font-bold";
+  };
 
   if (!startedTest) {
     return (
-      <div className="h-fit mt-[20lvh] my-auto mx-auto flex flex-col w-[80lvw] md:w-[40lvw] lg:w-[40lvw] text-center whitespace-pre-wrap">
-        <h1 className="text-4xl font-bold mb-10 text-primary">취향 테스트에 오신걸 환영합니다!</h1>
-        <p>두 개의 카페 중 마음에 드는 카페를 고르세요.</p>
-        <p> 둘 다 고르실 수도 있고, 하나도 고르지 않으실 수도 있습니다.</p>
+      <div className="h-fit mt-[10lvh] my-auto mx-auto flex flex-col w-[80lvw] md:w-[40lvw] lg:w-[40lvw] text-center whitespace-pre-wrap">
+        <h1 className="text-4xl font-bold mt-[5lvh] mb-10 text-primary">취향 테스트에 오신걸 환영합니다!</h1>
+        <p className="text-xl">두 개의 카페 중 마음에 드는 카페를 고르세요.</p>
+        <p className="text-xl mb-[5lvh]"> 둘 다 고르실 수도 있고, 하나도 고르지 않으실 수도 있습니다.</p>
         <div className="flex flex-row justify-center gap-10 mt-[5lvh]">
-          <motion.button onClick={handleStartTest} className={buttonClass} whileHover={{ scale: 1.2 }}>
+          <motion.button onClick={() => handleButtonClick(1)} className={buttonClass(button1Active)} whileHover={{ scale: 1.2 }}>
             네!
           </motion.button>
-          <motion.button onClick={handleStartTest} className={buttonClass} whileHover={{ scale: 1.2 }}>
+          <motion.button onClick={() => handleButtonClick(2)} className={buttonClass(button2Active)} whileHover={{ scale: 1.2 }}>
             알겠어요!
           </motion.button>
         </div>
+        <Button addClass="text-xl lg:text-2xl mt-8 mx-auto" onClick={handleStartTest}
+          label="다음" />
       </div>
     );
   }
@@ -98,10 +115,8 @@ export default function CafeTestPage() {
         <div onClick={() =>
           setIsFirstSelected(!isFirstSelected)
         }>
-
           <TestSelect
             text={Object.keys(Object.values(questionForTags)[currentQuestion * 2])}
-
             icon={selectedTagsArray(0).toString()}
             isActive={isFirstSelected}
           />

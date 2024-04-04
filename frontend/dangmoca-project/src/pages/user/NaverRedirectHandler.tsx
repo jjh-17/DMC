@@ -17,18 +17,11 @@ const NaverRedirectHandler = () => {
     axios
     .get(SERVER + "/account/naver?code=" + code)
     .then((response) => {
-        console.log(response.headers);
-
         const accessToken = response.headers.accesstoken;
         const refreshToken = response.headers.refreshtoken;
 
-        console.log(accessToken);
-        console.log(refreshToken);
-        console.log(response.data);
-
         if (response.status === 200) {
           setLoginUser(response.data.result);
-
           document.cookie = `accessToken=${accessToken}; max-age=3600; path=/;`;
           localStorage.setItem("refreshToken", refreshToken);
         }
@@ -36,9 +29,9 @@ const NaverRedirectHandler = () => {
         navigate("/");
       })
       .catch((error) => {
-        console.error("Error fetching data:", error);
+        console.error(error);
       });
-  }, [navigate]);
+  }, []);
 
   return null;
 };

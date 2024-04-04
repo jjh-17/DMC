@@ -53,6 +53,7 @@ const SimpleReviewCard = ({ refreshReviews, ...review }: any) => {
         title: "권한을 확인해 주세요.",
         icon: "error",
       });
+      console.error(error);
     }
   };
 

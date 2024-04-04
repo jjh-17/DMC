@@ -7,8 +7,8 @@ import lombok.ToString;
 import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_EXIST_REVIEW;
 import static com.ssafy.backend.global.response.BaseResponseStatus.NOT_EXIST_USER;
 
-@ToString
 @Getter
+@ToString
 public class LikeReivewDto {
     private Long memberSeq;
     private Long reviewSeq;

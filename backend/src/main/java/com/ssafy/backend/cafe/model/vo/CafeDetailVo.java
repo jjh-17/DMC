@@ -1,12 +1,16 @@
 package com.ssafy.backend.cafe.model.vo;
 
+import com.ssafy.backend.global.exception.BaseException;
+
+import static com.ssafy.backend.global.response.BaseResponseStatus.*;
+
 public class CafeDetailVo {
     private Long cafeSeq;
     private String name, address, imageUrl, tag, openingHour, homepageUrl, updatedDate;
-    private float rating;
+    private Float rating;
     private boolean isBookmarked;
 
-    public CafeDetailVo(Long cafeSeq, String name, String address, String imageUrl, String openingHour, String tag, String homepageUrl, String updatedDate, float rating) {
+    public CafeDetailVo(Long cafeSeq, String name, String address, String imageUrl, String openingHour, String tag, String homepageUrl, String updatedDate, Float rating) {
         setCafeSeq(cafeSeq);
         setName(name);
         setAddress(address);
@@ -23,6 +27,9 @@ public class CafeDetailVo {
     }
 
     public void setCafeSeq(Long cafeSeq) {
+        if (cafeSeq == null || cafeSeq <= 0) {
+            throw new BaseException(NOT_VALID_CAFE);
+        }
         this.cafeSeq = cafeSeq;
     }
 
@@ -31,6 +38,9 @@ public class CafeDetailVo {
     }
 
     public void setName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new BaseException(NOT_VALID_CAFE_NAME);
+        }
         this.name = name;
     }
 
@@ -39,6 +49,9 @@ public class CafeDetailVo {
     }
 
     public void setAddress(String address) {
+        if (address == null || address.isBlank()) {
+            throw new BaseException(NOT_VALID_CAFE_ADDRESS);
+        }
         this.address = address;
     }
 
@@ -82,11 +95,11 @@ public class CafeDetailVo {
         this.tag = tag;
     }
 
-    public float getRating() {
+    public Float getRating() {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(Float rating) {
         this.rating = rating;
     }
 

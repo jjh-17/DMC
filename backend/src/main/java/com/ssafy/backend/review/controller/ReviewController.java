@@ -1,19 +1,18 @@
 package com.ssafy.backend.review.controller;
 
-import com.ssafy.backend.cafe.model.dto.AddTagCountDto;
-import com.ssafy.backend.cafe.service.CafeService;
 import com.ssafy.backend.global.response.BaseResponse;
 import com.ssafy.backend.review.model.dto.AddReviewDto;
 import com.ssafy.backend.review.model.dto.LikeReivewDto;
+import com.ssafy.backend.review.model.dto.ReviewRequestDto;
 import com.ssafy.backend.review.model.dto.UpdateReviewDto;
 import com.ssafy.backend.review.model.vo.ViewReviewVo;
 import com.ssafy.backend.review.service.ReviewFacade;
 import com.ssafy.backend.review.service.ReviewService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 import static com.ssafy.backend.global.response.BaseResponseStatus.SUCCESS;
 
@@ -32,9 +31,8 @@ public class ReviewController {
      * 카페의 전체 리뷰 조회하기
      */
     @GetMapping("/cafe/{cafeid}")
-    public BaseResponse<?> viewCafeReview(@PathVariable("cafeid") Long cafeSeq) {
-        // Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 2L;
+    public BaseResponse<?> viewCafeReview(HttpServletRequest request, @PathVariable("cafeid") Long cafeSeq) {
+        Long memberSeq = (Long) request.getAttribute("seq");
         List<ViewReviewVo> reviews = reviewFacade.viewCafeReview(cafeSeq, memberSeq);
         return new BaseResponse<>(reviews);
     }
@@ -49,13 +47,22 @@ public class ReviewController {
     }
 
     /*
+     * 나의 전체 리뷰 조회하기
+     */
+    @GetMapping("/member/myreview")
+    public BaseResponse<?> viewMyReview(HttpServletRequest request) {
+        Long memberSeq = (Long) request.getAttribute("seq");
+        List<ViewReviewVo> reviews = reviewFacade.viewMemberReview(memberSeq);
+        return new BaseResponse<>(reviews);
+    }
+
+    /*
      * 좋아요한 리뷰 조회하기
      */
     @GetMapping("/member/like")
-    public BaseResponse<?> viewLikeReview() {
-        // Long membersSeq = (Long) request.getAttribute("seq");
-        Long membersSeq = 2L;
-        List<ViewReviewVo> reviews = reviewFacade.viewLikeReview(membersSeq);
+    public BaseResponse<?> viewLikeReview(HttpServletRequest request) {
+        Long memberSeq = (Long) request.getAttribute("seq");
+        List<ViewReviewVo> reviews = reviewFacade.viewLikeReview(memberSeq);
         return new BaseResponse<>(reviews);
     }
 
@@ -63,10 +70,9 @@ public class ReviewController {
      * 리뷰 좋아요하기
      */
     @PostMapping("/cafe/like")
-    public BaseResponse<?> likeReview(@RequestParam(value="reviewid") Long reviewSeq) {
-        // Long membersSeq = (Long) request.getAttribute("seq");
-        Long membersSeq = 2L;
-        reviewService.likeReview(new LikeReivewDto(membersSeq, reviewSeq));
+    public BaseResponse<?> likeReview(HttpServletRequest request, @RequestParam(value = "reviewid") Long reviewSeq) {
+        Long memberSeq = (Long) request.getAttribute("seq");
+        reviewService.likeReview(new LikeReivewDto(memberSeq, reviewSeq));
         return new BaseResponse<>(SUCCESS);
     }
 
@@ -74,10 +80,9 @@ public class ReviewController {
      * 리뷰 좋아요 취소
      */
     @DeleteMapping("/cafe/like")
-    public BaseResponse<?> dislikeReview(@RequestParam(value="reviewid") Long reviewSeq) {
-        // Long membersSeq = (Long) request.getAttribute("seq");
-        Long membersSeq = 2L;
-        reviewService.dislikeReview(new LikeReivewDto(membersSeq, reviewSeq));
+    public BaseResponse<?> dislikeReview(HttpServletRequest request, @RequestParam(value = "reviewid") Long reviewSeq) {
+        Long memberSeq = (Long) request.getAttribute("seq");
+        reviewService.dislikeReview(new LikeReivewDto(memberSeq, reviewSeq));
         return new BaseResponse<>(SUCCESS);
     }
 
@@ -85,27 +90,19 @@ public class ReviewController {
      * 리뷰 작성하기
      */
     @PostMapping("/cafe/{cafeid}")
-    public BaseResponse<?> addReview(@PathVariable("cafeid") Long cafeSeq, @RequestBody Map<String, Object> body) {
-        // Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 2L;
-        AddReviewDto addReviewDto = new AddReviewDto(memberSeq, cafeSeq, (String) body.get("content"), (List<String>) body.get("tag"), (Integer) body.get("rating"));
-        List<String> imageUrls = (List<String>) body.get("imageUrls");
-        List<String> tagList = addReviewDto.getTag();
-        reviewFacade.addReview(addReviewDto, imageUrls, tagList);
-        return new BaseResponse<>(SUCCESS);
+    public BaseResponse<?> addReview(HttpServletRequest request, @PathVariable("cafeid") Long cafeSeq, ReviewRequestDto reviewRequestDto) {
+        Long memberSeq = (Long) request.getAttribute("seq");
+        List<String> list = reviewFacade.addReview(new AddReviewDto(reviewRequestDto.getReviewImages(), memberSeq, cafeSeq, reviewRequestDto.getContent(), reviewRequestDto.getTag(), reviewRequestDto.getRating()));
+        return new BaseResponse<>(SUCCESS, list);
     }
 
     /*
      * 리뷰 수정하기
      */
     @PatchMapping("/cafe/{reviewid}")
-    public BaseResponse<?> updateReview(@PathVariable("reviewid") Long reviewSeq, @RequestBody Map<String, Object> body) {
-        // Long membersSeq = (Long) request.getAttribute("seq");
-        Long memberSeq = 2L;
-        UpdateReviewDto updateReviewDto = new UpdateReviewDto(reviewSeq, memberSeq, (String) body.get("content"), (List<String>) body.get("tag"), (Integer) body.get("rating"));
-        List<String> imageUrls = (List<String>) body.get("imageUrls");
-        List<String> newTagList = updateReviewDto.getTag();
-        reviewFacade.updateReview(updateReviewDto, imageUrls, newTagList);
+    public BaseResponse<?> updateReview(HttpServletRequest request, @PathVariable("reviewid") Long reviewSeq, ReviewRequestDto reviewRequestDto) {
+        Long memberSeq = (Long) request.getAttribute("seq");
+        reviewFacade.updateReview(new UpdateReviewDto(reviewRequestDto.getReviewImages(), reviewSeq, memberSeq, reviewRequestDto.getContent(), reviewRequestDto.getTag(), reviewRequestDto.getRating()));
         return new BaseResponse<>(SUCCESS);
     }
 
@@ -113,8 +110,8 @@ public class ReviewController {
      * 리뷰 삭제하기
      */
     @DeleteMapping("/cafe/{reviewid}")
-    public BaseResponse<?> deleteReview(@PathVariable("reviewid") Long reviewSeq) {
-        // Long membersSeq = (Long) request.getAttribute("seq");
+    public BaseResponse<?> deleteReview(HttpServletRequest request, @PathVariable("reviewid") Long reviewSeq) {
+        Long memberSeq = (Long) request.getAttribute("seq");
         reviewFacade.deleteReview(reviewSeq);
         return new BaseResponse<>(SUCCESS);
     }

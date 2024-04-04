@@ -1,5 +1,4 @@
 import DetailCafeCard from "../../components/cafe/DetailCafeCard";
-// import cafeDummyData from "../../assets/testData/cafeDummyData";
 import { cafeAPI } from "../../api/cafe";
 import { Cafe, CafeListApiResponse } from "../../types/datatype";
 import { useEffect, useState } from "react";
@@ -25,8 +24,7 @@ export default function Bookmark() {
       setBookmarkList(data.result.list);
     }
     catch (error) {
-      // 타입 별 에러 처리 예정
-      console.log(error)
+      console.error(error)
     }
   }
 

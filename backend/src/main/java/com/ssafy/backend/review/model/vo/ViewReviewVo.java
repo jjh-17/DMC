@@ -17,11 +17,15 @@ public class ViewReviewVo {
     private String nickname;
     private String profileImageUrl;
     private String content;
-    private String tag;
+    private String title;
+    private List<String> tag;
     private Integer rating;
+    private Integer likeCount;
+    private Boolean isPositive;
     private boolean isDeleted;
     private boolean isLiked;
     private String updatedDate;
     private String createdDate;
     private List<String> imageUrl;
+    private char platform;
 }

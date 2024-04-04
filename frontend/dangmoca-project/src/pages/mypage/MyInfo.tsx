@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Button from "../../components/common/Button";
 import { useLocation } from "react-router-dom";
 import { memberAPI } from "../../api/memberAPI";
-import dummyUserImg from "/src/assets/icons/dummyUserImg.png";
+import dummyUserImg from "../../assets/icons/dummyUserImg.png";
 import Swal from "sweetalert2";
 
 export default function MyInfo() {
@@ -53,8 +53,6 @@ export default function MyInfo() {
         title: "닉네임 사용 가능합니다.",
         icon: "success",
       });
-      console.log(inputValue);
-      console.log(response.data);
 
       if (!response.data.success) {
         Swal.fire({
@@ -63,14 +61,12 @@ export default function MyInfo() {
         });
       }
     } catch (error) {
-      console.log(inputValue);
-      console.log(error);
+      console.error(error);
     }
   };
 
   const handleTitleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedTitle(event.target.value);
-    console.log(event.target.value);
   };
 
   const handleUpdateClick = async () => {
@@ -85,29 +81,23 @@ export default function MyInfo() {
 
     if (inputValue.trim() != "") {
       const updatedNickName = inputValue;
-      console.log("업데이트 될 닉네임:", updatedNickName);
 
       try {
         if (isNickNameChanged) {
-          const nameResponse = await memberAPI.modifyMyNickname(
+          await memberAPI.modifyMyNickname(
             updatedNickName,
             able
           );
-          console.log(nameResponse);
         }
 
         if (selectedFile) {
           const formData = new FormData();
           formData.append("profileImage", selectedFile);
-          console.log(selectedFile);
-
-          const imageResponse = await memberAPI.changeMyProfilePic(formData);
-          console.log(imageResponse);
+          await memberAPI.changeMyProfilePic(formData);
         }
 
         if (selectedTitle && selectedTitle !== user.title) {
-          const titleResponse = await memberAPI.changeMyTitle(selectedTitle);
-          console.log(titleResponse);
+          await memberAPI.changeMyTitle(selectedTitle);
         }
 
         Swal.fire({
@@ -115,14 +105,12 @@ export default function MyInfo() {
           icon: "success",
         });
       } catch (error) {
-        console.log("업데이트 실패");
         Swal.fire({
           title: "수정 실패!.",
           icon: "error",
         });
       }
     } else {
-      console.log("닉네임이 지정되지 않았습니다.");
       Swal.fire({
         title: "닉네임이 지정되지 않았습니다.",
         icon: "info",
@@ -185,7 +173,7 @@ export default function MyInfo() {
           onChange={handleTitleChange}
         >
           <option value="" className="font-light"> 선택 없음</option>
-          {user.titleList.map((title:any, index:any) => {
+          {user.titleList.map((title: any, index: any) => {
             return (
               <option value={title} key={index} className="font-light">
                 {title}

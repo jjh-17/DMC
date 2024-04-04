@@ -13,7 +13,7 @@ const ScrollToTop = () => {
     <div>
       <>
         <div
-          className="fixed cursor-pointer bottom-0 right-0 ml-0 mb-20 py-2 px-4 rounded-full md:mr-[20lvw] lg:mr-[20lvw]"
+          className="fixed cursor-pointer bottom-0 right-0 ml-0 mb-20 py-2 px-4 rounded-full md:ml-[5lvw] lg:mr-[2lvw]"
           onClick={scrollToTop}
           style={{ transition: "opacity 0.5s" }}
         >

@@ -44,7 +44,7 @@ export default function CafeSearch() {
             setSearchHistory([newSearchItem, ...searchHistory]);
 
             localStorage.setItem('searchHistory', JSON.stringify([newSearchItem, ...searchHistory]));
-            navigate(`/cafes?${keyword}`); // query로 keyword 전달하기
+            navigate(`/cafes?${keyword}`);
         }
         else {
             navigate('/cafes')
@@ -67,7 +67,7 @@ export default function CafeSearch() {
                 <SearchIcon id="svgIcon" />
                 <input
                     className="align-middle shadow-sm m-4 w-[50lvw] md:w-[40lvw] h-10 p-2 focus:border-[1px] focus:border-slate-200"
-                    placeholder="검색어를 입력하세요"
+                    placeholder="검색어를 입력하세요(빈칸 입력시 전체 목록을 조회할 수 있습니다)."
                     value={keyword}
                     onChange={handleInputChange}
                 />
