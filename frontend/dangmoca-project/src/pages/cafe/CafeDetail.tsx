@@ -66,15 +66,15 @@ const CafeDetailPage = () => {
     }
   }
 
-  const [tagList, setTagList] = useState<string[]>([]);
+  // const [tagList, setTagList] = useState<string[]>([]);
   
   useEffect(() => {
     getCafeDetail();
     getCafeMenu();
-    const tags = cafeDetail.tag.slice(1, -1).split(',');
-    localStorage.setItem("tags", tags.toString());
+    // const tags = cafeDetail.tag.slice(1, -1).split(',');
+    // localStorage.setItem("tags", tags.toString());
 
-    setTagList(tags);
+    // setTagList(tags);
   }, []);
 
   const [showKakaoMap, setShowKakaoMap] = useState(false);
@@ -126,13 +126,13 @@ const CafeDetailPage = () => {
       </div>
       {!isReviewPage && !isWritePage && (
         <>
-          {tagList.length > 0 && tagList.map((text) => (
+          {/* {tagList.length > 0 && tagList.map((text) => (
             <span
               className="ml-2 my-2 text-base whitespace-nowrap underline"
             >
               #{text}
             </span>
-          ))}
+          ))} */}
           <div className="border-b-[1px] border-primary pb-2 mx-2 my-2 lg:mx-10">
             <div className={textClass}>
               <CoffeeBeanIcon className={svgClass + " fill-primary"} />
@@ -185,7 +185,7 @@ const CafeDetailPage = () => {
       {isReviewPage && (
         <>
           <Button
-            addClass=" fixed right-10 bottom-20 text-lg md:text-2xl"
+            addClass=" fixed right-20 bottom-20 md:right-32 text-lg md:text-2xl"
             label="리뷰 작성하기"
             onClick={() => navigate("write")}
           />
