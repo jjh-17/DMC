@@ -12,6 +12,9 @@ import Swal from "sweetalert2";
 import Angry from "../../assets/icons/angry-face.svg?react";
 import Anxious from "../../assets/icons/anxious-face.svg?react";
 import Grinning from "../../assets/icons/grinning-face.svg?react";
+import Kakao from "../../assets/icons/kakao.png"
+import Naver from "../../assets/icons/naver.png"
+import CoffeeBean from "../../assets/icons/coffeebean.svg"
 
 const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
   const { setLoginUser } = useLoginUserStore();
@@ -85,10 +88,10 @@ const DetailReviewCard = ({ onLikeClick, ...review }: any) => {
             <img
               src={
                 review.platform == "K"
-                  ? "/src/assets/icons/kakao.png"
+                  ? Kakao
                   : review.platform == "N"
-                  ? "/src/assets/icons/naver.png"
-                  : "/src/assets/icons/coffeebean.svg"
+                  ? Naver
+                  : CoffeeBean
               }
               className="inline-block w-6 h-6 mx-2"
             />
