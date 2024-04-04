@@ -14,6 +14,7 @@ public class ViewReviewVo {
     private Long reviewSeq;
     private Long memberSeq;
     private Long cafeSeq;
+    private String cafeName;
     private String nickname;
     private String profileImageUrl;
     private String content;
