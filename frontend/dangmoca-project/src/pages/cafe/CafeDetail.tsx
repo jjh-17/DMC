@@ -185,7 +185,7 @@ const CafeDetailPage = () => {
       {isReviewPage && (
         <>
           <Button
-            addClass=" fixed right-20 bottom-20 md:right-[30lvw] lg:right-[25lvw] text-lg md:text-2xl"
+            addClass=" fixed right-10 bottom-20 text-lg md:text-2xl"
             label="리뷰 작성하기"
             onClick={() => navigate("write")}
           />
