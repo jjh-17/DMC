@@ -15,11 +15,6 @@ public class CafeDetailVo {
     private boolean isBookmarked;
 
     public CafeDetailVo(Long cafeSeq, String name, String address, String imageUrl, String openingHour, List<String> tag, String homepageUrl, String updatedDate, Float rating) {
-    private String name, address, imageUrl, tag, openingHour, homepageUrl, updatedDate;
-    private Float rating;
-    private boolean isBookmarked;
-
-    public CafeDetailVo(Long cafeSeq, String name, String address, String imageUrl, String openingHour, String tag, String homepageUrl, String updatedDate, Float rating) {
         setCafeSeq(cafeSeq);
         setName(name);
         setAddress(address);
