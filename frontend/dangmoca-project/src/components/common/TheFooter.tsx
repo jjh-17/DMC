@@ -37,7 +37,7 @@ export default function TheFooter() {
   const footerButtonStyle =
     "inline-block m-2 p-1 flex flex-col items-center hover:mb-2 hover:-mt-0 hover:text-primary duration-300 hover:border-b-2 hover:border-primary";
   const labelStyle = "text-sm font-light";
-  const dropdownStyle = "fixed bg-white md:right-[20lvw] h-[84px] bottom-[76px] w-fit min-w-[20lvw] whitespace-no-wrap right-0 flex flex-row justify-around z-10 ";
+  const dropdownStyle = "fixed bg-white h-[84px] bottom-[76px] w-fit min-w-[20lvw] whitespace-no-wrap right-0 flex flex-row justify-around z-10 ";
 
   return (
     <div className={footerStyle}>
@@ -104,9 +104,6 @@ export default function TheFooter() {
                 <BookMarkIcon id="svgIcon2" />
                 <label className={labelStyle}>내 북마크</label>
               </button>
-              {/* <button onClick={() => navigate('/profile')} className={dropdownMenuStyle}>마이페이지</button>
-     <button onClick={() => navigate('/login')} className={dropdownMenuStyle}>로그인</button>
-     <button onClick={() => navigate('/cafeTest')} className={dropdownMenuStyle}>취향테스트</button> */}
             </div>
           )}
         </div>
