@@ -8,7 +8,7 @@ export const memberAPI = {
     getMemberInfo(memberId: number): Promise<AxiosResponse> {
         return authAxios({
             method: "GET",
-            url: END_POINT + memberId,
+            url: `${END_POINT}/${memberId}`,
         });
     },
     getMyInfo(): Promise<AxiosResponse> {

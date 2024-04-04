@@ -54,6 +54,15 @@ export const reviewAPI = {
     });
   },
 
+  // 타인 리뷰 조회
+  getOtherReview(memberId: number) {
+    return authAxios({
+      method: "get",
+      url: `${END_POINT}/member/${memberId}`,
+    });
+  },
+
+
   // 좋아요 기능
   likeReview(reviewId: number) {
     return authAxios({

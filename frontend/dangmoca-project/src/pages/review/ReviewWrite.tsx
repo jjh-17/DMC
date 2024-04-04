@@ -8,7 +8,8 @@ import { tags } from "../../utils/tag";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import UploadIconUrl from '../../assets/pictures/upload.jpg'
+import PartyPopper from "../../assets/icons/party-popper-joypixels.gif";
+import uploadImgUrl from '../../assets/pictures/upload.jpg'
 
 interface Review {
   reviewImages: File[];
@@ -112,7 +113,9 @@ export default function ReviewWrite() {
         const messageTitle = response.data.result[0];
         Swal.fire({
           title: "축하합니다!",
-          html: `<div class="tenor-gif-embed" data-postid="17542751" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/party-popper-joypixels-celebration-have-a-blast-congratulations-gif-17542751">Party Popper Joypixels Sticker</a>from <a href="https://tenor.com/search/party+popper-stickers">Party Popper Stickers</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>`,
+          imageUrl: `${PartyPopper}`,
+          imageWidth: 400,
+          imageHeight: 300,
           text: `${messageTitle} 획득!`,
         }).then(() => navigate("/cafeDetail/review"));
       } else if (response.data.success) {
@@ -120,11 +123,11 @@ export default function ReviewWrite() {
           title: "리뷰가 등록되었습니다!",
           icon: "success",
         }).then(() => navigate("/cafeDetail/review"));
-      } else{
+      } else {
         Swal.fire({
           title: "리뷰 등록 실패!",
           icon: "error",
-        })
+        });
       }
     } catch (error) {
       console.error("리뷰 작성 에러: ", error);

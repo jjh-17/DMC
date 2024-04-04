@@ -17,6 +17,7 @@ export default function MyInfo() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    console.log(user);
     setInputValue(user.nickname);
     setPreviewUrl(user.profileImageUrl);
   }, [user.nickname, user.profileImageUrl]);

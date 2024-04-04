@@ -39,6 +39,7 @@ export default function CafeReview() {
       const response = await reviewAPI.getCafeReview(selectCafeSeq);
       const data: ApiResponse = response.data;
       setCafeReviews(data.result);
+      console.log(data.result);
     } catch (error) {
       console.error(error);
     }
@@ -79,7 +80,6 @@ export default function CafeReview() {
           </p>
         </div>
       )}
-
     </>
   );
 }
