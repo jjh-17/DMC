@@ -42,8 +42,8 @@ const CafeRecommend = () => {
                         setSimilarCafe(similarResponse.data.result);
                     }
                     if (ratingResponse.data?.result && ratingResponse.data.result.length > 0) {
-                        setMyFavoriteCafe(ratingResponse.data.name);
-                        setRateCafe(ratingResponse.data.list);
+                        setMyFavoriteCafe(ratingResponse.data.result.name);
+                        setRateCafe(ratingResponse.data.result.list);
                     } else {
                         if (ratingResponse.data?.message === "5점을 준 카페가 없습니다") {
                             setMyFavoriteCafe("");
