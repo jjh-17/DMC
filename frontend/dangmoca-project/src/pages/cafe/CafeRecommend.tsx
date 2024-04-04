@@ -35,13 +35,13 @@ const CafeRecommend = () => {
                         cafeAPI.getCafeByRating()
                     ]);
     
-                    if (tagResponse.data?.list && tagResponse.data.list.length > 0) {
-                        setTagCafe(tagResponse.data.list);
+                    if (tagResponse.data?.result && tagResponse.data.result.length > 0) {
+                        setTagCafe(tagResponse.data.result);
                     }
-                    if (similarResponse.data?.list && similarResponse.data.list.length > 0) {
-                        setSimilarCafe(similarResponse.data.list);
+                    if (similarResponse.data?.result&& similarResponse.data.result.length > 0) {
+                        setSimilarCafe(similarResponse.data.result);
                     }
-                    if (ratingResponse.data?.list && ratingResponse.data.list.length > 0) {
+                    if (ratingResponse.data?.result && ratingResponse.data.result.length > 0) {
                         setMyFavoriteCafe(ratingResponse.data.name);
                         setRateCafe(ratingResponse.data.list);
                     } else {
