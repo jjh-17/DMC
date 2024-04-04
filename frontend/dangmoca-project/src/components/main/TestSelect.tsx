@@ -43,7 +43,7 @@ export default function TestSelect(props: Props) {
         <motion.div
             whileHover={{ scale: 1.2 }}
             className={divClass}>
-            <img src={map.get(props.icon)} alt="Icon" className='inline-block w-[80lvw] md:w-[20lvh] lg:w-[35lvh] pointer-events-none' />
+            <img src={map.get(props.icon)} alt="Icon" className='inline-block w-[80lvw] md:w-[20lvh] lg:w-[35lvh] max-h-[25lvh] pointer-events-none' />
             <p className='w-[25lvh] text-xl whitespace-pre-wrap'>{props.text}</p>
         </motion.div>
     );
