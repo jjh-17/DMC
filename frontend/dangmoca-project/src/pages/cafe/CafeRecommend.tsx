@@ -41,7 +41,7 @@ const CafeRecommend = () => {
                     if (similarResponse.data?.result&& similarResponse.data.result.length > 0) {
                         setSimilarCafe(similarResponse.data.result);
                     }
-                    if (ratingResponse.data?.result && ratingResponse.data.result.length > 0) {
+                    if (ratingResponse.data?.result && ratingResponse.data.result.list.length > 0) {
                         setMyFavoriteCafe(ratingResponse.data.result.name);
                         setRateCafe(ratingResponse.data.result.list);
                     } else {
