@@ -60,8 +60,8 @@ const CafeRecommend = () => {
     }, [store.loginUser, navigate]);
 
     return (
-        <div className="m-15 mx-auto w-[80lvw] md:w-[40lvw] lg:w-[40lvw]">
-            <h1 className="text-4xl lg:text-5xl text-center text-primary2 p-2 align-middle border-x-4 rounded-lg border-black hover:underline pb-40"
+        <div className="m-15 mx-auto w-[80lvw] md:w-[40lvw] lg:w-[40lvw] pb-40">
+            <h1 className="text-4xl lg:text-5xl text-center text-primary2 p-2 align-middle border-x-4 rounded-lg border-black hover:underline"
              id='test'>당신의 카페 추천</h1>
             {
                 tagCafe.length > 0 && (<CafeRecommendDiv title="내 성향과 맞는 카페" CafeList={tagCafe} />)
