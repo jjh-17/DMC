@@ -52,7 +52,6 @@ https://www.youtube.com/watch?v=xqPXstnd1_g
 ![springboot](https://img.shields.io/badge/spring%20boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
 ![springjpa](https://img.shields.io/badge/spring%20jpa-6DB33F?style=for-the-badge&logo=Spring&logoColor=white)
 ![oauth](https://img.shields.io/badge/oauth-000000?style=for-the-badge&logo=oauth&logoColor=white)
-![springjpa](https://img.shields.io/badge/spring%20jpa-6DB33F?style=for-the-badge&logo=Spring&logoColor=white)
 
 
 - #### FrontEnd
@@ -96,7 +95,9 @@ KoBERT 모델을 이용하여 리뷰를 분석한 뒤 각 감정과 일치하는
 
 
 ####  3. 사용자 분석
-- ~~~~
+```text
+
+```
 
 
 ####  4. 칭호 부여
