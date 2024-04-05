@@ -4,7 +4,6 @@
 # ![alt text](DMC.png)당모카 (당신의 모든 카페)
 
 ## 카페 리뷰 통합 서비스
-
 - 여러 플랫폼의 카페 정보와 리뷰를 통합하여 보여주는 서비스
 - 사용자 리뷰를 분석하여 광고 리뷰 여부를 판단
 - 사용자의 선호 태그에 따라 카페 추천
@@ -51,24 +50,24 @@
 
  ## 기술 스택
 
-- ####  BackEnd
+- #### BackEnd
   - Openjdk17
   - SpringBoot 3.2.1
   - Spring Data JPA
   - jjwt 0.9.1
   - S3 2.2.1
 
-- ####  FrontEnd
+- #### FrontEnd
   - Vue3
   - Axios
   - Quasar
   - Pinia
 
-- ####  Database
+- #### Database
   - MySQL 8.0.36
   - Redis 7.2.4
 
-- ####  Infra
+- #### Infra
   - Docker 25.0.0
   - Jenkins 2.426.2
   - Nginx 1.18.0
@@ -106,5 +105,7 @@
 
 ## 기타 산출물
 [기능 명세서](https://glaze-torta-a5b.notion.site/e69f07c5d5c94f8cafab8b5e6bc19492?pvs=74)
+
 [API 명세서](https://glaze-torta-a5b.notion.site/API-05d4a20859d345bbb799a390e315ecc5)
+
 [Convention](https://glaze-torta-a5b.notion.site/5cc47c3b9af341bea2659afb576e3202)
