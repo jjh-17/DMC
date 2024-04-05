@@ -1,16 +1,13 @@
-# A607
-
-
-# ![alt text](DMC.png)당모카 (당신의 모든 카페)
-
+# 당모카 (당신의 모든 카페)
+![Alt text](img/cafe-alt.png)
 ## 카페 리뷰 통합 서비스
-- 여러 플랫폼의 카페 정보와 리뷰를 통합하여 보여주는 서비스
-- 사용자 리뷰를 분석하여 광고 리뷰 여부를 판단
-- 사용자의 선호 태그에 따라 카페 추천
-- 사용자 리뷰 작성 성향에 따른 칭호
+- 여러 플랫폼의 카페 정보와 리뷰 통합 분석 사이트
+- 사용자 리뷰 분석으로 리뷰의 감정 및 신뢰성 분석
+- 사용자의 선호 태그 등에 따른 카페 추천
+- 사용자 리뷰에 근거한 성향 분석으로 칭호 시스템
 
 ## 💡 UCC
-
+https://www.youtube.com/watch?v=xqPXstnd1_g
 
 ## Member
 
@@ -51,34 +48,36 @@
  ## 기술 스택
 
 - #### BackEnd
-  - Openjdk17
-  - SpringBoot 3.2.1
-  - Spring Data JPA
-  - jjwt 0.9.1
-  - S3 2.2.1
+![java](https://img.shields.io/badge/Java-007396?style=for-the-badge)
+![springboot](https://img.shields.io/badge/spring%20boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+![springjpa](https://img.shields.io/badge/spring%20jpa-6DB33F?style=for-the-badge&logo=Spring&logoColor=white)
+![amazons3](https://img.shields.io/badge/amazon%20s3-569A31?style=for-the-badge&logo=amazons3&logoColor=white)
+![oauth](https://img.shields.io/badge/oauth-000000?style=for-the-badge&logo=oauth&logoColor=white)
+![springjpa](https://img.shields.io/badge/spring%20jpa-6DB33F?style=for-the-badge&logo=Spring&logoColor=white)
 
 
 - #### FrontEnd
-  - Vue3
-  - Axios
-  - Quasar
-  - Pinia
-
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![nodejs](https://img.shields.io/badge/nodejs-3C873A?style=for-the-badge&logo=node.js&logoColor=white)
+![tailwind](https://img.shields.io/badge/tailwind-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
 
 - #### Database
-  - MySQL 8.0.36
-  - Redis 7.2.4
+![redis](https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
+![mysql](https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 
 
 - #### Infra
-  - Docker 25.0.0
-  - Jenkins 2.426.2
-  - Nginx 1.18.0
-  - AWS EC2
+![nginx](https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white)
+![docker](https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Jenkins](https://img.shields.io/badge/jenkins-%232C5263.svg?style=for-the-badge&logo=jenkins&logoColor=white)  
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+
 
 ####  Project Architecture
 
-![아키텍쳐](./documents/architecture/아키텍쳐.png)
+![아키텍쳐](img/architecture.png)
 
 
 ## 💡 기능 소개
