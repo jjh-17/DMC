@@ -108,17 +108,25 @@ KoBERT 모델을 이용하여 리뷰를 분석한 뒤 각 감정과 일치하는
 ## 5. 서비스 레이아웃 :page_facing_up:
 
 ### 메인 화면
-
+![](img/main_page.jpg)
 ### 소셜 로그인
+![](img/login.png)
 ### 카페 검색
+![](img/search.png)
 ### 카페 목록
+![](img/list.png)
 ### 카페 상세정보
+![](img/detail.jpg)
 ### 리뷰 목록
+![](img/review.jpg)
 ### 리뷰 작성
+![](img/reviewwrite.png)
 ### 취향테스트
+![](img/cafetest.jpg)
 ### 추천 카페 목록
+![](img/caferecommend.png)
 ### 마이페이지
-### 북마크 목록
+![](img/mypage.jpg)
 
 
 ## 6. 기타 산출물
