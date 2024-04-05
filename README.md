@@ -107,8 +107,8 @@
 
 ## 기타 산출물
 
-[기능 명세서](https://discovered-lemongrass-789.notion.site/2c04cab8ab864f1caf205112e58a76b2?v=c197501aa796455fabc3eb0a913ff680)
+[기능 명세서](https://glaze-torta-a5b.notion.site/e69f07c5d5c94f8cafab8b5e6bc19492?pvs=74)
 
-[API 명세서](https://discovered-lemongrass-789.notion.site/6085e93cfd0441028830c2de640f3f00?v=6d2c1d313382493a87cb396067ce9bdf&pvs=4)
+[API 명세서](https://glaze-torta-a5b.notion.site/API-05d4a20859d345bbb799a390e315ecc5)
 
-[Convention](./documents/convention/convention.md)
+[Convention](https://glaze-torta-a5b.notion.site/5cc47c3b9af341bea2659afb576e3202)
