@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'GangwonEdu_OTFBoldA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@layer components {
+    * {
+        font-family: 'Noto Sans KR';
+    }
+
+    #test{
+        font-family: 'GangwonEdu_OTFBoldA';
+    }
+
+    .no-scroll {
+        cursor: grab;
+    }
+
+    #svgIcon {
+        @apply w-4 h-4 inline-block;
+    }
+
+    #svgIcon2 {
+        @apply w-8 h-8 p-1
+    }
+
+    #svgIcon2-hover{
+        @apply w-8 h-8 p-1 fill-primary;
+    }
+
+}
+
+@layer utilities {
+    .no-scroll::-webkit-scrollbar {
+        display: none;
+    }
+}
