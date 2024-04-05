@@ -51,7 +51,6 @@ https://www.youtube.com/watch?v=xqPXstnd1_g
 ![java](https://img.shields.io/badge/Java-007396?style=for-the-badge)
 ![springboot](https://img.shields.io/badge/spring%20boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
 ![springjpa](https://img.shields.io/badge/spring%20jpa-6DB33F?style=for-the-badge&logo=Spring&logoColor=white)
-![amazons3](https://img.shields.io/badge/amazon%20s3-569A31?style=for-the-badge&logo=amazons3&logoColor=white)
 ![oauth](https://img.shields.io/badge/oauth-000000?style=for-the-badge&logo=oauth&logoColor=white)
 ![springjpa](https://img.shields.io/badge/spring%20jpa-6DB33F?style=for-the-badge&logo=Spring&logoColor=white)
 
@@ -66,6 +65,7 @@ https://www.youtube.com/watch?v=xqPXstnd1_g
 - #### Database
 ![redis](https://img.shields.io/badge/redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
 ![mysql](https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![amazons3](https://img.shields.io/badge/amazon%20s3-569A31?style=for-the-badge&logo=amazons3&logoColor=white)
 
 
 - #### Infra
@@ -87,7 +87,12 @@ https://www.youtube.com/watch?v=xqPXstnd1_g
 
 
 ####  2. KoBERT를 이용한 광고 리뷰 판별
-- ~~~~~
+```text
+리뷰에서 나타날 수 있는 감정을 [최악, 별로, 중립, 괜찮음, 완전 좋음] 5가지로 나누고, 
+KoBERT 모델을 이용하여 리뷰를 분석한 뒤 각 감정과 일치하는 정도를 수치로 나타내었다.
+별점 5점과 "완전 좋음"의 감정 일치도가 90.0%가 넘는다면 광고 리뷰의 가능성을 제기하였다.
+
+```
 
 
 ####  3. 사용자 분석
