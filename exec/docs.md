@@ -12,7 +12,7 @@
 	* ssh -i J10A607T.pem ubuntu@j10a607.p.ssafy.io
 * sub
 	* ssh -i J10A607T.pem ubuntu@j10a607a.p.ssafy.io
-## AWS S#
+## AWS S3
 * AWS_ACCESSKEY=AKIA2UC3FYPCSV4VUAGB
 * AWS_SECRETKEY=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
 * AWS_S3_BUCKET=ssafy-dmc
