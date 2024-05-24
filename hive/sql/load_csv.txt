@@ -1,0 +1,64 @@
+# DB 접속
+mysql --local-infile=1 -h j10a607.p.ssafy.io -u root -p
+
+# SQL 실행
+use dangmoca;
+set global local_infile=true;
+LOAD DATA LOCAL INFILE 'C:/SSAFY/02_Distributed/A607-B/hive/output/cafe_info.csv'
+INTO TABLE cafe_info
+FIELDS TERMINATED BY '\t'
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+(@var_is_deleted, @var_kakao_rating, @var_latitude, @var_longitude, @var_rating, @var_cafe_seq,
+@var_tel, @var_kakao_name, @var_name, @var_naver_name, @var_opening_hour, @var_address,
+@var_homepage_url, @var_image_url, @var_region_code, @var_top_tag, @var_updated_date)
+SET
+    is_deleted = IF(@var_is_deleted = 'false', 0, 1),
+    cafe_seq = @var_cafe_seq,
+    kakao_rating = @var_kakao_rating,
+    latitude = @var_latitude,
+    longitude = @var_longitude,
+    rating = @var_rating,
+    tel = @var_tel,
+    kakao_name = @var_kakao_name,
+    name = @var_name,
+    naver_name = @var_naver_name,
+    opening_hour = @var_opening_hour,
+    address = @var_address,
+    homepage_url = @var_homepage_url,
+    image_url = @var_image_url,
+    region_code = @var_region_code,
+    top_tag = @var_top_tag,
+    updated_date = @var_updated_date;
+
+LOAD DATA LOCAL INFILE 'C:/SSAFY/02_Distributed/A607-B/hive/output/cafe_menu.csv'
+INTO TABLE cafe_menu
+FIELDS TERMINATED BY '\t'
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+(@var_cafe_seq, @var_menu_seq, @var_price, 
+@var_name, @var_dessert_tag, @var_image_url)
+SET
+    cafe_seq = @var_cafe_seq,
+    menu_seq = @var_menu_seq,
+    price = @var_price,
+    name = @var_name,
+    dessert_tag = @var_dessert_tag,
+    image_url = @var_image_url;
+
+LOAD DATA LOCAL INFILE 'C:/SSAFY/02_Distributed/A607-B/hive/output/platform_review.csv'
+INTO TABLE platform_review
+FIELDS TERMINATED BY '\t'
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+(@var_platform, @var_cafe_seq, @var_review_seq, @var_collected_date, 
+@var_content, @var_created_date, @var_nickname, @var_tag)
+SET
+    platform = @var_platform, 
+    cafe_seq = @var_cafe_seq, 
+    review_seq = @var_review_seq,
+    collected_date = @var_collected_date, 
+    content = @var_content, 
+    created_date = @var_created_date,
+    nickname = @var_nickname,
+    tag = NULL;
